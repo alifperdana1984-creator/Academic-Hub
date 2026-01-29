@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Eduversal Indonesia Academic Hub - Central dashboard portal for academic performance, quality assurance, and assessment data" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Eduversal Education Hub | Dashboard Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warm-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --cool-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+        --glass-bg: rgba(255, 255, 255, 0.08);
+        --glass-border: rgba(255, 255, 255, 0.12);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--dark-gradient);
+        min-height: 100vh;
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .bg-animation::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            ellipse at 20% 80%,
+            rgba(120, 119, 198, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 20%,
+            rgba(255, 119, 198, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 40% 40%,
+            rgba(79, 172, 254, 0.08) 0%,
+            transparent 50%
+          );
+        animation: float 20s ease-in-out infinite;
+      }
+
+      .bg-animation::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+          transform: translate(30px, -30px) rotate(1deg);
+        }
+        66% {
+          transform: translate(-20px, 20px) rotate(-1deg);
+        }
+      }
+
+      /* Floating Orbs */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        animation: orbFloat 15s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        top: -100px;
+        right: -100px;
+        animation-delay: 0s;
+      }
+
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        bottom: -50px;
+        left: -50px;
+        animation-delay: -5s;
+      }
+
+      .orb-3 {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        top: 40%;
+        left: 60%;
+        animation-delay: -10s;
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(50px, -50px) scale(1.1);
+        }
+      }
+
+      /* Header */
+      header {
+        padding: 3rem 2rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .logo-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        animation: fadeInDown 0.8s ease-out;
+      }
+
+      .logo-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        transform: rotate(-5deg);
+      }
+
+      .logo-icon svg {
+        width: 32px;
+        height: 32px;
+        fill: white;
+      }
+
+      .logo-text {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff 0%, #a8edea 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 6vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #e0e7ff 50%,
+          #c7d2fe 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInDown 0.8s ease-out 0.1s both;
+      }
+
+      .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 1rem;
+        line-height: 1.6;
+        animation: fadeInDown 0.8s ease-out 0.2s both;
+      }
+
+      .semester-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 50px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        backdrop-filter: blur(10px);
+        animation: fadeInDown 0.8s ease-out 0.3s both;
+      }
+
+      .semester-badge::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Main Content */
+      main {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .section-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--glass-border), transparent);
+      }
+
+      /* Cards Grid */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      /* Card Styles */
+      .card {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(20px);
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        animation: cardFadeIn 0.6s ease-out backwards;
+      }
+
+      .card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .card:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .card:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .card:nth-child(4) {
+        animation-delay: 0.25s;
+      }
+      .card:nth-child(5) {
+        animation-delay: 0.3s;
+      }
+      .card:nth-child(6) {
+        animation-delay: 0.35s;
+      }
+      .card:nth-child(7) {
+        animation-delay: 0.4s;
+      }
+      .card:nth-child(8) {
+        animation-delay: 0.45s;
+      }
+      .card:nth-child(9) {
+        animation-delay: 0.5s;
+      }
+      .card:nth-child(10) {
+        animation-delay: 0.55s;
+      }
+
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--card-accent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--card-shadow), 0 0 60px rgba(102, 126, 234, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card:hover .card-image img {
+        transform: scale(1.05);
+      }
+
+      .card:hover .card-arrow {
+        transform: translate(4px, -4px);
+        opacity: 1;
+      }
+
+      /* Card Image */
+      .card-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        background: var(--card-accent);
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .card-image::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60%;
+        background: linear-gradient(to top, rgba(10, 10, 20, 0.9), transparent);
+        pointer-events: none;
+      }
+
+      /* Card Badge */
+      .card-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        padding: 0.5rem 1rem;
+        background: var(--card-accent);
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 2;
+      }
+
+      /* Card Content */
+      .card-content {
+        padding: 1.5rem;
+        position: relative;
+      }
+
+      .card-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--card-accent);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
+
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+      }
+
+      .card-description {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin-bottom: 1rem;
+      }
+
+      .card-stats {
+        display: flex;
+        gap: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--glass-border);
+      }
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        background: var(--card-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .card-arrow {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 32px;
+        height: 32px;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+      }
+
+      .card-arrow svg {
+        width: 16px;
+        height: 16px;
+        fill: white;
+      }
+
+      /* Card Accent Colors */
+      .card[data-theme="academic"] {
+        --card-accent: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card[data-theme="evaluation"] {
+        --card-accent: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      }
+      .card[data-theme="appraisal"] {
+        --card-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      .card[data-theme="satisfaction"] {
+        --card-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+      .card[data-theme="student"] {
+        --card-accent: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card[data-theme="parent"] {
+        --card-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      .card[data-theme="pathway"] {
+        --card-accent: linear-gradient(135deg, #4481eb 0%, #04befe 100%);
+      }
+      .card[data-theme="aease-primary"] {
+        --card-accent: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+      }
+      .card[data-theme="cambridge"] {
+        --card-accent: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+      .card[data-theme="ease"] {
+        --card-accent: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      .card[data-theme="ease-primary"] {
+        --card-accent: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+      }
+      .card[data-theme="ease2"] {
+        --card-accent: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
+      }
+      .card[data-theme="aease"] {
+        --card-accent: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      }
+      .card[data-theme="quality"] {
+        --card-accent: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      }
+      .card[data-theme="kpi"] {
+        --card-accent: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      }
+      .card[data-theme="islamic"] {
+        --card-accent: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      }
+      .card[data-theme="assessment-policy"] {
+        --card-accent: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+      }
+      .card[data-theme="frameworks"] {
+        --card-accent: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      /* Frameworks Card - Full Width */
+      .card-frameworks {
+        grid-column: 1 / -1;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .card-frameworks:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .card-frameworks::before {
+        display: none;
+      }
+
+      .frameworks-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--glass-border);
+      }
+
+      .frameworks-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(168, 237, 234, 0.3);
+        flex-shrink: 0;
+      }
+
+      .frameworks-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: #1a1a2e;
+      }
+
+      .frameworks-title-section {
+        flex: 1;
+      }
+
+      .frameworks-title-section .card-title {
+        margin-bottom: 0.25rem;
+        font-size: 1.2rem;
+      }
+
+      .frameworks-title-section .card-description {
+        margin-bottom: 0;
+        font-size: 0.85rem;
+      }
+
+      .frameworks-badge {
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #1a1a2e;
+        flex-shrink: 0;
+      }
+
+      .frameworks-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        width: 100%;
+      }
+
+      .framework-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: none;
+        border-right: 1px solid var(--glass-border);
+        border-radius: 0;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .framework-item:last-child {
+        border-right: none;
+      }
+
+      .framework-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: none;
+        box-shadow: none;
+      }
+
+      .framework-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.75rem;
+      }
+
+      .framework-image {
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .framework-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit;
+        opacity: 0.9;
+      }
+
+      .framework-image svg {
+        width: 56px;
+        height: 56px;
+        fill: white;
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      }
+
+      .framework-content {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .framework-content h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+      }
+
+      .framework-content p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        flex: 1;
+        margin-bottom: 1rem;
+      }
+
+      .framework-link {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #a8edea;
+        transition: color 0.3s ease;
+      }
+
+      .framework-item:hover .framework-link {
+        color: #fed6e3;
+      }
+
+      @media (max-width: 1400px) {
+        .frameworks-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .framework-item {
+          border-right: 1px solid var(--glass-border);
+          border-bottom: 1px solid var(--glass-border);
+        }
+
+        .framework-item:nth-child(3n) {
+          border-right: none;
+        }
+
+        .framework-item:nth-last-child(-n + 2) {
+          border-bottom: none;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .frameworks-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .framework-item {
+          border-right: 1px solid var(--glass-border);
+          border-bottom: 1px solid var(--glass-border);
+        }
+
+        .framework-item:nth-child(3n) {
+          border-right: 1px solid var(--glass-border);
+        }
+
+        .framework-item:nth-child(2n) {
+          border-right: none;
+        }
+
+        .framework-item:nth-last-child(-n + 2) {
+          border-bottom: 1px solid var(--glass-border);
+        }
+
+        .framework-item:last-child {
+          border-bottom: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .frameworks-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .framework-item {
+          border-right: none;
+          border-bottom: 1px solid var(--glass-border);
+        }
+
+        .framework-item:last-child {
+          border-bottom: none;
+        }
+
+        .frameworks-header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      footer p {
+        opacity: 0.7;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--text-primary);
+      }
+
+      /* Coming Soon Card */
+      .card-coming-soon {
+        grid-column: 1 / -1;
+        border: 2px dashed var(--glass-border);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+        cursor: default;
+      }
+
+      .card-coming-soon:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .coming-soon-content {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .coming-soon-content svg {
+        width: 48px;
+        height: 48px;
+        fill: var(--text-secondary);
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      .coming-soon-content h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+      }
+
+      .coming-soon-content p {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        opacity: 0.7;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+
+        header {
+          padding: 2rem 1rem;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+      }
+
+      /* Fade In Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Celebration Banner */
+      .celebration-banner {
+        max-width: 1400px;
+        margin: 0 auto 2rem;
+        padding: 0 2rem;
+      }
+
+      .celebration-card {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #1a1a2e 100%
+        );
+        border-radius: 24px;
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        overflow: hidden;
+        position: relative;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem 3rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+          0 0 100px rgba(255, 215, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .celebration-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(255, 215, 0, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 50%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+
+      /* Confetti Animation */
+      .confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        opacity: 0.8;
+        animation: confetti-fall 4s ease-in-out infinite;
+      }
+
+      .confetti:nth-child(1) {
+        left: 5%;
+        animation-delay: 0s;
+        background: #ffd700;
+      }
+      .confetti:nth-child(2) {
+        left: 15%;
+        animation-delay: 0.5s;
+        background: #ff6b6b;
+      }
+      .confetti:nth-child(3) {
+        left: 25%;
+        animation-delay: 1s;
+        background: #4facfe;
+      }
+      .confetti:nth-child(4) {
+        left: 35%;
+        animation-delay: 1.5s;
+        background: #43e97b;
+      }
+      .confetti:nth-child(5) {
+        left: 45%;
+        animation-delay: 0.3s;
+        background: #ffd700;
+      }
+      .confetti:nth-child(6) {
+        left: 55%;
+        animation-delay: 0.8s;
+        background: #f093fb;
+      }
+      .confetti:nth-child(7) {
+        left: 65%;
+        animation-delay: 1.3s;
+        background: #ffd700;
+      }
+      .confetti:nth-child(8) {
+        left: 75%;
+        animation-delay: 0.2s;
+        background: #ff6b6b;
+      }
+      .confetti:nth-child(9) {
+        left: 85%;
+        animation-delay: 0.7s;
+        background: #4facfe;
+      }
+      .confetti:nth-child(10) {
+        left: 95%;
+        animation-delay: 1.2s;
+        background: #ffd700;
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.8;
+        }
+        90% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(150px) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      /* Grade A Badge */
+      .grade-badge {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(
+          135deg,
+          #ffd700 0%,
+          #ffaa00 50%,
+          #ffd700 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5),
+          0 0 60px rgba(255, 215, 0, 0.3),
+          inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        position: relative;
+        z-index: 2;
+        animation: badge-pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes badge-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5),
+            0 0 60px rgba(255, 215, 0, 0.3);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 15px 50px rgba(255, 215, 0, 0.6),
+            0 0 80px rgba(255, 215, 0, 0.4);
+        }
+      }
+
+      .grade-badge .grade {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        line-height: 1;
+        text-shadow: 0 2px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .grade-badge .label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.8;
+      }
+
+      /* Celebration Content */
+      .celebration-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .celebration-content .congrats {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #ffd700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .celebration-content .congrats svg {
+        width: 18px;
+        height: 18px;
+        fill: #ffd700;
+      }
+
+      .celebration-content h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      .celebration-content p {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        max-width: 500px;
+      }
+
+      /* Trophy Icon */
+      .trophy-icon {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        z-index: 2;
+        opacity: 0.9;
+      }
+
+      .trophy-icon svg {
+        width: 100%;
+        height: 100%;
+        fill: url(#trophy-gradient);
+        filter: drop-shadow(0 10px 20px rgba(255, 215, 0, 0.3));
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .celebration-card {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 1.5rem;
+          padding: 2rem;
+        }
+
+        .grade-badge {
+          margin: 0 auto;
+          width: 100px;
+          height: 100px;
+        }
+
+        .grade-badge .grade {
+          font-size: 3rem;
+        }
+
+        .celebration-content p {
+          max-width: 100%;
+        }
+
+        .trophy-icon {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .celebration-banner {
+          padding: 0 1rem;
+        }
+
+        .celebration-card {
+          padding: 1.5rem;
+        }
+
+        .celebration-content h3 {
+          font-size: 1.4rem;
+        }
+
+        .grade-badge {
+          width: 90px;
+          height: 90px;
+        }
+
+        .grade-badge .grade {
+          font-size: 2.5rem;
+        }
+      }
+      /* Loading Screen */
+      #loadingScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Login Screen */
+      #loginScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 99998;
+      }
+
+      #loginBox {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 450px;
+      }
+
+      #loginBox input {
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 16px;
+      }
+
+      #loginBox button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .error-message {
+        background: #fed7d7;
+        color: #c53030;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px 0;
+        display: none;
+      }
+
+      #logoutBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 9999;
+        display: none;
+      }
+
+      #mainContent {
+        display: none;
+      }
+    </style>
+    <script>
+      // Environment variables - replaced at build time by Netlify/Vercel
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+      // Validate environment variables
+      if (window.ENV.FIREBASE_API_KEY.startsWith('__')) {
+        console.warn('Firebase environment variables not configured. Authentication will not work.');
+      }
+    </script>
+  </head>
+  <body>
+    <!-- YENİ: Loading Screen -->
+    <div id="loadingScreen">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- YENİ: Login Screen -->
+    <div id="loginScreen">
+      <div id="loginBox">
+        <div style="text-align: center; font-size: 60px; margin-bottom: 15px">
+          🎓
+        </div>
+        <h1 style="text-align: center; color: #2d3748">Eduversal Indonesia</h1>
+        <p style="text-align: center; color: #718096; margin-bottom: 30px">
+          Academic Hub
+        </p>
+
+        <div id="errorMsg" class="error-message"></div>
+
+        <form id="loginForm">
+          <input type="email" id="emailInput" placeholder="Email" required />
+          <input
+            type="password"
+            id="passwordInput"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" id="loginBtn">🔓 Sign In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- YENİ: Logout Button -->
+    <button id="logoutBtn">🔒 Sign Out</button>
+
+    <!-- YENİ: Main Content Wrapper -->
+    <div id="mainContent">
+      <div class="bg-animation"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <header>
+        <div class="logo-container">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"
+              />
+            </svg>
+          </div>
+          <span class="logo-text">Eduversal Indonesia</span>
+        </div>
+        <h1>Academic Hub</h1>
+        <p class="subtitle">
+          Central dashboard portal providing unified access to all academic
+          performance, quality assurance, and assessment data.
+        </p>
+        <div class="semester-badge">
+          <span>2025/2026 Academic Year • July-December 2025</span>
+        </div>
+      </header>
+
+      <main>
+        <!-- BAN-PT Accreditation Celebration Banner -->
+        <div class="celebration-banner">
+          <div class="celebration-card">
+            <!-- Confetti Animation -->
+            <div class="confetti-container">
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+            </div>
+
+            <!-- Grade A Badge -->
+            <div class="grade-badge">
+              <span class="grade">A</span>
+              <span class="label">Accredited</span>
+            </div>
+
+            <!-- Content -->
+            <div class="celebration-content">
+              <div class="congrats">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+                Selamat!
+              </div>
+              <h3>
+                Eduversal Partner Schools Achieve "A" Accreditation from BAN-SM
+              </h3>
+              <p>
+                Our partner schools across Indonesia have been awarded the
+                highest accreditation grade by Badan Akreditasi Nasional
+                Sekolah/Madrasah, recognizing excellence in educational quality
+                and standards.
+              </p>
+            </div>
+
+            <!-- Trophy Icon -->
+            <div class="trophy-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient
+                    id="trophy-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" style="stop-color: #ffd700" />
+                    <stop offset="50%" style="stop-color: #ffaa00" />
+                    <stop offset="100%" style="stop-color: #ffd700" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Dashboard Collection</h2>
+
+        <div class="cards-grid">
+          <!-- Eduversal Academic Standards -->
+          <a
+            href="https://wpqvxj.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="academic"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Eduversal_Academic_Standards.png"
+                alt="Eduversal Academic Standards"
+              />
+              <span class="card-badge">Standards</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Eduversal Academic Standards</h3>
+              <p class="card-description">
+                Educational leadership, Cambridge standards & quality management
+                framework documentation.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">23</span>
+                  <span class="stat-label">Sections</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">6</span>
+                  <span class="stat-label">Categories</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Partner School Semester I Evaluation -->
+          <a
+            href="https://8cfh9f.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="evaluation"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Partner_Schools_Semester_I_Evaluation.png"
+                alt="Partner School Semester I Evaluation"
+              />
+              <span class="card-badge">Evaluation</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Partner School Evaluation</h3>
+              <p class="card-description">
+                Semester I comprehensive evaluation with school rankings and
+                performance metrics across all criteria.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">15</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">31.06</span>
+                  <span class="stat-label">Avg Score</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">8</span>
+                  <span class="stat-label">Cambridge</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Islamic Schools Performance -->
+          <a
+            href="https://qwc5xg.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="islamic"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Islamic_Schools_Performance.png"
+                alt="Islamic Schools Performance Dashboard"
+              />
+              <span class="card-badge">Islamic</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Islamic Schools Performance</h3>
+              <p class="card-description">
+                Tahfizh program metrics, Quran memorization tracking, and
+                Islamic studies performance across schools.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">499</span>
+                  <span class="stat-label">Students</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">4</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">16</span>
+                  <span class="stat-label">Certified</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- School Appraisal Dashboard -->
+          <a
+            href="https://7z92lj.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="appraisal"
+          >
+            <div class="card-image">
+              <img
+                src="./images/School_Appraisal_Dashboard.png"
+                alt="School Appraisal Dashboard"
+              />
+              <span class="card-badge">Appraisal</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">School Appraisal Dashboard</h3>
+              <p class="card-description">
+                Comprehensive analysis of partner schools with observations,
+                meetings, and appraisal metrics.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">9</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">201</span>
+                  <span class="stat-label">Observations</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">145</span>
+                  <span class="stat-label">Meetings</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Cambridge Pathway Simulator -->
+          <a
+            href="https://4cwcw5.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="pathway"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Cambridge_Pathway_Simulator.png"
+                alt="Cambridge Pathway Simulator"
+              />
+              <span class="card-badge">Simulator</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Cambridge Pathway Simulator</h3>
+              <p class="card-description">
+                Interactive tool for exploring academic journey from Lower
+                Secondary through AS/A Level pathways.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">3</span>
+                  <span class="stat-label">Key Stages</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">50+</span>
+                  <span class="stat-label">Subjects</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">PDF</span>
+                  <span class="stat-label">Export</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Cambridge Exams Dashboard -->
+          <a
+            href="https://36fsyn.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="cambridge"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Cambridge_Exams_Dashboard.png"
+                alt="Cambridge Exams Dashboard"
+              />
+              <span class="card-badge">Exams</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Cambridge Exams Dashboard</h3>
+              <p class="card-description">
+                Checkpoint exam results analysis across Primary, Lower
+                Secondary, IGCSE, and AS/A Level.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">5</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">4</span>
+                  <span class="stat-label">Exam Levels</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Staff Satisfaction Survey -->
+          <a
+            href="https://hx4wpf.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="satisfaction"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Staff_Satisfaction_Dashboard.png"
+                alt="Staff Satisfaction Dashboard"
+              />
+              <span class="card-badge">Survey</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Staff Satisfaction Survey</h3>
+              <p class="card-description">
+                Comprehensive staff engagement analysis with eNPS scores and
+                retention metrics.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">4.27</span>
+                  <span class="stat-label">Overall Score</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">+62</span>
+                  <span class="stat-label">eNPS</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">92%</span>
+                  <span class="stat-label">Retention</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Student Satisfaction Survey -->
+          <a
+            href="https://pnct35.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="student"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Student_Satisfaction_Survey.png"
+                alt="Student Satisfaction Survey Dashboard"
+              />
+              <span class="card-badge">Survey</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Student Satisfaction Survey</h3>
+              <p class="card-description">
+                Student voice analysis with satisfaction scores,
+                recommendations, and participation metrics.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">4.00</span>
+                  <span class="stat-label">Satisfaction</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">80.3%</span>
+                  <span class="stat-label">Recommend</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">157</span>
+                  <span class="stat-label">Responses</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Parent Satisfaction Survey -->
+          <a
+            href="https://tcw38s.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="parent"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Parent_Satisfaction_Survey.png"
+                alt="Parent Satisfaction Survey Dashboard"
+              />
+              <span class="card-badge">Survey</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Parent Satisfaction Survey</h3>
+              <p class="card-description">
+                Parent feedback analysis with NPS scores, satisfaction ratings,
+                and continuation intent.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">4.36</span>
+                  <span class="stat-label">Satisfaction</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">+61.1</span>
+                  <span class="stat-label">NPS</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">91.9%</span>
+                  <span class="stat-label">Continue</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- A-EASE Primary Dashboard -->
+          <a
+            href="https://4ltxxg.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="aease-primary"
+          >
+            <div class="card-image">
+              <img
+                src="./images/A-EASE_Primary_Dashboard.png"
+                alt="A-EASE Primary Dashboard"
+              />
+              <span class="card-badge">A-EASE Primary</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">A-EASE Primary Dashboard</h3>
+              <p class="card-description">
+                Primary level teacher assessment results with subject and school
+                performance comparison.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">78.8</span>
+                  <span class="stat-label">Nat. Average</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">9</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">7</span>
+                  <span class="stat-label">Subjects</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- EASE I Primary Dashboard -->
+          <a
+            href="https://yrqqkh.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="ease-primary"
+          >
+            <div class="card-image">
+              <img
+                src="./images/EASE_I_Primary_Dashboard.png"
+                alt="EASE I Primary Dashboard"
+              />
+              <span class="card-badge">EASE I Primary</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">EASE I Primary Dashboard</h3>
+              <p class="card-description">
+                Primary level student assessment analysis with school vs school
+                performance comparison.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">488</span>
+                  <span class="stat-label">Students</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">80.4</span>
+                  <span class="stat-label">Average</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">6</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Assessment Policy Dashboard -->
+          <a
+            href="https://t4xvfy.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="assessment-policy"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Assessment_Policy.png"
+                alt="Assessment Policy Dashboard"
+              />
+              <span class="card-badge">Policy</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Assessment Policy</h3>
+              <p class="card-description">
+                Comprehensive assessment policy dashboard covering weighting,
+                frequency, grading, and governance guidelines.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">K-12</span>
+                  <span class="stat-label">Coverage</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">8</span>
+                  <span class="stat-label">Sections</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">v2.0</span>
+                  <span class="stat-label">Version</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- A-EASE Dashboard -->
+          <a
+            href="https://83cx6r.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="aease"
+          >
+            <div class="card-image">
+              <img src="./images/A-EASE_Dashboard.png" alt="A-EASE Dashboard" />
+              <span class="card-badge">A-EASE</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">A-EASE Dashboard</h3>
+              <p class="card-description">
+                Advanced teacher assessment examination results with
+                subject-wise performance analysis.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">223</span>
+                  <span class="stat-label">Teachers</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">77.0</span>
+                  <span class="stat-label">Average</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">13</span>
+                  <span class="stat-label">Schools</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- EASE I Dashboard -->
+          <a
+            href="https://wqrzwj.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="ease"
+          >
+            <div class="card-image">
+              <img
+                src="./images/EASE_I_Results_Dashboard.png"
+                alt="EASE I Results Dashboard"
+              />
+              <span class="card-badge">EASE I</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">EASE I Results Dashboard</h3>
+              <p class="card-description">
+                First semester student assessment results with school
+                performance comparison.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">2,559</span>
+                  <span class="stat-label">Students</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">68.6%</span>
+                  <span class="stat-label">Average</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">97.3%</span>
+                  <span class="stat-label">Participation</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- EASE II Dashboard -->
+          <a
+            href="https://nxfqkf.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="ease2"
+          >
+            <div class="card-image">
+              <img
+                src="./images/EASE_II_Results_Dashboard.png"
+                alt="EASE II Results Dashboard"
+              />
+              <span class="card-badge">EASE II</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">EASE II Results Dashboard</h3>
+              <p class="card-description">
+                Second assessment period results with network-wide performance
+                tracking.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">2,085</span>
+                  <span class="stat-label">Participants</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">64.7</span>
+                  <span class="stat-label">Network Avg</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">12/14</span>
+                  <span class="stat-label">Active Schools</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Cambridge School Quality Dashboard -->
+          <a
+            href="https://lcvqt9.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="quality"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Cambridge_School_Quality_Dashboard.png"
+                alt="Cambridge School Quality Dashboard"
+              />
+              <span class="card-badge">Quality</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Cambridge School Quality</h3>
+              <p class="card-description">
+                Network-wide quality metrics including compliance, teacher
+                qualifications, and parent satisfaction.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">2,575</span>
+                  <span class="stat-label">Students</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">96%</span>
+                  <span class="stat-label">Compliance</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">89%</span>
+                  <span class="stat-label">Satisfaction</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Teacher KPI System -->
+          <a
+            href="https://nlf34r.csb.app/"
+            target="_blank"
+            class="card"
+            data-theme="kpi"
+          >
+            <div class="card-image">
+              <img
+                src="./images/Teacher_KPI_System.png"
+                alt="Teacher KPI System"
+              />
+              <span class="card-badge">KPI</span>
+            </div>
+            <div class="card-content">
+              <div class="card-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Teacher KPI System</h3>
+              <p class="card-description">
+                Comprehensive teacher performance management with
+                self-assessment, admin evaluation, and KPI tracking tools.
+              </p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">4</span>
+                  <span class="stat-label">Tools</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">Self</span>
+                  <span class="stat-label">Assessment</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">Admin</span>
+                  <span class="stat-label">Evaluation</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Frameworks Card - Full Width -->
+          <div class="card card-frameworks" data-theme="frameworks">
+            <div class="frameworks-header">
+              <div class="frameworks-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"
+                  />
+                </svg>
+              </div>
+              <div class="frameworks-title-section">
+                <h3 class="card-title">Eduversal Frameworks</h3>
+                <p class="card-description">
+                  Comprehensive educational frameworks and guidelines for
+                  partner schools
+                </p>
+              </div>
+              <span class="frameworks-badge">Frameworks</span>
+            </div>
+            <div class="frameworks-grid">
+              <!-- Cambridge Pathway -->
+              <a
+                href="https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=sharing"
+                target="_blank"
+                class="framework-item"
+              >
+                <div
+                  class="framework-image"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #667eea 0%,
+                      #764ba2 100%
+                    );
+                  "
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"
+                    />
+                  </svg>
+                </div>
+                <div class="framework-content">
+                  <span class="framework-badge">Framework</span>
+                  <h4>Cambridge Pathway</h4>
+                  <p>
+                    Secondary education curriculum guide with subject pathways
+                    for Engineering, Business, and Medical tracks
+                  </p>
+                  <span class="framework-link">View Document →</span>
+                </div>
+              </a>
+              <!-- STEAM Integration -->
+              <a
+                href="https://docs.google.com/document/d/1cIgg-LrgWFuUicGg2uXTc5RBG8o--qdBS_VylsyMT5w/edit?usp=sharing"
+                target="_blank"
+                class="framework-item"
+              >
+                <div
+                  class="framework-image"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #f093fb 0%,
+                      #f5576c 100%
+                    );
+                  "
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M7.52 21.48C4.25 19.94 1.91 16.76 1.55 13H.05C.56 19.16 5.71 24 12 24l.66-.03-3.81-3.81-1.33 1.32zm.89-6.52c-.19 0-.37-.03-.52-.08-.16-.06-.29-.13-.4-.24-.11-.1-.2-.22-.26-.37-.06-.14-.09-.3-.09-.47h-1.3c0 .36.07.68.21.95.14.27.33.5.56.69.24.18.51.32.82.41.3.1.62.15.96.15.37 0 .72-.05 1.03-.15.32-.1.6-.25.83-.44s.42-.43.55-.72c.13-.29.2-.61.2-.97 0-.19-.02-.38-.07-.56-.05-.18-.12-.35-.23-.51-.1-.16-.24-.3-.4-.43-.17-.13-.37-.23-.61-.31.2-.09.37-.2.52-.33.15-.13.27-.27.37-.42.1-.15.17-.3.22-.46.05-.16.07-.32.07-.48 0-.36-.06-.68-.18-.96-.12-.28-.29-.51-.51-.69-.2-.19-.47-.33-.77-.43C9.1 8.05 8.76 8 8.39 8c-.36 0-.69.05-1 .16-.3.11-.57.26-.79.45-.21.19-.38.41-.51.67-.12.26-.18.54-.18.85h1.3c0-.17.03-.32.09-.45s.14-.25.25-.34c.11-.09.23-.17.38-.22.15-.05.3-.08.48-.08.4 0 .7.1.89.31.19.2.29.49.29.86 0 .18-.03.34-.08.49-.05.15-.14.27-.25.37-.11.1-.25.18-.41.24-.16.06-.36.09-.58.09H7.5v1.03h.77c.22 0 .42.02.6.07s.33.13.45.23c.12.11.22.24.29.4.07.16.1.35.1.57 0 .41-.12.72-.35.93-.23.23-.55.33-.95.33zm8.55-5.92c-.32-.33-.7-.59-1.14-.77-.43-.18-.92-.27-1.46-.27H12v8h2.3c.55 0 1.06-.09 1.51-.27.45-.18.84-.43 1.16-.76.32-.33.57-.73.74-1.19.17-.47.26-.99.26-1.57v-.4c0-.58-.09-1.1-.26-1.57-.18-.47-.43-.87-.75-1.2zm-.39 3.16c0 .42-.05.79-.14 1.13-.1.33-.24.62-.43.85-.19.23-.43.41-.71.53-.29.12-.62.18-.99.18h-.91V9.12h.97c.72 0 1.27.23 1.64.69.38.46.57 1.12.57 1.99v.4zM12 0l-.66.03 3.81 3.81 1.33-1.33c3.27 1.55 5.61 4.72 5.96 8.48h1.5C23.44 4.84 18.29 0 12 0z"
+                    />
+                  </svg>
+                </div>
+                <div class="framework-content">
+                  <span class="framework-badge">Framework</span>
+                  <h4>STEAM Integration</h4>
+                  <p>
+                    Comprehensive STEAM education approach with PBL, makerspace
+                    guidelines, and competition preparation
+                  </p>
+                  <span class="framework-link">View Document →</span>
+                </div>
+              </a>
+              <!-- AI Competency -->
+              <a
+                href="https://docs.google.com/document/d/12sYAJUSea8KUFl5cD6iYKi6U5D1OOleEu3ka6EKDd4s/edit?usp=sharing"
+                target="_blank"
+                class="framework-item"
+              >
+                <div
+                  class="framework-image"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #4facfe 0%,
+                      #00f2fe 100%
+                    );
+                  "
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.32 15.65 19 14.08 19 12.1h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58s9.14-3.47 12.65 0L21 3v7.12zM12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z"
+                    />
+                  </svg>
+                </div>
+                <div class="framework-content">
+                  <span class="framework-badge">Framework</span>
+                  <h4>AI Competency</h4>
+                  <p>
+                    Teacher and student AI competency framework with
+                    institutional maturity assessment guidelines
+                  </p>
+                  <span class="framework-link">View Document →</span>
+                </div>
+              </a>
+              <!-- Digital Citizenship -->
+              <a
+                href="https://docs.google.com/document/d/16igD73jJbgW4gSqjBDw7uffw4JWyOqbrC1dol4BSW8k/edit?usp=sharing"
+                target="_blank"
+                class="framework-item"
+              >
+                <div
+                  class="framework-image"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #f6d365 0%,
+                      #fda085 100%
+                    );
+                  "
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"
+                    />
+                  </svg>
+                </div>
+                <div class="framework-content">
+                  <span class="framework-badge">Framework</span>
+                  <h4>Digital Citizenship</h4>
+                  <p>
+                    Integrated approach to digital citizenship education
+                    covering online safety, privacy, and academic integrity
+                  </p>
+                  <span class="framework-link">View Document →</span>
+                </div>
+              </a>
+              <!-- Assessment Policy -->
+              <a
+                href="https://docs.google.com/document/d/1qUux1fMQ7Csmex3Gxt9DMhLYmsXXAbTUb566dprRPxc/edit?usp=sharing"
+                target="_blank"
+                class="framework-item"
+              >
+                <div
+                  class="framework-image"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #a8edea 0%,
+                      #fed6e3 100%
+                    );
+                  "
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                    />
+                  </svg>
+                </div>
+                <div class="framework-content">
+                  <span class="framework-badge">Policy</span>
+                  <h4>Assessment Policy</h4>
+                  <p>
+                    Comprehensive assessment guidelines covering grading,
+                    homework, reporting schedules, and Cambridge alignment
+                  </p>
+                  <span class="framework-link">View Document →</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Coming Soon Card -->
+          <div class="card card-coming-soon">
+            <div class="coming-soon-content">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+              </svg>
+              <h3>New Dashboard Coming Soon</h3>
+              <p>More dashboards will be added in the coming weeks</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>
+          © 2025 Eduversal Indonesia Education Department. All rights reserved.
+        </p>
+        <div class="footer-links">
+          <a href="#">Cambridge Partnership</a>
+          <a href="#">Quality Assurance</a>
+          <a href="#">Contact</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Smooth scroll animation on card hover
+      document
+        .querySelectorAll(".card:not(.card-coming-soon)")
+        .forEach((card) => {
+          card.addEventListener("mouseenter", () => {
+            card.style.zIndex = "10";
+          });
+          card.addEventListener("mouseleave", () => {
+            card.style.zIndex = "1";
+          });
+        });
+
+      // Parallax effect on orbs
+      document.addEventListener("mousemove", (e) => {
+        const orbs = document.querySelectorAll(".orb");
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+
+        orbs.forEach((orb, i) => {
+          const speed = (i + 1) * 20;
+          orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+      });
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: window.ENV.FIREBASE_API_KEY,
+        authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
+        projectId: window.ENV.FIREBASE_PROJECT_ID,
+        storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+        appId: window.ENV.FIREBASE_APP_ID,
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const loginForm = document.getElementById("loginForm");
+      const errorMsg = document.getElementById("errorMsg");
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          document.getElementById("loadingScreen").style.display = "none";
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("logoutBtn").style.display = "block";
+        } else {
+          document.getElementById("loadingScreen").style.display = "none";
+          document.getElementById("loginScreen").style.display = "flex";
+          document.getElementById("mainContent").style.display = "none";
+          document.getElementById("logoutBtn").style.display = "none";
+        }
+      });
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("emailInput").value.trim();
+        const password = document.getElementById("passwordInput").value;
+        const loginBtn = document.getElementById("loginBtn");
+
+        // Disable button during login
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Signing in...";
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+          let message = "Invalid email or password";
+          if (error.code === "auth/too-many-requests") {
+            message = "Too many attempts. Please try again later.";
+          } else if (error.code === "auth/network-request-failed") {
+            message = "Network error. Check your connection.";
+          }
+          errorMsg.textContent = message;
+          errorMsg.style.display = "block";
+          setTimeout(() => (errorMsg.style.display = "none"), 4000);
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Sign In";
+        }
+      });
+
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", () => signOut(auth));
+    </script>
+  </body>
+</html>
