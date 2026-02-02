@@ -1,0 +1,2483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eduversal Academic Standards</title>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@1.8.5/umd/Recharts.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      
+      const { useState, useMemo, useRef, useEffect } = React;
+
+      // Map PascalCase names to feather kebab-case names
+      const iconNameMap = {
+        "ScrollText": "file-text",
+        "Scale": "sliders",
+        "GraduationCap": "award",
+        "Target": "target",
+        "BookOpen": "book-open",
+        "BarChart3": "bar-chart-2",
+        "Users": "users",
+        "Heart": "heart",
+        "Shield": "shield",
+        "ClipboardList": "clipboard",
+        "DoorOpen": "log-in",
+        "UserCog": "user",
+        "Settings": "settings",
+        "Lock": "lock",
+        "AlertTriangle": "alert-triangle",
+        "Building": "home",
+        "CheckCircle": "check-circle",
+        "Award": "award",
+        "FileStack": "layers",
+        "Library": "book",
+        "Laptop": "monitor",
+        "Ruler": "edit-3",
+        "Handshake": "users",
+        "X": "x",
+        "Menu": "menu",
+        "Sun": "sun",
+        "Moon": "moon",
+        "Search": "search",
+        "Home": "home",
+        "Clock": "clock",
+        "Tag": "tag",
+        "FileText": "file-text",
+        "ArrowLeft": "arrow-left",
+        "ExternalLink": "external-link",
+        "ChevronDown": "chevron-down",
+        "ChevronRight": "chevron-right"
+      };
+
+      // Icon wrapper component for feather icons
+      const FeatherIcon = ({ name, size = 20, className = "", style = {} }) => {
+        const featherName = iconNameMap[name] || name.toLowerCase().replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        const iconData = feather.icons[featherName];
+        if (!iconData) {
+          return <span style={{ width: size, height: size, display: "inline-block" }} />;
+        }
+        const svgString = iconData.toSvg({
+          width: size,
+          height: size,
+          class: className,
+          color: style.color || "currentColor"
+        });
+        return <span
+          dangerouslySetInnerHTML={{ __html: svgString }}
+          style={{ display: "inline-flex", alignItems: "center", color: style.color }}
+        />;
+      };
+
+      // Shortcut components for commonly used icons
+      const X = (props) => <FeatherIcon name="X" {...props} />;
+      const Menu = (props) => <FeatherIcon name="Menu" {...props} />;
+      const Sun = (props) => <FeatherIcon name="Sun" {...props} />;
+      const Moon = (props) => <FeatherIcon name="Moon" {...props} />;
+      const Search = (props) => <FeatherIcon name="Search" {...props} />;
+      const Home = (props) => <FeatherIcon name="Home" {...props} />;
+      const Clock = (props) => <FeatherIcon name="Clock" {...props} />;
+      const Tag = (props) => <FeatherIcon name="Tag" {...props} />;
+      const FileText = (props) => <FeatherIcon name="FileText" {...props} />;
+      const ArrowLeft = (props) => <FeatherIcon name="ArrowLeft" {...props} />;
+      const ExternalLink = (props) => <FeatherIcon name="ExternalLink" {...props} />;
+      const ChevronDown = (props) => <FeatherIcon name="ChevronDown" {...props} />;
+      const ChevronRight = (props) => <FeatherIcon name="ChevronRight" {...props} />;
+      const BookOpen = (props) => <FeatherIcon name="BookOpen" {...props} />;
+
+      const section01Data = {
+        id: "01",
+        title: "Front Matter and Governance Charter",
+        lastUpdated: "2025-01-15",
+        subsections: [
+          {
+            id: "1.1",
+            title: "Document Control and Version Management",
+            content: [
+              {
+                type: "info",
+                label: "Title",
+                text: "Academic Standards: Eduversal Partner Schools Network — A Comprehensive Guide to Educational Leadership, Cambridge Standards, and Quality Management",
+              },
+              {
+                type: "table",
+                title: "Version Control",
+                rows: [
+                  ["Current Version", "1.0"],
+                  ["Effective Date", "July 30, 2025"],
+                  ["Next Review", "January 2026"],
+                  ["Review Cycle", "Annual (with mid-year evaluation)"],
+                ],
+              },
+              {
+                type: "table",
+                title: "Document Ownership",
+                rows: [
+                  ["Primary Owner", "Yayasan Edukasi Universal Indonesia"],
+                  ["Custodian", "Chief Academic Officer"],
+                  ["Approval Authority", "Board of Trustees & Network GMs"],
+                ],
+              },
+              {
+                type: "list",
+                title: "Distribution",
+                items: [
+                  "Principals across all Partner Schools",
+                  "Senior Leadership Teams (SLT)",
+                  "Board of Trustees members",
+                  "General Managers / Foundation Representatives",
+                  "Quality Assurance Team",
+                ],
+              },
+              {
+                type: "numbered",
+                title: "Amendment Process",
+                items: [
+                  "Amendments submitted to Chief Academic Officer",
+                  "Review by GM Committee (quarterly)",
+                  "Stakeholder consultation",
+                  "Board approval for substantive changes",
+                  "Version update and re-distribution",
+                  "Implementation timeline communicated network-wide",
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.2",
+            title: "Vision, Mission, and Core Values",
+            content: [
+              {
+                type: "vision",
+                title: "VISION",
+                subtitle: "Our Aspirational Future",
+                text: "To be a transformative network of Cambridge schools across Indonesia, recognized internationally for academic excellence, innovative pedagogy, and developing globally competent, ethically grounded learners who thrive in a rapidly changing world.",
+              },
+              {
+                type: "mission",
+                title: "MISSION",
+                subtitle: "Our Purpose and Commitments",
+                items: [
+                  "Deliver world-class, Cambridge-standard education",
+                  "Cultivate exceptional educators through continuous PD",
+                  "Prepare students for global competitiveness",
+                  "Build a network of educational excellence",
+                  "Integrate Indonesian values within international curriculum",
+                  "Provide comprehensive educational consultancy",
+                ],
+              },
+              {
+                type: "values",
+                title: "CORE VALUES",
+                items: [
+                  {
+                    name: "EXCELLENCE",
+                    id: "Keunggulan",
+                    desc: "High standards and continuous improvement in all aspects of our work.",
+                  },
+                  {
+                    name: "INTEGRITY",
+                    id: "Integritas",
+                    desc: "Honesty, ethical responsibility, and transparency in decisions and actions.",
+                  },
+                  {
+                    name: "INNOVATION",
+                    id: "Inovasi",
+                    desc: "Embrace change and seek better ways to teach, learn, and lead.",
+                  },
+                  {
+                    name: "INCLUSIVITY",
+                    id: "Inklusivitas",
+                    desc: "Value diversity and ensure equitable access to quality education.",
+                  },
+                  {
+                    name: "COLLABORATION",
+                    id: "Kolaborasi",
+                    desc: "Teamwork, shared leadership, and learning communities.",
+                  },
+                  {
+                    name: "GLOBAL CITIZENSHIP",
+                    id: "Kewarganegaraan Global",
+                    desc: "Indonesian identity with confident global engagement.",
+                  },
+                ],
+              },
+              {
+                type: "slos",
+                title: "Schoolwide Learner Outcomes (SLOs)",
+                items: [
+                  {
+                    n: 1,
+                    name: "Academic Excellence & Critical Thinking",
+                    points: [
+                      "Master rigorous Cambridge-aligned content",
+                      "Apply analytical reasoning and evidence-based problem solving",
+                      "Demonstrate intellectual curiosity and self-directed learning",
+                    ],
+                  },
+                  {
+                    n: 2,
+                    name: "Effective Communication",
+                    points: [
+                      "Express ideas clearly in English and Bahasa Indonesia",
+                      "Listen actively and engage respectfully",
+                      "Collaborate productively across cultures",
+                    ],
+                  },
+                  {
+                    n: 3,
+                    name: "Global Competence & Cultural Awareness",
+                    points: [
+                      "Understand Indonesian history and Pancasila values",
+                      "Engage with global issues and perspectives",
+                      "Navigate diverse cultural contexts with empathy",
+                    ],
+                  },
+                  {
+                    n: 4,
+                    name: "Ethical Leadership & Social Responsibility",
+                    points: [
+                      "Act with integrity and respect",
+                      "Take initiative in communities",
+                      "Demonstrate environmental stewardship",
+                    ],
+                  },
+                  {
+                    n: 5,
+                    name: "Innovation & Adaptability",
+                    points: [
+                      "Apply creative thinking to solve problems",
+                      "Use technology responsibly",
+                      "Embrace change with resilience",
+                    ],
+                  },
+                  {
+                    n: 6,
+                    name: "Personal Wellbeing & Self-Awareness",
+                    points: [
+                      "Practice self-regulation and reflection",
+                      "Maintain physical and mental health",
+                      "Pursue meaningful goals with perseverance",
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.3",
+            title: "Governance Charter",
+            content: [
+              {
+                type: "text",
+                title: "Governance Philosophy",
+                text: "Eduversal Partner Schools operate under a collaborative governance model balancing network coherence, school autonomy, and accountability.",
+              },
+              {
+                type: "levels",
+                title: "Governance Structure",
+                levels: [
+                  {
+                    level: 1,
+                    name: "Eduversal Foundation (Network Level)",
+                    entity: "Yayasan Edukasi Universal Indonesia",
+                    roles: [
+                      {
+                        title: "Board of Trustees",
+                        details:
+                          "5-7 members, 3-year terms, quarterly meetings",
+                        resp: [
+                          "Approve network strategy and 5-year plans",
+                          "Financial sustainability and oversight",
+                          "Appoint/evaluate Chief Academic Officer",
+                          "Approve major expenditures and partnerships",
+                          "Monitor compliance with regulations",
+                        ],
+                      },
+                      {
+                        title: "Chief Academic Officer",
+                        details: "Reports to Board",
+                        resp: [
+                          "Lead network strategy implementation",
+                          "Oversee QMS across all schools",
+                          "Manage staff rotation and PD",
+                          "Coordinate Cambridge/IB compliance",
+                          "Monitor school performance against KPIs",
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    level: 2,
+                    name: "Partner School Foundation",
+                    entity: "Local Yayasan",
+                    roles: [
+                      {
+                        title: "Local Yayasan Role",
+                        resp: [
+                          "Legal owner of facilities and licenses",
+                          "Employer of record for all staff",
+                          "Financial sponsor per MOU",
+                          "Approve annual school budget",
+                          "Participate in evaluation meetings",
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    level: 3,
+                    name: "School Leadership (Operational)",
+                    roles: [
+                      {
+                        title: "General Manager (GM)",
+                        details: "Assigned by Eduversal",
+                        resp: [
+                          "Full operational authority",
+                          "Develop School Improvement Plan",
+                          "Execute annual budget",
+                          "Implement QMS programs",
+                          "Recruit and supervise staff",
+                          "Ensure safeguarding compliance",
+                        ],
+                      },
+                      {
+                        title: "Principal (Kepala Sekolah)",
+                        details: "Assigned by GM",
+                        resp: [
+                          "Academic and instructional leadership",
+                          "Implement Cambridge curriculum",
+                          "Lead PLCs and teacher appraisal",
+                          "Supervise Subject Leaders",
+                          "Student support services oversight",
+                        ],
+                      },
+                      {
+                        title: "Senior Leadership Team (SLT)",
+                        details: "Chaired by GM",
+                        resp: [
+                          "Collaborative decision-making",
+                          "Monitor SIP goals and KPIs",
+                          "Drive school improvement",
+                          "Model professional culture",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "roles",
+                title: "Middle Leadership Roles",
+                roles: [
+                  {
+                    title: "School Subject Leader",
+                    id: "Koordinator Mata Pelajaran",
+                    resp: [
+                      "Lead Cambridge curriculum implementation",
+                      "Develop schemes of work and assessments",
+                      "Mentor and coach teachers",
+                      "Support Olympiad preparation",
+                    ],
+                  },
+                  {
+                    title: "School Olympiad Coordinator",
+                    resp: [
+                      "Identify students for competitions",
+                      "Organize training sessions",
+                      "Coordinate national/international participation",
+                      "Track competition results",
+                    ],
+                  },
+                  {
+                    title: "School College Counsellor",
+                    note: "Secondary Only",
+                    resp: [
+                      "Guide university applications (UCAS, Common App)",
+                      "Support personal statements",
+                      "Organize university fairs",
+                      "Advise on scholarships",
+                    ],
+                  },
+                  {
+                    title: "School Extracurricular Coordinator",
+                    resp: [
+                      "Plan co-curricular activities",
+                      "Align with Pancasila and SLOs",
+                      "Organize events and performances",
+                      "Promote student leadership",
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "roles",
+                title: "Cambridge Centre Roles",
+                roles: [
+                  {
+                    title: "Centre Head",
+                    note: "Usually Secondary Principal",
+                    resp: [
+                      "Overall Cambridge Centre compliance",
+                      "Exam integrity and quality assurance",
+                      "Final decision-maker on exam policies",
+                    ],
+                  },
+                  {
+                    title: "Exams Officer",
+                    resp: [
+                      "Secure storage of materials",
+                      "Candidate registration",
+                      "Invigilator training",
+                      "Results processing",
+                      "Cambridge correspondence",
+                    ],
+                  },
+                  {
+                    title: "Quality Nominee",
+                    resp: [
+                      "Internal quality assurance",
+                      "Primary Cambridge contact",
+                      "Annual declarations",
+                      "Malpractice investigations",
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.4",
+            title: "Decision-Making Matrix",
+            content: [
+              {
+                type: "note",
+                text: "This section contains visual decision-making matrices. Please refer to the original document for complete tables.",
+              },
+            ],
+          },
+          {
+            id: "1.5",
+            title: "Conflict of Interest Policy",
+            content: [
+              {
+                type: "policy",
+                purpose:
+                  "Identify, disclose, and manage conflicts of interest that may compromise decision-making integrity.",
+                scope:
+                  "Board members, Eduversal leadership, GMs, Principals, and SLT members.",
+                examples: [
+                  "Financial interest in a vendor",
+                  "Family member employed by network",
+                  "Position in competing institution",
+                  "Gifts beyond nominal value",
+                ],
+                steps: [
+                  {
+                    n: 1,
+                    title: "Disclosure",
+                    desc: "Declare conflict in writing to Chair or CAO",
+                  },
+                  {
+                    n: 2,
+                    title: "Review",
+                    desc: "Assess materiality and recommend approach",
+                  },
+                  {
+                    n: 3,
+                    title: "Management",
+                    desc: "Options: Recusal, Divestment, Monitoring, or Prohibition",
+                  },
+                  {
+                    n: 4,
+                    title: "Documentation",
+                    desc: "Record in Conflict of Interest Register",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.6",
+            title: "Board Self-Evaluation",
+            content: [
+              {
+                type: "process",
+                title: "Annual Board Self-Evaluation",
+                purpose:
+                  "Assess Board effectiveness and enhance governance capacity.",
+                steps: [
+                  {
+                    n: 1,
+                    title: "Survey",
+                    desc: "Anonymous self-evaluation covering strategic oversight, financial stewardship, policy development",
+                  },
+                  {
+                    n: 2,
+                    title: "Analysis",
+                    desc: "Chair and Secretary compile results",
+                  },
+                  {
+                    n: 3,
+                    title: "Feedback",
+                    desc: "Collect input from GM and Principals",
+                  },
+                  {
+                    n: 4,
+                    title: "Reflection",
+                    desc: "Board meeting to discuss findings",
+                  },
+                  {
+                    n: 5,
+                    title: "Action Plan",
+                    desc: "Commit to 2-3 priority improvements",
+                  },
+                  { n: 6, title: "Review", desc: "Mid-year progress check" },
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.7",
+            title: "Annual Governance Calendar",
+            content: [
+              {
+                type: "note",
+                text: "Ensures systematic oversight and strategic focus throughout the year. See original document for detailed calendar.",
+              },
+            ],
+          },
+          {
+            id: "1.8",
+            title: "Organizational Chart",
+            content: [
+              {
+                type: "org",
+                title: "Network Structure",
+                levels: [
+                  "Board of Trustees (Yayasan Edukasi Universal)",
+                  "Chief Academic Officer",
+                  "Schools (1, 2, 3, 4...)",
+                ],
+                support: [
+                  "QMS Team",
+                  "HR & Staff Development",
+                  "Cambridge Coordination",
+                  "Accreditation Support",
+                  "IT & EduNav",
+                  "Financial Planning",
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.9",
+            title: "Key Evidence and Artifacts",
+            content: [
+              {
+                type: "evidence",
+                categories: [
+                  {
+                    title: "Board-Level Evidence",
+                    items: [
+                      "Board Terms of Reference",
+                      "Meeting minutes (3 years)",
+                      "Governance calendar",
+                      "Self-evaluation surveys",
+                      "Conflict of Interest register",
+                      "Strategic Plan (5-year)",
+                      "Financial reports",
+                      "CAO performance evaluation",
+                    ],
+                  },
+                  {
+                    title: "School-Level Evidence",
+                    items: [
+                      "Partnership MOUs",
+                      "Organizational charts",
+                      "GM job description",
+                      "School Improvement Plans",
+                      "Bi-annual reports",
+                      "Stakeholder meeting minutes",
+                      "Decision logs",
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "1.10",
+            title: "Compliance Alignment",
+            content: [
+              {
+                type: "compliance",
+                categories: [
+                  {
+                    title: "International Standards",
+                    items: [
+                      "CIS: Purpose & Direction; Governance",
+                      "WASC Category A: Organization for Learning",
+                      "Cambridge Centre Requirements",
+                    ],
+                  },
+                  {
+                    title: "Indonesian Regulations",
+                    items: [
+                      "UU No. 20/2003 (Sisdiknas)",
+                      "Permendiknas No. 13/2007 (Principal Standards)",
+                      "Permendikbud No. 6/2018 (Principal Assignment)",
+                      "Civil Code: Yayasan governance",
+                      "Panduan Kerja Kepala Sekolah (2017)",
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      const section02Data = {
+        id: "02",
+        title: "Legal and Regulatory Compliance",
+        lastUpdated: "2025-01-15",
+        subsections: [
+          {
+            id: "2.0",
+            title: "Key Terms and Acronyms",
+            content: [
+              {
+                type: "table",
+                title: "Key Terms",
+                rows: [
+                  ["EASE", "Evaluation of Achievement Standardized Exam"],
+                  ["DTP", "Development of Teaching Proficiency (Educamp)"],
+                  ["EduNav", "Eduversal's School Information System"],
+                  ["EduOS", "Eduversal Olimpiade Sains"],
+                  [
+                    "Dapodik",
+                    "Data Pokok Pendidikan (National Education Database)",
+                  ],
+                  ["NPSN", "Nomor Pokok Sekolah Nasional (National School ID)"],
+                  ["BAN-PDM", "National School Accreditation Board"],
+                  ["ANBK", "Computer-Based National Assessment"],
+                  ["NISN", "National Student ID"],
+                  ["NUPTK", "Teacher ID Number"],
+                  ["KITAS", "Limited Stay Permit"],
+                  ["KITAP", "Permanent Stay Permit"],
+                  ["BPJS", "Social Security"],
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.1",
+            title: "Purpose",
+            content: [
+              {
+                type: "text",
+                title: "Section Purpose",
+                text: "To ensure full adherence to Indonesian national regulations governing private education institutions, maintain all required licenses and permits, integrate mandatory national curriculum components, and fulfill reporting obligations to Kemendikdasmen.",
+              },
+            ],
+          },
+          {
+            id: "2.2",
+            title: "Legal Foundation and School Identity",
+            content: [
+              {
+                type: "text",
+                title: "Yayasan Legal Status",
+                text: "Each Partner School operates under a legally registered Yayasan as owner and license holder per Law No. 28 of 2004.",
+              },
+              {
+                type: "list",
+                title: "Key Obligations",
+                items: [
+                  "Akta Pendirian: Notarized foundation charter",
+                  "NPWP Yayasan: Tax ID for foundation",
+                  "Annual Reporting to authorities",
+                  "Asset Management by Yayasan",
+                  "Non-Profit Status for education",
+                ],
+              },
+              {
+                type: "text",
+                title: "Operational Licenses",
+                text: "Each level (PAUD, SD, SMP, SMA) must have operational license from Dinas Pendidikan. Valid 5 years, renewable.",
+              },
+              {
+                type: "text",
+                title: "NPSN",
+                text: "Unique National School ID required for all reporting systems.",
+              },
+            ],
+          },
+          {
+            id: "2.3",
+            title: "National Data Systems",
+            content: [
+              {
+                type: "text",
+                title: "Dapodik",
+                text: "Ministry's primary database for schools, students, teachers, and facilities.",
+              },
+              {
+                type: "table",
+                title: "Sync Timeline",
+                rows: [
+                  ["Semester 1", "Cut-off Oct 31, sync Nov 15"],
+                  ["Semester 2", "Cut-off Apr 30, sync May 15"],
+                ],
+              },
+              {
+                type: "text",
+                title: "SIMPKB",
+                text: "Tracks teacher CPD activities linked to certification.",
+              },
+              {
+                type: "text",
+                title: "SIAGA",
+                text: "System for religion teachers managed by Ministry of Religious Affairs.",
+              },
+            ],
+          },
+          {
+            id: "2.4",
+            title: "National Curriculum Integration",
+            content: [
+              {
+                type: "table",
+                title: "Mandatory Subjects",
+                rows: [
+                  ["PPKn (Civics)", "Min 2 hrs/week"],
+                  ["Bahasa Indonesia", "Min 4-6 hrs/week"],
+                  ["Pendidikan Agama", "Min 2-3 hrs/week"],
+                  ["Muatan Lokal", "Local culture"],
+                ],
+              },
+              {
+                type: "table",
+                title: "Time Allocation",
+                rows: [
+                  ["Cambridge", "~70%"],
+                  ["National", "~25%"],
+                  ["Co-curricular", "~5%"],
+                ],
+              },
+              {
+                type: "values",
+                title: "Profil Pelajar Pancasila",
+                items: [
+                  {
+                    name: "Beriman",
+                    id: "Faith",
+                    desc: "Religious education, moral reasoning",
+                  },
+                  {
+                    name: "Berkebinekaan",
+                    id: "Diversity",
+                    desc: "Global citizenship",
+                  },
+                  {
+                    name: "Gotong Royong",
+                    id: "Collaboration",
+                    desc: "Teamwork",
+                  },
+                  {
+                    name: "Mandiri",
+                    id: "Independence",
+                    desc: "Self-awareness",
+                  },
+                  {
+                    name: "Bernalar Kritis",
+                    id: "Critical",
+                    desc: "Problem-solving",
+                  },
+                  { name: "Kreatif", id: "Creative", desc: "Innovation" },
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.5",
+            title: "Calendar and Instructional Time",
+            content: [
+              {
+                type: "table",
+                title: "Academic Year",
+                rows: [
+                  ["Semester 1", "Mid-July to December"],
+                  ["Semester 2", "January to mid-June"],
+                  ["Min weeks", "38 per year"],
+                ],
+              },
+              {
+                type: "table",
+                title: "Min Hours/Week",
+                rows: [
+                  ["SD", "30-36 hours"],
+                  ["SMP", "38-40 hours"],
+                  ["SMA", "38-40 hours"],
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.6",
+            title: "Child Protection",
+            content: [
+              {
+                type: "text",
+                title: "Legal Framework",
+                text: "Law No. 35/2014 on Child Protection and MoE regulations on violence prevention.",
+              },
+              {
+                type: "list",
+                title: "Requirements",
+                items: [
+                  "Anti-bullying policy",
+                  "Reporting mechanisms",
+                  "No corporal punishment",
+                  "Safe environment",
+                  "90% attendance expected",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.7",
+            title: "Staffing Regulations",
+            content: [
+              {
+                type: "table",
+                title: "Teacher Qualifications",
+                rows: [
+                  ["PAUD", "D-IV or S1 Early Childhood"],
+                  ["SD", "S1 Primary Education"],
+                  ["SMP/SMA", "S1 subject + Akta IV"],
+                ],
+              },
+              {
+                type: "list",
+                title: "Employment",
+                items: [
+                  "NUPTK: Teacher ID",
+                  "KITAS/KITAP: Foreign permits",
+                  "PPh 21: Income tax",
+                  "BPJS: Social security",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.8",
+            title: "Inspections and Accreditation",
+            content: [
+              {
+                type: "table",
+                title: "BAN Levels",
+                rows: [
+                  ["A (Unggul)", "91-100"],
+                  ["B (Baik)", "81-90"],
+                  ["C (Cukup)", "71-80"],
+                  ["TT", "Below 71"],
+                ],
+              },
+              {
+                type: "list",
+                title: "8 National Standards",
+                items: [
+                  "Curriculum",
+                  "Graduate Competency",
+                  "Assessment",
+                  "Educators",
+                  "Facilities",
+                  "Management",
+                  "Financing",
+                  "Culture",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.9",
+            title: "Financial Transparency",
+            content: [
+              {
+                type: "list",
+                title: "Best Practices",
+                items: [
+                  "Publish fees annually",
+                  "Offer scholarships",
+                  "No hidden fees",
+                  "Clear refund policy",
+                  "Competitive bidding >IDR 50M",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.10",
+            title: "Emergency Preparedness",
+            content: [
+              {
+                type: "list",
+                title: "Requirements",
+                items: [
+                  "Emergency Response Plan",
+                  "Fire drill 2x/year",
+                  "Earthquake drill 2x/year",
+                  "First aid and supplies",
+                  "Remote learning backup",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.11",
+            title: "Health Protocols",
+            content: [
+              {
+                type: "list",
+                title: "Areas",
+                items: [
+                  "Health screening",
+                  "Hygiene stations",
+                  "Vaccination encouraged",
+                  "Remote learning ready",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.12",
+            title: "Data Protection",
+            content: [
+              {
+                type: "text",
+                title: "Framework",
+                text: "Law No. 27/2022 Personal Data Protection (PDP Law).",
+              },
+              {
+                type: "list",
+                title: "Principles",
+                items: [
+                  "Lawful basis",
+                  "Purpose limitation",
+                  "Data minimization",
+                  "Security measures",
+                  "Subject rights",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.13",
+            title: "Reporting Obligations",
+            content: [
+              {
+                type: "table",
+                title: "Schedule",
+                rows: [
+                  ["To Yayasan", "Bi-annual"],
+                  ["To Eduversal", "Quarterly + bi-annual"],
+                ],
+              },
+              {
+                type: "list",
+                title: "Content",
+                items: [
+                  "Operational overview",
+                  "Academic performance",
+                  "Financial summary",
+                  "Compliance status",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.14",
+            title: "Policy Register",
+            content: [
+              {
+                type: "list",
+                title: "Categories",
+                items: [
+                  "Legal documents",
+                  "Curriculum plans",
+                  "Staffing records",
+                  "Safety policies",
+                  "Financial records",
+                  "Data protection",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.15",
+            title: "Complaints Mechanism",
+            content: [
+              {
+                type: "numbered",
+                title: "Process",
+                items: [
+                  "Informal (5 days)",
+                  "Principal (10 days)",
+                  "GM Appeal (10 days)",
+                  "Yayasan/Eduversal (15 days)",
+                  "External authorities",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.16",
+            title: "Assessments",
+            content: [
+              {
+                type: "list",
+                title: "ANBK",
+                items: [
+                  "AKM: Literacy/numeracy",
+                  "Survei Karakter",
+                  "Survei Lingkungan",
+                ],
+              },
+              {
+                type: "text",
+                title: "EASE",
+                text: "4 annual cycles covering Cambridge and Indonesian subjects with detailed analytics.",
+              },
+            ],
+          },
+          {
+            id: "2.17",
+            title: "QA Visits",
+            content: [
+              {
+                type: "text",
+                title: "Frequency",
+                text: "Minimum 3 visits per school per year.",
+              },
+              {
+                type: "list",
+                title: "Domains",
+                items: [
+                  "School Development",
+                  "Leadership",
+                  "Departments & PD",
+                  "Olympiad & EdTech",
+                  "Curriculum & Assessment",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.18",
+            title: "Cambridge Recognition",
+            content: [
+              {
+                type: "list",
+                title: "Equivalency",
+                items: [
+                  "IGCSE = SMA completion",
+                  "5+ passes for university",
+                  "AS = 1 year post-secondary",
+                  "A Level = 2 years",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.19",
+            title: "Annual Checklist",
+            content: [
+              {
+                type: "list",
+                title: "By Quarter",
+                items: [
+                  "Q1: Licenses, permits, training",
+                  "Q2: Exams, Dapodik, reports",
+                  "Q3: Tax, budget, policy review",
+                  "Q4: Cambridge, graduation, contracts",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.20",
+            title: "Evidence Portfolio",
+            content: [
+              {
+                type: "list",
+                title: "Documents",
+                items: [
+                  "Legal: Akta, licenses, NPSN",
+                  "Data: Dapodik, SIMPKB",
+                  "Assessment: EASE, ANBK",
+                  "Staffing: Qualifications, BPJS",
+                  "Safety: Policies, drills",
+                  "Accreditation: BAN, CIS/WASC",
+                ],
+              },
+            ],
+          },
+          {
+            id: "2.21",
+            title: "Compliance Alignment",
+            content: [
+              {
+                type: "compliance",
+                categories: [
+                  {
+                    title: "International",
+                    items: [
+                      "CIS Standards",
+                      "WASC Categories D & E",
+                      "Cambridge Requirements",
+                    ],
+                  },
+                  {
+                    title: "Indonesian",
+                    items: [
+                      "Education laws",
+                      "Labor law",
+                      "Tax law",
+                      "Immigration",
+                      "Data Protection",
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      const indexData = {
+        meta: {
+          title: "Eduversal Academic Standards",
+          subtitle:
+            "Educational Leadership, Cambridge Standards & Quality Management",
+          organization: "Yayasan Edukasi Universal Indonesia",
+          version: "1.0",
+          lastUpdated: "2025-01-15",
+        },
+        sections: [
+          {
+            id: "01",
+            title: "Front Matter and Governance Charter",
+            shortTitle: "Governance",
+            icon: "ScrollText",
+            color: "#1e40af",
+            description:
+              "Document control, vision, mission, core values, governance structure",
+            tags: ["governance", "vision", "mission", "values", "board"],
+            status: "complete",
+            docUrl:
+              "https://docs.google.com/document/d/1aQWYzmyjAAr46KcMogGaAjPlQr_hFiFWqNyPPxSgBXc/edit?usp=drive_link",
+          },
+          {
+            id: "02",
+            title: "Legal and Regulatory Compliance",
+            shortTitle: "Legal",
+            icon: "Scale",
+            color: "#1e3a8a",
+            description: "Indonesian education law and regulatory compliance",
+            tags: ["legal", "compliance", "regulations"],
+            status: "complete",
+            docUrl:
+              "https://docs.google.com/document/d/1Cb5JvnlAs8326mMFrQc4eF9fP1smI1d5bySb-QypGCE/edit?usp=drive_link",
+          },
+          {
+            id: "03",
+            title: "Cambridge Centre Compliance",
+            shortTitle: "Cambridge",
+            icon: "GraduationCap",
+            color: "#166534",
+            description: "Cambridge International School requirements",
+            tags: ["cambridge", "accreditation", "exams"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1lcVBxsUSqiUZe2SP5STpmA8Ase3mQ9Sb58mRLdvWHtk/edit?usp=drive_link",
+          },
+          {
+            id: "04",
+            title: "Strategic Planning and School Improvement",
+            shortTitle: "Strategy",
+            icon: "Target",
+            color: "#2563eb",
+            description: "School improvement planning and KPIs",
+            tags: ["strategy", "planning", "KPI"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1glDSDMx5JjSvtxbnFBtwXLQSiheR_2z50DRlXINeips/edit?usp=drive_link",
+          },
+          {
+            id: "05",
+            title: "Curriculum Architecture",
+            shortTitle: "Curriculum",
+            icon: "BookOpen",
+            color: "#15803d",
+            description: "Curriculum design and subject frameworks",
+            tags: ["curriculum", "subjects", "learning"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1jnDROQfV1WIjlqW7UhyAIvZ2Yg9oonvg0QZcamCf2oA/edit?usp=drive_link",
+          },
+          {
+            id: "06",
+            title: "Assessment and Reporting",
+            shortTitle: "Assessment",
+            icon: "BarChart3",
+            color: "#16a34a",
+            description: "Assessment policies and grading systems",
+            tags: ["assessment", "grading", "reporting"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1BvvA9yxybevPYm07oWmVuLyU-Y7r69Yf8VtWjMPehrc/edit?usp=drive_link",
+          },
+          {
+            id: "07",
+            title: "Teaching Quality and Practice",
+            shortTitle: "Teaching",
+            icon: "Users",
+            color: "#22c55e",
+            description: "Teaching standards and instructional practices",
+            tags: ["teaching", "quality", "pedagogy"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1kTV9nwjm5feYOikH0BTswIoBu0yZgpiZi1bwnFxpkEU/edit?usp=drive_link",
+          },
+          {
+            id: "08",
+            title: "Inclusion, EAL, and Learning Support",
+            shortTitle: "Inclusion",
+            icon: "Heart",
+            color: "#7c3aed",
+            description: "Special needs and inclusive practices",
+            tags: ["inclusion", "EAL", "SEN", "support"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1fOnzb2DKYPQPjD37SzkTuReNWE224Ff5smJGKmDwnQM/edit?usp=drive_link",
+          },
+          {
+            id: "09",
+            title: "Safeguarding, Child Protection, Wellbeing",
+            shortTitle: "Safeguarding",
+            icon: "Shield",
+            color: "#6d28d9",
+            description: "Child protection and student wellbeing",
+            tags: ["safeguarding", "protection", "wellbeing"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/19Bg_4EiJMGLPJcpR8EouWwzMRBC9tENue6r_66z2e5Q/edit?usp=drive_link",
+          },
+          {
+            id: "10",
+            title: "Cambridge Examinations Management",
+            shortTitle: "Exams",
+            icon: "ClipboardList",
+            color: "#14532d",
+            description: "Exam administration and results management",
+            tags: ["exams", "cambridge", "results"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1c-UbwBhLOqToXqebCjAKORW9DcXvI5v8xVeq-J5n1j4/edit?usp=drive_link",
+          },
+          {
+            id: "11",
+            title: "Admissions, Enrollment, Marketing",
+            shortTitle: "Admissions",
+            icon: "DoorOpen",
+            color: "#dc2626",
+            description: "Student admissions and enrollment",
+            tags: ["admissions", "enrollment", "marketing"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/13JSTngw3PUhpnVYd7miYuuCGERJqj0R0VlfY8-ftZKc/edit?usp=drive_link",
+          },
+          {
+            id: "12",
+            title: "Staff Lifecycle",
+            shortTitle: "Staff",
+            icon: "UserCog",
+            color: "#ea580c",
+            description: "HR, recruitment, and staff management",
+            tags: ["HR", "recruitment", "appraisal", "staff"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1To9QgFfIh_nJXi3uv_v6Hsoqr2oNIGUzuGjHtDNTRc0/edit?usp=drive_link",
+          },
+          {
+            id: "13",
+            title: "Operations, Finance, Resources",
+            shortTitle: "Operations",
+            icon: "Settings",
+            color: "#f97316",
+            description: "Operational and financial management",
+            tags: ["operations", "finance", "budget"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1ibSOeRkw00rqeYDwBE2JO9Y2dA6cA5XTdWeZSMbscZY/edit?usp=drive_link",
+          },
+          {
+            id: "14",
+            title: "Data Protection and Records",
+            shortTitle: "Data",
+            icon: "Lock",
+            color: "#fb923c",
+            description: "Data privacy and information management",
+            tags: ["data", "privacy", "records"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1pKUfHe9aE4g8VfNuMqMRK3dy9KMarcq9CjF6u-QrL0s/edit?usp=drive_link",
+          },
+          {
+            id: "15",
+            title: "Risk Management and Emergency",
+            shortTitle: "Risk",
+            icon: "AlertTriangle",
+            color: "#c2410c",
+            description: "Risk assessment and emergency procedures",
+            tags: ["risk", "emergency", "continuity"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1HkiDrnqy7rY3bKYCjj8P-_Y2PqNl7VqiUHr5BG5bC-I/edit?usp=drive_link",
+          },
+          {
+            id: "16",
+            title: "Parent and Community Engagement",
+            shortTitle: "Community",
+            icon: "Building",
+            color: "#ef4444",
+            description: "Stakeholder engagement and communication",
+            tags: ["parents", "community", "engagement"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1AHmTk2PTsuQp8YQK3yZdu8KfFChGZyhMlE8vKh7ZYoA/edit?usp=drive_link",
+          },
+          {
+            id: "17",
+            title: "Quality Assurance and Review",
+            shortTitle: "QA",
+            icon: "CheckCircle",
+            color: "#3b82f6",
+            description: "Quality management and internal review",
+            tags: ["quality", "QA", "review", "audit"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1RAm-c4UO2FRW3XghF111Za-Oy1Kuj62VkWL8-jszcKk/edit?usp=drive_link",
+          },
+          {
+            id: "18",
+            title: "Accreditation Toolkit (CIS/WASC)",
+            shortTitle: "Accreditation",
+            icon: "Award",
+            color: "#b91c1c",
+            description: "International accreditation requirements",
+            tags: ["accreditation", "CIS", "WASC"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1WQRPMLkSGSfWMDD9yI1AADKvwlz3-gWJXh0M3DGDBxQ/edit?usp=drive_link",
+          },
+          {
+            id: "19",
+            title: "Templates and Tools",
+            shortTitle: "Templates",
+            icon: "FileStack",
+            color: "#78350f",
+            description: "Operational templates and forms",
+            tags: ["templates", "forms", "tools"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1ToKNoxKH9WafL6Nv38NCrCEscjKWOBbWNsECpWFKrBM/edit?usp=drive_link",
+          },
+          {
+            id: "20",
+            title: "References and Compliance Library",
+            shortTitle: "References",
+            icon: "Library",
+            color: "#92400e",
+            description: "Reference documents and resources",
+            tags: ["references", "library", "resources"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1g1l8QWFb75B0zgDWLq-wY3Mga7ZKzSwiMhbtOAvX46M/edit?usp=drive_link",
+          },
+          {
+            id: "21",
+            title: "Digital Learning and Technology",
+            shortTitle: "Technology",
+            icon: "Laptop",
+            color: "#a16207",
+            description: "EdTech and IT infrastructure",
+            tags: ["technology", "digital", "EdTech"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1hDIdZfS7LYM4kNAlqhat_fSx247OMzPgWaaTIghmynY/edit?usp=drive_link",
+          },
+          {
+            id: "22",
+            title: "Student Conduct and Discipline",
+            shortTitle: "Conduct",
+            icon: "Ruler",
+            color: "#8b5cf6",
+            description: "Behavior management and discipline",
+            tags: ["conduct", "discipline", "behavior"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/11gzVImHonsdmS4jCFVsaBCek2vs2qnBHAxLfqpJ9Eb0/edit?usp=drive_link",
+          },
+          {
+            id: "23",
+            title: "External Partnerships and Pathways",
+            shortTitle: "Partnerships",
+            icon: "Handshake",
+            color: "#f87171",
+            description: "University partnerships and career pathways",
+            tags: ["partnerships", "university", "careers"],
+            status: "skeleton",
+            docUrl:
+              "https://docs.google.com/document/d/1Kgilip1jXRphibINwSuQeSpc31pj_yqriCefnrVNk8Y/edit?usp=drive_link",
+          },
+        ],
+      };
+
+      const sectionsData = { "01": section01Data, "02": section02Data };
+
+      const Icon = (props) => <FeatherIcon {...props} />;
+
+      const ContentBlock = ({ block, dark }) => {
+        const base = dark ? "text-gray-200" : "text-gray-700";
+        const heading = dark ? "text-white" : "text-gray-900";
+        const muted = dark ? "text-gray-400" : "text-gray-500";
+        const card = dark
+          ? "bg-gray-800 border-gray-700"
+          : "bg-white border-gray-200";
+        const cardAlt = dark ? "bg-gray-700/50" : "bg-gray-50";
+
+        switch (block.type) {
+          case "info":
+            return (
+              <div
+                className={`p-4 rounded-lg mb-4 ${
+                  dark
+                    ? "bg-blue-900/30 border border-blue-800"
+                    : "bg-blue-50 border border-blue-200"
+                }`}
+              >
+                <span
+                  className={`text-sm font-semibold ${
+                    dark ? "text-blue-300" : "text-blue-600"
+                  }`}
+                >
+                  {block.label}
+                </span>
+                <p className={`mt-1 ${base}`}>{block.text}</p>
+              </div>
+            );
+          case "table":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-2 ${heading}`}>
+                  {block.title}
+                </h4>
+                <div className={`rounded-lg overflow-hidden border ${card}`}>
+                  {block.rows.map(([k, v], i) => (
+                    <div
+                      key={i}
+                      className={`flex border-b last:border-0 ${
+                        dark ? "border-gray-700" : "border-gray-200"
+                      }`}
+                    >
+                      <div
+                        className={`w-1/3 p-2.5 text-sm font-medium ${cardAlt}`}
+                      >
+                        {k}
+                      </div>
+                      <div className={`w-2/3 p-2.5 text-sm ${base}`}>{v}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "list":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-2 ${heading}`}>
+                  {block.title}
+                </h4>
+                <ul className={`space-y-1.5 ${base}`}>
+                  {block.items.map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <span className="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                      <span className="text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          case "numbered":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-2 ${heading}`}>
+                  {block.title}
+                </h4>
+                <ol className={`space-y-1.5 ${base}`}>
+                  {block.items.map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <span
+                        className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                          dark
+                            ? "bg-emerald-700 text-emerald-100"
+                            : "bg-emerald-100 text-emerald-700"
+                        }`}
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="text-sm pt-0.5">{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            );
+          case "vision":
+            return (
+              <div
+                className={`p-5 rounded-lg mb-5 border-l-4 ${
+                  dark
+                    ? "bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border-blue-400"
+                    : "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-500"
+                }`}
+              >
+                <h3 className={`text-lg font-bold ${heading}`}>
+                  {block.title}
+                </h3>
+                <p className={`text-xs mb-2 ${muted}`}>{block.subtitle}</p>
+                <p className={`text-sm leading-relaxed ${base}`}>
+                  {block.text}
+                </p>
+              </div>
+            );
+          case "mission":
+            return (
+              <div
+                className={`p-5 rounded-lg mb-5 border-l-4 ${
+                  dark
+                    ? "bg-gradient-to-r from-emerald-900/40 to-teal-900/40 border-emerald-400"
+                    : "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-500"
+                }`}
+              >
+                <h3 className={`text-lg font-bold ${heading}`}>
+                  {block.title}
+                </h3>
+                <p className={`text-xs mb-3 ${muted}`}>{block.subtitle}</p>
+                <ol className={`space-y-2 ${base}`}>
+                  {block.items.map((item, i) => (
+                    <li key={i} className="flex items-start text-sm">
+                      <span
+                        className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                          dark ? "bg-white/20" : "bg-white"
+                        }`}
+                      >
+                        {i + 1}
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            );
+          case "values":
+            return (
+              <div className="mb-5">
+                <h3 className={`text-lg font-bold mb-3 ${heading}`}>
+                  {block.title}
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {block.items.map((v, i) => (
+                    <div key={i} className={`p-3 rounded-lg border ${card}`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span
+                          className={`font-bold text-sm ${
+                            dark ? "text-emerald-400" : "text-emerald-600"
+                          }`}
+                        >
+                          {v.name}
+                        </span>
+                        <span className={`text-xs ${muted}`}>({v.id})</span>
+                      </div>
+                      <p className={`text-xs ${base}`}>{v.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "slos":
+            return (
+              <div className="mb-5">
+                <h3 className={`text-lg font-bold mb-3 ${heading}`}>
+                  {block.title}
+                </h3>
+                <div className="space-y-3">
+                  {block.items.map((slo, i) => (
+                    <div key={i} className={`p-3 rounded-lg border ${card}`}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                            dark ? "bg-blue-600" : "bg-blue-500"
+                          } text-white`}
+                        >
+                          {slo.n}
+                        </span>
+                        <span className={`font-semibold text-sm ${heading}`}>
+                          {slo.name}
+                        </span>
+                      </div>
+                      <ul className={`ml-8 space-y-1 ${base}`}>
+                        {slo.points.map((p, j) => (
+                          <li key={j} className="text-xs flex items-start">
+                            <span className="mr-1.5 text-emerald-500">•</span>
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "text":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-2 ${heading}`}>
+                  {block.title}
+                </h4>
+                <p className={`text-sm ${base}`}>{block.text}</p>
+              </div>
+            );
+          case "levels":
+            return (
+              <div className="mb-5">
+                <h3 className={`text-lg font-bold mb-3 ${heading}`}>
+                  {block.title}
+                </h3>
+                {block.levels.map((lvl, li) => (
+                  <div
+                    key={li}
+                    className={`mb-4 p-4 rounded-lg border ${card}`}
+                  >
+                    <div
+                      className={`flex items-center gap-2 mb-3 pb-2 border-b ${
+                        dark ? "border-gray-700" : "border-gray-200"
+                      }`}
+                    >
+                      <span
+                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                          dark ? "bg-blue-600" : "bg-blue-500"
+                        } text-white`}
+                      >
+                        {lvl.level}
+                      </span>
+                      <div>
+                        <span className={`font-bold text-sm ${heading}`}>
+                          {lvl.name}
+                        </span>
+                        {lvl.entity && (
+                          <p className={`text-xs ${muted}`}>{lvl.entity}</p>
+                        )}
+                      </div>
+                    </div>
+                    {lvl.roles.map((role, ri) => (
+                      <div key={ri} className={`mb-3 p-2 rounded ${cardAlt}`}>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span
+                            className={`font-semibold text-sm ${
+                              dark ? "text-emerald-400" : "text-emerald-600"
+                            }`}
+                          >
+                            {role.title}
+                          </span>
+                          {role.details && (
+                            <span className={`text-xs ${muted}`}>
+                              — {role.details}
+                            </span>
+                          )}
+                        </div>
+                        <ul className={`space-y-0.5 ${base}`}>
+                          {role.resp.map((r, rri) => (
+                            <li key={rri} className="text-xs flex items-start">
+                              <span className="mr-1.5 text-emerald-500">•</span>
+                              {r}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            );
+          case "roles":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-3 ${heading}`}>
+                  {block.title}
+                </h4>
+                <div className="space-y-3">
+                  {block.roles.map((role, i) => (
+                    <div key={i} className={`p-3 rounded-lg border ${card}`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span
+                          className={`font-semibold text-sm ${
+                            dark ? "text-blue-400" : "text-blue-600"
+                          }`}
+                        >
+                          {role.title}
+                        </span>
+                        {role.id && (
+                          <span className={`text-xs ${muted}`}>
+                            ({role.id})
+                          </span>
+                        )}
+                        {role.note && (
+                          <span
+                            className={`text-xs px-1.5 py-0.5 rounded ${
+                              dark
+                                ? "bg-yellow-900/50 text-yellow-300"
+                                : "bg-yellow-100 text-yellow-700"
+                            }`}
+                          >
+                            {role.note}
+                          </span>
+                        )}
+                      </div>
+                      <ul className={`space-y-0.5 ${base}`}>
+                        {role.resp.map((r, ri) => (
+                          <li key={ri} className="text-xs flex items-start">
+                            <span className="mr-1.5 text-emerald-500">•</span>
+                            {r}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "note":
+            return (
+              <div
+                className={`p-4 rounded-lg mb-4 ${
+                  dark
+                    ? "bg-yellow-900/20 border border-yellow-800"
+                    : "bg-yellow-50 border border-yellow-200"
+                }`}
+              >
+                <p
+                  className={`text-sm ${
+                    dark ? "text-yellow-200" : "text-yellow-800"
+                  }`}
+                >
+                  📌 {block.text}
+                </p>
+              </div>
+            );
+          case "policy":
+            return (
+              <div className="mb-5">
+                <div
+                  className={`p-3 rounded-lg mb-3 ${
+                    dark ? "bg-blue-900/30" : "bg-blue-50"
+                  }`}
+                >
+                  <p className={`text-sm ${base}`}>
+                    <strong>Purpose:</strong> {block.purpose}
+                  </p>
+                  <p className={`text-sm mt-1 ${base}`}>
+                    <strong>Scope:</strong> {block.scope}
+                  </p>
+                </div>
+                <h5 className={`font-semibold text-sm mb-2 ${heading}`}>
+                  Examples:
+                </h5>
+                <ul className={`mb-3 space-y-1 ${base}`}>
+                  {block.examples.map((e, i) => (
+                    <li key={i} className="text-xs flex items-start">
+                      <span className="mr-1.5 text-red-500">⚠</span>
+                      {e}
+                    </li>
+                  ))}
+                </ul>
+                <h5 className={`font-semibold text-sm mb-2 ${heading}`}>
+                  Procedures:
+                </h5>
+                <div className="space-y-2">
+                  {block.steps.map((s, i) => (
+                    <div key={i} className="flex items-start">
+                      <span
+                        className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                          dark ? "bg-blue-600" : "bg-blue-500"
+                        } text-white`}
+                      >
+                        {s.n}
+                      </span>
+                      <div>
+                        <span className={`font-medium text-sm ${heading}`}>
+                          {s.title}:{" "}
+                        </span>
+                        <span className={`text-xs ${base}`}>{s.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "process":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-1 ${heading}`}>
+                  {block.title}
+                </h4>
+                <p className={`text-xs mb-3 ${muted}`}>{block.purpose}</p>
+                <div className="space-y-2">
+                  {block.steps.map((s, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-start p-2 rounded ${cardAlt}`}
+                    >
+                      <span
+                        className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                          dark ? "bg-emerald-600" : "bg-emerald-500"
+                        } text-white`}
+                      >
+                        {s.n}
+                      </span>
+                      <div>
+                        <span className={`font-medium text-sm ${heading}`}>
+                          {s.title}
+                        </span>
+                        <p className={`text-xs ${base}`}>{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          case "org":
+            return (
+              <div className="mb-5">
+                <h4 className={`font-semibold mb-3 ${heading}`}>
+                  {block.title}
+                </h4>
+                <div className="flex flex-col items-center space-y-2 mb-4">
+                  {block.levels.map((l, i) => (
+                    <div
+                      key={i}
+                      className={`px-4 py-2 rounded-lg text-center text-sm font-medium ${
+                        i === 0
+                          ? (dark ? "bg-blue-600" : "bg-blue-500") +
+                            " text-white"
+                          : card + " border"
+                      }`}
+                    >
+                      {l}
+                    </div>
+                  ))}
+                </div>
+                <div className={`p-3 rounded-lg ${cardAlt}`}>
+                  <p className={`text-xs font-semibold mb-2 ${muted}`}>
+                    Network Support:
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {block.support.map((s, i) => (
+                      <span
+                        key={i}
+                        className={`text-xs px-2 py-1 rounded ${
+                          dark
+                            ? "bg-gray-700 text-gray-300"
+                            : "bg-gray-200 text-gray-700"
+                        }`}
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          case "evidence":
+            return (
+              <div className="mb-5">
+                {block.categories.map((cat, ci) => (
+                  <div key={ci} className="mb-4">
+                    <h5 className={`font-semibold text-sm mb-2 ${heading}`}>
+                      {cat.title}
+                    </h5>
+                    <div className={`p-3 rounded-lg ${cardAlt}`}>
+                      <ul className={`space-y-1 ${base}`}>
+                        {cat.items.map((item, i) => (
+                          <li key={i} className="text-xs flex items-start">
+                            <span className="mr-1.5 text-blue-500">📄</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          case "compliance":
+            return (
+              <div className="mb-5">
+                {block.categories.map((cat, ci) => (
+                  <div key={ci} className="mb-4">
+                    <h5 className={`font-semibold text-sm mb-2 ${heading}`}>
+                      {cat.title}
+                    </h5>
+                    <ul className={`space-y-1 ${base}`}>
+                      {cat.items.map((item, i) => (
+                        <li key={i} className="text-xs flex items-start">
+                          <span className="mr-1.5 text-emerald-500">✓</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
+
+      function App() {
+        const [dark, setDark] = useState(false);
+        const [sidebar, setSidebar] = useState(true);
+        const [search, setSearch] = useState("");
+        const [selected, setSelected] = useState(null);
+        const [expandedSub, setExpandedSub] = useState(null);
+
+        const bg = dark ? "bg-gray-900" : "bg-gray-100";
+        const text = dark ? "text-gray-100" : "text-gray-900";
+        const card = dark
+          ? "bg-gray-800 border-gray-700"
+          : "bg-white border-gray-200";
+        const muted = dark ? "text-gray-400" : "text-gray-500";
+
+        const filteredSections = useMemo(() => {
+          if (!search) return indexData.sections;
+          const q = search.toLowerCase();
+          return indexData.sections.filter((s) => {
+            if (s.title.toLowerCase().includes(q)) return true;
+            if (s.description.toLowerCase().includes(q)) return true;
+            if (s.tags.some((t) => t.toLowerCase().includes(q))) return true;
+            const data = sectionsData[s.id];
+            if (data) {
+              const content = JSON.stringify(data).toLowerCase();
+              if (content.includes(q)) return true;
+            }
+            return false;
+          });
+        }, [search]);
+
+        const sectionData = selected ? sectionsData[selected] : null;
+        const currentSection = indexData.sections.find(
+          (s) => s.id === selected,
+        );
+
+        return (
+          <div className={`min-h-screen ${bg} ${text}`}>
+            <header
+              className={`fixed top-0 left-0 right-0 z-50 ${
+                dark
+                  ? "bg-gradient-to-r from-gray-800 to-gray-900"
+                  : "bg-gradient-to-r from-white to-blue-50"
+              }
+       border-b ${dark ? "border-gray-700" : "border-gray-200"}`}
+            >
+              <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setSidebar(!sidebar)}
+                    className={`p-2 rounded-lg ${
+                      dark ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                    }`}
+                  >
+                    {sidebar ? <X size={20} /> : <Menu size={20} />}
+                  </button>
+                  <div>
+                    <h1 className="font-bold text-lg flex items-center gap-2">
+                      <BookOpen size={24} className="text-blue-500" />{" "}
+                      {indexData.meta.title}
+                    </h1>
+                    <p className={`text-xs ${muted}`}>
+                      {indexData.meta.organization} • v{indexData.meta.version}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <Search
+                      size={16}
+                      className={`absolute left-3 top-1/2 -translate-y-1/2 ${muted}`}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className={`pl-9 pr-4 py-2 rounded-lg text-sm w-40 ${
+                        dark
+                          ? "bg-gray-700 border-gray-600"
+                          : "bg-gray-100 border-gray-200"
+                      } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    />
+                  </div>
+                  <button
+                    onClick={() => setDark(!dark)}
+                    className={`p-2 rounded-lg ${
+                      dark ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                    }`}
+                  >
+                    {dark ? <Sun size={20} /> : <Moon size={20} />}
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <div className="flex pt-16">
+              {sidebar && (
+                <aside
+                  className={`fixed left-0 top-16 bottom-0 w-56 ${
+                    dark
+                      ? "bg-gradient-to-b from-gray-800 to-gray-900"
+                      : "bg-gradient-to-b from-blue-50 to-indigo-100"
+                  }
+           border-r ${
+             dark ? "border-gray-700" : "border-gray-200"
+           } overflow-y-auto overflow-x-hidden z-40`}
+                >
+                  <nav className="p-3">
+                    <button
+                      onClick={() => setSelected(null)}
+                      className={`w-full flex items-center gap-2 p-2 rounded-lg mb-2 text-sm font-medium ${
+                        !selected
+                          ? (dark ? "bg-blue-600" : "bg-blue-500") +
+                            " text-white"
+                          : dark
+                            ? "hover:bg-gray-700"
+                            : "hover:bg-gray-100"
+                      }`}
+                    >
+                      <Home size={16} /> All Sections
+                    </button>
+                    <div className="space-y-1">
+                      {filteredSections.map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => {
+                            setSelected(s.id);
+                            setExpandedSub(null);
+                          }}
+                          className={`w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm ${
+                            selected === s.id
+                              ? dark
+                                ? "bg-gray-700"
+                                : "bg-gray-100"
+                              : dark
+                                ? "hover:bg-gray-700/50"
+                                : "hover:bg-gray-50"
+                          }`}
+                        >
+                          <Icon
+                            name={s.icon}
+                            size={18}
+                            className={dark ? "text-gray-400" : "text-gray-500"}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate text-xs">
+                              {s.shortTitle}
+                            </p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </nav>
+                </aside>
+              )}
+
+              <main className={`flex-1 ${sidebar ? "ml-56" : ""} p-4`}>
+                {!selected ? (
+                  <div>
+                    <div
+                      className={`p-6 rounded-xl mb-6 border ${
+                        dark
+                          ? "bg-gradient-to-r from-blue-900/50 to-indigo-900/50 border-blue-700"
+                          : "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200"
+                      }`}
+                    >
+                      <h2 className="text-2xl font-bold mb-2">
+                        {indexData.meta.title}
+                      </h2>
+                      <p className={muted}>{indexData.meta.subtitle}</p>
+                      <div
+                        className={`flex items-center gap-4 mt-4 text-sm ${muted}`}
+                      >
+                        <span className="flex items-center gap-1">
+                          <Clock size={14} /> {indexData.meta.lastUpdated}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Tag size={14} /> 23 Sections
+                        </span>
+                      </div>
+
+                      <div className={`flex flex-wrap gap-3 mt-4 text-xs`}>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#1e40af" }}
+                          ></span>{" "}
+                          Governance
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#166534" }}
+                          ></span>{" "}
+                          Academic
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#7c3aed" }}
+                          ></span>{" "}
+                          Student
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#ea580c" }}
+                          ></span>{" "}
+                          Operations
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#dc2626" }}
+                          ></span>{" "}
+                          External Relations
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: "#78350f" }}
+                          ></span>{" "}
+                          Resources
+                        </span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                      {filteredSections.map((s) => (
+                        <div
+                          key={s.id}
+                          className={`p-4 rounded-xl border ${card} transition-all duration-200 hover:shadow-lg cursor-pointer`}
+                          style={{
+                            borderLeftColor: s.color,
+                            borderLeftWidth: "6px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                            backgroundColor: s.color + "10",
+                            border: `1px solid ${s.color}30`,
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.currentTarget.style.backgroundColor =
+                              s.color + "25")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor =
+                              s.color + "10")
+                          }
+                          onClick={() => {
+                            setSelected(s.id);
+                            setExpandedSub(null);
+                          }}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div
+                              className="p-2 rounded-lg cursor-pointer"
+                              style={{ backgroundColor: s.color + "20" }}
+                              onClick={() => {
+                                setSelected(s.id);
+                                setExpandedSub(null);
+                              }}
+                            >
+                              <Icon
+                                name={s.icon}
+                                size={28}
+                                style={{ color: s.color }}
+                              />
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <a
+                                href={s.docUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`p-1.5 rounded-lg ${
+                                  dark
+                                    ? "hover:bg-gray-700 text-blue-400"
+                                    : "hover:bg-gray-100 text-blue-600"
+                                }`}
+                                title="Open Google Doc"
+                              >
+                                <FileText size={16} />
+                              </a>
+                              <span
+                                className={`text-xs px-2 py-1 rounded ${
+                                  s.status === "complete"
+                                    ? dark
+                                      ? "bg-emerald-900/50 text-emerald-400"
+                                      : "bg-emerald-100 text-emerald-600"
+                                    : dark
+                                      ? "bg-gray-700 text-gray-400"
+                                      : "bg-gray-100 text-gray-500"
+                                }`}
+                              >
+                                {s.status === "complete" ? "✓" : "✗"}
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSelected(s.id);
+                              setExpandedSub(null);
+                            }}
+                            className="text-left w-full"
+                          >
+                            <h3 className="font-bold text-sm mb-1">
+                              {s.id}. {s.shortTitle}
+                            </h3>
+                            <p className={`text-xs ${muted}`}>
+                              {s.description}
+                            </p>
+                          </button>
+                          <div className="flex flex-wrap gap-1 mt-3">
+                            {s.tags.slice(0, 3).map((tag, i) => (
+                              <span
+                                key={i}
+                                className="text-xs px-2 py-0.5 rounded text-white"
+                                style={{ backgroundColor: s.color }}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : sectionData ? (
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <button
+                        onClick={() => setSelected(null)}
+                        className={`flex items-center gap-2 text-sm ${
+                          dark ? "text-blue-400" : "text-blue-600"
+                        }`}
+                      >
+                        <ArrowLeft size={16} /> Back
+                      </button>
+                      <a
+                        href={currentSection?.docUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                          dark
+                            ? "bg-blue-600 hover:bg-blue-500"
+                            : "bg-blue-500 hover:bg-blue-600"
+                        } text-white`}
+                      >
+                        <FileText size={16} /> Open Doc{" "}
+                        <ExternalLink size={14} />
+                      </a>
+                    </div>
+                    <div
+                      className={`p-5 rounded-xl mb-4 ${
+                        dark ? "bg-gray-800" : "bg-white"
+                      } border ${dark ? "border-gray-700" : "border-gray-200"}`}
+                    >
+                      <Icon
+                        name={currentSection?.icon}
+                        size={36}
+                        style={{ color: currentSection?.color }}
+                        className="mb-2"
+                      />
+                      <h2 className="text-xl font-bold">
+                        Section {sectionData.id}: {sectionData.title}
+                      </h2>
+                      <p className={`text-sm mt-1 ${muted}`}>
+                        Updated: {sectionData.lastUpdated}
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      {sectionData.subsections.map((sub) => (
+                        <div
+                          key={sub.id}
+                          className={`rounded-xl border overflow-hidden ${card}`}
+                        >
+                          <button
+                            onClick={() =>
+                              setExpandedSub(
+                                expandedSub === sub.id ? null : sub.id,
+                              )
+                            }
+                            className={`w-full flex items-center justify-between p-3 text-left ${
+                              dark ? "hover:bg-gray-700/50" : "hover:bg-gray-50"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
+                                  dark ? "bg-blue-600" : "bg-blue-500"
+                                } text-white`}
+                              >
+                                {sub.id}
+                              </span>
+                              <span className="font-semibold text-sm">
+                                {sub.title}
+                              </span>
+                            </div>
+                            {expandedSub === sub.id ? (
+                              <ChevronDown size={18} />
+                            ) : (
+                              <ChevronRight size={18} />
+                            )}
+                          </button>
+                          {expandedSub === sub.id && (
+                            <div
+                              className={`p-4 border-t ${
+                                dark
+                                  ? "border-gray-700 bg-gray-800/50"
+                                  : "border-gray-200 bg-gray-50/50"
+                              }`}
+                            >
+                              {sub.content.map((block, i) => (
+                                <ContentBlock
+                                  key={i}
+                                  block={block}
+                                  dark={dark}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <button
+                        onClick={() => setSelected(null)}
+                        className={`flex items-center gap-2 text-sm ${
+                          dark ? "text-blue-400" : "text-blue-600"
+                        }`}
+                      >
+                        <ArrowLeft size={16} /> Back
+                      </button>
+                      <a
+                        href={currentSection?.docUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                          dark
+                            ? "bg-blue-600 hover:bg-blue-500"
+                            : "bg-blue-500 hover:bg-blue-600"
+                        } text-white`}
+                      >
+                        <FileText size={16} /> Open Doc{" "}
+                        <ExternalLink size={14} />
+                      </a>
+                    </div>
+                    <div
+                      className={`p-8 rounded-xl text-center ${
+                        dark ? "bg-gray-800" : "bg-white"
+                      } border ${dark ? "border-gray-700" : "border-gray-200"}`}
+                    >
+                      <Icon
+                        name={currentSection?.icon}
+                        size={48}
+                        style={{ color: currentSection?.color }}
+                        className="mx-auto mb-4"
+                      />
+                      <h2 className="text-xl font-bold mb-2">
+                        Section {selected}: {currentSection?.title}
+                      </h2>
+                      <p className={muted}>Dashboard content coming soon...</p>
+                      <p
+                        className={`text-sm mt-4 ${
+                          dark ? "text-yellow-400" : "text-yellow-600"
+                        }`}
+                      >
+                        📄 Click "Open Doc" to view the full document
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </main>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>

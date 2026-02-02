@@ -1,0 +1,4782 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partner Schools Performance Dashboard | Eduversal Indonesia</title>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #1a2332;
+        --secondary: #2d4263;
+        --accent: #c84b31;
+        --accent-light: #ecdbba;
+        --success: #2a9d8f;
+        --warning: #e76f51;
+        --info: #457b9d;
+        --light: #f8f9fa;
+        --text-dark: #1a2332;
+        --text-muted: #6c757d;
+        --border: #dee2e6;
+        --cambridge-primary: #162e51;
+        --cambridge-accent: #00aeef;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+      }
+
+      body {
+        font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        color: var(--text-dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      .dashboard-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 2rem 2rem 2.5rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        animation: float 15s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.1);
+        }
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -1px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .header-subtitle {
+        font-size: 1.25rem;
+        font-weight: 300;
+        opacity: 0.9;
+        letter-spacing: 0.5px;
+      }
+
+      .dashboard-container {
+        max-width: 1400px;
+        margin: 2rem auto 2rem;
+        padding: 0 2rem 2rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        margin-top: 0;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--accent), var(--accent-light));
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1;
+        margin-bottom: 0.25rem;
+      }
+
+      .stat-subtitle {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .card:hover {
+        box-shadow: var(--shadow-lg);
+      }
+
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .tab-container {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .tab-btn,
+      .category-tab-btn {
+        padding: 0.75rem 1.5rem;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+      }
+
+      .tab-btn:hover,
+      .category-tab-btn:hover {
+        color: var(--primary);
+      }
+
+      .tab-btn.active,
+      .category-tab-btn.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .category-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .category-tab-btn {
+        font-size: 0.875rem;
+        padding: 0.625rem 1.25rem;
+      }
+
+      .ranking-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      .ranking-table thead th {
+        background: var(--light);
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        border-bottom: 2px solid var(--border);
+      }
+
+      .ranking-table tbody tr {
+        transition: all 0.2s ease;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .ranking-table tbody tr:hover {
+        background: var(--light);
+        cursor: pointer;
+      }
+
+      .ranking-table tbody td {
+        padding: 1rem;
+      }
+
+      .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 0.875rem;
+      }
+
+      .rank-1 {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: white;
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+      }
+
+      .rank-2 {
+        background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+        color: white;
+        box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);
+      }
+
+      .rank-3 {
+        background: linear-gradient(135deg, #cd7f32, #b8860b);
+        color: white;
+        box-shadow: 0 4px 12px rgba(205, 127, 50, 0.4);
+      }
+
+      .rank-other {
+        background: var(--light);
+        color: var(--text-dark);
+        font-weight: 600;
+      }
+
+      .school-name {
+        font-weight: 600;
+        color: var(--primary);
+        font-size: 1rem;
+      }
+
+      .cambridge-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: linear-gradient(
+          135deg,
+          var(--cambridge-primary),
+          var(--cambridge-accent)
+        );
+        color: white;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .score-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--light);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+      }
+
+      .score-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--success), var(--info));
+        border-radius: 4px;
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .score-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .chart-container {
+        position: relative;
+        height: 400px;
+        margin-top: 1.5rem;
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+        margin-bottom: 1.5rem;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .category-card {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, var(--light) 0%, white 100%);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
+
+      .category-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+        border-color: var(--accent);
+      }
+
+      .category-name {
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .category-score {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .category-weight {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 0.25rem;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        padding: 2rem;
+        overflow-y: auto;
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 20px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: var(--shadow-lg);
+        animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 20px 20px 0 0;
+        position: relative;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .modal-close:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+      }
+
+      .modal-school-name {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .detail-section {
+        margin-bottom: 2rem;
+      }
+
+      .detail-section-title {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .detail-item {
+        padding: 1rem;
+        background: var(--light);
+        border-radius: 8px;
+        border-left: 3px solid var(--accent);
+      }
+
+      .detail-label {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .detail-value {
+        font-size: 1.125rem;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .legend {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+      }
+
+      .legend-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .info-box {
+        background: linear-gradient(
+          135deg,
+          var(--info),
+          var(--cambridge-accent)
+        );
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+      }
+
+      .info-box-title {
+        font-weight: 700;
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .info-box-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        opacity: 0.95;
+      }
+
+      .scoring-guide {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: var(--light);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        max-height: 600px;
+        overflow-y: auto;
+      }
+
+      .scoring-guide::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .scoring-guide::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 5px;
+      }
+
+      .scoring-guide::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 5px;
+      }
+
+      .scoring-guide::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary);
+      }
+
+      .scoring-guide-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .criteria-list {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .criteria-item {
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid var(--accent);
+      }
+
+      .criteria-name {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .criteria-weight {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: var(--accent);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+      }
+
+      .criteria-description {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 968px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-title {
+          font-size: 2.5rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Make side-by-side rankings stack on mobile */
+        #rankingsContainer > div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Footer responsive */
+        footer > div > div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+          gap: 2rem !important;
+        }
+
+        footer > div > div > div:last-child {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+        }
+      }
+
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-muted);
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-header">
+      <div class="header-content">
+        <h1 class="header-title">Partner Schools Performance Dashboard</h1>
+        <p class="header-subtitle">
+          Comprehensive Analysis & Rankings • Academic Year 2025/2026
+        </p>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+          "
+        >
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.25);
+              backdrop-filter: blur(10px);
+              padding: 0.5rem 1.5rem;
+              border-radius: 30px;
+              border: 2px solid rgba(255, 255, 255, 0.4);
+            "
+          >
+            <span
+              style="
+                font-size: 0.9rem;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+              "
+            >
+              📊 Semester 1 Evaluation
+            </span>
+          </div>
+          <a
+            href="https://docs.google.com/spreadsheets/d/1UEpnU6Tjw-UC8xIdDRSaJ7q-WiKjtRd9NsIyniUeYAU/edit?usp=sharing"
+            target="_blank"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: rgba(255, 255, 255, 0.2);
+              color: white;
+              text-decoration: none;
+              border-radius: 8px;
+              font-size: 0.9rem;
+              transition: all 0.3s ease;
+              border: 1px solid rgba(255, 255, 255, 0.3);
+            "
+            onmouseover="this.style.background='rgba(255,255,255,0.3)'"
+            onmouseout="this.style.background='rgba(255,255,255,0.2)'"
+          >
+            📊 View Original Spreadsheet
+          </a>
+          <a
+            href="https://docs.google.com/document/d/1vVYs8navUAzUUspYEndDQqX2tm-hflEVg4c64k2D29w/edit?usp=sharing"
+            target="_blank"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: rgba(255, 255, 255, 0.2);
+              color: white;
+              text-decoration: none;
+              border-radius: 8px;
+              font-size: 0.9rem;
+              transition: all 0.3s ease;
+              border: 1px solid rgba(255, 255, 255, 0.3);
+            "
+            onmouseover="this.style.background='rgba(255,255,255,0.3)'"
+            onmouseout="this.style.background='rgba(255,255,255,0.2)'"
+          >
+            📄 Scoring Guide Document
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-container">
+      <!-- Statistics Overview -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Partner Schools</div>
+          <div class="stat-value" id="totalSchools">-</div>
+          <div class="stat-subtitle">Across Indonesia</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Cambridge Schools</div>
+          <div class="stat-value" id="cambridgeSchools">-</div>
+          <div class="stat-subtitle">International Curriculum</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Average Score</div>
+          <div class="stat-value" id="avgScore">-</div>
+          <div class="stat-subtitle">Out of 100 points</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Top Performer</div>
+          <div class="stat-value" style="font-size: 1.5rem" id="topSchool">
+            -
+          </div>
+          <div class="stat-subtitle" id="topScore">-</div>
+        </div>
+      </div>
+
+      <!-- Performance Alert Box -->
+      <div
+        style="
+          background: linear-gradient(135deg, #e76f51 0%, #f4a261 100%);
+          color: white;
+          padding: 1.5rem 2rem;
+          border-radius: 12px;
+          margin-bottom: 1.5rem;
+          box-shadow: var(--shadow-md);
+          border-left: 5px solid #d62828;
+        "
+      >
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <div style="font-size: 2.5rem">⚠️</div>
+          <div style="flex: 1">
+            <h3
+              style="
+                font-weight: 700;
+                font-size: 1.25rem;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Performance Alert: Significant Room for Improvement
+            </h3>
+            <p
+              style="
+                margin: 0;
+                font-size: 0.95rem;
+                line-height: 1.6;
+                opacity: 0.95;
+              "
+            >
+              All scores are calculated <strong>out of 100 points</strong>.
+              Current network average is below 30/100. Even our top-performing
+              school scores only 46.75/100. There is substantial opportunity for
+              growth across all evaluation criteria.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="content-grid" style="grid-template-columns: 1fr">
+        <!-- School Rankings - Full Width with Side by Side Lists -->
+        <div class="card full-width">
+          <h2 class="card-title">School Rankings</h2>
+          <div class="tab-container">
+            <button class="tab-btn active" onclick="filterRankings('all')">
+              All Schools
+            </button>
+            <button class="tab-btn" onclick="filterRankings('cambridge')">
+              Cambridge Only
+            </button>
+            <button class="tab-btn" onclick="filterRankings('non-cambridge')">
+              Non-Cambridge Only
+            </button>
+          </div>
+          <div id="rankingsContainer"></div>
+        </div>
+
+        <!-- Detailed School Reports Section -->
+        <div class="card full-width">
+          <h2 class="card-title">📋 Detailed School Performance Report</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem">
+            Select a school to view comprehensive performance breakdown across
+            all evaluation criteria. Each criterion shows earned points, maximum
+            possible points, and performance status.
+          </p>
+
+          <div style="margin-bottom: 2rem">
+            <label
+              for="schoolSelector"
+              style="
+                display: block;
+                font-weight: 600;
+                margin-bottom: 0.75rem;
+                color: var(--text-dark);
+              "
+            >
+              Select School:
+            </label>
+            <select
+              id="schoolSelector"
+              onchange="showDetailedReport(this.value)"
+              style="
+                width: 100%;
+                max-width: 500px;
+                padding: 0.75rem 1rem;
+                border: 2px solid var(--border);
+                border-radius: 8px;
+                font-size: 1rem;
+                background: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              "
+              onfocus="this.style.borderColor='var(--accent)'"
+              onblur="this.style.borderColor='var(--border)'"
+            >
+              <option value="">-- Choose a school --</option>
+            </select>
+          </div>
+
+          <div id="detailedReportContainer"></div>
+        </div>
+
+        <!-- Performance by Category - Collapsible -->
+        <div class="card full-width">
+          <div
+            onclick="toggleAccordion('categorySection')"
+            style="
+              cursor: pointer;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.5rem 0;
+              user-select: none;
+              transition: all 0.3s ease;
+            "
+            onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'"
+          >
+            <h2 class="card-title" style="margin: 0">
+              📊 Performance by Category
+            </h2>
+            <span
+              id="categorySection-icon"
+              style="font-size: 1.5rem; transition: transform 0.3s ease"
+              >▼</span
+            >
+          </div>
+          <div
+            id="categorySection-content"
+            style="display: none; margin-top: 1rem"
+          >
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem">
+              Compare all schools across specific evaluation categories. Use the
+              tabs below to switch between different performance metrics.
+              <strong
+                >For detailed school breakdowns, click any school name in the
+                Rankings table above.</strong
+              >
+            </p>
+
+            <div class="category-tabs">
+              <button
+                class="category-tab-btn active"
+                onclick="showCategoryChart('all')"
+              >
+                Overview
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('meetings')"
+              >
+                Dept. Meetings
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('subjects')"
+              >
+                Subject Depts
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('surveys')"
+              >
+                Surveys
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('technology')"
+              >
+                Technology
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('appraisal')"
+              >
+                Appraisal
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('assessments')"
+              >
+                Assessments
+              </button>
+              <button
+                class="category-tab-btn"
+                onclick="showCategoryChart('clubs')"
+              >
+                Clubs
+              </button>
+            </div>
+
+            <div class="chart-container" style="height: 500px">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Distribution - Collapsible -->
+        <div class="card full-width">
+          <div
+            onclick="toggleAccordion('distributionSection')"
+            style="
+              cursor: pointer;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.5rem 0;
+              user-select: none;
+              transition: all 0.3s ease;
+            "
+            onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'"
+          >
+            <h2 class="card-title" style="margin: 0">
+              📉 Performance Distribution
+            </h2>
+            <span
+              id="distributionSection-icon"
+              style="font-size: 1.5rem; transition: transform 0.3s ease"
+              >▶</span
+            >
+          </div>
+          <div
+            id="distributionSection-content"
+            style="display: none; margin-top: 1rem"
+          >
+            <div class="chart-container">
+              <canvas id="scoreDistChart"></canvas>
+            </div>
+            <div class="legend">
+              <div class="legend-item">
+                <div
+                  class="legend-color"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      var(--cambridge-primary),
+                      var(--cambridge-accent)
+                    );
+                  "
+                ></div>
+                <span class="legend-label">Cambridge Schools</span>
+              </div>
+              <div class="legend-item">
+                <div
+                  class="legend-color"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      var(--success),
+                      var(--info)
+                    );
+                  "
+                ></div>
+                <span class="legend-label">Non-Cambridge Schools</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cambridge Comparison - Collapsible -->
+      <div class="card full-width">
+        <div
+          onclick="toggleAccordion('cambridgeSection')"
+          style="
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            user-select: none;
+            transition: all 0.3s ease;
+          "
+          onmouseover="this.style.opacity='0.8'"
+          onmouseout="this.style.opacity='1'"
+        >
+          <h2 class="card-title" style="margin: 0">
+            🔄 Cambridge vs Non-Cambridge Analysis
+          </h2>
+          <span
+            id="cambridgeSection-icon"
+            style="font-size: 1.5rem; transition: transform 0.3s ease"
+            >▶</span
+          >
+        </div>
+        <div
+          id="cambridgeSection-content"
+          style="display: none; margin-top: 1rem"
+        >
+          <div class="info-box">
+            <div class="info-box-title">Performance Insights</div>
+            <div class="info-box-text">
+              This analysis compares schools offering Cambridge International
+              curriculum against those with national curriculum only. Cambridge
+              schools are evaluated on additional criteria including Lower
+              Secondary Checkpoint, IGCSE, and AS/A Level examinations.
+            </div>
+          </div>
+          <div class="chart-container" style="height: 300px">
+            <canvas id="comparisonChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scoring Guide - Collapsible -->
+      <div class="card full-width">
+        <div
+          onclick="toggleAccordion('scoringSection')"
+          style="
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            user-select: none;
+            transition: all 0.3s ease;
+          "
+          onmouseover="this.style.opacity='0.8'"
+          onmouseout="this.style.opacity='1'"
+        >
+          <h2 class="card-title" style="margin: 0">
+            📚 Scoring Guide & Methodology
+          </h2>
+          <span
+            id="scoringSection-icon"
+            style="font-size: 1.5rem; transition: transform 0.3s ease"
+            >▶</span
+          >
+        </div>
+        <div
+          id="scoringSection-content"
+          style="display: none; margin-top: 1rem"
+        >
+          <div class="scoring-guide">
+            <!-- Executive Summary -->
+            <div
+              style="
+                background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+                color: white;
+                padding: 2rem;
+                border-radius: 12px;
+                margin-bottom: 2rem;
+              "
+            >
+              <h3
+                style="margin: 0 0 1rem 0; font-size: 1.5rem; font-weight: 700"
+              >
+                📊 Scoring System Overview
+              </h3>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                  gap: 1.5rem;
+                "
+              >
+                <div>
+                  <div
+                    style="
+                      font-size: 0.9rem;
+                      opacity: 0.8;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    Total Score
+                  </div>
+                  <div style="font-size: 2rem; font-weight: 800">
+                    100 Points
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 0.9rem;
+                      opacity: 0.8;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    Total Criteria
+                  </div>
+                  <div style="font-size: 2rem; font-weight: 800">21 Items</div>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 0.9rem;
+                      opacity: 0.8;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    School Types
+                  </div>
+                  <div style="font-size: 2rem; font-weight: 800">
+                    6 Scenarios
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 0.9rem;
+                      opacity: 0.8;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    Evaluation Period
+                  </div>
+                  <div style="font-size: 1.5rem; font-weight: 800">
+                    Semester 1
+                  </div>
+                </div>
+              </div>
+              <p style="margin: 1.5rem 0 0 0; line-height: 1.7; opacity: 0.95">
+                The scoring system adapts based on school type (SMP only,
+                SMP+SMA) and curriculum (Cambridge/Non-Cambridge). Cambridge
+                schools are evaluated on additional criteria (16% weight), with
+                points redistributed proportionally for non-Cambridge schools.
+              </p>
+            </div>
+
+            <!-- Scoring Principles -->
+            <div
+              style="
+                background: #fff3cd;
+                border-left: 4px solid #ffc107;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+              "
+            >
+              <h4
+                style="
+                  margin: 0 0 1rem 0;
+                  color: #856404;
+                  font-size: 1.2rem;
+                  font-weight: 700;
+                "
+              >
+                ⚖️ Key Scoring Principles
+              </h4>
+              <ul
+                style="
+                  margin: 0;
+                  padding-left: 1.5rem;
+                  color: #856404;
+                  line-height: 1.8;
+                "
+              >
+                <li>
+                  <strong>Weighted System:</strong> Each criterion contributes a
+                  specific percentage (shown in brackets)
+                </li>
+                <li>
+                  <strong>Normalization:</strong> All percentage-based metrics
+                  are normalized to 0-1 scale before applying weights
+                </li>
+                <li>
+                  <strong>Boolean Criteria:</strong> All-or-nothing scoring
+                  (full points or zero) for implementation-based items
+                </li>
+                <li>
+                  <strong>Adaptive Scoring:</strong> Weights automatically
+                  adjust based on school configuration (6 scenarios)
+                </li>
+                <li>
+                  <strong>Minimum Thresholds:</strong> Some criteria require
+                  meeting minimum targets for points
+                </li>
+                <li>
+                  <strong>Comparative Benchmarks:</strong> EASE scores compare
+                  school performance against network average
+                </li>
+              </ul>
+            </div>
+
+            <div class="scoring-guide-title">Detailed Performance Criteria</div>
+            <p
+              style="
+                color: var(--text-muted);
+                margin-bottom: 2rem;
+                line-height: 1.8;
+              "
+            >
+              Below is the complete breakdown of all 21 evaluation criteria.
+              Each criterion shows its weight, description, calculation method,
+              and target performance level. Click on any criterion during your
+              principals meeting to explain scoring methodology.
+            </p>
+
+            <div class="criteria-list">
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Department Meetings
+                  <span class="criteria-weight">6-8%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures attendance percentage across three scheduled
+                  department meeting dates. Schools are expected to maintain
+                  consistent participation in collaborative planning sessions.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Subject Departments
+                  <span class="criteria-weight">6-8%</span>
+                </div>
+                <div class="criteria-description">
+                  Evaluates performance data from six core subjects:
+                  Mathematics, English, Religion, Physics, Biology, and
+                  Chemistry. The average across all subjects determines the
+                  score.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Content Filtering
+                  <span class="criteria-weight">4-5%</span>
+                </div>
+                <div class="criteria-description">
+                  Schools receive full points for implementing any content
+                  filtering solution (e.g., GoGuardian, Securly, Jamf Safe
+                  Internet). Schools with "No Filter" receive zero points.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Domains Completion
+                  <span class="criteria-weight">3-4%</span>
+                </div>
+                <div class="criteria-description">
+                  Awards points when the completion rate exceeds 75%. This
+                  measures progress on assigned digital learning domains.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Website Score
+                  <span class="criteria-weight">4-5%</span>
+                </div>
+                <div class="criteria-description">
+                  Rates the school website quality and functionality on a
+                  100-point scale, assessing professional presentation and
+                  information accessibility.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  A-EASE Participation
+                  <span class="criteria-weight">5-6%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures student participation rate in the A-EASE assessment
+                  program as a percentage.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Club Activities
+                  <span class="criteria-weight">5-6%</span>
+                </div>
+                <div class="criteria-description">
+                  Evaluates the presence of five recommended extracurricular
+                  programs: Makerspace & STEAM Lab, AI & Robotics Club,
+                  Leadership Club, Business Club, and STEAM Expo.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Parent Survey
+                  <span class="criteria-weight">6-8%</span>
+                </div>
+                <div class="criteria-description">
+                  Calculates parent engagement by dividing survey respondents by
+                  total student population. Higher participation reflects
+                  stronger school-community communication.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Student Survey
+                  <span class="criteria-weight">6-8%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures student voice by calculating survey participation
+                  rate relative to total enrollment.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Portfolio System
+                  <span class="criteria-weight">3-4%</span>
+                </div>
+                <div class="criteria-description">
+                  Awards points to schools implementing student portfolio
+                  systems for tracking academic progress and achievements.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  EMC Participation
+                  <span class="criteria-weight">4-5%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures participation rate in the EMC competition. All
+                  students are expected to participate.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  KOMODO Participation
+                  <span class="criteria-weight">2%</span>
+                </div>
+                <div class="criteria-description">
+                  Tracks voluntary participation in the KOMODO program. Lower
+                  weight reflects its optional nature.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Staff Survey
+                  <span class="criteria-weight">5-6%</span>
+                </div>
+                <div class="criteria-description">
+                  Calculates teacher engagement by dividing survey respondents
+                  by total teaching staff across both SMP and SMA sections.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Observations & Walkthroughs
+                  <span class="criteria-weight">6-8%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures the frequency of classroom observations and
+                  instructional walkthroughs. Target is 3 per teacher annually.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Mentor-Mentee Program
+                  <span class="criteria-weight">2-3%</span>
+                </div>
+                <div class="criteria-description">
+                  Awards points to schools with an active mentor-mentee program
+                  supporting new or developing teachers.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Device Management
+                  <span class="criteria-weight">3-4%</span>
+                </div>
+                <div class="criteria-description">
+                  Schools receive full points for implementing any device
+                  management solution (e.g., Google Workspace, Jamf School).
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  WiFi Safety Tests
+                  <span class="criteria-weight">4-5%</span>
+                </div>
+                <div class="criteria-description">
+                  Evaluates completion of WiFi safety assessments. Combines
+                  Quick Test (teachers' devices) and Full Test (students'
+                  devices) results.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  EASE Performance
+                  <span class="criteria-weight">5-6%</span>
+                </div>
+                <div class="criteria-description">
+                  Measures student achievement in EASE I and EASE II
+                  assessments. Schools receive points when their average meets
+                  or exceeds the network-wide average.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  Lower Secondary Exams
+                  <span class="criteria-weight">5%</span>
+                  <span class="cambridge-badge" style="margin-left: 0.5rem"
+                    >Cambridge Only</span
+                  >
+                </div>
+                <div class="criteria-description">
+                  Evaluates Cambridge Lower Secondary Checkpoint participation
+                  and performance. Score combines exam coverage (English,
+                  Science, Math) and student achievement average.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  IGCSE Exams
+                  <span class="criteria-weight">6%</span>
+                  <span class="cambridge-badge" style="margin-left: 0.5rem"
+                    >Cambridge Only</span
+                  >
+                </div>
+                <div class="criteria-description">
+                  Measures IGCSE program breadth and student outcomes. Considers
+                  number of subjects offered and average student performance.
+                </div>
+              </div>
+
+              <div class="criteria-item">
+                <div class="criteria-name">
+                  AS/A Levels
+                  <span class="criteria-weight">5%</span>
+                  <span class="cambridge-badge" style="margin-left: 0.5rem"
+                    >Cambridge Only</span
+                  >
+                </div>
+                <div class="criteria-description">
+                  Assesses advanced level program participation. Combines
+                  subject availability (60%) and student enrollment rate (40%).
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 2rem;
+                padding: 1.5rem;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid var(--border);
+              "
+            >
+              <h3
+                style="
+                  font-weight: 700;
+                  margin-bottom: 1rem;
+                  color: var(--primary);
+                "
+              >
+                Scoring Scenarios
+              </h3>
+              <p
+                style="
+                  color: var(--text-muted);
+                  line-height: 1.8;
+                  margin-bottom: 1rem;
+                "
+              >
+                The scoring system adjusts weights based on school
+                configuration:
+              </p>
+              <ul
+                style="
+                  color: var(--text-muted);
+                  line-height: 1.8;
+                  padding-left: 1.5rem;
+                "
+              >
+                <li>
+                  <strong>Scenario 1:</strong> SMP Cambridge + SMA Cambridge -
+                  Full Cambridge assessment across both levels
+                </li>
+                <li>
+                  <strong>Scenario 2:</strong> SMP Cambridge + SMA Non-Cambridge
+                  - Cambridge assessment only at SMP level
+                </li>
+                <li>
+                  <strong>Scenario 3:</strong> SMP Non-Cambridge + SMA Cambridge
+                  - Cambridge assessment only at SMA level
+                </li>
+                <li>
+                  <strong>Scenario 4:</strong> SMP Non-Cambridge + SMA
+                  Non-Cambridge - No Cambridge assessment
+                </li>
+                <li><strong>Scenario 5:</strong> SMP Only - Cambridge</li>
+                <li><strong>Scenario 6:</strong> SMP Only - Non-Cambridge</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for School Details -->
+    <div id="schoolModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="modal-close" onclick="closeModal()">×</button>
+          <h2 class="modal-school-name" id="modalSchoolName"></h2>
+          <div style="display: flex; align-items: center; gap: 1rem">
+            <span
+              style="font-size: 2rem; font-weight: 700"
+              id="modalSchoolScore"
+            ></span>
+            <span id="modalCambridgeBadge"></span>
+          </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <!-- Scoring Scenarios -->
+    <div
+      style="
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--border);
+      "
+    >
+      <h3
+        style="
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          color: var(--primary);
+        "
+      >
+        🔄 Adaptive Scoring Scenarios
+      </h3>
+      <p
+        style="color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7"
+      >
+        The scoring system automatically adjusts weights based on school
+        configuration. Cambridge assessment criteria (16% total) are only
+        applicable to schools offering Cambridge curriculum.
+      </p>
+
+      <div style="display: grid; gap: 1.5rem; margin-bottom: 2rem">
+        <!-- Scenario cards would go here -->
+        <div
+          style="
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+          "
+        >
+          <p
+            style="
+              text-align: center;
+              font-size: 1.1rem;
+              color: var(--text-muted);
+              margin: 0;
+            "
+          >
+            <strong>6 Scoring Scenarios:</strong> SMP Cambridge + SMA Cambridge
+            | SMP Cambridge + SMA Non-Cambridge | SMP Non-Cambridge + SMA
+            Cambridge | SMP Non-Cambridge + SMA Non-Cambridge | SMP Only
+            Cambridge | SMP Only Non-Cambridge
+          </p>
+          <p
+            style="
+              text-align: center;
+              margin: 1rem 0 0 0;
+              font-size: 0.95rem;
+              color: var(--text-muted);
+            "
+          >
+            Cambridge criteria (16% total weight) redistributed proportionally
+            when not applicable
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // School data will be loaded here
+      const schoolsData = [
+        {
+          rank: 1,
+          name: "Semesta Gunung Pati",
+          score: 46.75026829,
+          isCambridge: true,
+          students: "313",
+          staff: "52",
+          deptMeetings: {
+            date1: "79",
+            date2: "46",
+            date3: "38",
+          },
+          subjects: {
+            math: "60",
+            english: "29",
+            religion: "58",
+            physics: "0",
+            biology: "76",
+            chemistry: "76",
+          },
+          surveys: {
+            staff: "39",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "24",
+            fullTest: "62",
+            deviceMgmt: "Google Workspace",
+            contentFilter: "Securly",
+          },
+          domains: {
+            completion: "-",
+          },
+          appraisal: {
+            observations: "94",
+            walkthroughs: "15",
+            mentorMentee: "1",
+          },
+          website: {
+            score: "62",
+          },
+          portfolio: "1",
+          aease: {
+            participation: "92",
+          },
+          ease: {
+            ease1: "73.3 / 74.4",
+            ease2: "78.8 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "2",
+            lowerSecAvg: "51",
+            igcse: "6",
+            igcseAvg: "47.6",
+            asLevels: "3",
+            asStudents: "5",
+          },
+          clubs: {
+            makerspace: "1",
+            aiRobotics: "1",
+            leadership: "1",
+            business: "1",
+            steamExpo: "1",
+          },
+          competitions: {
+            emc: "103",
+            ispo: "3",
+            osebi: "14",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 2,
+          name: "Mega Islamic School",
+          score: 40.95791667,
+          isCambridge: false,
+          students: "96",
+          staff: "28",
+          deptMeetings: {
+            date1: "91",
+            date2: "78",
+            date3: "56",
+          },
+          subjects: {
+            math: "32",
+            english: "0",
+            religion: "58",
+            physics: "0",
+            biology: "40",
+            chemistry: "77",
+          },
+          surveys: {
+            staff: "0",
+            parent: "28",
+            student: "11",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "0",
+          },
+          appraisal: {
+            observations: "105",
+            walkthroughs: "0",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "70",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "100",
+          },
+          ease: {
+            ease1: "77.3 / 74.4",
+            ease2: "79.6 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "47",
+            ispo: "6",
+            osebi: "15",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 3,
+          name: "Pribadi Depok School",
+          score: 38.74515906,
+          isCambridge: true,
+          students: "224",
+          staff: "61",
+          deptMeetings: {
+            date1: "86",
+            date2: "80",
+            date3: "50",
+          },
+          subjects: {
+            math: "0",
+            english: "13",
+            religion: "18",
+            physics: "31",
+            biology: "11",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "8",
+            parent: "6",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "Google Workspace",
+            contentFilter: "GoGuardian",
+          },
+          domains: {
+            completion: "1",
+          },
+          appraisal: {
+            observations: "0",
+            walkthroughs: "0",
+            mentorMentee: "3",
+          },
+          website: {
+            score: "50",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "100",
+          },
+          ease: {
+            ease1: "86.7 / 74.4",
+            ease2: "88.8 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "3",
+            lowerSecAvg: "63.2",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "75",
+            ispo: "1",
+            osebi: "2",
+            komodo: "70",
+          },
+        },
+        {
+          rank: 4,
+          name: "Pribadi Premiere School",
+          score: 37.8869697,
+          isCambridge: false,
+          students: "42",
+          staff: "55",
+          deptMeetings: {
+            date1: "60",
+            date2: "67",
+            date3: "78",
+          },
+          subjects: {
+            math: "0",
+            english: "0",
+            religion: "8",
+            physics: "0",
+            biology: "0",
+            chemistry: "30",
+          },
+          surveys: {
+            staff: "6",
+            parent: "3",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "59",
+            fullTest: "54",
+            deviceMgmt: "Google Workspace",
+            contentFilter: "GoGuardian",
+          },
+          domains: {
+            completion: "12",
+          },
+          appraisal: {
+            observations: "4",
+            walkthroughs: "1",
+            mentorMentee: "2",
+          },
+          website: {
+            score: "48",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "61.5",
+          },
+          ease: {
+            ease1: "80.4 / 74.4",
+            ease2: "82.3 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "34",
+            ispo: "7",
+            osebi: "1",
+            komodo: "1",
+          },
+        },
+        {
+          rank: 5,
+          name: "Cahaya Rancamaya Islamic School",
+          score: 34.33762457,
+          isCambridge: true,
+          students: "239",
+          staff: "55",
+          deptMeetings: {
+            date1: "75",
+            date2: "58",
+            date3: "32",
+          },
+          subjects: {
+            math: "0",
+            english: "24",
+            religion: "61",
+            physics: "64",
+            biology: "0",
+            chemistry: "42",
+          },
+          surveys: {
+            staff: "38",
+            parent: "28",
+            student: "19",
+          },
+          internetSafety: {
+            quickTest: "72",
+            fullTest: "61",
+            deviceMgmt: "Google Workspace",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "1",
+          },
+          appraisal: {
+            observations: "139",
+            walkthroughs: "5",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "60",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "91.3",
+          },
+          ease: {
+            ease1: "83.4 / 74.4",
+            ease2: "82.9 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "0",
+            lowerSecAvg: "0",
+            igcse: "0",
+            igcseAvg: "0",
+            asLevels: "0",
+            asStudents: "0",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "93",
+            ispo: "22",
+            osebi: "3",
+            komodo: "9",
+          },
+        },
+        {
+          rank: 6,
+          name: "Semesta Jangli",
+          score: 33.68814035,
+          isCambridge: false,
+          students: "76",
+          staff: "50",
+          deptMeetings: {
+            date1: "90",
+            date2: "25",
+            date3: "50",
+          },
+          subjects: {
+            math: "43",
+            english: "0",
+            religion: "0",
+            physics: "0",
+            biology: "47",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "18",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "35",
+          },
+          appraisal: {
+            observations: "64",
+            walkthroughs: "7",
+            mentorMentee: "10",
+          },
+          website: {
+            score: "62",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "91.7",
+          },
+          ease: {
+            ease1: "77.6 / 74.4",
+            ease2: "82.2 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "69",
+            ispo: "15",
+            osebi: "26",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 7,
+          name: "Kesatuan Bangsa School",
+          score: 30.96407032,
+          isCambridge: true,
+          students: "348",
+          staff: "85",
+          deptMeetings: {
+            date1: "54",
+            date2: "38",
+            date3: "38",
+          },
+          subjects: {
+            math: "65",
+            english: "0",
+            religion: "50",
+            physics: "51",
+            biology: "0",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "3",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "59",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "74",
+          },
+          appraisal: {
+            observations: "4",
+            walkthroughs: "16",
+            mentorMentee: "16",
+          },
+          website: {
+            score: "68",
+          },
+          portfolio: "1",
+          aease: {
+            participation: "76.7",
+          },
+          ease: {
+            ease1: "74.7 / 74.4",
+            ease2: "77.8 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "3",
+            lowerSecAvg: "53.8",
+            igcse: "9",
+            igcseAvg: "44.7",
+            asLevels: "3",
+            asStudents: "5",
+          },
+          clubs: {
+            makerspace: "1",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "1",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "206",
+            ispo: "6",
+            osebi: "3",
+            komodo: "19",
+          },
+        },
+        {
+          rank: 8,
+          name: "Kharisma Bangsa School",
+          score: 30.7234206,
+          isCambridge: true,
+          students: "505",
+          staff: "149",
+          deptMeetings: {
+            date1: "62",
+            date2: "43",
+            date3: "13",
+          },
+          subjects: {
+            math: "52",
+            english: "0",
+            religion: "0",
+            physics: "15",
+            biology: "0",
+            chemistry: "30",
+          },
+          surveys: {
+            staff: "2",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "64",
+            fullTest: "58",
+            deviceMgmt: "Jamf School",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "-",
+          },
+          appraisal: {
+            observations: "46",
+            walkthroughs: "23",
+            mentorMentee: "6",
+          },
+          website: {
+            score: "82",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "71.4",
+          },
+          ease: {
+            ease1: "75.5 / 74.4",
+            ease2: "77.3 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "2",
+            lowerSecAvg: "43.6",
+            igcse: "5",
+            igcseAvg: "60.7",
+            asLevels: "4",
+            asStudents: "67",
+          },
+          clubs: {
+            makerspace: "1",
+            aiRobotics: "1",
+            leadership: "1",
+            business: "1",
+            steamExpo: "1",
+          },
+          competitions: {
+            emc: "209",
+            ispo: "14",
+            osebi: "10",
+            komodo: "50",
+          },
+        },
+        {
+          rank: 9,
+          name: "Emer Islamic Boarding School",
+          score: 29.73976557,
+          isCambridge: false,
+          students: "105",
+          staff: "26",
+          deptMeetings: {
+            date1: "82",
+            date2: "67",
+            date3: "67",
+          },
+          subjects: {
+            math: "0",
+            english: "60",
+            religion: "29",
+            physics: "0",
+            biology: "0",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "9",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "Jamf School",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "6",
+          },
+          appraisal: {
+            observations: "15",
+            walkthroughs: "0",
+            mentorMentee: "3",
+          },
+          website: {
+            score: "15",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "85.7",
+          },
+          ease: {
+            ease1: "81.5 / 74.4",
+            ease2: "64.8 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "69",
+            ispo: "3",
+            osebi: "13",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 10,
+          name: "Fatih Bilingual School",
+          score: 26.35679326,
+          isCambridge: true,
+          students: "182",
+          staff: "51",
+          deptMeetings: {
+            date1: "61",
+            date2: "77",
+            date3: "38",
+          },
+          subjects: {
+            math: "0",
+            english: "0",
+            religion: "0",
+            physics: "35",
+            biology: "0",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "0",
+            parent: "3",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "59",
+            fullTest: "56",
+            deviceMgmt: "Jamf School",
+            contentFilter: "Jamf Safe Internet",
+          },
+          domains: {
+            completion: "23",
+          },
+          appraisal: {
+            observations: "26",
+            walkthroughs: "16",
+            mentorMentee: "6",
+          },
+          website: {
+            score: "52",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "44.4",
+          },
+          ease: {
+            ease1: "61.4 / 74.4",
+            ease2: "0",
+          },
+          cambridge: {
+            lowerSecondary: "1",
+            lowerSecAvg: "52.3",
+            igcse: "1",
+            igcseAvg: "54.8",
+            asLevels: "0",
+            asStudents: "0",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "1",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "90",
+            ispo: "4",
+            osebi: "1",
+            komodo: "2",
+          },
+        },
+        {
+          rank: 11,
+          name: "Pribadi Bandung School",
+          score: 23.56940299,
+          isCambridge: true,
+          students: "268",
+          staff: "80",
+          deptMeetings: {
+            date1: "82",
+            date2: "53",
+            date3: "37",
+          },
+          subjects: {
+            math: "54",
+            english: "23",
+            religion: "50",
+            physics: "0",
+            biology: "69",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "9",
+            parent: "3",
+            student: "5",
+          },
+          internetSafety: {
+            quickTest: "59",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "40",
+          },
+          appraisal: {
+            observations: "64",
+            walkthroughs: "11",
+            mentorMentee: "3",
+          },
+          website: {
+            score: "35",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "93.5",
+          },
+          ease: {
+            ease1: "72.1 / 74.4",
+            ease2: "75.2 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "3",
+            lowerSecAvg: "54.3",
+            igcse: "5",
+            igcseAvg: "37.4",
+            asLevels: "0",
+            asStudents: "0",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "156",
+            ispo: "7",
+            osebi: "14",
+            komodo: "15",
+          },
+        },
+        {
+          rank: 12,
+          name: "Pakar Belia Islamic Boarding School",
+          score: 23.2994321,
+          isCambridge: false,
+          students: "59",
+          staff: "27",
+          deptMeetings: {
+            date1: "82",
+            date2: "50",
+            date3: "50",
+          },
+          subjects: {
+            math: "56",
+            english: "58",
+            religion: "0",
+            physics: "53",
+            biology: "0",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "0",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "0",
+          },
+          appraisal: {
+            observations: "28",
+            walkthroughs: "0",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "40",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "90.9",
+          },
+          ease: {
+            ease1: "76.0 / 74.4",
+            ease2: "82.3 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "0",
+            ispo: "0",
+            osebi: "0",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 13,
+          name: "TNA Fatih Bilingual School",
+          score: 22.97254386,
+          isCambridge: true,
+          students: "152",
+          staff: "57",
+          deptMeetings: {
+            date1: "57",
+            date2: "50",
+            date3: "42",
+          },
+          subjects: {
+            math: "0",
+            english: "0",
+            religion: "22",
+            physics: "0",
+            biology: "5",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "8",
+            parent: "8",
+            student: "25",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "Jamf School",
+            contentFilter: "Jamf Safe Internet",
+          },
+          domains: {
+            completion: "-",
+          },
+          appraisal: {
+            observations: "0",
+            walkthroughs: "0",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "53",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "0",
+          },
+          ease: {
+            ease1: "63.3 / 74.4",
+            ease2: "0",
+          },
+          cambridge: {
+            lowerSecondary: "3",
+            lowerSecAvg: "43.4",
+            igcse: "5",
+            igcseAvg: "43.5",
+            asLevels: "0",
+            asStudents: "0",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "1",
+            leadership: "0",
+            business: "1",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "105",
+            ispo: "0",
+            osebi: "5",
+            komodo: "19",
+          },
+        },
+        {
+          rank: 14,
+          name: "Prestige Bilingual School",
+          score: 14.82608602,
+          isCambridge: false,
+          students: "25",
+          staff: "31",
+          deptMeetings: {
+            date1: "60",
+            date2: "67",
+            date3: "78",
+          },
+          subjects: {
+            math: "38",
+            english: "0",
+            religion: "0",
+            physics: "0",
+            biology: "53",
+            chemistry: "0",
+          },
+          surveys: {
+            staff: "0",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "-",
+          },
+          appraisal: {
+            observations: "4",
+            walkthroughs: "0",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "78",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "41.7",
+          },
+          ease: {
+            ease1: "68.0 / 74.4",
+            ease2: "70.6 / 77.7",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "7",
+            ispo: "4",
+            osebi: "0",
+            komodo: "0",
+          },
+        },
+        {
+          rank: 15,
+          name: "Global Cahaya Bangsa",
+          score: 0.0,
+          isCambridge: false,
+          students: "-",
+          staff: "-",
+          deptMeetings: {
+            date1: "-",
+            date2: "-",
+            date3: "-",
+          },
+          subjects: {
+            math: "-",
+            english: "-",
+            religion: "-",
+            physics: "-",
+            biology: "-",
+            chemistry: "-",
+          },
+          surveys: {
+            staff: "0",
+            parent: "0",
+            student: "0",
+          },
+          internetSafety: {
+            quickTest: "0",
+            fullTest: "0",
+            deviceMgmt: "No Management",
+            contentFilter: "No Filter",
+          },
+          domains: {
+            completion: "-",
+          },
+          appraisal: {
+            observations: "0",
+            walkthroughs: "0",
+            mentorMentee: "0",
+          },
+          website: {
+            score: "52",
+          },
+          portfolio: "0",
+          aease: {
+            participation: "-",
+          },
+          ease: {
+            ease1: "-",
+            ease2: "-",
+          },
+          cambridge: {
+            lowerSecondary: "-",
+            lowerSecAvg: "-",
+            igcse: "-",
+            igcseAvg: "-",
+            asLevels: "-",
+            asStudents: "-",
+          },
+          clubs: {
+            makerspace: "0",
+            aiRobotics: "0",
+            leadership: "0",
+            business: "0",
+            steamExpo: "0",
+          },
+          competitions: {
+            emc: "-",
+            ispo: "-",
+            osebi: "-",
+            komodo: "-",
+          },
+        },
+      ];
+
+      const categoryInfo = {
+        deptMeetings: {
+          weight: "6-8%",
+          description:
+            "Measures attendance percentage across three scheduled department meeting dates (August, September, November). Schools are expected to maintain consistent participation in collaborative planning sessions.",
+          calculation: "Average attendance rate across all three meetings",
+          target: "80%+ attendance per meeting",
+          importance:
+            "Regular department meetings ensure curriculum alignment, assessment standardization, and collaborative professional development across the network.",
+        },
+        subjects: {
+          weight: "6-8%",
+          description:
+            "Evaluates documentation quality and completeness from six core subjects: Mathematics, English, Religion, Physics, Biology, and Chemistry.",
+          calculation:
+            "Average performance score across all applicable subjects",
+          target: "70%+ average across subjects",
+          importance:
+            "Strong subject departments ensure consistent curriculum delivery, proper assessment practices, and professional teaching standards.",
+        },
+        surveys: {
+          weight: "15-20% combined",
+          description:
+            "Measures stakeholder engagement through three separate surveys: Staff (5-6%), Parent (6-8%), and Student (6-8%). Higher participation reflects stronger school-community communication.",
+          calculation:
+            "Staff: Respondents/Total Staff (SMP+SMA) | Parent: Respondents/Total Students | Student: Respondents/Total Enrollment",
+          target: "Staff: High participation rate | Parent: 79+ | Student: 60+",
+          importance:
+            "High survey participation rates indicate strong stakeholder engagement, effective communication, and a culture of continuous improvement.",
+        },
+        internetSafety: {
+          weight: "9-13%",
+          description:
+            "Evaluates digital safety compliance through WiFi safety tests, device management systems (MDM), and content filtering implementation.",
+          calculation:
+            "Quick Test (teachers' devices) + Full Test (students' devices) averaged, plus boolean checks for MDM and filtering",
+          target:
+            "80%+ on both safety tests | MDM implemented | Content filter active",
+          importance:
+            "Digital safety protects students from harmful online content and ensures responsible technology use in educational settings.",
+        },
+        website: {
+          weight: "4-5%",
+          description:
+            "Rates the school website quality and functionality on a 100-point scale, assessing professional presentation, information accessibility, and content completeness.",
+          calculation:
+            "Evaluated against 25 criteria including Academic Info, Admissions, About Us, Facilities, Resources, and Technical Quality",
+          target: "70+ points out of 100",
+          importance:
+            "A professional, informative website is the school's primary digital presence and first impression for prospective families.",
+        },
+        aease: {
+          weight: "5-6%",
+          description:
+            "Measures student participation rate in the A-EASE (Eduversal Assessment) program as a percentage of total enrollment.",
+          calculation:
+            "Number of students participating / Total enrollment × 100",
+          target: "85%+ participation rate",
+          importance:
+            "High participation ensures reliable benchmark data for school-wide academic performance analysis and improvement planning.",
+        },
+        ease: {
+          weight: "5-6%",
+          description:
+            "Measures student achievement in EASE I and EASE II network-wide assessments. Schools receive points when their average score meets or exceeds the network average.",
+          calculation:
+            "School average compared to network average for each assessment",
+          target: "Meet or exceed network average",
+          importance:
+            "EASE results provide objective academic benchmarks and identify areas for curriculum and instruction improvement.",
+        },
+        cambridge: {
+          weight: "16% total (Cambridge schools only)",
+          description:
+            "Evaluates breadth and quality of Cambridge programme: Lower Secondary (5%), IGCSE (6%), and AS/A Levels (5%). Combines subject offerings and student performance.",
+          calculation:
+            "Lower Sec: 3 subjects max + average | IGCSE: 10 exams max + average | AS/A: 4 subjects (60%) + enrollment (40%)",
+          target:
+            "Maximum subject offerings + Above-average student performance",
+          importance:
+            "Cambridge qualifications provide internationally recognized credentials and rigorous academic standards for university preparation.",
+        },
+        appraisal: {
+          weight: "6-8%",
+          description:
+            "Measures frequency of classroom observations, teaching walkthroughs, and mentor-mentee program implementation conducted by school leadership.",
+          calculation:
+            "(Observations + Walkthroughs) / Number of Teachers | Compared against network average",
+          target:
+            "Above network average (Observations: ~23, Walkthroughs: ~4, Mentor-Mentee: ~2)",
+          importance:
+            "Regular appraisals ensure teaching quality, support professional growth, and maintain consistent instructional standards.",
+        },
+        clubs: {
+          weight: "5-6%",
+          description:
+            "Evaluates the presence of five recommended extracurricular programs: Makerspace & STEAM Lab, AI & Robotics, Leadership, Business Club, and STEAM Expo participation.",
+          calculation:
+            "Each active club contributes equally to the score (20% each)",
+          target: "All 5 clubs operational",
+          importance:
+            "Diverse clubs provide holistic education, develop 21st-century skills, and enhance student engagement beyond academics.",
+        },
+        competitions: {
+          weight: "6-7% combined",
+          description:
+            "Tracks student participation in four academic competitions: EMC (4-5%), KOMODO (2%), ISPO, and OSEBI. Measures school-wide engagement in competitive academics.",
+          calculation:
+            "EMC: Participants/Total Students | Others: Participation count",
+          target: "High participation rates, especially in EMC (school-wide)",
+          importance:
+            "Competition participation develops problem-solving skills, motivation, and provides external validation of academic capabilities.",
+        },
+      };
+
+      let currentFilter = "all";
+      let scoreDistChart = null;
+      let comparisonChart = null;
+      let categoryChart = null;
+
+      // Initialize dashboard
+      document.addEventListener("DOMContentLoaded", function () {
+        updateStatistics();
+        renderRankings("all");
+        createScoreDistributionChart();
+        createComparisonChart();
+        createCategoryChart("all");
+        populateSchoolSelector();
+        // Open Performance by Category by default
+        toggleAccordion("categorySection");
+      });
+
+      // Update statistics
+      function updateStatistics() {
+        const totalSchools = schoolsData.length;
+        const cambridgeSchools = schoolsData.filter(
+          (s) => s.isCambridge
+        ).length;
+        const validScores = schoolsData.filter((s) => s.score > 0);
+        const avgScore = (
+          validScores.reduce((sum, s) => sum + s.score, 0) / validScores.length
+        ).toFixed(2);
+        const topSchool = schoolsData[0];
+
+        document.getElementById("totalSchools").textContent = totalSchools;
+        document.getElementById("cambridgeSchools").textContent =
+          cambridgeSchools;
+        document.getElementById("avgScore").textContent = avgScore + "/100";
+        document.getElementById("topSchool").textContent = topSchool.name;
+        document.getElementById(
+          "topScore"
+        ).textContent = `${topSchool.score.toFixed(2)}/100 points`;
+      }
+
+      // Render rankings table
+      function renderRankings(filter) {
+        currentFilter = filter;
+        const container = document.getElementById("rankingsContainer");
+
+        // Update active tab
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          const btnText = btn.textContent.toLowerCase();
+          if (
+            (filter === "all" && btnText === "all schools") ||
+            (filter === "cambridge" && btnText.includes("cambridge only")) ||
+            (filter === "non-cambridge" && btnText.includes("non-cambridge"))
+          ) {
+            btn.classList.add("active");
+          }
+        });
+
+        // If "all" is selected, show side by side
+        if (filter === "all") {
+          const cambridgeSchools = schoolsData.filter(
+            (s) => s.isCambridge && s.score > 0
+          );
+          const nonCambridgeSchools = schoolsData.filter(
+            (s) => !s.isCambridge && s.score > 0
+          );
+
+          let html = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                        <div>
+                            <h3 style="font-weight: 700; color: var(--cambridge-primary); margin-bottom: 1rem; font-size: 1.25rem;">
+                                Cambridge Schools (${cambridgeSchools.length})
+                            </h3>
+                            <table class="ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60px;">Rank</th>
+                                        <th>School Name</th>
+                                        <th style="width: 120px; text-align: center;">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+
+          cambridgeSchools.forEach((school) => {
+            const rankClass =
+              school.rank === 1
+                ? "rank-1"
+                : school.rank === 2
+                ? "rank-2"
+                : school.rank === 3
+                ? "rank-3"
+                : "rank-other";
+            html += `
+                        <tr onclick="showSchoolDetails(${school.rank - 1})">
+                            <td>
+                                <div class="rank-badge ${rankClass}">${
+              school.rank
+            }</div>
+                            </td>
+                            <td>
+                                <div class="school-name">${school.name}</div>
+                            </td>
+                            <td>
+                                <div class="score-value">${school.score.toFixed(
+                                  2
+                                )}/100</div>
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: ${
+                                      school.score
+                                    }%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+          });
+
+          html += `
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 700; color: var(--success); margin-bottom: 1rem; font-size: 1.25rem;">
+                                Non-Cambridge Schools (${nonCambridgeSchools.length})
+                            </h3>
+                            <table class="ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60px;">Rank</th>
+                                        <th>School Name</th>
+                                        <th style="width: 120px; text-align: center;">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+
+          nonCambridgeSchools.forEach((school) => {
+            const rankClass =
+              school.rank === 1
+                ? "rank-1"
+                : school.rank === 2
+                ? "rank-2"
+                : school.rank === 3
+                ? "rank-3"
+                : "rank-other";
+            html += `
+                        <tr onclick="showSchoolDetails(${school.rank - 1})">
+                            <td>
+                                <div class="rank-badge ${rankClass}">${
+              school.rank
+            }</div>
+                            </td>
+                            <td>
+                                <div class="school-name">${school.name}</div>
+                            </td>
+                            <td>
+                                <div class="score-value">${school.score.toFixed(
+                                  2
+                                )}/100</div>
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: ${
+                                      school.score
+                                    }%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+          });
+
+          html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+
+          container.innerHTML = html;
+        } else {
+          // Single column view for filtered results
+          let filteredSchools = schoolsData.filter((s) => s.score > 0);
+          if (filter === "cambridge") {
+            filteredSchools = schoolsData.filter(
+              (s) => s.isCambridge && s.score > 0
+            );
+          } else if (filter === "non-cambridge") {
+            filteredSchools = schoolsData.filter(
+              (s) => !s.isCambridge && s.score > 0
+            );
+          }
+
+          let html = `
+                    <table class="ranking-table" style="margin-top: 1rem;">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Rank</th>
+                                <th>School Name</th>
+                                <th style="width: 150px; text-align: center;">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+          filteredSchools.forEach((school, index) => {
+            const rankClass =
+              index === 0
+                ? "rank-1"
+                : index === 1
+                ? "rank-2"
+                : index === 2
+                ? "rank-3"
+                : "rank-other";
+            html += `
+                        <tr onclick="showSchoolDetails(${school.rank - 1})">
+                            <td>
+                                <div class="rank-badge ${rankClass}">#${
+              school.rank
+            }</div>
+                            </td>
+                            <td>
+                                <div class="school-name">
+                                    ${school.name}
+                                    ${
+                                      school.isCambridge
+                                        ? '<span class="cambridge-badge">Cambridge</span>'
+                                        : ""
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="score-value">${school.score.toFixed(
+                                  2
+                                )}/100</div>
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: ${
+                                      school.score
+                                    }%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+          });
+
+          html += `
+                        </tbody>
+                    </table>
+                `;
+
+          container.innerHTML = html;
+        }
+
+        // Animate score bars
+        setTimeout(() => {
+          document.querySelectorAll(".score-fill").forEach((bar) => {
+            bar.style.width = bar.style.width;
+          });
+        }, 100);
+      }
+
+      // Filter rankings
+      function filterRankings(filter) {
+        renderRankings(filter);
+      }
+
+      // Create score distribution chart
+      function createScoreDistributionChart() {
+        const ctx = document.getElementById("scoreDistChart").getContext("2d");
+
+        const validSchools = schoolsData.filter((s) => s.score > 0);
+
+        scoreDistChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: validSchools.map((s) => s.name),
+            datasets: [
+              {
+                label: "Cambridge Schools",
+                data: validSchools.map((s) => (s.isCambridge ? s.score : null)),
+                backgroundColor: "rgba(22, 46, 81, 0.8)",
+                borderColor: "rgba(0, 174, 239, 1)",
+                borderWidth: 2,
+                borderRadius: 6,
+              },
+              {
+                label: "Non-Cambridge Schools",
+                data: validSchools.map((s) =>
+                  !s.isCambridge ? s.score : null
+                ),
+                backgroundColor: "rgba(42, 157, 143, 0.8)",
+                borderColor: "rgba(69, 123, 157, 1)",
+                borderWidth: 2,
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                backgroundColor: "rgba(26, 35, 50, 0.95)",
+                padding: 12,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
+                borderColor: "rgba(255, 255, 255, 0.1)",
+                borderWidth: 1,
+                callbacks: {
+                  title: function (context) {
+                    return context[0].label;
+                  },
+                  label: function (context) {
+                    return `Score: ${context.parsed.y.toFixed(2)}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 50,
+                grid: {
+                  color: "rgba(0, 0, 0, 0.05)",
+                },
+                ticks: {
+                  font: { size: 11 },
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  display: true,
+                  font: { size: 10 },
+                  maxRotation: 45,
+                  minRotation: 45,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Create comparison chart
+      function createComparisonChart() {
+        const ctx = document.getElementById("comparisonChart").getContext("2d");
+
+        const cambridgeScores = schoolsData
+          .filter((s) => s.isCambridge && s.score > 0)
+          .map((s) => s.score);
+        const nonCambridgeScores = schoolsData
+          .filter((s) => !s.isCambridge && s.score > 0)
+          .map((s) => s.score);
+
+        const cambridgeAvg =
+          cambridgeScores.reduce((a, b) => a + b, 0) / cambridgeScores.length;
+        const nonCambridgeAvg =
+          nonCambridgeScores.reduce((a, b) => a + b, 0) /
+          nonCambridgeScores.length;
+
+        const cambridgeMax = Math.max(...cambridgeScores);
+        const nonCambridgeMax = Math.max(...nonCambridgeScores);
+
+        const cambridgeMin = Math.min(...cambridgeScores);
+        const nonCambridgeMin = Math.min(...nonCambridgeScores);
+
+        comparisonChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              "Average Score",
+              "Highest Score",
+              "Lowest Score",
+              "Number of Schools",
+            ],
+            datasets: [
+              {
+                label: "Cambridge Schools",
+                data: [
+                  cambridgeAvg,
+                  cambridgeMax,
+                  cambridgeMin,
+                  cambridgeScores.length,
+                ],
+                backgroundColor: "rgba(22, 46, 81, 0.8)",
+                borderColor: "rgba(0, 174, 239, 1)",
+                borderWidth: 2,
+                borderRadius: 8,
+              },
+              {
+                label: "Non-Cambridge Schools",
+                data: [
+                  nonCambridgeAvg,
+                  nonCambridgeMax,
+                  nonCambridgeMin,
+                  nonCambridgeScores.length,
+                ],
+                backgroundColor: "rgba(42, 157, 143, 0.8)",
+                borderColor: "rgba(69, 123, 157, 1)",
+                borderWidth: 2,
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "top",
+                labels: {
+                  font: { size: 13, weight: "600" },
+                  padding: 15,
+                  usePointStyle: true,
+                },
+              },
+              tooltip: {
+                backgroundColor: "rgba(26, 35, 50, 0.95)",
+                padding: 12,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
+                borderColor: "rgba(255, 255, 255, 0.1)",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || "";
+                    if (label) {
+                      label += ": ";
+                    }
+                    if (context.label === "Number of Schools") {
+                      label += Math.round(context.parsed.y) + " schools";
+                    } else {
+                      label += context.parsed.y.toFixed(2) + " points";
+                    }
+                    return label;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: "rgba(0, 0, 0, 0.05)",
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Create category performance chart
+      function createCategoryChart(category) {
+        const ctx = document.getElementById("categoryChart");
+        if (!ctx) return;
+
+        const ctxChart = ctx.getContext("2d");
+
+        if (categoryChart) {
+          categoryChart.destroy();
+        }
+
+        const validSchools = schoolsData.filter((s) => s.score > 0);
+        let data = [];
+        let chartTitle = "";
+        let yAxisLabel = "";
+        let maxY = null;
+
+        switch (category) {
+          case "all":
+            chartTitle = "Overall Performance Scores";
+            yAxisLabel = "Total Score (out of 100)";
+            data = validSchools.map((s) => s.score);
+            maxY = 100;
+            break;
+          case "meetings":
+            chartTitle = "Department Meetings Attendance";
+            yAxisLabel = "Average Attendance (%)";
+            data = validSchools.map((s) => {
+              const d = s.deptMeetings;
+              const avg =
+                (parseFloat(d.date1) +
+                  parseFloat(d.date2) +
+                  parseFloat(d.date3)) /
+                3;
+              return avg;
+            });
+            maxY = 100;
+            break;
+          case "subjects":
+            chartTitle = "Subject Department Performance";
+            yAxisLabel = "Average Score (%)";
+            data = validSchools.map((s) => {
+              const subj = s.subjects;
+              const scores = [
+                subj.math,
+                subj.english,
+                subj.religion,
+                subj.physics,
+                subj.biology,
+                subj.chemistry,
+              ].map((v) => parseFloat(v) || 0);
+              return scores.reduce((a, b) => a + b, 0) / scores.length;
+            });
+            maxY = 100;
+            break;
+          case "surveys":
+            chartTitle = "Survey Participation Rates";
+            yAxisLabel = "Average Participation (%)";
+            data = validSchools.map((s) => {
+              const surv = s.surveys;
+              const rates = [surv.staff, surv.parent, surv.student].map(
+                (v) => parseFloat(v) || 0
+              );
+              return rates.reduce((a, b) => a + b, 0) / rates.length;
+            });
+            maxY = 100;
+            break;
+          case "technology":
+            chartTitle = "Technology & Internet Safety Scores";
+            yAxisLabel = "Average Score (%)";
+            data = validSchools.map((s) => {
+              const tech = s.internetSafety;
+              const quick = parseFloat(tech.quickTest) || 0;
+              const full = parseFloat(tech.fullTest) || 0;
+              return (quick + full) / 2;
+            });
+            maxY = 100;
+            break;
+          case "appraisal":
+            chartTitle = "Observations & Walkthroughs";
+            yAxisLabel = "Total Count";
+            data = validSchools.map((s) => {
+              const obs = parseFloat(s.appraisal.observations) || 0;
+              const walk = parseFloat(s.appraisal.walkthroughs) || 0;
+              return obs + walk;
+            });
+            maxY = null; // Let this one be dynamic
+            break;
+          case "assessments":
+            chartTitle = "EASE Assessment Performance";
+            yAxisLabel = "Average Score (%)";
+            data = validSchools.map((s) => {
+              const ease1 = parseFloat(s.ease.ease1) || 0;
+              const ease2 = parseFloat(s.ease.ease2) || 0;
+              return (ease1 + ease2) / 2;
+            });
+            maxY = 100;
+            break;
+          case "clubs":
+            chartTitle = "Club Activities by School";
+            yAxisLabel = "Club Availability";
+
+            // Create stacked bar chart showing each club
+            const clubNames = [
+              "Makerspace & STEAM Lab",
+              "AI & Robotics Club",
+              "Leadership Club",
+              "Business Club",
+              "STEAM Expo",
+            ];
+            const clubKeys = [
+              "makerspace",
+              "aiRobotics",
+              "leadership",
+              "business",
+              "steamExpo",
+            ];
+            const clubColors = [
+              "rgba(200, 75, 49, 0.8)", // Makerspace - Orange/Red
+              "rgba(69, 123, 157, 0.8)", // AI & Robotics - Blue
+              "rgba(42, 157, 143, 0.8)", // Leadership - Teal
+              "rgba(22, 46, 81, 0.8)", // Business - Dark Blue
+              "rgba(231, 111, 81, 0.8)", // STEAM Expo - Coral
+            ];
+
+            categoryChart = new Chart(ctxChart, {
+              type: "bar",
+              data: {
+                labels: validSchools.map((s) => s.name),
+                datasets: clubKeys.map((key, idx) => ({
+                  label: clubNames[idx],
+                  data: validSchools.map((s) => {
+                    const value = s.clubs[key];
+                    return value === "Yes" ||
+                      value === "1" ||
+                      value === 1 ||
+                      value === true
+                      ? 1
+                      : 0;
+                  }),
+                  backgroundColor: clubColors[idx],
+                  borderColor: clubColors[idx].replace("0.8", "1"),
+                  borderWidth: 1,
+                })),
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: "top",
+                    labels: {
+                      font: { size: 12, weight: "600" },
+                      padding: 15,
+                      usePointStyle: true,
+                    },
+                  },
+                  title: {
+                    display: true,
+                    text: chartTitle,
+                    font: { size: 16, weight: "600" },
+                    padding: { bottom: 20 },
+                  },
+                  tooltip: {
+                    backgroundColor: "rgba(26, 35, 50, 0.95)",
+                    padding: 12,
+                    titleFont: { size: 14, weight: "bold" },
+                    bodyFont: { size: 13 },
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                    borderWidth: 1,
+                    callbacks: {
+                      title: function (context) {
+                        return context[0].label;
+                      },
+                      label: function (context) {
+                        return (
+                          context.dataset.label +
+                          ": " +
+                          (context.parsed.y === 1
+                            ? "Available ✓"
+                            : "Not Available")
+                        );
+                      },
+                    },
+                  },
+                },
+                scales: {
+                  y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    max: 5,
+                    grid: {
+                      color: "rgba(0, 0, 0, 0.05)",
+                    },
+                    ticks: {
+                      stepSize: 1,
+                      callback: function (value) {
+                        return value;
+                      },
+                    },
+                    title: {
+                      display: true,
+                      text: "Number of Clubs",
+                      font: { size: 12, weight: "600" },
+                    },
+                  },
+                  x: {
+                    stacked: true,
+                    grid: {
+                      display: false,
+                    },
+                    ticks: {
+                      display: true,
+                      font: { size: 10 },
+                      maxRotation: 45,
+                      minRotation: 45,
+                    },
+                  },
+                },
+              },
+            });
+            return; // Early return for clubs since we use different chart type
+            break;
+        }
+
+        categoryChart = new Chart(ctxChart, {
+          type: "bar",
+          data: {
+            labels: validSchools.map((s) => s.name),
+            datasets: [
+              {
+                label: yAxisLabel,
+                data: data,
+                backgroundColor: validSchools.map((s) =>
+                  s.isCambridge
+                    ? "rgba(22, 46, 81, 0.8)"
+                    : "rgba(42, 157, 143, 0.8)"
+                ),
+                borderColor: validSchools.map((s) =>
+                  s.isCambridge
+                    ? "rgba(0, 174, 239, 1)"
+                    : "rgba(69, 123, 157, 1)"
+                ),
+                borderWidth: 2,
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              title: {
+                display: true,
+                text: chartTitle,
+                font: { size: 16, weight: "600" },
+                padding: { bottom: 20 },
+              },
+              tooltip: {
+                backgroundColor: "rgba(26, 35, 50, 0.95)",
+                padding: 12,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
+                borderColor: "rgba(255, 255, 255, 0.1)",
+                borderWidth: 1,
+                callbacks: {
+                  title: function (context) {
+                    return context[0].label;
+                  },
+                  label: function (context) {
+                    return `${yAxisLabel}: ${context.parsed.y.toFixed(2)}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: maxY,
+                grid: {
+                  color: "rgba(0, 0, 0, 0.05)",
+                },
+                title: {
+                  display: true,
+                  text: yAxisLabel,
+                  font: { size: 12, weight: "600" },
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  display: true,
+                  font: { size: 10 },
+                  maxRotation: 45,
+                  minRotation: 45,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Show category chart
+      function showCategoryChart(category) {
+        // Update active tab
+        document.querySelectorAll(".category-tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        createCategoryChart(category);
+      }
+
+      // Show school details modal
+      function showSchoolDetails(index) {
+        const school = schoolsData[index];
+        const modal = document.getElementById("schoolModal");
+
+        document.getElementById("modalSchoolName").textContent = school.name;
+        document.getElementById("modalSchoolScore").textContent =
+          school.score.toFixed(2) + "/100";
+        document.getElementById("modalCambridgeBadge").innerHTML =
+          school.isCambridge
+            ? '<span class="cambridge-badge">Cambridge School</span>'
+            : "";
+
+        // Build detailed information
+        let html = `
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Overview</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Total Students</div>
+                            <div class="detail-value">${school.students}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Total Staff</div>
+                            <div class="detail-value">${school.staff}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Overall Rank</div>
+                            <div class="detail-value">#${school.rank}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Portfolio System</div>
+                            <div class="detail-value">${school.portfolio}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Department Meetings Attendance</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">August 23, 2025</div>
+                            <div class="detail-value">${school.deptMeetings.date1}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">September 20, 2025</div>
+                            <div class="detail-value">${school.deptMeetings.date2}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">November 22, 2025</div>
+                            <div class="detail-value">${school.deptMeetings.date3}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Subject Department Performance</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Mathematics</div>
+                            <div class="detail-value">${school.subjects.math}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">English</div>
+                            <div class="detail-value">${school.subjects.english}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Religion</div>
+                            <div class="detail-value">${school.subjects.religion}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Physics</div>
+                            <div class="detail-value">${school.subjects.physics}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Biology</div>
+                            <div class="detail-value">${school.subjects.biology}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Chemistry</div>
+                            <div class="detail-value">${school.subjects.chemistry}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Survey Participation</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Staff Survey</div>
+                            <div class="detail-value">${school.surveys.staff}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Parent Survey</div>
+                            <div class="detail-value">${school.surveys.parent}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Student Survey</div>
+                            <div class="detail-value">${school.surveys.student}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Internet Safety & Technology</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Quick Test Score</div>
+                            <div class="detail-value">${school.internetSafety.quickTest}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Full Test Score</div>
+                            <div class="detail-value">${school.internetSafety.fullTest}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Device Management</div>
+                            <div class="detail-value">${school.internetSafety.deviceMgmt}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Content Filtering</div>
+                            <div class="detail-value">${school.internetSafety.contentFilter}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Appraisal & Professional Development</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Observations</div>
+                            <div class="detail-value">${school.appraisal.observations}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Walkthroughs</div>
+                            <div class="detail-value">${school.appraisal.walkthroughs}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mentor-Mentee Program</div>
+                            <div class="detail-value">${school.appraisal.mentorMentee}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Domains Completion</div>
+                            <div class="detail-value">${school.domains.completion}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Assessments & Performance</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Website Score</div>
+                            <div class="detail-value">${school.website.score}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">A-EASE Participation</div>
+                            <div class="detail-value">${school.aease.participation}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">EASE I Score</div>
+                            <div class="detail-value">${school.ease.ease1}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">EASE II Score</div>
+                            <div class="detail-value">${school.ease.ease2}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        if (school.isCambridge) {
+          html += `
+                    <div class="detail-section">
+                        <h3 class="detail-section-title">Cambridge Examinations</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Lower Secondary (Subjects)</div>
+                                <div class="detail-value">${school.cambridge.lowerSecondary}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Lower Secondary (Average)</div>
+                                <div class="detail-value">${school.cambridge.lowerSecAvg}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">IGCSE Subjects</div>
+                                <div class="detail-value">${school.cambridge.igcse}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">IGCSE Average</div>
+                                <div class="detail-value">${school.cambridge.igcseAvg}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">AS/A Levels</div>
+                                <div class="detail-value">${school.cambridge.asLevels}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">AS/A Students</div>
+                                <div class="detail-value">${school.cambridge.asStudents}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+
+        html += `
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Club Activities</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Makerspace & STEAM Lab</div>
+                            <div class="detail-value">${school.clubs.makerspace}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">AI & Robotics Club</div>
+                            <div class="detail-value">${school.clubs.aiRobotics}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Leadership Club</div>
+                            <div class="detail-value">${school.clubs.leadership}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Business Club</div>
+                            <div class="detail-value">${school.clubs.business}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">STEAM Expo</div>
+                            <div class="detail-value">${school.clubs.steamExpo}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Competitions</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">EMC Participation</div>
+                            <div class="detail-value">${school.competitions.emc}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ISPO Participation</div>
+                            <div class="detail-value">${school.competitions.ispo}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">OSEBI Participation</div>
+                            <div class="detail-value">${school.competitions.osebi}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">KOMODO Participation</div>
+                            <div class="detail-value">${school.competitions.komodo}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        document.getElementById("modalBody").innerHTML = html;
+        modal.classList.add("active");
+      }
+
+      // Close modal
+
+      // Populate school selector
+      function populateSchoolSelector() {
+        const selector = document.getElementById("schoolSelector");
+        schoolsData.forEach((school, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent = `${school.rank}. ${
+            school.name
+          } (${school.score.toFixed(2)}/100)`;
+          selector.appendChild(option);
+        });
+      }
+
+      // Show detailed report for selected school
+      function showDetailedReport(schoolIndex) {
+        if (schoolIndex === "") {
+          document.getElementById("detailedReportContainer").innerHTML = "";
+          return;
+        }
+
+        const school = schoolsData[schoolIndex];
+        const container = document.getElementById("detailedReportContainer");
+
+        // Helper function to get performance status
+        function getStatus(earned, max, type = "percentage") {
+          if (type === "percentage") {
+            const percent = (parseFloat(earned) / parseFloat(max)) * 100;
+            if (percent >= 80)
+              return {
+                class: "excellent",
+                label: "Excellent",
+                color: "#2a9d8f",
+              };
+            if (percent >= 60)
+              return { class: "good", label: "Good", color: "#e9c46a" };
+            if (percent >= 40)
+              return {
+                class: "needs-improvement",
+                label: "Needs Improvement",
+                color: "#f4a261",
+              };
+            return { class: "critical", label: "Critical", color: "#e76f51" };
+          } else if (type === "boolean") {
+            return earned === "1" || earned === 1 || earned === true
+              ? { class: "excellent", label: "Available", color: "#2a9d8f" }
+              : { class: "critical", label: "Not Available", color: "#e76f51" };
+          }
+        }
+
+        // Helper function to generate section
+        function generateCriteriaSection(
+          title,
+          description,
+          items,
+          categoryKey = null
+        ) {
+          let section = "";
+
+          // Add info box if category info exists
+          if (categoryKey && categoryInfo[categoryKey]) {
+            const info = categoryInfo[categoryKey];
+            section += `
+                        <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); 
+                                    border-left: 4px solid #2196f3; padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: start; gap: 1rem;">
+                                <div style="font-size: 1.75rem; line-height: 1;">ℹ️</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 700; font-size: 1.05rem; color: #1565c0; margin-bottom: 0.5rem;">
+                                        About This Criterion (Weight: ${info.weight})
+                                    </div>
+                                    <div style="margin-bottom: 0.75rem; line-height: 1.6; color: #37474f;">
+                                        <strong>What it measures:</strong> ${info.description}
+                                    </div>
+                                    <div style="margin-bottom: 0.75rem; line-height: 1.6; color: #37474f;">
+                                        <strong>How it's calculated:</strong> ${info.calculation}
+                                    </div>
+                                    <div style="margin-bottom: 0.75rem; line-height: 1.6; color: #37474f;">
+                                        <strong>Target:</strong> <span style="background: #4caf50; color: white; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.9rem;">${info.target}</span>
+                                    </div>
+                                    <div style="line-height: 1.6; color: #37474f;">
+                                        <strong>Why it matters:</strong> ${info.importance}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+          }
+
+          section += `
+                    <div style="background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
+                                    padding: 1.25rem 1.5rem; border-bottom: 2px solid var(--border);">
+                            <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--primary);">${title}</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">${description}</p>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--border);">
+                                        <th style="text-align: left; padding: 0.75rem; font-weight: 600; color: var(--text-dark);">Criterion</th>
+                                        <th style="text-align: center; padding: 0.75rem; font-weight: 600; color: var(--text-dark);">Performance</th>
+                                        <th style="text-align: center; padding: 0.75rem; font-weight: 600; color: var(--text-dark);">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+
+          items.forEach((item) => {
+            const value = item.value || "-";
+            let performanceHTML = "";
+            let statusHTML = "";
+
+            if (item.type === "text") {
+              performanceHTML = `<span style="font-weight: 500;">${value}</span>`;
+              statusHTML = '<span style="color: var(--text-muted);">-</span>';
+            } else if (item.type === "boolean") {
+              const status = getStatus(value, null, "boolean");
+              performanceHTML = value === "1" || value === 1 ? "✓ Yes" : "✗ No";
+              statusHTML = `<span style="background: ${status.color}; color: white; padding: 0.25rem 0.75rem; 
+                                             border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${status.label}</span>`;
+            } else if (item.type === "count") {
+              performanceHTML = `${value} participants`;
+              statusHTML =
+                parseFloat(value) > 0
+                  ? '<span style="color: #2a9d8f; font-weight: 600;">✓ Active</span>'
+                  : '<span style="color: #e76f51; font-weight: 600;">✗ None</span>';
+            } else if (item.max) {
+              const status = getStatus(value, item.max);
+              performanceHTML = `<strong>${value}</strong> / ${item.max}`;
+              statusHTML = `<span style="background: ${status.color}; color: white; padding: 0.25rem 0.75rem; 
+                                             border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${status.label}</span>`;
+            } else if (item.avg !== undefined) {
+              const numValue = parseFloat(value) || 0;
+              const avgValue = parseFloat(item.avg) || 0;
+              const status =
+                numValue >= avgValue
+                  ? { color: "#2a9d8f", label: "Above Average" }
+                  : { color: "#e76f51", label: "Below Average" };
+              performanceHTML = `<strong>${value}</strong> (average: ${item.avg})`;
+              statusHTML = `<span style="background: ${status.color}; color: white; padding: 0.25rem 0.75rem; 
+                                             border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${status.label}</span>`;
+            } else if (item.min) {
+              const numValue = parseFloat(value) || 0;
+              const status =
+                numValue >= item.min
+                  ? { color: "#2a9d8f", label: "Met" }
+                  : { color: "#e76f51", label: "Below Minimum" };
+              performanceHTML = `<strong>${value}</strong> (min: ${item.min})`;
+              statusHTML = `<span style="background: ${status.color}; color: white; padding: 0.25rem 0.75rem; 
+                                             border-radius: 20px; font-size: 0.85rem; font-weight: 600;">${status.label}</span>`;
+            }
+
+            section += `
+                        <tr style="border-bottom: 1px solid #f0f0f0;">
+                            <td style="padding: 0.75rem; font-size: 0.95rem;">${item.name}</td>
+                            <td style="padding: 0.75rem; text-align: center; font-size: 0.95rem;">${performanceHTML}</td>
+                            <td style="padding: 0.75rem; text-align: center;">${statusHTML}</td>
+                        </tr>
+                    `;
+          });
+
+          section += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+
+          return section;
+        }
+
+        let html = `
+                <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
+                            color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">${
+                              school.name
+                            }</h3>
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <span style="font-size: 1.1rem;">Rank: #${
+                                  school.rank
+                                } of ${schoolsData.length}</span>
+                                <span>•</span>
+                                ${
+                                  school.isCambridge
+                                    ? '<span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem;">Cambridge</span>'
+                                    : '<span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem;">Non-Cambridge</span>'
+                                }
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 3rem; font-weight: 800; line-height: 1;">${school.score.toFixed(
+                              2
+                            )}</div>
+                            <div style="font-size: 1.1rem; opacity: 0.9;">out of 100 points</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <strong style="color: #856404;">⚠️ Performance Analysis:</strong>
+                    <p style="margin: 0.5rem 0 0 0; color: #856404;">
+                        This school achieved ${school.score.toFixed(
+                          2
+                        )} points out of a maximum 100 points. 
+                        Below is a detailed breakdown of performance across all evaluation criteria. 
+                        Areas marked in <span style="color: #e76f51; font-weight: 600;">red</span> require immediate attention and action plans.
+                    </p>
+                </div>
+
+                <div style="display: grid; gap: 1.5rem;">
+            `;
+
+        // Generate all sections...
+        const meetings = [
+          {
+            name: "August Meeting",
+            value: school.deptMeetings.date1,
+            max: 100,
+          },
+          {
+            name: "September Meeting",
+            value: school.deptMeetings.date2,
+            max: 100,
+          },
+          {
+            name: "November Meeting",
+            value: school.deptMeetings.date3,
+            max: 100,
+          },
+        ];
+        html += generateCriteriaSection(
+          "Department Meetings",
+          "Monthly coordination meeting attendance rates",
+          meetings,
+          "deptMeetings"
+        );
+
+        const subjects = [
+          { name: "Mathematics", value: school.subjects.math, max: 100 },
+          { name: "English", value: school.subjects.english, max: 100 },
+          { name: "Religion", value: school.subjects.religion, max: 100 },
+          { name: "Physics", value: school.subjects.physics, max: 100 },
+          { name: "Biology", value: school.subjects.biology, max: 100 },
+          { name: "Chemistry", value: school.subjects.chemistry, max: 100 },
+        ];
+        html += generateCriteriaSection(
+          "Subject Departments",
+          "Subject department documentation quality and completeness",
+          subjects,
+          "subjects"
+        );
+
+        const surveys = [
+          {
+            name: "Staff Survey",
+            value: school.surveys.staff,
+            max: parseInt(school.staff),
+          },
+          {
+            name: "Parent Survey",
+            value: school.surveys.parent,
+            max: parseInt(school.students),
+          },
+          {
+            name: "Student Survey",
+            value: school.surveys.student,
+            max: parseInt(school.students),
+          },
+        ];
+        html += generateCriteriaSection(
+          "Eduversal Surveys",
+          "Stakeholder survey participation rates",
+          surveys,
+          "surveys"
+        );
+
+        const internetSafety = [
+          {
+            name: "Quick Test Score",
+            value: school.internetSafety.quickTest,
+            max: 100,
+          },
+          {
+            name: "Full Test Score",
+            value: school.internetSafety.fullTest,
+            max: 100,
+          },
+          {
+            name: "Device Management System",
+            value: school.internetSafety.deviceMgmt,
+            type: "text",
+          },
+          {
+            name: "Content Filtering Status",
+            value: school.internetSafety.contentFilter,
+            type: "text",
+          },
+        ];
+        html += generateCriteriaSection(
+          "Internet Safety & Device Management",
+          "Digital safety compliance and MDM implementation",
+          internetSafety,
+          "internetSafety"
+        );
+
+        html += generateCriteriaSection(
+          "School Website",
+          "Website quality, functionality, and information completeness",
+          [{ name: "Website Score", value: school.website.score, max: 100 }],
+          "website"
+        );
+
+        html += generateCriteriaSection(
+          "A-EASE Participation",
+          "Participation in network-wide assessment (minimum 85% required)",
+          [
+            {
+              name: "Participation Rate",
+              value: school.aease.participation,
+              min: 85,
+            },
+          ],
+          "aease"
+        );
+
+        html += generateCriteriaSection(
+          "EASE Performance",
+          "Academic assessment performance (network benchmark)",
+          [
+            { name: "EASE I Results", value: school.ease.ease1, type: "text" },
+            { name: "EASE II Results", value: school.ease.ease2, type: "text" },
+          ],
+          "ease"
+        );
+
+        if (school.isCambridge) {
+          const cambridge = [
+            {
+              name: "Lower Secondary Students",
+              value: school.cambridge.lowerSecondary,
+              max: 3,
+            },
+            {
+              name: "Lower Secondary Average",
+              value: school.cambridge.lowerSecAvg,
+              type: "text",
+            },
+            { name: "IGCSE Students", value: school.cambridge.igcse, max: 10 },
+            {
+              name: "IGCSE Average Score",
+              value: school.cambridge.igcseAvg,
+              type: "text",
+            },
+            {
+              name: "AS/A Level Students",
+              value: school.cambridge.asLevels,
+              max: 4,
+            },
+            {
+              name: "AS/A Level Total Students",
+              value: school.cambridge.asStudents,
+              type: "text",
+            },
+          ];
+          html += generateCriteriaSection(
+            "Cambridge Examinations",
+            "Student participation and performance in Cambridge international exams",
+            cambridge,
+            "cambridge"
+          );
+        }
+
+        // Calculate network averages for appraisal metrics
+        const obsAvg = Math.round(
+          schoolsData.reduce(
+            (sum, s) => sum + (parseInt(s.appraisal.observations) || 0),
+            0
+          ) / schoolsData.length
+        );
+        const walkAvg = Math.round(
+          schoolsData.reduce(
+            (sum, s) => sum + (parseInt(s.appraisal.walkthroughs) || 0),
+            0
+          ) / schoolsData.length
+        );
+        const mentorAvg = Math.round(
+          schoolsData.reduce(
+            (sum, s) => sum + (parseInt(s.appraisal.mentorMentee) || 0),
+            0
+          ) / schoolsData.length
+        );
+
+        const appraisal = [
+          {
+            name: "Classroom Observations",
+            value: school.appraisal.observations,
+            avg: obsAvg,
+            type: "avg",
+          },
+          {
+            name: "Teaching Walkthroughs",
+            value: school.appraisal.walkthroughs,
+            avg: walkAvg,
+            type: "avg",
+          },
+          {
+            name: "Mentor-Mentee Sessions",
+            value: school.appraisal.mentorMentee,
+            avg: mentorAvg,
+            type: "avg",
+          },
+        ];
+        html += generateCriteriaSection(
+          "Appraisal & Quality Assurance",
+          "Classroom observations and professional development activities",
+          appraisal,
+          "appraisal"
+        );
+
+        const clubs = [
+          {
+            name: "Makerspace & STEAM Lab",
+            value: school.clubs.makerspace,
+            type: "boolean",
+          },
+          {
+            name: "AI & Robotics Club",
+            value: school.clubs.aiRobotics,
+            type: "boolean",
+          },
+          {
+            name: "Leadership Club",
+            value: school.clubs.leadership,
+            type: "boolean",
+          },
+          {
+            name: "Business Club",
+            value: school.clubs.business,
+            type: "boolean",
+          },
+          {
+            name: "STEAM Expo Participation",
+            value: school.clubs.steamExpo,
+            type: "boolean",
+          },
+        ];
+        html += generateCriteriaSection(
+          "Club Activities",
+          "Extracurricular club offerings and student engagement opportunities",
+          clubs,
+          "clubs"
+        );
+
+        const competitions = [
+          {
+            name: "EMC (Eduversal Math Competition)",
+            value: school.competitions.emc,
+            type: "count",
+          },
+          {
+            name: "ISPO Competition",
+            value: school.competitions.ispo,
+            type: "count",
+          },
+          {
+            name: "OSEBI Competition",
+            value: school.competitions.osebi,
+            type: "count",
+          },
+          {
+            name: "KOMODO Competition",
+            value: school.competitions.komodo,
+            type: "count",
+          },
+        ];
+        html += generateCriteriaSection(
+          "Academic Competitions",
+          "Student participation in national and international academic competitions",
+          competitions,
+          "competitions"
+        );
+
+        html += "</div>";
+
+        container.innerHTML = html;
+      }
+
+      // Toggle accordion sections
+      function toggleAccordion(sectionId) {
+        const content = document.getElementById(sectionId + "-content");
+        const icon = document.getElementById(sectionId + "-icon");
+
+        if (content.style.display === "none" || content.style.display === "") {
+          content.style.display = "block";
+          icon.textContent = "▼";
+          icon.style.transform = "rotate(0deg)";
+        } else {
+          content.style.display = "none";
+          icon.textContent = "▶";
+          icon.style.transform = "rotate(-90deg)";
+        }
+      }
+
+      function closeModal() {
+        document.getElementById("schoolModal").classList.remove("active");
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById("schoolModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer
+      style="
+        margin-top: 4rem;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+        color: white;
+        border-top: 3px solid var(--accent);
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <!-- Decorative Background Pattern -->
+      <div
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          opacity: 0.03;
+          background-image: radial-gradient(circle, white 1px, transparent 1px);
+          background-size: 30px 30px;
+          pointer-events: none;
+        "
+      ></div>
+
+      <div
+        style="
+          max-width: 1400px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 1;
+        "
+      >
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <!-- Brand Section -->
+          <div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+              "
+            >
+              <div
+                style="
+                  width: 50px;
+                  height: 50px;
+                  background: linear-gradient(
+                    135deg,
+                    var(--accent) 0%,
+                    var(--secondary) 100%
+                  );
+                  border-radius: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 1.5rem;
+                  font-weight: 800;
+                  box-shadow: 0 4px 15px rgba(231, 111, 81, 0.3);
+                "
+              >
+                E
+              </div>
+              <div>
+                <div
+                  style="
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.75rem;
+                    font-weight: 700;
+                    line-height: 1.2;
+                    letter-spacing: -0.5px;
+                  "
+                >
+                  Eduversal Indonesia
+                </div>
+                <div
+                  style="
+                    font-size: 0.85rem;
+                    opacity: 0.7;
+                    font-weight: 500;
+                    margin-top: 0.25rem;
+                  "
+                >
+                  Excellence in Education
+                </div>
+              </div>
+            </div>
+            <p
+              style="
+                opacity: 0.8;
+                line-height: 1.7;
+                font-size: 0.95rem;
+                margin-top: 1rem;
+              "
+            >
+              Empowering partner schools across Indonesia through comprehensive
+              evaluation, continuous improvement, and Cambridge International
+              curriculum excellence.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h4
+              style="
+                font-weight: 700;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                opacity: 0.95;
+              "
+            >
+              Quick Links
+            </h4>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                font-size: 0.9rem;
+              "
+            >
+              <a
+                href="#"
+                style="
+                  color: white;
+                  text-decoration: none;
+                  opacity: 0.8;
+                  transition: all 0.3s ease;
+                  display: inline-block;
+                "
+                onmouseover="this.style.opacity='1'; this.style.paddingLeft='8px'"
+                onmouseout="this.style.opacity='0.8'; this.style.paddingLeft='0'"
+              >
+                → Partner Schools
+              </a>
+              <a
+                href="#"
+                style="
+                  color: white;
+                  text-decoration: none;
+                  opacity: 0.8;
+                  transition: all 0.3s ease;
+                  display: inline-block;
+                "
+                onmouseover="this.style.opacity='1'; this.style.paddingLeft='8px'"
+                onmouseout="this.style.opacity='0.8'; this.style.paddingLeft='0'"
+              >
+                → Cambridge Programme
+              </a>
+              <a
+                href="#"
+                style="
+                  color: white;
+                  text-decoration: none;
+                  opacity: 0.8;
+                  transition: all 0.3s ease;
+                  display: inline-block;
+                "
+                onmouseover="this.style.opacity='1'; this.style.paddingLeft='8px'"
+                onmouseout="this.style.opacity='0.8'; this.style.paddingLeft='0'"
+              >
+                → Assessment Framework
+              </a>
+              <a
+                href="#"
+                style="
+                  color: white;
+                  text-decoration: none;
+                  opacity: 0.8;
+                  transition: all 0.3s ease;
+                  display: inline-block;
+                "
+                onmouseover="this.style.opacity='1'; this.style.paddingLeft='8px'"
+                onmouseout="this.style.opacity='0.8'; this.style.paddingLeft='0'"
+              >
+                → Support Resources
+              </a>
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div>
+            <h4
+              style="
+                font-weight: 700;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                opacity: 0.95;
+              "
+            >
+              Connect
+            </h4>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                font-size: 0.9rem;
+                opacity: 0.8;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 0.5rem">
+                <span style="opacity: 0.7">📧</span>
+                <span
+                  ><a
+                    href="/cdn-cgi/l/email-protection"
+                    class="__cf_email__"
+                    data-cfemail="bfd6d1d9d0ffdadbcac9dacdccded391d6db"
+                    >[email&#160;protected]</a
+                  ></span
+                >
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem">
+                <span style="opacity: 0.7">🌐</span>
+                <a
+                  href="https://eduversal.net/"
+                  target="_blank"
+                  style="
+                    color: white;
+                    text-decoration: none;
+                    transition: opacity 0.3s;
+                  "
+                  onmouseover="this.style.opacity='1'"
+                  onmouseout="this.style.opacity='0.8'"
+                >
+                  eduversal.net
+                </a>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem">
+                <span style="opacity: 0.7">📍</span>
+                <span>Jakarta, Indonesia</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div
+          style="
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+          "
+        >
+          <div style="font-size: 0.9rem; opacity: 0.7">
+            © 2025 Eduversal Indonesia. All rights reserved.
+          </div>
+          <div
+            style="display: flex; gap: 1.5rem; font-size: 0.85rem; opacity: 0.7"
+          >
+            <span>Academic Year 2025/2026</span>
+            <span>•</span>
+            <span>Semester 1 Evaluation</span>
+            <span>•</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn" title="Ana Sayfa">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
+    <style>
+      .floating-home-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        z-index: 9999;
+      }
+      .floating-home-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+    </style>
+  </body>
+</html>

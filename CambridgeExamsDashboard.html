@@ -1,0 +1,1878 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cambridge Exam Dashboard</title>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@1.8.5/umd/Recharts.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+      const { ResponsiveContainer, ComposedChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Cell, Line } = Recharts;
+
+      const ExamDashboard = () => {
+        const [activeTab, setActiveTab] = useState("primary");
+        const [showCALP, setShowCALP] = useState(false);
+
+        // Data source URLs for each level
+        const dataSourceUrls = {
+          primary:
+            "https://docs.google.com/spreadsheets/d/1atA8BN5z77K4WCnOV5DbinwusF0Iad4NdB_x6BnVRc8/edit?usp=sharing",
+          lower_secondary:
+            "https://docs.google.com/spreadsheets/d/1HYi_62orNJz4AVRfDIsgSORdWa9WTbVCsijAVkEMmg0/edit?usp=sharing",
+          igcse:
+            "https://docs.google.com/spreadsheets/d/18_XIAIq08ir6w9SudE4Yo471DQr9Vzy7jJDq6EMsMTg/edit?usp=sharing",
+          a_level:
+            "https://docs.google.com/spreadsheets/d/1YsK_7aIt3V3-dqhawR8aTfY7QkYZZW-YcTw4KDlo_ZU/edit?usp=sharing",
+        };
+
+        // School colors - vibrant and distinct
+        const schoolColors = {
+          "Pribadi Depok": "#E91E63", // Pink/Magenta
+          "Pribadi Depok School": "#E91E63",
+          "Kesatuan Bangsa": "#FF9800", // Orange
+          "Pribadi Bandung": "#4CAF50", // Green
+          "Kharisma Bangsa": "#2196F3", // Blue
+          "TNA Fatih School": "#F44336", // Red
+          "Semesta School": "#9C27B0", // Purple
+          "Fatih Bilingual School": "#FF5722", // Deep Orange
+          "TNA Fatih": "#F44336", // Red (same as TNA Fatih School)
+        };
+
+        const getSchoolColor = (schoolName, index) => {
+          return (
+            schoolColors[schoolName] ||
+            [
+              "#E91E63",
+              "#FF9800",
+              "#4CAF50",
+              "#2196F3",
+              "#F44336",
+              "#9C27B0",
+              "#00BCD4",
+              "#FF5722",
+            ][index % 8]
+          );
+        };
+
+        // Data
+        const data = {
+          primary: {
+            "MATHEMATICS (0096)": {
+              schools: [
+                {
+                  name: "Kharisma Bangsa",
+                  average: 41.66,
+                  students: 38,
+                  max: 80,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 40.78,
+                  students: 23,
+                  max: 80,
+                },
+                {
+                  name: "Pribadi Depok",
+                  average: 44.26,
+                  students: 19,
+                  max: 80,
+                },
+              ],
+              findings: [
+                "Pribadi Depok leads with 44.26/80 average score",
+                "Narrow performance range: only 3.48 points separate highest (44.26) and lowest (40.78)",
+                "✅ Schools participating: Kharisma Bangsa, Pribadi Bandung, Pribadi Depok (3/3)",
+                "📊 Total students: 80 across all schools",
+              ],
+            },
+            "ENGLISH (0057)": {
+              schools: [
+                {
+                  name: "Kharisma Bangsa",
+                  average: 72.16,
+                  students: 38,
+                  max: 89,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 72.78,
+                  students: 23,
+                  max: 89,
+                },
+                {
+                  name: "Pribadi Depok",
+                  average: 73.05,
+                  students: 19,
+                  max: 89,
+                },
+              ],
+              findings: [
+                "Excellent performance with Pribadi Depok scoring 73.05/89",
+                "All schools performing at 72+ marks showing strong English foundation",
+                "✅ Schools participating: Kharisma Bangsa, Pribadi Bandung, Pribadi Depok (3/3)",
+                "📊 Total students: 80 across all schools",
+              ],
+            },
+            "SCIENCE (0097)": {
+              schools: [
+                {
+                  name: "Kharisma Bangsa",
+                  average: 42.82,
+                  students: 38,
+                  max: 80,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 45.26,
+                  students: 23,
+                  max: 80,
+                },
+                {
+                  name: "Pribadi Depok",
+                  average: 49.53,
+                  students: 19,
+                  max: 80,
+                },
+              ],
+              findings: [
+                "Pribadi Depok achieves highest score of 49.53/80",
+                "Performance gap of 6.71 points between top and bottom performers",
+                "✅ Schools participating: Kharisma Bangsa, Pribadi Bandung, Pribadi Depok (3/3)",
+                "📊 Total students: 80 across all schools",
+              ],
+            },
+          },
+          lower_secondary: {
+            "ENGLISH (0876)": {
+              schools: [
+                {
+                  name: "Fatih Bilingual School",
+                  average: 57.35,
+                  students: 26,
+                  max: 102,
+                },
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 68.19,
+                  students: 57,
+                  max: 102,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 73.17,
+                  students: 30,
+                  max: 102,
+                },
+                {
+                  name: "Pribadi Depok School",
+                  average: 75.64,
+                  students: 39,
+                  max: 102,
+                },
+                {
+                  name: "Semesta School",
+                  average: 70.67,
+                  students: 49,
+                  max: 102,
+                },
+                {
+                  name: "TNA Fatih School",
+                  average: 66.38,
+                  students: 24,
+                  max: 102,
+                },
+              ],
+              findings: [
+                "Pribadi Depok School leads with 75.64/102",
+                "✅ Schools participating: Fatih Bilingual School, Kesatuan Bangsa, Pribadi Bandung, Pribadi Depok, Semesta School, TNA Fatih School (6/7)",
+                "❌ Not participating: Kharisma Bangsa",
+                "📊 Total students: 225 across participating schools",
+              ],
+            },
+            "MATH (0862)": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 46.63,
+                  students: 57,
+                  max: 100,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 39.65,
+                  students: 46,
+                  max: 100,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 43.36,
+                  students: 28,
+                  max: 100,
+                },
+                {
+                  name: "Pribadi Depok",
+                  average: 51.86,
+                  students: 37,
+                  max: 100,
+                },
+                {
+                  name: "Semesta School",
+                  average: 32.67,
+                  students: 49,
+                  max: 100,
+                },
+                {
+                  name: "TNA Fatih School",
+                  average: 38.0,
+                  students: 8,
+                  max: 100,
+                },
+              ],
+              findings: [
+                "Pribadi Depok significantly outperforms at 51.86/100",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Pribadi Depok, Semesta School, TNA Fatih School (6/7)",
+                "❌ Not participating: Fatih Bilingual School",
+                "📊 Total students: 225 - largest Lower Secondary cohort",
+              ],
+            },
+            "SCIENCE (0893)": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 54.51,
+                  students: 57,
+                  max: 100,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 54.09,
+                  students: 46,
+                  max: 100,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 53.23,
+                  students: 30,
+                  max: 100,
+                },
+                {
+                  name: "Pribadi Depok",
+                  average: 63.46,
+                  students: 39,
+                  max: 100,
+                },
+                {
+                  name: "Semesta School",
+                  average: 44.8,
+                  students: 49,
+                  max: 100,
+                },
+              ],
+              findings: [
+                "Pribadi Depok excels at 63.46/100 - 9+ points above average",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Pribadi Depok, Semesta School (5/7)",
+                "❌ Not participating: TNA Fatih School, Fatih Bilingual School",
+                "📊 Total students: 221 across participating schools",
+              ],
+            },
+          },
+          igcse: {
+            "ENGLISH (0510) - Speaking": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 90.98,
+                  students: 61,
+                  max: 160,
+                },
+                {
+                  name: "Semesta School",
+                  average: 71.57,
+                  students: 53,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Kesatuan Bangsa achieves 90.98/160 in speaking endorsement",
+                "✅ Schools participating: Kesatuan Bangsa, Semesta School (2/6)",
+                "❌ Not participating: TNA Fatih, Fatih Bilingual, Kharisma Bangsa, Pribadi Bandung",
+                "📊 Total students: 114",
+              ],
+            },
+            "ENGLISH (0511) - Count-in Speaking": {
+              schools: [
+                {
+                  name: "Fatih Bilingual School",
+                  average: 87.73,
+                  students: 30,
+                  max: 160,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 128.48,
+                  students: 89,
+                  max: 160,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 100.53,
+                  students: 40,
+                  max: 160,
+                },
+                {
+                  name: "TNA Fatih School",
+                  average: 99.03,
+                  students: 34,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Kharisma Bangsa excels at 128.48/160 with integrated speaking",
+                "✅ Schools participating: Fatih Bilingual, Kharisma Bangsa, Pribadi Bandung, TNA Fatih School (4/6)",
+                "❌ Not participating: Kesatuan Bangsa, Semesta School",
+                "📊 Total students: 193 - largest IGCSE English cohort",
+              ],
+            },
+            "MATHEMATICS (0580) - Core": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 48.89,
+                  students: 36,
+                  max: 160,
+                },
+                {
+                  name: "Semesta School",
+                  average: 48.33,
+                  students: 46,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Core mathematics averaging 48.61/160 indicates significant challenges",
+                "✅ Schools participating: Kesatuan Bangsa, Semesta School (2/6)",
+                "❌ Not participating: TNA Fatih, Fatih Bilingual, Kharisma Bangsa, Pribadi Bandung",
+                "📊 Total students: 82",
+              ],
+            },
+            "MATHEMATICS (0580) - Extended": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 87.46,
+                  students: 24,
+                  max: 200,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 75.17,
+                  students: 89,
+                  max: 200,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 53.83,
+                  students: 41,
+                  max: 200,
+                },
+                {
+                  name: "Semesta School",
+                  average: 93.89,
+                  students: 19,
+                  max: 200,
+                },
+                {
+                  name: "TNA Fatih School",
+                  average: 58.05,
+                  students: 19,
+                  max: 200,
+                },
+              ],
+              findings: [
+                "Semesta School leads at 93.89/200 in extended mathematics",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Semesta School, TNA Fatih School (5/6)",
+                "❌ Not participating: Fatih Bilingual School",
+                "📊 Total students: 192 - strong extended enrollment",
+              ],
+            },
+            "PHYSICS (0625) - Core": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 55.5,
+                  students: 4,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Only Kesatuan Bangsa offers Physics Core with 4 students",
+                "✅ Schools participating: Kesatuan Bangsa (1/6)",
+                "❌ Not participating: TNA Fatih, Fatih Bilingual, Semesta, Kharisma Bangsa, Pribadi Bandung",
+                "📊 Total students: 4",
+              ],
+            },
+            "PHYSICS (0625) - Extended": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 63.92,
+                  students: 15,
+                  max: 160,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 86.81,
+                  students: 22,
+                  max: 160,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 45.89,
+                  students: 37,
+                  max: 160,
+                },
+                {
+                  name: "Semesta School",
+                  average: 68.0,
+                  students: 1,
+                  max: 160,
+                },
+                { name: "TNA Fatih", average: 57.4, students: 18, max: 160 },
+              ],
+              findings: [
+                "Kharisma Bangsa leads physics at 86.81/160",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Semesta School, TNA Fatih (5/6)",
+                "❌ Not participating: Fatih Bilingual School",
+                "📊 Total students: 93",
+              ],
+            },
+            "BIOLOGY (0610) - Core": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 70.29,
+                  students: 19,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Only Kesatuan Bangsa offers Biology Core with 19 students",
+                "✅ Schools participating: Kesatuan Bangsa (1/6)",
+                "❌ Not participating: TNA Fatih, Fatih Bilingual, Semesta, Kharisma Bangsa, Pribadi Bandung",
+                "📊 Total students: 19",
+              ],
+            },
+            "BIOLOGY (0610) - Extended": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 80.62,
+                  students: 22,
+                  max: 160,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 96.77,
+                  students: 59,
+                  max: 160,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 58.66,
+                  students: 37,
+                  max: 160,
+                },
+                {
+                  name: "Semesta School",
+                  average: 98.67,
+                  students: 3,
+                  max: 160,
+                },
+                { name: "TNA Fatih", average: 72.29, students: 23, max: 160 },
+              ],
+              findings: [
+                "Semesta School achieves 98.67/160 - highest biology score",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Semesta School, TNA Fatih (5/6)",
+                "❌ Not participating: Fatih Bilingual School",
+                "📊 Total students: 144 - biology is most popular science",
+              ],
+            },
+            "CHEMISTRY (0620) - Core": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 79.21,
+                  students: 14,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Only Kesatuan Bangsa offers Chemistry Core with 14 students",
+                "✅ Schools participating: Kesatuan Bangsa (1/6)",
+                "❌ Not participating: TNA Fatih, Fatih Bilingual, Semesta, Kharisma Bangsa, Pribadi Bandung",
+                "📊 Total students: 14",
+              ],
+            },
+            "CHEMISTRY (0620) - Extended": {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  average: 84.56,
+                  students: 11,
+                  max: 160,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  average: 113.79,
+                  students: 24,
+                  max: 160,
+                },
+                {
+                  name: "Pribadi Bandung",
+                  average: 50.69,
+                  students: 37,
+                  max: 160,
+                },
+                {
+                  name: "Semesta School",
+                  average: 95.0,
+                  students: 1,
+                  max: 160,
+                },
+                {
+                  name: "TNA Fatih School",
+                  average: 72.71,
+                  students: 8,
+                  max: 160,
+                },
+              ],
+              findings: [
+                "Kharisma Bangsa excels at 113.79/160 in chemistry",
+                "✅ Schools participating: Kesatuan Bangsa, Kharisma Bangsa, Pribadi Bandung, Semesta School, TNA Fatih School (5/6)",
+                "❌ Not participating: Fatih Bilingual School",
+                "📊 Total students: 81",
+              ],
+            },
+          },
+          a_level: {
+            MATHEMATICS: {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  A: 2,
+                  "A*": 0,
+                  B: 0,
+                  C: 0,
+                  D: 0,
+                  E: 0,
+                  U: 0,
+                  total: 2,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  A: 3,
+                  "A*": 1,
+                  B: 2,
+                  C: 5,
+                  D: 5,
+                  E: 3,
+                  U: 5,
+                  total: 24,
+                },
+                {
+                  name: "Semesta School",
+                  A: 1,
+                  "A*": 0,
+                  B: 1,
+                  C: 0,
+                  D: 0,
+                  E: 0,
+                  U: 0,
+                  total: 2,
+                },
+              ],
+              grandTotal: {
+                A: 6,
+                "A*": 1,
+                B: 3,
+                C: 5,
+                D: 5,
+                E: 3,
+                U: 5,
+                total: 28,
+              },
+            },
+            PHYSICS: {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  a: 1,
+                  b: 0,
+                  C: 1,
+                  d: 0,
+                  e: 0,
+                  U: 0,
+                  total: 2,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  a: 1,
+                  b: 3,
+                  C: 1,
+                  d: 4,
+                  e: 3,
+                  U: 5,
+                  total: 17,
+                },
+                {
+                  name: "Semesta School",
+                  a: 0,
+                  b: 1,
+                  C: 1,
+                  d: 0,
+                  e: 0,
+                  U: 0,
+                  total: 2,
+                },
+              ],
+              grandTotal: { a: 2, b: 4, C: 3, d: 4, e: 3, U: 5, total: 21 },
+            },
+            BIOLOGY: {
+              schools: [
+                {
+                  name: "Kharisma Bangsa",
+                  b: 1,
+                  C: 3,
+                  d: 1,
+                  e: 2,
+                  U: 2,
+                  total: 9,
+                },
+              ],
+              grandTotal: { b: 1, C: 3, d: 1, e: 2, U: 2, total: 9 },
+            },
+            CHEMISTRY: {
+              schools: [
+                {
+                  name: "Kesatuan Bangsa",
+                  b: 1,
+                  C: 0,
+                  d: 0,
+                  E: 0,
+                  U: 0,
+                  total: 1,
+                },
+                {
+                  name: "Kharisma Bangsa",
+                  b: 3,
+                  C: 1,
+                  d: 5,
+                  E: 5,
+                  U: 3,
+                  total: 17,
+                },
+                {
+                  name: "Semesta School",
+                  b: 0,
+                  C: 1,
+                  d: 0,
+                  E: 0,
+                  U: 0,
+                  total: 1,
+                },
+              ],
+              grandTotal: { b: 4, C: 2, d: 5, E: 5, U: 3, total: 19 },
+            },
+          },
+        };
+
+        // Calculate percentage for display
+        const calculatePercentage = (value, max) => {
+          return ((value / max) * 100).toFixed(1);
+        };
+
+        // Custom Tooltip
+        const CustomTooltip = ({ active, payload }) => {
+          if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            return (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "2px solid #333",
+                  borderRadius: "8px",
+                  padding: "12px",
+                  boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    marginBottom: "8px",
+                    color: "#333",
+                  }}
+                >
+                  {data.name}
+                </p>
+                <p style={{ color: "#2196F3", margin: "4px 0" }}>
+                  Average: {data.average?.toFixed(2)} / {data.max} (
+                  {data.percentage}
+                  %)
+                </p>
+                <p style={{ color: "#666", margin: "4px 0" }}>
+                  Students: {data.students}
+                </p>
+              </div>
+            );
+          }
+          return null;
+        };
+
+        // Render A-Level grade table
+        const renderALevelTable = (subjectName, subjectData) => {
+          const grades = Object.keys(subjectData.schools[0]).filter(
+            (k) => k !== "name" && k !== "total",
+          );
+
+          return (
+            <div
+              key={subjectName}
+              style={{
+                backgroundColor: "white",
+                borderRadius: "12px",
+                padding: "24px",
+                marginBottom: "32px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  marginBottom: "16px",
+                  color: "#1a1a1a",
+                }}
+              >
+                {subjectName}
+              </h3>
+
+              <div style={{ overflowX: "auto" }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    fontSize: "14px",
+                  }}
+                >
+                  <thead>
+                    <tr style={{ backgroundColor: "#2196F3", color: "white" }}>
+                      <th
+                        style={{
+                          padding: "12px",
+                          textAlign: "left",
+                          borderBottom: "2px solid #1976D2",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        School Name
+                      </th>
+                      {grades.map((grade) => (
+                        <th
+                          key={grade}
+                          style={{
+                            padding: "12px",
+                            textAlign: "center",
+                            borderBottom: "2px solid #1976D2",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {grade}
+                        </th>
+                      ))}
+                      <th
+                        style={{
+                          padding: "12px",
+                          textAlign: "center",
+                          borderBottom: "2px solid #1976D2",
+                          fontWeight: "bold",
+                          backgroundColor: "#1976D2",
+                        }}
+                      >
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {subjectData.schools.map((school, idx) => (
+                      <tr
+                        key={idx}
+                        style={{
+                          backgroundColor: idx % 2 === 0 ? "#f8f9fa" : "white",
+                        }}
+                      >
+                        <td
+                          style={{
+                            padding: "12px",
+                            fontWeight: "bold",
+                            color: getSchoolColor(school.name, idx),
+                            borderBottom: "1px solid #e0e0e0",
+                          }}
+                        >
+                          {school.name}
+                        </td>
+                        {grades.map((grade) => (
+                          <td
+                            key={grade}
+                            style={{
+                              padding: "12px",
+                              textAlign: "center",
+                              borderBottom: "1px solid #e0e0e0",
+                            }}
+                          >
+                            {school[grade] || "-"}
+                          </td>
+                        ))}
+                        <td
+                          style={{
+                            padding: "12px",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            backgroundColor: "#e3f2fd",
+                            borderBottom: "1px solid #e0e0e0",
+                          }}
+                        >
+                          {school.total}
+                        </td>
+                      </tr>
+                    ))}
+                    {/* Grand Total Row */}
+                    <tr
+                      style={{
+                        backgroundColor: "#1976D2",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <td style={{ padding: "12px" }}>Grand Total</td>
+                      {grades.map((grade) => (
+                        <td
+                          key={grade}
+                          style={{
+                            padding: "12px",
+                            textAlign: "center",
+                          }}
+                        >
+                          {subjectData.grandTotal[grade] || "-"}
+                        </td>
+                      ))}
+                      <td
+                        style={{
+                          padding: "12px",
+                          textAlign: "center",
+                          backgroundColor: "#0d47a1",
+                        }}
+                      >
+                        {subjectData.grandTotal.total}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );
+        };
+
+        // Render chart for each subject
+        const renderSubjectChart = (subjectName, subjectData) => {
+          const chartData = subjectData.schools.map((school) => ({
+            ...school,
+            percentage: calculatePercentage(school.average, school.max || 100),
+          }));
+
+          // Calculate max for line chart (student count)
+          const maxStudents = Math.max(
+            ...chartData.map((d) => d.students || 0),
+          );
+
+          // Get max score from data (from Excel)
+          const maxScore = subjectData.schools[0]?.max || 100;
+
+          return (
+            <div
+              key={subjectName}
+              style={{
+                backgroundColor: "white",
+                borderRadius: "12px",
+                padding: "24px",
+                marginBottom: "32px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  marginBottom: "16px",
+                  color: "#1a1a1a",
+                }}
+              >
+                {subjectName}
+              </h3>
+
+              <ResponsiveContainer width="100%" height={550}>
+                <ComposedChart
+                  data={chartData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                  <XAxis
+                    dataKey="name"
+                    angle={-45}
+                    textAnchor="end"
+                    height={100}
+                    interval={0}
+                    style={{ fontSize: "12px" }}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    label={{
+                      value: `Average Score (Max ${maxScore})`,
+                      angle: -90,
+                      position: "insideLeft",
+                    }}
+                    domain={[0, maxScore]}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    label={{
+                      value: "Number of Students",
+                      angle: 90,
+                      position: "insideRight",
+                    }}
+                    domain={[0, maxStudents * 1.2]}
+                    allowDecimals={false}
+                    tickFormatter={(value) => Math.round(value)}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend
+                    wrapperStyle={{ paddingTop: "20px" }}
+                    iconType="rect"
+                  />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="average"
+                    name="Average Score"
+                    radius={[8, 8, 0, 0]}
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={getSchoolColor(entry.name, index)}
+                      />
+                    ))}
+                  </Bar>
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="students"
+                    name="Number of Students"
+                    stroke="#FF0000"
+                    strokeWidth={4}
+                    dot={{
+                      fill: "#FF0000",
+                      r: 8,
+                      strokeWidth: 2,
+                      stroke: "#fff",
+                    }}
+                    activeDot={{ r: 10 }}
+                    label={{
+                      position: "top",
+                      fill: "#FF0000",
+                      fontWeight: "bold",
+                      fontSize: 14,
+                    }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+
+              {/* Key Findings */}
+              <div
+                style={{
+                  marginTop: "24px",
+                  padding: "16px",
+                  backgroundColor: "#f8f9fa",
+                  borderRadius: "8px",
+                  borderLeft: "4px solid #2196F3",
+                }}
+              >
+                <h4
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    marginBottom: "12px",
+                    color: "#1a1a1a",
+                  }}
+                >
+                  📊 Key Findings
+                </h4>
+                <ul style={{ margin: 0, paddingLeft: "20px" }}>
+                  {subjectData.findings.map((finding, idx) => (
+                    <li
+                      key={idx}
+                      style={{
+                        marginBottom: "8px",
+                        color: finding.includes("❌") ? "#d32f2f" : "#444",
+                        lineHeight: "1.6",
+                        fontWeight: finding.includes("❌") ? "bold" : "normal",
+                      }}
+                    >
+                      {finding}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        };
+
+        // Tab content
+        const renderTabContent = () => {
+          const currentData = data[activeTab];
+          const tabTitles = {
+            primary: "Primary Checkpoint Exams",
+            lower_secondary: "Lower Secondary Checkpoint Exams",
+            igcse: "IGCSE Exams",
+            a_level: "AS/A Level Exams",
+          };
+
+          return (
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "32px",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: "28px",
+                    fontWeight: "bold",
+                    color: "#1a1a1a",
+                    borderBottom: "3px solid #2196F3",
+                    paddingBottom: "12px",
+                    marginBottom: 0,
+                  }}
+                >
+                  {tabTitles[activeTab]}
+                </h2>
+                <a
+                  href={dataSourceUrls[activeTab]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "10px 20px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    color: "#2196F3",
+                    backgroundColor: "#E3F2FD",
+                    border: "2px solid #2196F3",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    transition: "all 0.3s ease",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = "#2196F3";
+                    e.target.style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = "#E3F2FD";
+                    e.target.style.color = "#2196F3";
+                  }}
+                >
+                  📊 Data Source
+                </a>
+              </div>
+              {Object.entries(currentData).map(([subject, subjectData]) =>
+                activeTab === "a_level"
+                  ? renderALevelTable(subject, subjectData)
+                  : renderSubjectChart(subject, subjectData),
+              )}
+            </div>
+          );
+        };
+
+        // CALP Modal Component
+        const CALPModal = () => {
+          if (!showCALP) return null;
+
+          return (
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0,0,0,0.7)",
+                zIndex: 1000,
+                overflow: "auto",
+                padding: "40px 20px",
+              }}
+              onClick={() => setShowCALP(false)}
+            >
+              <div
+                style={{
+                  maxWidth: "900px",
+                  margin: "0 auto",
+                  backgroundColor: "white",
+                  borderRadius: "12px",
+                  padding: "40px",
+                  position: "relative",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Close button */}
+                <button
+                  onClick={() => setShowCALP(false)}
+                  style={{
+                    position: "absolute",
+                    top: "20px",
+                    right: "20px",
+                    fontSize: "24px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#666",
+                  }}
+                >
+                  ✕
+                </button>
+
+                {/* Content */}
+                <h1
+                  style={{
+                    fontSize: "32px",
+                    fontWeight: "bold",
+                    marginBottom: "8px",
+                    color: "#FF9800",
+                  }}
+                >
+                  Understanding CALP
+                </h1>
+                <h2
+                  style={{
+                    fontSize: "20px",
+                    color: "#666",
+                    marginBottom: "24px",
+                    fontStyle: "italic",
+                  }}
+                >
+                  The Hidden Barrier to Cambridge Success
+                </h2>
+
+                <div style={{ lineHeight: "1.8", color: "#333" }}>
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      Executive Summary
+                    </h3>
+                    <p>
+                      Many Eduversal students appear fluent in English—they chat
+                      with teachers, understand classroom instructions, and
+                      navigate daily conversations with ease. Yet these same
+                      students consistently underperform in Cambridge IGCSE and
+                      A-Level examinations.
+                    </p>
+                    <p style={{ marginTop: "12px" }}>
+                      The explanation lies in a critical distinction first
+                      identified by linguist Jim Cummins in 1979: the difference
+                      between{" "}
+                      <strong>
+                        Basic Interpersonal Communication Skills (BICS)
+                      </strong>{" "}
+                      and{" "}
+                      <strong>
+                        Cognitive Academic Language Proficiency (CALP)
+                      </strong>
+                      .
+                    </p>
+                  </section>
+
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      1. BICS vs. CALP: The Two Faces of Language
+                    </h3>
+
+                    <div
+                      style={{
+                        backgroundColor: "#E3F2FD",
+                        padding: "20px",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <h4 style={{ fontWeight: "bold", marginBottom: "8px" }}>
+                        ✅ BICS (Basic Interpersonal Communication Skills)
+                      </h4>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        <li>Develops in 1-2 years</li>
+                        <li>
+                          Context-embedded (gestures, visuals, social cues)
+                        </li>
+                        <li>Used in daily conversations</li>
+                        <li>
+                          Examples: "Can I borrow your pencil?", "What's for
+                          lunch?"
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div
+                      style={{
+                        backgroundColor: "#FFF3E0",
+                        padding: "20px",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <h4 style={{ fontWeight: "bold", marginBottom: "8px" }}>
+                        ⚠️ CALP (Cognitive Academic Language Proficiency)
+                      </h4>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        <li>Develops in 5-7 years</li>
+                        <li>Context-reduced (relies solely on language)</li>
+                        <li>Used in academic tasks</li>
+                        <li>
+                          Examples: "Explain the causes of...", "Analyze the
+                          relationship between..."
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
+
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      2. The Problem in Eduversal Schools
+                    </h3>
+
+                    <div
+                      style={{
+                        backgroundColor: "#FFEBEE",
+                        padding: "20px",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <h4 style={{ fontWeight: "bold", marginBottom: "12px" }}>
+                        🔴 Current Reality
+                      </h4>
+                      <p>
+                        <strong>Observation:</strong> "This student speaks
+                        English fluently"
+                      </p>
+                      <p style={{ marginTop: "8px" }}>
+                        <strong>Reality:</strong> The student has BICS but lacks
+                        CALP
+                      </p>
+                      <p
+                        style={{
+                          marginTop: "8px",
+                          fontStyle: "italic",
+                          color: "#666",
+                        }}
+                      >
+                        Students can chat with teachers but struggle with
+                        "Compare and contrast..." or "Evaluate the effectiveness
+                        of..."
+                      </p>
+                    </div>
+
+                    <h4 style={{ fontWeight: "bold", marginBottom: "12px" }}>
+                      Symptoms of CALP Deficiency:
+                    </h4>
+                    <ul style={{ paddingLeft: "20px" }}>
+                      <li>Students hesitant to explain reasoning in English</li>
+                      <li>Written work shows limited academic vocabulary</li>
+                      <li>
+                        Heavy reliance on Bahasa Indonesia for complex
+                        explanations
+                      </li>
+                      <li>
+                        Teachers simplifying language rather than scaffolding
+                        academic English
+                      </li>
+                      <li>
+                        "English improvement" focused on pronunciation, not
+                        academic discourse
+                      </li>
+                    </ul>
+                  </section>
+
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      3. CALP and Cambridge Command Words
+                    </h3>
+
+                    <div
+                      style={{
+                        backgroundColor: "#F1F8E9",
+                        padding: "20px",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          fontWeight: "bold",
+                          marginBottom: "12px",
+                          color: "#558B2F",
+                        }}
+                      >
+                        ✅ Our Students Can:
+                      </h4>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        <li>State facts</li>
+                        <li>List items</li>
+                        <li>Define terms (if memorized)</li>
+                        <li>Describe processes (with support)</li>
+                      </ul>
+                    </div>
+
+                    <div
+                      style={{
+                        backgroundColor: "#FFEBEE",
+                        padding: "20px",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          fontWeight: "bold",
+                          marginBottom: "12px",
+                          color: "#C62828",
+                        }}
+                      >
+                        ❌ Our Students Struggle To:
+                      </h4>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        <li>
+                          <strong>Explain</strong> causation with depth
+                        </li>
+                        <li>
+                          <strong>Compare</strong> with balance and nuance
+                        </li>
+                        <li>
+                          <strong>Analyze</strong> relationships and patterns
+                        </li>
+                        <li>
+                          <strong>Evaluate</strong> evidence and arguments
+                        </li>
+                        <li>
+                          <strong>Discuss</strong> multiple perspectives
+                        </li>
+                      </ul>
+                      <p
+                        style={{
+                          marginTop: "12px",
+                          fontWeight: "bold",
+                          color: "#C62828",
+                        }}
+                      >
+                        This is the CALP gap in action.
+                      </p>
+                    </div>
+                  </section>
+
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      4. Key Messages for Principals
+                    </h3>
+
+                    <div
+                      style={{
+                        backgroundColor: "#FFF9C4",
+                        padding: "24px",
+                        borderRadius: "8px",
+                        border: "3px solid #FBC02D",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          fontWeight: "bold",
+                          marginBottom: "12px",
+                          fontSize: "18px",
+                        }}
+                      >
+                        💡 Core Message:
+                      </h4>
+                      <p style={{ fontSize: "16px" }}>
+                        "Our students appear fluent in English but underperform
+                        in Cambridge examinations. This is because{" "}
+                        <strong>
+                          conversational English (BICS) takes 1-2 years
+                        </strong>{" "}
+                        to develop, while{" "}
+                        <strong>academic English (CALP) takes 5-7 years</strong>
+                        . Daily English conversations in the hallway do not
+                        prepare students for the cognitive demands of Cambridge
+                        assessments."
+                      </p>
+                      <p
+                        style={{
+                          marginTop: "16px",
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                          color: "#F57C00",
+                        }}
+                      >
+                        Every teacher is a language teacher.
+                      </p>
+                    </div>
+
+                    <h4
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: "24px",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      Action Points:
+                    </h4>
+                    <ol style={{ paddingLeft: "20px" }}>
+                      <li>
+                        <strong>Recognize the distinction:</strong> BICS fluency
+                        masks CALP deficiency
+                      </li>
+                      <li>
+                        <strong>Start early:</strong> CALP development must
+                        begin in Primary, not IGCSE
+                      </li>
+                      <li>
+                        <strong>Embed language objectives:</strong> Every
+                        lesson, every subject
+                      </li>
+                      <li>
+                        <strong>Train all teachers:</strong> Not just English
+                        teachers
+                      </li>
+                      <li>
+                        <strong>Monitor progress:</strong> Track academic
+                        language development systematically
+                      </li>
+                      <li>
+                        <strong>Adjust expectations:</strong> CALP takes 5-7
+                        years—plan accordingly
+                      </li>
+                    </ol>
+                  </section>
+
+                  <section style={{ marginBottom: "32px" }}>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      5. Strategic Recommendations
+                    </h3>
+
+                    <h4 style={{ fontWeight: "bold", marginBottom: "12px" }}>
+                      Sample Academic Words (High Priority):
+                    </h4>
+                    <div
+                      style={{
+                        backgroundColor: "#E8EAF6",
+                        padding: "16px",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <p>
+                        <strong>General:</strong> analyze, interpret, conclude,
+                        indicate, define, approach, concept, data, evidence,
+                        factor
+                      </p>
+                      <p style={{ marginTop: "8px" }}>
+                        <strong>Science:</strong> hypothesis, variable,
+                        procedure, observe, conclude, reaction, property,
+                        function, structure
+                      </p>
+                      <p style={{ marginTop: "8px" }}>
+                        <strong>Mathematics:</strong> calculate, estimate,
+                        justify, represent, pattern, relationship, proportion,
+                        probability
+                      </p>
+                    </div>
+
+                    <h4 style={{ fontWeight: "bold", marginBottom: "12px" }}>
+                      Sentence Frames for Academic Language:
+                    </h4>
+                    <div
+                      style={{
+                        backgroundColor: "#F3E5F5",
+                        padding: "16px",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <p>"The data suggests that..."</p>
+                      <p>"This is significant because..."</p>
+                      <p>"In contrast to..., this shows..."</p>
+                      <p>"Based on the evidence, we can conclude..."</p>
+                      <p>"One possible explanation is..."</p>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "16px",
+                        color: "#2196F3",
+                      }}
+                    >
+                      Discussion Questions
+                    </h3>
+                    <ol style={{ paddingLeft: "20px" }}>
+                      <li style={{ marginBottom: "8px" }}>
+                        How are we currently assessing students' academic
+                        language proficiency (not just conversational ability)?
+                      </li>
+                      <li style={{ marginBottom: "8px" }}>
+                        What training have our subject teachers received on
+                        developing academic language?
+                      </li>
+                      <li style={{ marginBottom: "8px" }}>
+                        Do our lesson plans include language objectives
+                        alongside content objectives?
+                      </li>
+                      <li style={{ marginBottom: "8px" }}>
+                        How are we tracking CALP development from Primary
+                        through Secondary?
+                      </li>
+                      <li>
+                        What is our strategy for students who enter our schools
+                        with BICS but no CALP foundation?
+                      </li>
+                    </ol>
+                  </section>
+                </div>
+
+                {/* Footer */}
+                <div
+                  style={{
+                    marginTop: "32px",
+                    paddingTop: "24px",
+                    borderTop: "2px solid #E0E0E0",
+                    textAlign: "center",
+                  }}
+                >
+                  <p style={{ color: "#666", fontSize: "14px" }}>
+                    Reference: Cummins, J. (1979). Cognitive/academic language
+                    proficiency
+                  </p>
+                  <p
+                    style={{
+                      color: "#999",
+                      fontSize: "12px",
+                      marginTop: "8px",
+                    }}
+                  >
+                    For questions or clarifications, contact the Academic
+                    Division
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        return (
+          <>
+            <CALPModal />
+            <div
+              style={{
+                minHeight: "100vh",
+                backgroundColor: "#f5f5f5",
+                padding: "24px",
+              }}
+            >
+              {/* Main Container with max-width */}
+              <div
+                style={{
+                  maxWidth: "1400px",
+                  margin: "0 auto",
+                  width: "100%",
+                }}
+              >
+                {/* Header */}
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "12px",
+                    padding: "24px",
+                    marginBottom: "24px",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      <h1
+                        style={{
+                          fontSize: "32px",
+                          fontWeight: "bold",
+                          color: "#1a1a1a",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        Cambridge Exams Dashboard
+                      </h1>
+                      <p style={{ color: "#666", fontSize: "16px" }}>
+                        Comprehensive analysis across Primary, Lower Secondary,
+                        IGCSE, and A-Level examinations
+                      </p>
+                    </div>
+                    <div style={{ display: "flex", gap: "12px" }}>
+                      <a
+                        href="https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: "12px 24px",
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                          color: "white",
+                          backgroundColor: "#2196F3",
+                          border: "none",
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          boxShadow: "0 2px 4px rgba(33,150,243,0.3)",
+                          textDecoration: "none",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#1976D2")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "#2196F3")
+                        }
+                      >
+                        📋 Cambridge Pathway
+                      </a>
+                      <button
+                        onClick={() => setShowCALP(true)}
+                        style={{
+                          padding: "12px 24px",
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                          color: "white",
+                          backgroundColor: "#FF9800",
+                          border: "none",
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          boxShadow: "0 2px 4px rgba(255,152,0,0.3)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#F57C00")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "#FF9800")
+                        }
+                      >
+                        📚 Understanding CALP
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tabs */}
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "12px",
+                    padding: "16px",
+                    marginBottom: "24px",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    display: "flex",
+                    gap: "12px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {[
+                    { key: "primary", label: "Primary Checkpoint" },
+                    {
+                      key: "lower_secondary",
+                      label: "Lower Secondary Checkpoint",
+                    },
+                    { key: "igcse", label: "IGCSE" },
+                    { key: "a_level", label: "AS/A Level" },
+                  ].map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      style={{
+                        padding: "12px 24px",
+                        fontSize: "16px",
+                        fontWeight: activeTab === tab.key ? "bold" : "normal",
+                        color: activeTab === tab.key ? "white" : "#666",
+                        backgroundColor:
+                          activeTab === tab.key ? "#2196F3" : "transparent",
+                        border:
+                          activeTab === tab.key ? "none" : "2px solid #e0e0e0",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        boxShadow:
+                          activeTab === tab.key
+                            ? "0 4px 6px rgba(33, 150, 243, 0.3)"
+                            : "none",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (activeTab !== tab.key) {
+                          e.target.style.backgroundColor = "#f5f5f5";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (activeTab !== tab.key) {
+                          e.target.style.backgroundColor = "transparent";
+                        }
+                      }}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Content */}
+                <div>{renderTabContent()}</div>
+
+                {/* Footer */}
+                <div
+                  style={{
+                    marginTop: "48px",
+                    padding: "24px",
+                    backgroundColor: "white",
+                    borderRadius: "12px",
+                    textAlign: "center",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <p style={{ color: "#666", fontSize: "14px" }}>
+                    Dashboard generated for Eduversal Indonesia Partner Schools
+                  </p>
+                  <p
+                    style={{
+                      color: "#999",
+                      fontSize: "12px",
+                      marginTop: "8px",
+                    }}
+                  >
+                    Data visualization showing average scores (%) and student
+                    enrollment across all schools
+                  </p>
+                </div>
+              </div>{" "}
+              {/* Close max-width container */}
+            </div>
+          </>
+        );
+      };
+
+      ReactDOM.render(<ExamDashboard />, document.getElementById("root"));
+    </script>
+
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>

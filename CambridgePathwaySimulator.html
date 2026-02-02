@@ -1,0 +1,1801 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cambridge Pathway Simulator</title>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@1.8.5/umd/Recharts.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+
+      // SVG Icon Components
+      const GraduationCap = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      );
+
+      const BookOpen = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      );
+
+      const Info = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+        </svg>
+      );
+
+      const Target = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+        </svg>
+      );
+
+      const CheckCircle2 = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+        </svg>
+      );
+
+      const Circle = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+      );
+
+      const AlertCircle = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+        </svg>
+      );
+
+      const TrendingUp = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+        </svg>
+      );
+
+      const Briefcase = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+      );
+
+      const Heart = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </svg>
+      );
+
+      const Globe = ({ size = 24, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      );
+
+      function CambridgePathwaySelector() {
+        const [stage, setStage] = useState("checkpoint");
+        const [studentName, setStudentName] = useState("");
+        const [classSection, setClassSection] = useState("");
+        const [academicYear, setAcademicYear] = useState("");
+        const [showInfo, setShowInfo] = useState({});
+        const [checkpointSubjects, setCheckpointSubjects] = useState({
+          english: true,
+          mathematics: true,
+          science: true,
+          computing: false,
+          globalPerspectives: false,
+        });
+        const [igcseCore, setIgcseCore] = useState({
+          english: true,
+          bahasa: true,
+          mathematics: true,
+        });
+        const [igcsePathway, setIgcsePathway] = useState("");
+        const [igcseElectives, setIgcseElectives] = useState([]);
+        const [asPathway, setAsPathway] = useState("");
+        const [asSubjects, setAsSubjects] = useState([]);
+
+        const pathwayIcons = {
+          engineering: BookOpen,
+          business: Briefcase,
+          medical: Heart,
+          social: Globe,
+        };
+
+        const stageInfo = {
+          checkpoint: {
+            title: "Lower Secondary Checkpoint (Grades 7-8)",
+            description:
+              "Cambridge Lower Secondary builds a solid foundation for your IGCSE studies. The Checkpoint assessments evaluate your progress and help identify strengths and areas for development.",
+            recommendation:
+              "Students are recommended to take 5 subjects total: 3 core subjects (English, Mathematics, Science) and 2 enrichment subjects to support their future IGCSE pathway choices.",
+          },
+          igcse: {
+            title: "IGCSE (Grades 9-10)",
+            description:
+              "Cambridge IGCSE is the world's most popular international qualification for 14-16 year olds. It develops knowledge, understanding and skills in subject content, creative thinking, and problem-solving.",
+            recommendation:
+              "Students are advised to take a total of 6 IGCSE subjects, consisting of 3 core subjects and 3 pathway subjects. This structure ensures strong academic results while maintaining a healthy balance between Cambridge studies and the national curriculum. Taking 6 subjects allows students to focus on depth of understanding, leading to better examination performance, stronger transcripts, and more effective preparation for AS and A Level programmes.",
+          },
+          aslevel: {
+            title: "AS & A Level (Grades 11-12)",
+            description:
+              "Cambridge International AS & A Levels are internationally recognized qualifications that open doors to top universities worldwide. They provide in-depth subject knowledge and develop independent thinking and application skills.",
+            recommendation:
+              "Students typically take 3-4 subjects at AS Level (Grade 11) and continue with 3 subjects to A Level (Grade 12). This focused approach allows for deep specialization and excellent preparation for university study.",
+          },
+        };
+
+        const igcsePathways = {
+          engineering: {
+            name: "Engineering & Technology Path",
+            icon: "BookOpen",
+            description:
+              "Perfect for students interested in engineering, technology, innovation, and technical problem-solving. This pathway develops analytical thinking and technical skills.",
+            careerPaths:
+              "Engineering (Mechanical, Electrical, Civil), Computer Science, Architecture, Data Science, Robotics, Aerospace",
+            universityPrograms:
+              "Engineering degrees, Computer Science, Applied Sciences, Information Technology",
+            subjects: [
+              {
+                code: "0625",
+                name: "Physics",
+                description:
+                  "Study matter, energy, and forces. Essential for all engineering disciplines.",
+              },
+              {
+                code: "0620",
+                name: "Chemistry",
+                description:
+                  "Understand materials, reactions, and processes crucial for engineering applications.",
+              },
+              {
+                code: "0610",
+                name: "Biology",
+                description:
+                  "Recommended for Biomedical or Environmental Engineering fields.",
+              },
+              {
+                code: "0606",
+                name: "Additional Mathematics",
+                description:
+                  "Highly recommended for Engineering/STEM programmes.",
+              },
+              {
+                code: "0478",
+                name: "Computer Science",
+                description:
+                  "Learn programming, algorithms, and computational thinking for the digital age.",
+              },
+              {
+                code: "0417",
+                name: "ICT",
+                description:
+                  "Develop practical technology skills in software applications and digital systems.",
+              },
+              {
+                code: "0445",
+                name: "Design & Technology",
+                description:
+                  "Apply creativity and technical skills to design and make products.",
+              },
+            ],
+          },
+          business: {
+            name: "Business & Digital Economy Path",
+            icon: "Briefcase",
+            description:
+              "Ideal for aspiring entrepreneurs, business leaders, and those interested in economics and finance. Develops commercial awareness and strategic thinking.",
+            careerPaths:
+              "Business Management, Entrepreneurship, Finance, Marketing, Consulting, Digital Marketing, E-commerce",
+            universityPrograms:
+              "Business Administration, Economics, Accounting, Finance, Management, International Business",
+            subjects: [
+              {
+                code: "0450",
+                name: "Business Studies",
+                description:
+                  "Learn about organizations, management, marketing, and finance in the business world.",
+              },
+              {
+                code: "0455",
+                name: "Economics",
+                description:
+                  "Understand how economies work, from individual choices to global markets.",
+              },
+              {
+                code: "0452",
+                name: "Accounting",
+                description:
+                  "Master financial record-keeping, analysis, and business decision-making.",
+              },
+              {
+                code: "0417",
+                name: "ICT",
+                description:
+                  "Apply technology skills to modern business operations and digital transformation.",
+              },
+              {
+                code: "0478",
+                name: "Computer Science",
+                description:
+                  "Understand technology systems essential for digital business innovation.",
+              },
+            ],
+          },
+          medical: {
+            name: "Medical & Life Sciences Path",
+            icon: "Heart",
+            description:
+              "For students passionate about healthcare, medicine, psychology, and biological sciences. Develops scientific inquiry and understanding of living systems.",
+            careerPaths:
+              "Medicine, Nursing, Pharmacy, Dentistry, Psychology, Biotechnology, Public Health, Veterinary Science",
+            universityPrograms:
+              "Medicine, Biomedical Sciences, Psychology, Pharmacy, Nursing, Biotechnology, Health Sciences",
+            subjects: [
+              {
+                code: "0610",
+                name: "Biology",
+                description:
+                  "Study living organisms, life processes, and the foundation for all medical sciences.",
+              },
+              {
+                code: "0620",
+                name: "Chemistry",
+                description:
+                  "Essential for understanding biochemistry, pharmacology, and medical treatments.",
+              },
+              {
+                code: "0625",
+                name: "Physics",
+                description:
+                  "Recommended for Medicine, Dentistry, and Biomedical Science.",
+              },
+              {
+                code: "0266",
+                name: "Psychology",
+                description:
+                  "Explore human behavior, mental processes, and psychological wellbeing.",
+              },
+              {
+                code: "0417",
+                name: "ICT",
+                description:
+                  "Learn technology applications in modern healthcare and medical research.",
+              },
+            ],
+          },
+          social: {
+            name: "Social Sciences & Global Studies",
+            icon: "Globe",
+            description:
+              "Optional enrichment subjects that complement any pathway. Develop global awareness, environmental understanding, and social consciousness.",
+            careerPaths:
+              "International Relations, Environmental Science, Urban Planning, NGO Work, Sustainability, Journalism",
+            universityPrograms:
+              "Geography, Environmental Science, Sociology, International Relations, Urban Studies",
+            subjects: [
+              {
+                code: "0460",
+                name: "Geography",
+                description:
+                  "Study the physical and human world, environmental issues, and global challenges.",
+              },
+              {
+                code: "0495",
+                name: "Sociology",
+                description:
+                  "Understand society, social structures, and human behavior in groups.",
+              },
+              {
+                code: "0457",
+                name: "Global Perspectives",
+                description:
+                  "Develop critical thinking about global issues and different perspectives.",
+              },
+              {
+                code: "0680",
+                name: "Environmental Management",
+                description:
+                  "Learn about sustainability and managing environmental resources.",
+              },
+              {
+                code: "0470",
+                name: "History",
+                description:
+                  "Study past events, historical analysis, and their impact on the modern world.",
+              },
+              {
+                code: "0475",
+                name: "Literature in English",
+                description:
+                  "Explore literary works, develop analytical and interpretive skills.",
+              },
+            ],
+          },
+        };
+
+        const asPathways = {
+          engineering: {
+            name: "Engineering & Technology",
+            description:
+              "This pathway prepares students for mathematically rigorous and technical degrees. Perfect for future engineers, computer scientists, and technology innovators.",
+            careerPaths:
+              "Engineering (all disciplines), Computer Science, Architecture, Data Science, Technology Innovation, Applied Sciences",
+            universityPrograms:
+              "Engineering, Computer Science, Information Technology, Applied Physics, Robotics, Aerospace",
+            mandatory: [
+              {
+                code: "9709",
+                name: "Mathematics",
+                description:
+                  "Essential foundation for all technical and engineering programs.",
+              },
+            ],
+            subjects: [
+              {
+                code: "9702",
+                name: "Physics",
+                description:
+                  "Study mechanics, electricity, thermodynamics, and modern physics at advanced level.",
+              },
+              {
+                code: "9618",
+                name: "Computer Science",
+                description:
+                  "Advanced programming, algorithms, data structures, and computational systems.",
+              },
+              {
+                code: "9701",
+                name: "Chemistry",
+                description:
+                  "In-depth chemistry for engineering applications and materials science.",
+              },
+              {
+                code: "9626",
+                name: "Information Technology",
+                description:
+                  "Practical IT systems, networks, and digital technology management.",
+              },
+            ],
+          },
+          business: {
+            name: "Business & Economics",
+            description:
+              "This pathway academically prepares students for economics, finance and business analysis. Ideal for future business leaders, economists, and financial professionals.",
+            careerPaths:
+              "Business Management, Economics, Finance, Investment Banking, Consulting, Entrepreneurship, Business Analytics",
+            universityPrograms:
+              "Business Administration, Economics, Finance, Accounting, Management, International Business",
+            mandatory: [
+              {
+                code: "9709",
+                name: "Mathematics",
+                description:
+                  "Critical for quantitative analysis in business and economics.",
+              },
+            ],
+            subjects: [
+              {
+                code: "9609",
+                name: "Business",
+                description:
+                  "Business strategy, management, marketing, and organizational behavior.",
+              },
+              {
+                code: "9708",
+                name: "Economics",
+                description:
+                  "Microeconomics, macroeconomics, and economic theory at advanced level.",
+              },
+              {
+                code: "9706",
+                name: "Accounting",
+                description:
+                  "Financial accounting, management accounting, and business finance.",
+              },
+            ],
+          },
+          medical: {
+            name: "Medical & Life Sciences",
+            description:
+              "This pathway meets the academic requirements for medicine and life sciences. Essential preparation for medical school, healthcare professions, and biological sciences.",
+            careerPaths:
+              "Medicine, Dentistry, Pharmacy, Biomedical Sciences, Biotechnology, Neuroscience, Medical Research",
+            universityPrograms:
+              "Medicine, Biomedical Sciences, Pharmacy, Biotechnology, Biochemistry, Molecular Biology",
+            mandatory: [
+              {
+                code: "9709",
+                name: "Mathematics",
+                description:
+                  "Required for scientific analysis and medical research.",
+              },
+            ],
+            subjects: [
+              {
+                code: "9701",
+                name: "Chemistry",
+                description:
+                  "Essential for medicine - covers biochemistry, organic, and pharmaceutical chemistry.",
+              },
+              {
+                code: "9700",
+                name: "Biology",
+                description:
+                  "Comprehensive life sciences - human biology, genetics, and cellular processes.",
+              },
+              {
+                code: "9990",
+                name: "Psychology",
+                description:
+                  "Understanding human behavior, mental processes, and psychological health.",
+              },
+            ],
+          },
+          humanities: {
+            name: "Social Sciences & Humanities",
+            description:
+              "This pathway develops analytical, writing, and research readiness. Perfect for students interested in human society, culture, law, and social systems.",
+            careerPaths:
+              "Law, International Relations, Psychology, Social Work, Policy Analysis, Research, Education, Journalism",
+            universityPrograms:
+              "Law, Psychology, Economics, Political Science, International Relations, Sociology, Philosophy",
+            mandatory: [
+              {
+                code: "9709",
+                name: "Mathematics",
+                description: "Supports analytical and research skills.",
+              },
+            ],
+            subjects: [
+              {
+                code: "9708",
+                name: "Economics",
+                description:
+                  "Economic theory and its application to social policy and global issues.",
+              },
+              {
+                code: "9990",
+                name: "Psychology",
+                description:
+                  "Scientific study of mind and behavior for humanities students.",
+              },
+              {
+                code: "9489",
+                name: "History",
+                description:
+                  "Study historical analysis, interpretation, and research methods.",
+              },
+              {
+                code: "9696",
+                name: "Geography",
+                description:
+                  "Physical and human geography with fieldwork and analysis.",
+              },
+              {
+                code: "9695",
+                name: "English Literature",
+                description:
+                  "Advanced literary analysis and critical interpretation.",
+              },
+              {
+                code: "9699",
+                name: "Sociology",
+                description:
+                  "Study of society, social structures, and human behavior.",
+              },
+              {
+                code: "9084",
+                name: "Law",
+                description: "Introduction to legal systems and jurisprudence.",
+              },
+            ],
+          },
+        };
+
+        const asOptionalSubjects = {
+          title: "Additional Subjects (Optional)",
+          description:
+            "These subjects can complement any pathway and strengthen university applications.",
+          subjects: [
+            {
+              code: "9239",
+              name: "Global Perspectives & Research",
+              description:
+                "Develop research skills and critical analysis of global issues.",
+            },
+            {
+              code: "8021",
+              name: "English General Paper",
+              description:
+                "Advanced English communication and general knowledge.",
+            },
+            {
+              code: "9093",
+              name: "English Language",
+              description: "AS Level only - supports IELTS/TOEFL preparation.",
+            },
+            {
+              code: "8291",
+              name: "Environmental Management",
+              description:
+                "Study sustainability and environmental resource management.",
+            },
+            {
+              code: "9715",
+              name: "Mandarin Chinese",
+              description:
+                "Valuable for international programmes and business.",
+            },
+            {
+              code: "9716",
+              name: "French",
+              description:
+                "Strengthen language skills for international opportunities.",
+            },
+            {
+              code: "9719",
+              name: "Spanish",
+              description: "Build language proficiency for global contexts.",
+            },
+          ],
+        };
+
+        const checkpointInfo = {
+          core: {
+            title: "Core Checkpoint Subjects (Required)",
+            description:
+              "These three subjects form the foundation of your Cambridge education and are mandatory for all students.",
+            subjects: [
+              {
+                key: "english",
+                name: "English",
+                code: "0876",
+                description:
+                  "Develops reading, writing, speaking, and listening skills. Essential for all future academic work.",
+                skills: "Communication, Critical Analysis, Creative Writing",
+              },
+              {
+                key: "mathematics",
+                name: "Mathematics",
+                code: "0862",
+                description:
+                  "Builds problem-solving skills and mathematical thinking. Foundation for sciences and many careers.",
+                skills: "Problem Solving, Logical Thinking, Numerical Analysis",
+              },
+              {
+                key: "science",
+                name: "Science",
+                code: "0893",
+                description:
+                  "Covers Biology, Chemistry, and Physics. Develops scientific inquiry and experimental skills.",
+                skills: "Scientific Method, Investigation, Data Analysis",
+              },
+            ],
+          },
+          enrichment: {
+            title: "Enrichment Subjects (Recommended)",
+            description:
+              "These subjects support your IGCSE pathway choices and develop additional skills. Choose up to 2 subjects.",
+            subjects: [
+              {
+                key: "computing",
+                name: "Computing",
+                code: "0860",
+                description:
+                  "Introduction to programming, algorithms, and computational thinking. Excellent preparation for Computer Science or ICT at IGCSE.",
+                prepares: "IGCSE Computer Science (0478), IGCSE ICT (0417)",
+                skills: "Coding, Algorithm Design, Digital Literacy",
+              },
+              {
+                key: "globalPerspectives",
+                name: "Global Perspectives",
+                code: "1129",
+                description:
+                  "Develops research, analysis, and presentation skills while exploring global issues. Perfect preparation for IGCSE Global Perspectives.",
+                prepares:
+                  "IGCSE Global Perspectives (0457), University Research Skills",
+                skills: "Research, Critical Thinking, Presentation",
+              },
+            ],
+          },
+        };
+
+        const handleIgcseElectiveToggle = (subjectCode) => {
+          if (igcseElectives.includes(subjectCode)) {
+            setIgcseElectives(igcseElectives.filter((s) => s !== subjectCode));
+          } else if (igcseElectives.length < 3) {
+            setIgcseElectives([...igcseElectives, subjectCode]);
+          }
+        };
+
+        const handleAsSubjectToggle = (subjectCode) => {
+          if (asSubjects.includes(subjectCode)) {
+            setAsSubjects(asSubjects.filter((s) => s !== subjectCode));
+          } else if (asSubjects.length < 3) {
+            setAsSubjects([...asSubjects, subjectCode]);
+          }
+        };
+
+        const totalCheckpoint =
+          Object.values(checkpointSubjects).filter(Boolean).length;
+        const totalIgcse = 3 + igcseElectives.length;
+
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <GraduationCap size={40} />
+                      <div>
+                        <h1 className="text-3xl font-bold">
+                          Cambridge Simulator
+                        </h1>
+                        <p className="text-blue-100">
+                          Explore Your Academic Journey
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <button
+                          onClick={() =>
+                            setShowInfo({
+                              ...showInfo,
+                              formsMenu: !showInfo.formsMenu,
+                            })
+                          }
+                          className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all backdrop-blur-sm border border-white/30"
+                        >
+                          <BookOpen size={20} />
+                          <span className="font-semibold">
+                            Subject Selection
+                          </span>
+                        </button>
+
+                        {showInfo.formsMenu && (
+                          <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl overflow-hidden z-50 border-2 border-indigo-200">
+                            <div className="bg-indigo-600 px-4 py-3 border-b border-indigo-500">
+                              <h3 className="font-bold text-white">
+                                Download Official Forms
+                              </h3>
+                            </div>
+                            <div className="p-2">
+                              <a
+                                href="https://docs.google.com/document/d/1tLQyMq0SJ6ZRKLTYIrk2SnTPB5ij81kecqC_Dx5VpP4/edit?usp=sharing"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-start gap-3 p-3 hover:bg-blue-50 rounded-lg transition-all group"
+                              >
+                                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-all">
+                                  <BookOpen
+                                    size={20}
+                                    className="text-blue-600"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-semibold text-gray-800 group-hover:text-blue-600 transition-all">
+                                    Checkpoint Form
+                                  </p>
+                                  <p className="text-xs text-gray-600">
+                                    Lower Secondary (Grades 7-8)
+                                  </p>
+                                </div>
+                              </a>
+
+                              <a
+                                href="https://docs.google.com/document/d/1ojXgQJFobD_7XobMJbpgbttca6fKNZsow2xXp4GtqDc/edit?usp=sharing"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-start gap-3 p-3 hover:bg-green-50 rounded-lg transition-all group"
+                              >
+                                <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-all">
+                                  <BookOpen
+                                    size={20}
+                                    className="text-green-600"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-semibold text-gray-800 group-hover:text-green-600 transition-all">
+                                    IGCSE Form
+                                  </p>
+                                  <p className="text-xs text-gray-600">
+                                    Upper Secondary (Grades 9-10)
+                                  </p>
+                                </div>
+                              </a>
+
+                              <a
+                                href="https://docs.google.com/document/d/11m8gYw-Oi7X9y-YUj1Qni9DPr3hkCeHnTdi80MlIFFQ/edit?usp=sharing"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-start gap-3 p-3 hover:bg-indigo-50 rounded-lg transition-all group"
+                              >
+                                <div className="p-2 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-all">
+                                  <BookOpen
+                                    size={20}
+                                    className="text-indigo-600"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-semibold text-gray-800 group-hover:text-indigo-600 transition-all">
+                                    AS/A Level Form
+                                  </p>
+                                  <p className="text-xs text-gray-600">
+                                    Advanced Level (Grades 11-12)
+                                  </p>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <a
+                        href="https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all backdrop-blur-sm border border-white/30"
+                      >
+                        <Info size={20} />
+                        <span className="font-semibold">Reference</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stage Information Banner */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 border-b">
+                  <div className="max-w-4xl">
+                    <h2 className="text-xl font-bold text-gray-800 mb-2">
+                      {stageInfo[stage].title}
+                    </h2>
+                    <p className="text-gray-700 mb-3">
+                      {stageInfo[stage].description}
+                    </p>
+                    <div className="bg-white p-4 rounded-lg border-l-4 border-blue-600">
+                      <div className="flex items-start gap-2">
+                        <Target
+                          className="text-blue-600 mt-1 flex-shrink-0"
+                          size={20}
+                        />
+                        <p className="text-sm text-gray-700">
+                          <strong>Recommendation:</strong>{" "}
+                          {stageInfo[stage].recommendation}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stage Selector */}
+                <div className="p-6 border-b bg-gray-50">
+                  <div className="flex gap-3">
+                    {["checkpoint", "igcse", "aslevel"].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setStage(s)}
+                        className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                          stage === s
+                            ? "bg-blue-600 text-white shadow-lg"
+                            : "bg-white text-gray-600 hover:bg-gray-100"
+                        }`}
+                      >
+                        {s === "checkpoint"
+                          ? "Lower Secondary"
+                          : s === "igcse"
+                            ? "IGCSE"
+                            : "AS/A Level"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-8">
+                  {/* Student Information */}
+                  <div className="mb-8 bg-gray-50 p-6 rounded-xl">
+                    <h3 className="font-semibold text-lg mb-4 text-gray-800">
+                      Student Information
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <input
+                        type="text"
+                        placeholder="Student Name"
+                        value={studentName}
+                        onChange={(e) => setStudentName(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Class / Section"
+                        value={classSection}
+                        onChange={(e) => setClassSection(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Academic Year"
+                        value={academicYear}
+                        onChange={(e) => setAcademicYear(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Checkpoint Stage */}
+                  {stage === "checkpoint" && (
+                    <div>
+                      <div className="mb-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <h3 className="font-bold text-2xl text-gray-800">
+                            {checkpointInfo.core.title}
+                          </h3>
+                        </div>
+                        <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                          <p className="text-gray-700">
+                            {checkpointInfo.core.description}
+                          </p>
+                        </div>
+                        <div className="space-y-4">
+                          {checkpointInfo.core.subjects.map((subject) => (
+                            <div
+                              key={subject.key}
+                              className="bg-white border-2 border-blue-200 rounded-xl p-5 shadow-sm"
+                            >
+                              <div className="flex items-start gap-3 mb-3">
+                                <CheckCircle2
+                                  className="text-blue-600 flex-shrink-0 mt-1"
+                                  size={24}
+                                />
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <span className="font-bold text-lg text-gray-800">
+                                      {subject.name}
+                                    </span>
+                                    <span className="text-sm px-2 py-1 bg-blue-100 text-blue-700 rounded">
+                                      {subject.code}
+                                    </span>
+                                    <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded font-semibold">
+                                      REQUIRED
+                                    </span>
+                                  </div>
+                                  <p className="text-gray-700 mb-2">
+                                    {subject.description}
+                                  </p>
+                                  <div className="flex items-center gap-2 text-sm">
+                                    <TrendingUp
+                                      size={16}
+                                      className="text-blue-600"
+                                    />
+                                    <span className="text-gray-600">
+                                      <strong>Key Skills:</strong>{" "}
+                                      {subject.skills}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <h3 className="font-bold text-2xl text-gray-800">
+                            {checkpointInfo.enrichment.title}
+                          </h3>
+                        </div>
+                        <div className="bg-green-50 p-4 rounded-lg mb-4">
+                          <p className="text-gray-700">
+                            {checkpointInfo.enrichment.description}
+                          </p>
+                        </div>
+                        <div className="space-y-4">
+                          {checkpointInfo.enrichment.subjects.map((subject) => (
+                            <button
+                              key={subject.key}
+                              onClick={() =>
+                                setCheckpointSubjects({
+                                  ...checkpointSubjects,
+                                  [subject.key]:
+                                    !checkpointSubjects[subject.key],
+                                })
+                              }
+                              className="w-full text-left bg-white border-2 rounded-xl p-5 hover:shadow-md transition-all"
+                            >
+                              <div className="flex items-start gap-3">
+                                {checkpointSubjects[subject.key] ? (
+                                  <CheckCircle2
+                                    className="text-green-600 flex-shrink-0 mt-1"
+                                    size={24}
+                                  />
+                                ) : (
+                                  <Circle
+                                    className="text-gray-400 flex-shrink-0 mt-1"
+                                    size={24}
+                                  />
+                                )}
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <span className="font-bold text-lg text-gray-800">
+                                      {subject.name}
+                                    </span>
+                                    <span className="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                                      {subject.code}
+                                    </span>
+                                  </div>
+                                  <p className="text-gray-700 mb-2">
+                                    {subject.description}
+                                  </p>
+                                  <div className="grid md:grid-cols-2 gap-2 text-sm">
+                                    <div className="flex items-center gap-2">
+                                      <Target
+                                        size={16}
+                                        className="text-green-600"
+                                      />
+                                      <span className="text-gray-600">
+                                        <strong>Prepares for:</strong>{" "}
+                                        {subject.prepares}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <TrendingUp
+                                        size={16}
+                                        className="text-green-600"
+                                      />
+                                      <span className="text-gray-600">
+                                        <strong>Skills:</strong>{" "}
+                                        {subject.skills}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-2 border-blue-200">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle
+                            className="text-blue-600 mt-1 flex-shrink-0"
+                            size={28}
+                          />
+                          <div>
+                            <h4 className="font-bold text-xl text-gray-800 mb-2">
+                              Your Selection Summary
+                            </h4>
+                            <div className="bg-white p-4 rounded-lg mb-3">
+                              <p className="text-2xl font-bold text-blue-600 mb-1">
+                                {totalCheckpoint} Subjects Selected
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {totalCheckpoint < 5
+                                  ? "Consider adding more enrichment subjects for optimal preparation"
+                                  : totalCheckpoint === 5
+                                    ? "Perfect balance! This is the recommended subject load."
+                                    : "You have selected more than the recommended amount"}
+                              </p>
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                              <strong>Why 5 subjects?</strong> This combination
+                              provides the ideal foundation for your IGCSE
+                              studies while maintaining a healthy balance with
+                              your national curriculum.
+                            </p>
+                            <div className="bg-amber-50 p-3 rounded-lg text-xs text-gray-700">
+                              <strong>Alternative Option:</strong> Students who
+                              find the full programme challenging may take core
+                              subjects only (3 subjects), focusing on English,
+                              Mathematics, and Science. Discuss with Academic
+                              Counselor.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* IGCSE Stage */}
+                  {stage === "igcse" && (
+                    <div>
+                      <div className="mb-6">
+                        <h3 className="font-bold text-2xl mb-4 text-gray-800">
+                          Mandatory Core Subjects
+                        </h3>
+                        <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                          <p className="text-gray-700">
+                            All students must take these three foundation
+                            subjects. They are essential for university
+                            admission worldwide.
+                          </p>
+                        </div>
+                        <div className="space-y-3">
+                          {[
+                            {
+                              name: "English",
+                              code: "0510",
+                              description:
+                                "Essential communication skills for all academic and professional contexts",
+                            },
+                            {
+                              name: "Bahasa Indonesia",
+                              code: "0538",
+                              description:
+                                "Required for Indonesian national curriculum compliance",
+                            },
+                            {
+                              name: "Mathematics",
+                              code: "0580",
+                              description:
+                                "Core quantitative skills needed for most university programs",
+                            },
+                          ].map((subject) => (
+                            <div
+                              key={subject.code}
+                              className="flex items-start gap-3 p-5 bg-white border-2 border-blue-200 rounded-xl shadow-sm"
+                            >
+                              <CheckCircle2
+                                className="text-blue-600 flex-shrink-0 mt-1"
+                                size={24}
+                              />
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="font-bold text-lg text-gray-800">
+                                    {subject.name}
+                                  </span>
+                                  <span className="text-sm px-2 py-1 bg-blue-100 text-blue-700 rounded">
+                                    {subject.code}
+                                  </span>
+                                  <span className="text-xs px-2 py-1 bg-red-100 text-red-700 rounded font-semibold">
+                                    MANDATORY
+                                  </span>
+                                </div>
+                                <p className="text-gray-600 text-sm">
+                                  {subject.description}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-8 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl p-6">
+                        <div className="flex items-start gap-3">
+                          <Info
+                            className="text-amber-600 flex-shrink-0 mt-1"
+                            size={24}
+                          />
+                          <div>
+                            <h4 className="font-bold text-lg text-gray-800 mb-2">
+                              Why 6 IGCSE Subjects?
+                            </h4>
+                            <div className="space-y-2 text-sm text-gray-700">
+                              <p>
+                                <strong>✓ Better Academic Results:</strong>{" "}
+                                Students can focus deeply on each subject,
+                                leading to higher grades and better
+                                understanding.
+                              </p>
+                              <p>
+                                <strong>✓ Healthy Balance:</strong> Maintains
+                                equilibrium between Cambridge IGCSE and
+                                Indonesian national curriculum requirements.
+                              </p>
+                              <p>
+                                <strong>✓ University Preparation:</strong>{" "}
+                                Quality over quantity - universities value
+                                strong results in focused subjects over mediocre
+                                results in many subjects.
+                              </p>
+                              <p>
+                                <strong>✓ International Standard:</strong> This
+                                model is widely used in top Cambridge schools
+                                across Asia and proven effective.
+                              </p>
+                              <p>
+                                <strong>✓ AS/A Level Success:</strong> Better
+                                prepares students for the rigorous demands of A
+                                Level studies.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <h3 className="font-bold text-2xl mb-4 text-gray-800">
+                          Choose Your Pathway
+                        </h3>
+                        <p className="text-gray-600 mb-6">
+                          Select the pathway that aligns with your interests and
+                          future goals. Each pathway prepares you for specific
+                          university programs and careers.
+                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-5">
+                          {Object.entries(igcsePathways).map(
+                            ([key, pathway]) => {
+                              const IconComponent =
+                                key === "engineering"
+                                  ? BookOpen
+                                  : key === "business"
+                                    ? Briefcase
+                                    : key === "medical"
+                                      ? Heart
+                                      : Globe;
+                              const isSelected = igcsePathway === key;
+
+                              return (
+                                <button
+                                  key={key}
+                                  onClick={() => {
+                                    setIgcsePathway(key);
+                                    setIgcseElectives([]);
+                                    setShowInfo({
+                                      ...showInfo,
+                                      [key]: !showInfo[key],
+                                    });
+                                  }}
+                                  className={`p-6 rounded-xl border-2 transition-all text-left ${
+                                    isSelected
+                                      ? "border-blue-600 bg-blue-50 shadow-lg"
+                                      : "border-gray-200 hover:border-gray-300 bg-white hover:shadow-md"
+                                  }`}
+                                >
+                                  <IconComponent
+                                    className={
+                                      isSelected
+                                        ? "text-blue-600 mb-3"
+                                        : "text-gray-400 mb-3"
+                                    }
+                                    size={36}
+                                  />
+                                  <h4 className="font-bold text-lg text-gray-800 mb-2">
+                                    {pathway.name}
+                                  </h4>
+                                  <p className="text-sm text-gray-600 mb-3">
+                                    {pathway.description}
+                                  </p>
+
+                                  {isSelected && (
+                                    <div className="mt-4 pt-4 border-t border-blue-200 space-y-2 text-sm">
+                                      <div>
+                                        <strong className="text-blue-700">
+                                          Career Paths:
+                                        </strong>
+                                        <p className="text-gray-700 mt-1">
+                                          {pathway.careerPaths}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <strong className="text-blue-700">
+                                          University Programs:
+                                        </strong>
+                                        <p className="text-gray-700 mt-1">
+                                          {pathway.universityPrograms}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  )}
+                                </button>
+                              );
+                            },
+                          )}
+                        </div>
+                      </div>
+
+                      {igcsePathway && (
+                        <div className="mb-6">
+                          <h3 className="font-bold text-2xl mb-2 text-gray-800">
+                            Select 3 Subjects from Your Pathway
+                          </h3>
+                          <p className="text-gray-600 mb-6">
+                            Choose exactly 3 subjects that interest you most and
+                            align with your future plans. Click on each subject
+                            to see detailed information.
+                          </p>
+
+                          <div className="space-y-4">
+                            {igcsePathways[igcsePathway].subjects.map(
+                              (subject) => {
+                                const isSelected = igcseElectives.includes(
+                                  subject.code,
+                                );
+                                const isDisabled =
+                                  !isSelected && igcseElectives.length >= 3;
+
+                                return (
+                                  <div key={subject.code}>
+                                    <button
+                                      onClick={() => {
+                                        handleIgcseElectiveToggle(subject.code);
+                                        setShowInfo({
+                                          ...showInfo,
+                                          [subject.code]:
+                                            !showInfo[subject.code],
+                                        });
+                                      }}
+                                      disabled={isDisabled}
+                                      className={`w-full flex items-start gap-4 p-5 rounded-xl border-2 transition-all text-left ${
+                                        isSelected
+                                          ? "border-green-600 bg-green-50 shadow-md"
+                                          : isDisabled
+                                            ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
+                                            : "border-gray-200 hover:border-blue-300 bg-white hover:shadow-md"
+                                      }`}
+                                    >
+                                      <div className="flex-shrink-0 mt-1">
+                                        {isSelected ? (
+                                          <CheckCircle2
+                                            className="text-green-600"
+                                            size={28}
+                                          />
+                                        ) : (
+                                          <Circle
+                                            className="text-gray-400"
+                                            size={28}
+                                          />
+                                        )}
+                                      </div>
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-2">
+                                          <span className="font-bold text-lg text-gray-800">
+                                            {subject.name}
+                                          </span>
+                                          <span className="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                                            {subject.code}
+                                          </span>
+                                          {isSelected && (
+                                            <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded font-semibold">
+                                              SELECTED
+                                            </span>
+                                          )}
+                                        </div>
+                                        <p className="text-gray-700 text-sm">
+                                          {subject.description}
+                                        </p>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              },
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle
+                            className="text-green-600 mt-1 flex-shrink-0"
+                            size={28}
+                          />
+                          <div>
+                            <h4 className="font-bold text-xl text-gray-800 mb-3">
+                              Your IGCSE Subject Summary
+                            </h4>
+                            <div className="bg-white p-4 rounded-lg mb-3">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-gray-700 font-semibold">
+                                  Total Subjects:
+                                </span>
+                                <span className="text-3xl font-bold text-green-600">
+                                  {totalIgcse}/6
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <div className="flex-1 bg-gray-200 rounded-full h-3">
+                                  <div
+                                    className={`h-3 rounded-full transition-all ${
+                                      totalIgcse === 6
+                                        ? "bg-green-600"
+                                        : totalIgcse > 6
+                                          ? "bg-amber-600"
+                                          : "bg-blue-600"
+                                    }`}
+                                    style={{
+                                      width: `${(totalIgcse / 6) * 100}%`,
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                              <p className="text-sm text-gray-600 mt-2">
+                                {totalIgcse < 6
+                                  ? `Select ${6 - totalIgcse} more subject${
+                                      6 - totalIgcse > 1 ? "s" : ""
+                                    } to reach the recommended load`
+                                  : totalIgcse === 6
+                                    ? "✓ Perfect! You have the optimal subject load for success"
+                                    : "You have selected more than recommended - consider reducing for better results"}
+                              </p>
+                            </div>
+                            <div className="bg-white p-4 rounded-lg text-sm text-gray-700 space-y-2">
+                              <p>
+                                <strong>Your Selections:</strong>
+                              </p>
+                              <p>
+                                • Core: English (0510), Bahasa Indonesia (0538),
+                                Mathematics (0580)
+                              </p>
+                              {igcseElectives.length > 0 && (
+                                <p>
+                                  • Pathway:{" "}
+                                  {igcseElectives
+                                    .map((code) => {
+                                      const subject = Object.values(
+                                        igcsePathways,
+                                      )
+                                        .flatMap((p) => p.subjects)
+                                        .find((s) => s.code === code);
+                                      return subject
+                                        ? `${subject.name} (${subject.code})`
+                                        : code;
+                                    })
+                                    .join(", ")}
+                                </p>
+                              )}
+                            </div>
+                            <div className="bg-amber-50 p-3 rounded-lg text-xs text-gray-700 mt-3">
+                              <strong>Reduced Load Option:</strong> Students may
+                              take 5 subjects (3 core + 2 pathway) or 4 subjects
+                              (3 core + 1 pathway) with Academic Counselor
+                              approval. Suitable for students needing additional
+                              support or planning AS Level only.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AS/A Level Stage */}
+                  {stage === "aslevel" && (
+                    <div>
+                      <div className="mb-8 bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-xl p-6">
+                        <div className="flex items-start gap-3">
+                          <GraduationCap
+                            className="text-indigo-600 flex-shrink-0 mt-1"
+                            size={32}
+                          />
+                          <div>
+                            <h4 className="font-bold text-xl text-gray-800 mb-3">
+                              Understanding AS & A Levels
+                            </h4>
+                            <div className="space-y-2 text-sm text-gray-700">
+                              <p>
+                                <strong>AS Level (Grade 11):</strong> Students
+                                typically take 3-4 subjects including
+                                Mathematics. This is a standalone qualification
+                                and also the first half of the full A Level.
+                              </p>
+                              <p>
+                                <strong>A Level (Grade 12):</strong> Students
+                                continue with 3 subjects to complete their A
+                                Levels. These are the gold standard for
+                                university admission worldwide.
+                              </p>
+                              <p>
+                                <strong>Subject Structure:</strong> Mathematics
+                                is mandatory for all pathways. Students then
+                                choose 2-3 additional subjects from their chosen
+                                pathway.
+                              </p>
+                              <p>
+                                <strong>University Recognition:</strong> A
+                                Levels are accepted by universities in 160+
+                                countries. Top universities typically require
+                                AAA to AAB grades. Universities value subject
+                                relevance, academic depth, and high grades over
+                                the number of subjects taken.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Mandatory Mathematics Section */}
+                      <div className="mb-6">
+                        <h3 className="font-bold text-2xl mb-4 text-gray-800">
+                          Mandatory Subject (All Students)
+                        </h3>
+                        <div className="bg-red-50 p-4 rounded-lg mb-4 border-2 border-red-200">
+                          <p className="text-gray-700 font-semibold">
+                            Mathematics is required for ALL AS/A Level students
+                            regardless of pathway.
+                          </p>
+                        </div>
+                        <div className="bg-white border-2 border-red-300 rounded-xl p-5 shadow-sm">
+                          <div className="flex items-start gap-3">
+                            <CheckCircle2
+                              className="text-red-600 flex-shrink-0 mt-1"
+                              size={28}
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <span className="font-bold text-xl text-gray-800">
+                                  Mathematics
+                                </span>
+                                <span className="text-sm px-3 py-1 bg-red-100 text-red-700 rounded font-semibold">
+                                  9709
+                                </span>
+                                <span className="text-xs px-3 py-1 bg-red-600 text-white rounded font-bold">
+                                  MANDATORY
+                                </span>
+                              </div>
+                              <p className="text-gray-700">
+                                Pure mathematics, mechanics, and statistics at
+                                university preparation level. Essential for all
+                                pathways.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <h3 className="font-bold text-2xl mb-4 text-gray-800">
+                          Choose Your Specialization Pathway
+                        </h3>
+                        <p className="text-gray-600 mb-6">
+                          Your AS/A Level pathway should align with your
+                          intended university program. Select the pathway that
+                          matches your goals, then choose 2-3 subjects from that
+                          pathway.
+                        </p>
+
+                        <div className="grid md:grid-cols-1 gap-5">
+                          {Object.entries(asPathways).map(([key, pathway]) => {
+                            const isSelected = asPathway === key;
+
+                            return (
+                              <button
+                                key={key}
+                                onClick={() => {
+                                  setAsPathway(key);
+                                  setAsSubjects([]);
+                                }}
+                                className={`p-6 rounded-xl border-2 transition-all text-left ${
+                                  isSelected
+                                    ? "border-indigo-600 bg-indigo-50 shadow-lg"
+                                    : "border-gray-200 hover:border-gray-300 bg-white hover:shadow-md"
+                                }`}
+                              >
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <h4 className="font-bold text-xl text-gray-800 mb-2">
+                                      {pathway.name}
+                                    </h4>
+                                    <p className="text-gray-700 mb-4">
+                                      {pathway.description}
+                                    </p>
+
+                                    {isSelected && (
+                                      <div className="space-y-3 pt-4 border-t border-indigo-200">
+                                        <div className="bg-white p-4 rounded-lg">
+                                          <strong className="text-indigo-700 flex items-center gap-2 mb-2">
+                                            <Target size={18} />
+                                            Career Opportunities:
+                                          </strong>
+                                          <p className="text-gray-700 text-sm">
+                                            {pathway.careerPaths}
+                                          </p>
+                                        </div>
+                                        <div className="bg-white p-4 rounded-lg">
+                                          <strong className="text-indigo-700 flex items-center gap-2 mb-2">
+                                            <GraduationCap size={18} />
+                                            University Programs:
+                                          </strong>
+                                          <p className="text-gray-700 text-sm">
+                                            {pathway.universityPrograms}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                  {isSelected && (
+                                    <CheckCircle2
+                                      className="text-indigo-600 flex-shrink-0 ml-4"
+                                      size={32}
+                                    />
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {asPathway && (
+                        <div className="mb-6">
+                          <h3 className="font-bold text-2xl mb-2 text-gray-800">
+                            Select 2-3 Subjects from{" "}
+                            {asPathways[asPathway].name}
+                          </h3>
+                          <p className="text-gray-600 mb-6">
+                            You will take Mathematics (mandatory) + 2-3 subjects
+                            from your chosen pathway = Total of 3-4 AS Level
+                            subjects. Choose subjects that complement each other
+                            and align with your university goals.
+                          </p>
+
+                          <div className="space-y-4">
+                            {asPathways[asPathway].subjects.map((subject) => {
+                              const isSelected = asSubjects.includes(
+                                subject.code,
+                              );
+                              const isDisabled =
+                                !isSelected && asSubjects.length >= 3;
+
+                              return (
+                                <button
+                                  key={subject.code}
+                                  onClick={() => {
+                                    handleAsSubjectToggle(subject.code);
+                                  }}
+                                  disabled={isDisabled}
+                                  className={`w-full flex items-start gap-4 p-5 rounded-xl border-2 transition-all text-left ${
+                                    isSelected
+                                      ? "border-indigo-600 bg-indigo-50 shadow-md"
+                                      : isDisabled
+                                        ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
+                                        : "border-gray-200 hover:border-indigo-300 bg-white hover:shadow-md"
+                                  }`}
+                                >
+                                  <div className="flex-shrink-0 mt-1">
+                                    {isSelected ? (
+                                      <CheckCircle2
+                                        className="text-indigo-600"
+                                        size={28}
+                                      />
+                                    ) : (
+                                      <Circle
+                                        className="text-gray-400"
+                                        size={28}
+                                      />
+                                    )}
+                                  </div>
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <span className="font-bold text-lg text-gray-800">
+                                        {subject.name}
+                                      </span>
+                                      <span className="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                                        {subject.code}
+                                      </span>
+                                      {isSelected && (
+                                        <span className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded font-semibold">
+                                          SELECTED
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-gray-700 text-sm leading-relaxed">
+                                      {subject.description}
+                                    </p>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {/* Optional Subjects Section */}
+                          <div className="mt-6 bg-amber-50 border-2 border-amber-200 rounded-xl p-5">
+                            <h4 className="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                              <Info size={20} className="text-amber-600" />
+                              {asOptionalSubjects.title}
+                            </h4>
+                            <p className="text-sm text-gray-700 mb-4">
+                              {asOptionalSubjects.description}
+                            </p>
+                            <div className="space-y-3">
+                              {asOptionalSubjects.subjects.map((subject) => {
+                                const isSelected = asSubjects.includes(
+                                  subject.code,
+                                );
+                                return (
+                                  <button
+                                    key={subject.code}
+                                    onClick={() =>
+                                      handleAsSubjectToggle(subject.code)
+                                    }
+                                    disabled={
+                                      !isSelected && asSubjects.length >= 3
+                                    }
+                                    className={`w-full flex items-start gap-3 p-4 rounded-lg border transition-all text-left ${
+                                      isSelected
+                                        ? "border-amber-500 bg-white shadow-sm"
+                                        : asSubjects.length >= 3
+                                          ? "border-amber-200 bg-amber-50/50 opacity-50 cursor-not-allowed"
+                                          : "border-amber-200 bg-white hover:border-amber-400"
+                                    }`}
+                                  >
+                                    {isSelected ? (
+                                      <CheckCircle2
+                                        className="text-amber-600 flex-shrink-0 mt-1"
+                                        size={20}
+                                      />
+                                    ) : (
+                                      <Circle
+                                        className="text-gray-400 flex-shrink-0 mt-1"
+                                        size={20}
+                                      />
+                                    )}
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold text-gray-800">
+                                          {subject.name}
+                                        </span>
+                                        <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded">
+                                          {subject.code}
+                                        </span>
+                                      </div>
+                                      <p className="text-sm text-gray-600">
+                                        {subject.description}
+                                      </p>
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl border-2 border-indigo-200">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle
+                            className="text-indigo-600 mt-1 flex-shrink-0"
+                            size={28}
+                          />
+                          <div>
+                            <h4 className="font-bold text-xl text-gray-800 mb-3">
+                              Your AS/A Level Plan
+                            </h4>
+                            <div className="bg-white p-5 rounded-lg mb-3">
+                              <div className="grid md:grid-cols-2 gap-4 mb-3">
+                                <div>
+                                  <p className="text-sm text-gray-600 mb-1">
+                                    Mandatory Subject
+                                  </p>
+                                  <p className="text-lg font-bold text-red-600">
+                                    ✓ Mathematics (9709)
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-gray-600 mb-1">
+                                    Pathway Subjects
+                                  </p>
+                                  <p className="text-lg font-bold text-indigo-600">
+                                    {asSubjects.length}/3 Selected
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="bg-gradient-to-r from-red-100 to-indigo-100 p-3 rounded">
+                                <p className="text-center font-bold text-gray-800">
+                                  Total AS Level Load: {asSubjects.length + 1}{" "}
+                                  Subjects (Math + {asSubjects.length} pathway)
+                                </p>
+                              </div>
+                              <p className="text-sm text-gray-600 mt-3">
+                                {asSubjects.length < 2
+                                  ? `Select at least ${
+                                      2 - asSubjects.length
+                                    } more pathway subject${
+                                      2 - asSubjects.length > 1 ? "s" : ""
+                                    }`
+                                  : asSubjects.length === 2
+                                    ? "✓ Minimum requirement met! You can add 1 more subject (optional)"
+                                    : asSubjects.length === 3
+                                      ? "✓ Perfect! You have selected the recommended number of subjects"
+                                      : "✓ Maximum subjects selected"}
+                              </p>
+                            </div>
+
+                            {asSubjects.length > 0 && (
+                              <div className="bg-white p-4 rounded-lg text-sm space-y-2 mb-4">
+                                <p className="font-semibold text-gray-800">
+                                  Your Complete Subject List:
+                                </p>
+                                <p className="text-red-700">
+                                  • <strong>Mathematics (9709)</strong> -
+                                  Mandatory
+                                </p>
+                                {asSubjects.map((code) => {
+                                  const subject =
+                                    Object.values(asPathways)
+                                      .flatMap((p) => p.subjects)
+                                      .find((s) => s.code === code) ||
+                                    asOptionalSubjects.subjects.find(
+                                      (s) => s.code === code,
+                                    );
+                                  return subject ? (
+                                    <p key={code} className="text-gray-700">
+                                      • {subject.name} ({subject.code})
+                                    </p>
+                                  ) : null;
+                                })}
+                              </div>
+                            )}
+
+                            <div className="bg-indigo-100 p-4 rounded-lg text-sm text-gray-700">
+                              <strong className="text-indigo-800">
+                                Recommended Structure:
+                              </strong>
+                              <p className="mt-1">
+                                Take 3-4 subjects at AS Level (Grade 11), then
+                                continue with 3 subjects to A Level (Grade 12).
+                                Universities value subject relevance, academic
+                                depth, and high grades over quantity.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <CambridgePathwaySelector />,
+        document.getElementById("root"),
+      );
+    </script>
+
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>

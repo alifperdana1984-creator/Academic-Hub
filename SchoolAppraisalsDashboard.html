@@ -1,0 +1,5370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Appraisals Dashboard</title>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@1.8.6/umd/Recharts.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+const { useState } = React;
+const {
+  ResponsiveContainer, BarChart, PieChart, RadarChart, ScatterChart,
+  CartesianGrid, XAxis, YAxis, Tooltip, Legend,
+  Bar, Pie, Cell, Radar, Scatter,
+  PolarGrid, PolarAngleAxis, PolarRadiusAxis
+} = Recharts;
+
+const ComprehensiveDashboard = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+  const [selectedPriority, setSelectedPriority] = useState("all");
+  const [expandedCards, setExpandedCards] = useState({});
+
+  // Data structures (same as before)
+  const dashboardData = {
+    schools: [
+      {
+        name: "Cahaya Rancamaya",
+        observations: 27,
+        subjects: 10,
+        classrooms: 6,
+        safeguarding: "incomplete",
+        englishLevel: "B1",
+        dataUsage: "low",
+      },
+      {
+        name: "EMER Islamic School",
+        observations: 13,
+        subjects: 8,
+        classrooms: 4,
+        safeguarding: "incomplete",
+        englishLevel: "A2",
+        dataUsage: "low",
+      },
+      {
+        name: "Kesatuan Bangsa School",
+        observations: 34,
+        subjects: 10,
+        classrooms: 8,
+        safeguarding: "incomplete",
+        englishLevel: "B1",
+        dataUsage: "medium",
+      },
+      {
+        name: "Mega Islamic School",
+        observations: 16,
+        subjects: 13,
+        classrooms: 6,
+        safeguarding: "incomplete",
+        englishLevel: "A2",
+        dataUsage: "low",
+      },
+      {
+        name: "Pakar Belia Islamic School",
+        observations: 11,
+        subjects: 8,
+        classrooms: 2,
+        safeguarding: "incomplete",
+        englishLevel: "A2",
+        dataUsage: "low",
+      },
+      {
+        name: "Pribadi Bandung School",
+        observations: 37,
+        subjects: 10,
+        classrooms: 14,
+        safeguarding: "partial",
+        englishLevel: "B1",
+        dataUsage: "medium",
+      },
+      {
+        name: "Pribadi Depok School",
+        observations: 24,
+        subjects: 9,
+        classrooms: 11,
+        safeguarding: "partial",
+        englishLevel: "B1",
+        dataUsage: "medium",
+      },
+      {
+        name: "Pribadi Premiere School",
+        observations: 24,
+        subjects: 11,
+        classrooms: 11,
+        safeguarding: "partial",
+        englishLevel: "B2",
+        dataUsage: "high",
+      },
+      {
+        name: "Semesta 2 School",
+        observations: 15,
+        subjects: 8,
+        classrooms: 4,
+        safeguarding: "incomplete",
+        englishLevel: "A2",
+        dataUsage: "low",
+      },
+    ],
+    subjects: [
+      { name: "English", observations: 42, cambridgeAlignment: 75 },
+      { name: "Mathematics", observations: 38, cambridgeAlignment: 80 },
+      { name: "Religion", observations: 24, cambridgeAlignment: 60 },
+      { name: "Science", observations: 18, cambridgeAlignment: 70 },
+      { name: "Chemistry", observations: 15, cambridgeAlignment: 75 },
+      { name: "Biology", observations: 14, cambridgeAlignment: 75 },
+      { name: "Physics", observations: 11, cambridgeAlignment: 70 },
+      { name: "EduSTEAM", observations: 10, cambridgeAlignment: 65 },
+      { name: "Early Years", observations: 9, cambridgeAlignment: 60 },
+      { name: "Arabic", observations: 8, cambridgeAlignment: 50 },
+      { name: "Bahasa Indonesia", observations: 4, cambridgeAlignment: 65 },
+      { name: "Tahsin", observations: 3, cambridgeAlignment: 55 },
+      { name: "Civic Education", observations: 2, cambridgeAlignment: 60 },
+      { name: "Art", observations: 1, cambridgeAlignment: 50 },
+      { name: "Music", observations: 1, cambridgeAlignment: 50 },
+      { name: "Social Studies", observations: 1, cambridgeAlignment: 55 },
+    ],
+    appraisers: [
+      { name: "Alif Perdana", observations: 42, schools_covered: 9 },
+      { name: "Jaini Mukhlis", observations: 39, schools_covered: 9 },
+      { name: "Ridwan Sumitro", observations: 39, schools_covered: 5 },
+      { name: "Mukhtor Adashev", observations: 25, schools_covered: 6 },
+      { name: "Muhammad Ali", observations: 21, schools_covered: 8 },
+      { name: "Rizqan Maulana", observations: 19, schools_covered: 8 },
+      { name: "Ari Yanuar Hakim", observations: 13, schools_covered: 7 },
+      { name: "Vani Miyanti Putri", observations: 3, schools_covered: 1 },
+    ],
+    meetings: [
+      { type: "Domain Meetings", count: 45 },
+      { type: "Student Interviews", count: 9 },
+      { type: "Teacher Interviews", count: 9 },
+      { type: "Marketing Appraisal", count: 9 },
+      { type: "All Teachers Meeting", count: 9 },
+      { type: "Club Coordinator", count: 9 },
+      { type: "College Counselor", count: 9 },
+      { type: "Olympiad Coordinator", count: 9 },
+      { type: "Science Project Coordinator", count: 9 },
+      { type: "Post Appraisal Meeting", count: 9 },
+      { type: "Early Years/Primary Programs", count: 6 },
+      { type: "Islamic Programs", count: 4 },
+      { type: "Secondary Programs", count: 9 },
+    ],
+    key_stats: {
+      total_schools: 9,
+      total_observations: 201,
+      total_subjects: 16,
+      total_meetings: 145,
+      total_appraisers: 8,
+      total_activities: 346,
+      avg_obs_per_school: 22.3,
+      avg_meetings_per_school: 16.1,
+      avg_obs_per_appraiser: 25.1,
+    },
+  };
+
+  const strategicData = {
+    criticalGaps: [
+      {
+        area: "Safeguarding",
+        status: "CRITICAL",
+        affected: "8/9 schools",
+        impact: "Legal & moral risk",
+        priority: "IMMEDIATE",
+        action: "30-day implementation plan",
+        details: {
+          why: "Children safety is paramount. Legal requirement (Indonesian law + Cambridge). One incident can destroy reputation.",
+          immediate: [
+            "Appoint Designated Safeguarding Leads (DSLs) - one per school",
+            "Emergency 2-hour training for 100% of staff",
+            "Clear reporting flowchart created and posted",
+          ],
+          shortTerm: [
+            "Comprehensive policy aligned with Indonesian law + Cambridge",
+            "Full staff training program (online + face-to-face)",
+            "Student safety curriculum integrated into PSHE",
+            "Parent communication on policy and reporting",
+          ],
+          boarding:
+            "Enhanced requirements for boarding schools: supervision ratios, night-time procedures, well-being check-ins",
+        },
+      },
+      {
+        area: "English Proficiency",
+        status: "HIGH",
+        affected: "All schools",
+        impact: "Academic performance",
+        priority: "Q1",
+        action: "Network language policy",
+        details: {
+          why: "Cambridge curriculum is in English. IGCSE/A-Level exams in English. Students lack academic English, teachers struggle with instructional English.",
+          problem:
+            "Two curricula (Cambridge + Kurikulum Merdeka) but no language bridge between them",
+          solutions: [
+            "Network-Wide Language Policy: Define bilingual proficiency vision",
+            "CLIL Implementation: Every lesson has content + language objectives",
+            "Academic Vocabulary Program: 200 essential terms per subject per year",
+            "Teacher Language Development: IELTS requirements by role",
+            "Student Progression Framework: A2 (Grade 7) → B1 (Grade 9) → B2/C1 (Grade 12)",
+          ],
+        },
+      },
+      {
+        area: "Teacher Development",
+        status: "HIGH",
+        affected: "All schools",
+        impact: "Teaching quality",
+        priority: "Q1-Q2",
+        action: "Transform observation culture",
+        details: {
+          irony:
+            "We ask teachers to be student-centered but provide teacher-centered PD. We expect differentiation but offer one-size-fits-all training.",
+          currentGaps:
+            "Department goals only (no individual), evaluative observations (not coaching), informal peer learning (no structure), mandated PD (no choice)",
+          solutions: [
+            "Tiered System: Foundation (all) → Growth (by career stage) → Specialization (by interest)",
+            "Transform Observations: From 'gotcha' to growth, from annual to frequent, from judge to coach",
+            "Professional Learning Communities: Weekly department meetings focused on student work",
+            "Teacher Agency: PD menu, personal learning goals, learning budget, innovation time",
+          ],
+          targets:
+            "New teachers: weekly walkthrough. All teachers: bi-weekly walkthrough + termly formal. Principals: minimum one classroom visit per day",
+        },
+      },
+      {
+        area: "Data-Informed Decisions",
+        status: "MEDIUM",
+        affected: "7/9 schools",
+        impact: "Strategic planning",
+        priority: "Q1-Q2",
+        action: "KPI dashboards & data rhythm",
+        details: {
+          current:
+            "Schools are data-rich but insight-poor. Data collected → filed away → forgotten",
+          required:
+            "Data collected → analyzed → discussed → actions identified → implemented → evaluated",
+          dataRhythm:
+            "Weekly: department review. Monthly: leadership meeting. Termly: board presentation. Annually: deep analysis",
+          kpis: "Define network-level KPIs (compare across schools) and school-level KPIs (track over time)",
+          dashboards:
+            "Traffic light status, trend arrows, network comparison, previous term comparison",
+        },
+      },
+      {
+        area: "Cambridge Standards",
+        status: "MEDIUM",
+        affected: "All schools",
+        impact: "Accreditation risk",
+        priority: "Q2-Q3",
+        action: "Gap analysis & training",
+        details: {
+          gaps: [
+            "Curriculum Coherence: No network-wide mapping, no skills progression",
+            "Assessment FOR Learning: Formative assessment weak, success criteria rarely shared",
+            "Differentiation: One-size-fits-all teaching dominant",
+            "Student Agency: Students passive, limited voice and choice",
+            "Parent Partnership: Communication mainly administrative",
+          ],
+          cambridgeExpectations:
+            "Active learning, varied assessment, all learners challenged appropriately, student ownership, parents as partners",
+          recommendations: [
+            "Create curriculum maps for each subject showing progression",
+            "Identify integration points between national and Cambridge curricula",
+            "Train all teachers in Assessment for Learning (AfL) strategies",
+            "Implement success criteria in every lesson",
+            "Appoint SEN Coordinators in each school",
+            "Establish Gifted and Talented register and program",
+            "Implement Student-Led Conferences (pilot in select schools)",
+            "Parent workshops on supporting learning at home",
+          ],
+        },
+      },
+    ],
+
+    priorityMatrix: [
+      {
+        initiative: "Safeguarding",
+        impact: 10,
+        effort: 5,
+        priority: "🔴 IMMEDIATE",
+        quarter: "Q1",
+        description: "Complete policy + 100% staff training in 30 days",
+      },
+      {
+        initiative: "English Strategy",
+        impact: 9,
+        effort: 8,
+        priority: "🔴 Q1",
+        quarter: "Q1",
+        description:
+          "Network language policy + CLIL implementation + teacher training",
+      },
+      {
+        initiative: "Teacher Observation",
+        impact: 8,
+        effort: 5,
+        priority: "🟠 Q1-Q2",
+        quarter: "Q1-Q2",
+        description: "From evaluative to coaching culture, increase frequency",
+      },
+      {
+        initiative: "Data Dashboards",
+        impact: 8,
+        effort: 5,
+        priority: "🟠 Q1-Q2",
+        quarter: "Q1-Q2",
+        description: "Create visual dashboards, establish data rhythm",
+      },
+      {
+        initiative: "Network Resources",
+        impact: 6,
+        effort: 3,
+        priority: "🟢 Q2",
+        quarter: "Q2",
+        description: "Shared digital repository for lesson plans, assessments",
+      },
+      {
+        initiative: "Graduate Profile",
+        impact: 8,
+        effort: 3,
+        priority: "🟢 Q2",
+        quarter: "Q2",
+        description: "Define and communicate Eduversal graduate attributes",
+      },
+      {
+        initiative: "Cambridge PDQ",
+        impact: 8,
+        effort: 8,
+        priority: "🟡 Q2-Q3",
+        quarter: "Q2-Q3",
+        description: "50% teachers enrolled in PDQ within 3 years",
+      },
+      {
+        initiative: "SEN Training",
+        impact: 8,
+        effort: 8,
+        priority: "🟡 Q2-Q3",
+        quarter: "Q2-Q3",
+        description: "SEN coordinators, differentiation training, IEPs",
+      },
+      {
+        initiative: "Student Voice",
+        impact: 6,
+        effort: 5,
+        priority: "🟡 Q3",
+        quarter: "Q3",
+        description:
+          "Student councils, perception surveys, student-led conferences",
+      },
+      {
+        initiative: "Parent Partnership",
+        impact: 6,
+        effort: 5,
+        priority: "🟡 Q3-Q4",
+        quarter: "Q3-Q4",
+        description:
+          "Parent workshops, regular updates, involvement opportunities",
+      },
+      {
+        initiative: "Curriculum Mapping",
+        impact: 8,
+        effort: 8,
+        priority: "🟡 Q3-Q4",
+        quarter: "Q3-Q4",
+        description:
+          "Document progression, integrate national + Cambridge curricula",
+      },
+      {
+        initiative: "Cross-School Exchange",
+        impact: 6,
+        effort: 5,
+        priority: "🟢 Q4",
+        quarter: "Q4",
+        description: "Teacher swaps, shadow days, department links",
+      },
+    ],
+
+    cambridgeGaps: [
+      {
+        standard: "Curriculum Coherence",
+        current: 60,
+        target: 90,
+        gap: 30,
+        detail:
+          "No network-wide curriculum mapping, no documented skills progression",
+      },
+      {
+        standard: "Assessment FOR Learning",
+        current: 45,
+        target: 85,
+        gap: 40,
+        detail: "Formative assessment weak, feedback is grades not guidance",
+      },
+      {
+        standard: "Differentiation",
+        current: 40,
+        target: 85,
+        gap: 45,
+        detail: "One-size-fits-all approach dominant, limited SEN support",
+      },
+      {
+        standard: "Student Agency",
+        current: 35,
+        target: 80,
+        gap: 45,
+        detail: "Students passive recipients, limited voice and choice",
+      },
+      {
+        standard: "Parent Partnership",
+        current: 50,
+        target: 85,
+        gap: 35,
+        detail: "Communication mainly administrative, no parent education",
+      },
+      {
+        standard: "Teacher Development",
+        current: 55,
+        target: 90,
+        gap: 35,
+        detail: "Training conducted but impact not measured",
+      },
+      {
+        standard: "Data Use",
+        current: 40,
+        target: 85,
+        gap: 45,
+        detail: "Data collected but not systematically analyzed or acted upon",
+      },
+    ],
+
+    kpis: [
+      {
+        category: "Academic",
+        metric: "EASE Average",
+        current: 65,
+        target: 70,
+        status: "yellow",
+      },
+      {
+        category: "Academic",
+        metric: "Cambridge Pass Rate",
+        current: 82,
+        target: 90,
+        status: "yellow",
+      },
+      {
+        category: "Academic",
+        metric: "A*-C Rate",
+        current: 55,
+        target: 60,
+        status: "yellow",
+      },
+      {
+        category: "Safety",
+        metric: "Safeguarding Training",
+        current: 45,
+        target: 100,
+        status: "red",
+      },
+      {
+        category: "Development",
+        metric: "Teacher Observation",
+        current: 3.2,
+        target: 3.5,
+        status: "yellow",
+      },
+      {
+        category: "Development",
+        metric: "PD Completion",
+        current: 78,
+        target: 100,
+        status: "yellow",
+      },
+      {
+        category: "Engagement",
+        metric: "Student Attendance",
+        current: 94,
+        target: 95,
+        status: "yellow",
+      },
+      {
+        category: "Engagement",
+        metric: "Teacher Attendance",
+        current: 96,
+        target: 97,
+        status: "green",
+      },
+      {
+        category: "Admin",
+        metric: "Lesson Plan Submission",
+        current: 88,
+        target: 100,
+        status: "red",
+      },
+      {
+        category: "Admin",
+        metric: "Gradebook Completion",
+        current: 92,
+        target: 100,
+        status: "yellow",
+      },
+    ],
+
+    graduateProfile: [
+      {
+        attribute: "Globally Competent",
+        description:
+          "Bilingual, culturally aware, ready for international opportunities",
+        score: 65,
+      },
+      {
+        attribute: "Academically Excellent",
+        description: "Critical thinker, problem solver, lifelong learner",
+        score: 70,
+      },
+      {
+        attribute: "Morally Grounded",
+        description: "Islamic values, ethical decision-maker, character-strong",
+        score: 80,
+      },
+      {
+        attribute: "Socially Responsible",
+        description:
+          "Community contributor, environmentally conscious, service-oriented",
+        score: 75,
+      },
+      {
+        attribute: "Future Ready",
+        description: "Adaptable, resilient, innovative, technology-fluent",
+        score: 60,
+      },
+    ],
+
+    discussionQuestions: [
+      {
+        topic: "Safeguarding",
+        question:
+          "What support do you need to implement the policy within 30 days?",
+        context:
+          "This is non-negotiable. We must move immediately on DSL appointments, emergency training, and reporting procedures.",
+      },
+      {
+        topic: "English Language",
+        question:
+          "What are the biggest barriers to English proficiency in your school? What would help most?",
+        context:
+          "Cambridge curriculum requires English proficiency. We need a network-wide strategy, not ad hoc solutions.",
+      },
+      {
+        topic: "Teacher Development",
+        question:
+          "How can we shift from compliance-focused to growth-focused observation?",
+        context:
+          "Current system incentivizes documentation over improvement. Teachers need coaching, not judgment.",
+      },
+      {
+        topic: "Data",
+        question:
+          "What data would be most useful for your decision-making? What's stopping you from using data now?",
+        context:
+          "We're data-rich but insight-poor. Data should inform actions, not just fill filing cabinets.",
+      },
+      {
+        topic: "Network",
+        question:
+          "What would you most like to learn from other Eduversal schools? What could you share?",
+        context:
+          "15+ schools but each reinvents the wheel. Network synergy is our untapped advantage.",
+      },
+      {
+        topic: "Graduate Profile",
+        question: "Does the proposed profile resonate? What's missing?",
+        context:
+          "We need a unifying vision of what an Eduversal graduate looks like.",
+      },
+    ],
+
+    commonFindings: {
+      strengths: [
+        {
+          area: "School Culture",
+          description:
+            "Positive, caring learning environments with strong teacher-student relationships",
+        },
+        {
+          area: "Teacher Commitment",
+          description:
+            "Dedicated staff with willingness to improve and openness to feedback",
+        },
+        {
+          area: "Technology Readiness",
+          description:
+            "Most schools actively integrating digital tools (Chromebooks, smart panels, LMS)",
+        },
+        {
+          area: "Olympiad Programs",
+          description:
+            "Well-structured olympiad preparation with EduOS integration",
+        },
+        {
+          area: "Cambridge Integration",
+          description: "Growing alignment with Cambridge curriculum resources",
+        },
+        {
+          area: "Student Behavior",
+          description:
+            "Generally respectful, cooperative students eager to learn",
+        },
+      ],
+      policyGaps: [
+        {
+          issue: "Incomplete Safeguarding Policy",
+          schools: "8/9",
+          impact: "High - Critical for student safety",
+        },
+        {
+          issue: "Missing/Incomplete Staff Handbook",
+          schools: "7/9",
+          impact: "Medium - Affects consistency",
+        },
+        {
+          issue: "No systematic KPI framework",
+          schools: "7/9",
+          impact: "Medium - Limits data-driven decisions",
+        },
+        {
+          issue: "Annual reports not systematic",
+          schools: "6/9",
+          impact: "Low-Medium - Reduces transparency",
+        },
+        {
+          issue: "Evidence links not uploaded",
+          schools: "6/9",
+          impact: "Medium - Hinders verification",
+        },
+      ],
+      instructionIssues: [
+        {
+          issue: "Teacher-Centered Instruction",
+          description:
+            "Predominant lecture-style teaching with limited student voice",
+        },
+        {
+          issue: "Insufficient Differentiation",
+          description:
+            "One-size-fits-all approach; high achievers not challenged",
+        },
+        {
+          issue: "Limited Formative Assessment",
+          description:
+            "Not systematically checking understanding during lessons",
+        },
+        {
+          issue: "Pre-solved Examples",
+          description:
+            "Math/Science teachers showing completed problems instead of modeling",
+        },
+        {
+          issue: "Inconsistent Lesson Structure",
+          description:
+            "Learning objectives not stated; varied opening routines",
+        },
+        {
+          issue: "Limited Collaborative Work",
+          description: "Few opportunities for peer learning and discussion",
+        },
+      ],
+      administrativeIssues: [
+        {
+          issue: "Lesson plan submission delays",
+          affected: "Multiple schools",
+        },
+        { issue: "Gradebook updates incomplete", affected: "Multiple schools" },
+        {
+          issue: "Department meeting minutes not recorded",
+          affected: "Several schools",
+        },
+        {
+          issue: "Observation records not maintained",
+          affected: "Most schools",
+        },
+      ],
+    },
+
+    eduversalExpectations: {
+      domain1: [
+        "Clear mission and vision statements underpinned by educational values",
+        "Strategic/long-range plans for student performance improvement",
+        "SMART goals addressing teaching and learning outcomes",
+        "Leadership teams for development goals",
+        "Use P.I.E. (Plan-Implement-Evaluate) model",
+      ],
+      domain2: [
+        "Complete organizational chart",
+        "Staff/Employee Handbook",
+        "Parent/Student Handbook",
+        "School Academic Calendar",
+        "KPI System with measurable goals",
+        "Safeguarding and Child Protection Policy",
+        "Emergency/Crisis Manual or Plan",
+      ],
+      domain3: [
+        "Biweekly department meetings with minutes",
+        "Formal observations 3x per semester",
+        "Weekly principal walkthroughs",
+        "Mentoring program with activity logs",
+        "Peer observation system (minimum monthly)",
+        "PD activities evaluated through feedback",
+      ],
+      domain4: [
+        "Olympiad handbook with aims matching mission/vision",
+        "Rigorous student selection process",
+        "LMS with active participation",
+        "Technology integration in lesson plans",
+        "Digital citizenship programs",
+      ],
+      domain5: [
+        "Comprehensive lesson and unit plans",
+        "Variety of assessment types (formative, summative, diagnostic)",
+        "Student portfolios and goal-setting",
+        "Data dashboards and progress reports",
+        "IEPs for special education needs",
+        "Language support plans",
+      ],
+    },
+
+    lessonStructure: {
+      effective: [
+        {
+          phase: "Opening/Hook",
+          duration: "3-5 min",
+          description: "Engaging start, activates prior knowledge",
+        },
+        {
+          phase: "Warm-Up/Do Now",
+          duration: "5-7 min",
+          description: "Independent quick review",
+        },
+        {
+          phase: "Direct Instruction",
+          duration: "10-15 min",
+          description: "Clear modeling (I do)",
+        },
+        {
+          phase: "Guided Practice",
+          duration: "10-12 min",
+          description: "Supported work (We do)",
+        },
+        {
+          phase: "Independent Practice",
+          duration: "12-15 min",
+          description: "Application (You do)",
+        },
+        {
+          phase: "Closure",
+          duration: "3-5 min",
+          description: "Exit ticket, summary",
+        },
+        {
+          phase: "Homework",
+          duration: "1-2 min",
+          description: "Clear connection to objectives",
+        },
+      ],
+      redFlags: [
+        "Teacher remains stationary at front throughout lesson",
+        "No stated learning objectives",
+        "Excessive teacher talk time (>60%)",
+        "No checks for understanding",
+        "Students passive for extended periods",
+        "No differentiation evident",
+        "Unauthorized materials (pirated PDFs)",
+        "Technology misuse (flat panels damaged)",
+      ],
+      greenFlags: [
+        "Clear objectives communicated",
+        "Active student participation",
+        "Questioning that promotes thinking",
+        "Student-to-student discussion",
+        "Differentiated activities",
+        "Formative assessment throughout",
+        "Technology enhancing learning",
+        "Positive classroom atmosphere",
+      ],
+    },
+
+    complianceParadox: {
+      problem:
+        "Current appraisal system inadvertently incentivizes checklist completion over genuine improvement",
+      currentMentalModel: "If we have the document, we pass the appraisal",
+      requiredMentalModel: "If students are learning better, we are succeeding",
+      observedPatterns: [
+        {
+          pattern: "Document exists but not implemented",
+          schools: "7/9",
+          implication: "Policy-practice gap",
+        },
+        {
+          pattern: "Verbally explained but not linked/uploaded",
+          schools: "6/9",
+          implication: "Documentation theater",
+        },
+        {
+          pattern: "Program in place but not monitored",
+          schools: "8/9",
+          implication: "Activity without accountability",
+        },
+        {
+          pattern: "Training conducted but impact not measured",
+          schools: "9/9",
+          implication: "Input focus not outcome focus",
+        },
+      ],
+      transformation: [
+        {
+          from: "Binary (exists/doesn't exist)",
+          to: "Quality spectrum (developing → embedded → exemplary)",
+        },
+        {
+          from: "Point-in-time snapshot",
+          to: "Continuous improvement journey",
+        },
+        { from: "Document verification", to: "Impact verification" },
+        { from: "Compliance language", to: "Growth language" },
+      ],
+      impactMetrics: [
+        {
+          domain: "School Development",
+          current: "SDP exists",
+          proposed: "% of SDP goals achieved with evidence",
+        },
+        {
+          domain: "Professional Development",
+          current: "PD sessions conducted",
+          proposed: "Observable change in classroom practice post-PD",
+        },
+        {
+          domain: "Curriculum & Assessment",
+          current: "Assessment policy exists",
+          proposed: "Student performance trend over 3 terms",
+        },
+      ],
+    },
+
+    networkSynergy: {
+      missedOpportunity:
+        "15+ schools with hundreds of teachers, but each school reinvents the wheel. Same lesson plans created separately, same challenges faced alone, same solutions discovered independently, best practices stay hidden.",
+      collaborationPrograms: [
+        {
+          program: "Teaching Swap",
+          description: "Teacher teaches in another school for 1 week",
+          frequency: "Annual",
+        },
+        {
+          program: "Shadow Day",
+          description: "Teacher observes peer in another school",
+          frequency: "Termly",
+        },
+        {
+          program: "Department Link",
+          description: "Departments from 2 schools collaborate",
+          frequency: "Monthly virtual",
+        },
+        {
+          program: "Expert Visit",
+          description: "Strong teacher visits struggling school",
+          frequency: "As needed",
+        },
+      ],
+      resourceLibrary: {
+        description: "Shared digital repository for network-wide access",
+        contents: [
+          "Lesson plans tagged by subject, grade, topic",
+          "Assessments: unit tests, mock exams",
+          "Resources: worksheets, presentations, videos",
+          "Best practices: documented successful approaches",
+          "Student work: exemplars for moderation",
+        ],
+        platform: "Google Drive with clear organization (or dedicated LMS)",
+      },
+      networkEvents: [
+        {
+          event: "Network PD Day",
+          timing: "Start of each semester",
+          content: "Common training priorities",
+        },
+        {
+          event: "Subject Conferences",
+          timing: "Once per year",
+          content: "Deep dive per subject",
+        },
+        {
+          event: "Leadership Retreat",
+          timing: "Once per year",
+          content: "Strategic planning",
+        },
+        {
+          event: "Innovation Showcase",
+          timing: "End of year",
+          content: "Schools share successes",
+        },
+      ],
+      quickWins: [
+        "Create shared EASE preparation materials folder",
+        "Establish WhatsApp groups by subject (HoDs across schools)",
+        "Schedule one cross-school observation per department",
+        "Hold one network PD session on common priority",
+      ],
+    },
+
+    pdFramework: {
+      tieredSystem: {
+        tier1: {
+          name: "Foundation (All Teachers)",
+          components: [
+            "Core pedagogical skills",
+            "Cambridge curriculum essentials",
+            "English language development",
+            "Safeguarding certification",
+          ],
+        },
+        tier2: {
+          name: "Growth (Based on Career Stage)",
+          newTeachers: "Years 1-2: Intensive mentoring, weekly observation",
+          developing: "Years 3-5: Peer collaboration, action research",
+          experienced: "Years 6+: Leadership pathways, mentoring others",
+        },
+        tier3: {
+          name: "Specialization (Based on Interest/Need)",
+          options: [
+            "Subject expertise deepening",
+            "Cambridge examiner training",
+            "Leadership development",
+            "Specialist roles (SEN, EAL, Gifted)",
+          ],
+        },
+      },
+      observationTransformation: {
+        from: [
+          "'Gotcha' moments",
+          "Annual formal observation",
+          "Written reports filed away",
+          "Observer as judge",
+          "Teacher as performer",
+        ],
+        to: [
+          "Growth conversations",
+          "Frequent informal visits",
+          "Actionable next steps",
+          "Observer as coach",
+          "Teacher as reflective practitioner",
+        ],
+        targets: {
+          newTeachers: "Weekly walkthrough + monthly formal",
+          allTeachers: "Bi-weekly walkthrough + termly formal",
+          principals: "Minimum one classroom visit per day",
+        },
+        postObservationProtocol: [
+          "What did you want students to learn?",
+          "What evidence showed they learned it?",
+          "What's one thing you'd do differently?",
+          "What support do you need?",
+        ],
+      },
+      plcStructure: {
+        weekly: "45-min department meeting (student work analysis)",
+        biweekly: "Cross-department PLC (pedagogical focus)",
+        monthly: "Whole-school PD (network priorities)",
+        termly: "Network-wide learning day",
+        nonNegotiables: [
+          "Focus on student learning evidence",
+          "Collaborative (no hierarchy in the room)",
+          "Action-oriented (what will we try?)",
+          "Follow-up (did it work?)",
+        ],
+      },
+      teacherAgency: {
+        pdMenu: "Each term, offer 5-6 options; teachers choose 2",
+        personalGoals: "Each teacher sets two goals annually",
+        learningBudget: "Small allocation for books/courses/conferences",
+        innovationTime:
+          "One period per week for planning/collaboration/research",
+      },
+    },
+
+    cambridgeLearnerAttributes: {
+      description:
+        "Cambridge International explicitly states their programs develop these attributes",
+      attributes: [
+        {
+          name: "Confident",
+          definition: "Secure in their knowledge, willing to try new things",
+          currentEvidence: "Students often hesitant to participate",
+          gap: "High",
+          actions: [
+            "Increase student presentations",
+            "Speaking opportunities",
+            "Public performance",
+          ],
+        },
+        {
+          name: "Responsible",
+          definition: "For themselves, responsive to others",
+          currentEvidence: "Behavior good, but ownership of learning low",
+          gap: "Medium",
+          actions: [
+            "Student-led projects",
+            "Peer tutoring",
+            "Service learning",
+          ],
+        },
+        {
+          name: "Reflective",
+          definition: "Develop and improve their learning",
+          currentEvidence: "Minimal self-reflection opportunities",
+          gap: "High",
+          actions: ["Learning journals", "Self-assessment", "Goal setting"],
+        },
+        {
+          name: "Innovative",
+          definition: "Creative, equipped for new challenges",
+          currentEvidence: "Some STEAM projects, creativity not systematized",
+          gap: "High",
+          actions: [
+            "Design challenges",
+            "Open-ended problems",
+            "Maker activities",
+          ],
+        },
+        {
+          name: "Engaged",
+          definition: "Intellectually and socially ready to participate",
+          currentEvidence: "Strong in co-curricular, weak in academic",
+          gap: "Medium",
+          actions: [
+            "Student choice",
+            "Real-world connections",
+            "Inquiry learning",
+          ],
+        },
+      ],
+      implementation: [
+        "Display in every classroom",
+        "Reference in lesson objectives",
+        "Include in report cards",
+        "Recognize in assemblies",
+        "Termly self-assessment against attributes",
+      ],
+    },
+
+    islamicIntegration: {
+      currentState:
+        "Islamic programs exist but are often parallel to academic programs rather than integrated",
+      vision:
+        "Integrated Islamic-Academic Education where Islamic values permeate all subjects",
+      subjectIntegration: [
+        {
+          subject: "Science",
+          examples:
+            "Signs of Allah in creation, Islamic scholars' contributions",
+        },
+        {
+          subject: "Mathematics",
+          examples: "Islamic geometric patterns, zakat calculations",
+        },
+        {
+          subject: "English",
+          examples: "Islamic literature, character development texts",
+        },
+        {
+          subject: "Social Studies",
+          examples: "Islamic history, Muslim contributions to civilization",
+        },
+        {
+          subject: "STEAM",
+          examples:
+            "Sustainable development (Khalifah concept), ethical innovation",
+        },
+      ],
+      arabicStrategy: [
+        "Needs assessment: Determine realistic goals (classical vs modern standard)",
+        "Progressive curriculum: Clear scope and sequence",
+        "Immersion opportunities: Arabic-speaking zones, activities",
+        "External partnerships: Language institutions for intensive programs",
+        "Teacher development: Arabic language training for non-specialists",
+      ],
+      tahfizhProgram: [
+        "Clear targets by grade level",
+        "Video verification and digital tracking",
+        "Recognition: certificates, celebrations",
+        "Support for struggling and advanced students",
+        "Quality assurance: certified teachers, consistent methodology",
+      ],
+    },
+
+    dataRhythm: {
+      description:
+        "From data-rich but insight-poor to systematic data-informed decision making",
+      currentFlow: "Data Collected → Filed Away → Forgotten",
+      requiredFlow:
+        "Data Collected → Analyzed → Discussed → Actions Identified → Implemented → Evaluated",
+      rhythm: [
+        {
+          frequency: "Weekly",
+          activity: "Department data review",
+          participants: "HoD + teachers",
+          focus: "Student progress, intervention needs",
+        },
+        {
+          frequency: "Monthly",
+          activity: "Leadership data meeting",
+          participants: "Principal + coordinators",
+          focus: "School-wide trends, resource allocation",
+        },
+        {
+          frequency: "Termly",
+          activity: "Board data presentation",
+          participants: "Leadership + foundation",
+          focus: "Strategic progress, network comparison",
+        },
+        {
+          frequency: "Annually",
+          activity: "Deep data analysis",
+          participants: "All stakeholders",
+          focus: "Year review, next year planning",
+        },
+      ],
+      dashboards: {
+        components: [
+          "Traffic light status for each KPI",
+          "Trend arrows (improving/declining)",
+          "Comparison to network average",
+          "Comparison to previous term",
+        ],
+        schoolLevel: [
+          "Student progress from baseline",
+          "Value-added measures",
+          "Student/parent satisfaction",
+          "Staff retention rate",
+        ],
+      },
+      training: [
+        "Workshop: Data-informed leadership for all principals",
+        "Protocol: How to run a data meeting",
+        "Templates: Standard analysis formats",
+        "Coaching: Support for principals in interpreting data",
+      ],
+    },
+  };
+
+  const COLORS = [
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#FFA07A",
+    "#98D8C8",
+    "#F7DC6F",
+    "#BB8FCE",
+    "#85C1E2",
+    "#F8B739",
+  ];
+  const GRADIENT_COLORS = [
+    "#667eea",
+    "#764ba2",
+    "#f093fb",
+    "#4facfe",
+    "#00f2fe",
+    "#43e97b",
+    "#fa709a",
+    "#fee140",
+  ];
+
+  const styles = {
+    container: {
+      minHeight: "100vh",
+      background:
+        "linear-gradient(135deg, #f5f3ff 0%, #fce7f3 50%, #dbeafe 100%)",
+      padding: "40px 20px",
+      fontFamily:
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    },
+    header: {
+      textAlign: "center",
+      marginBottom: "40px",
+    },
+    title: {
+      fontSize: "48px",
+      fontWeight: "900",
+      background:
+        "linear-gradient(135deg, #9333ea 0%, #ec4899 50%, #3b82f6 100%)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      marginBottom: "10px",
+    },
+    subtitle: {
+      fontSize: "18px",
+      color: "#6b7280",
+      fontWeight: "600",
+    },
+    tabContainer: {
+      display: "flex",
+      justifyContent: "center",
+      gap: "10px",
+      marginBottom: "40px",
+      flexWrap: "wrap",
+    },
+    tab: (isActive) => ({
+      padding: "12px 24px",
+      borderRadius: "25px",
+      fontWeight: "700",
+      fontSize: "14px",
+      cursor: "pointer",
+      border: "none",
+      transition: "all 0.3s",
+      background: isActive
+        ? "linear-gradient(135deg, #9333ea 0%, #ec4899 100%)"
+        : "#fff",
+      color: isActive ? "#fff" : "#6b7280",
+      boxShadow: isActive
+        ? "0 10px 25px rgba(147, 51, 234, 0.3)"
+        : "0 2px 8px rgba(0,0,0,0.1)",
+      transform: isActive ? "scale(1.05)" : "scale(1)",
+    }),
+    statCard: (gradient) => ({
+      position: "relative",
+      overflow: "hidden",
+      borderRadius: "20px",
+      padding: "30px",
+      background: `linear-gradient(135deg, ${gradient[0]} 0%, ${gradient[1]} 100%)`,
+      boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+      transition: "all 0.3s",
+      cursor: "pointer",
+    }),
+    statValue: {
+      fontSize: "48px",
+      fontWeight: "900",
+      color: "#fff",
+      marginBottom: "10px",
+    },
+    statTitle: {
+      fontSize: "18px",
+      fontWeight: "700",
+      color: "#fff",
+      marginBottom: "5px",
+    },
+    statSubtitle: {
+      fontSize: "14px",
+      color: "rgba(255,255,255,0.9)",
+    },
+    chartContainer: {
+      background: "#fff",
+      borderRadius: "20px",
+      padding: "30px",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+      marginBottom: "30px",
+    },
+    chartTitle: {
+      fontSize: "24px",
+      fontWeight: "700",
+      color: "#1f2937",
+      marginBottom: "20px",
+    },
+    schoolCard: (color) => ({
+      background: "#fff",
+      borderRadius: "20px",
+      padding: "25px",
+      borderLeft: `8px solid ${color}`,
+      boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+      transition: "all 0.3s",
+      cursor: "pointer",
+    }),
+    urgentCard: {
+      borderRadius: "20px",
+      padding: "25px",
+      background: "linear-gradient(135deg, #dc2626 0%, #991b1b 100%)",
+      boxShadow: "0 10px 40px rgba(220, 38, 38, 0.4)",
+      color: "#fff",
+      marginBottom: "20px",
+      cursor: "pointer",
+    },
+    detailCard: {
+      background: "rgba(255,255,255,0.95)",
+      borderRadius: "15px",
+      padding: "20px",
+      marginTop: "15px",
+      color: "#1f2937",
+    },
+    sectionTitle: {
+      fontSize: "18px",
+      fontWeight: "700",
+      color: "#1f2937",
+      marginBottom: "15px",
+      marginTop: "20px",
+    },
+    bulletList: {
+      marginLeft: "20px",
+      marginBottom: "15px",
+    },
+    bulletItem: {
+      marginBottom: "8px",
+      lineHeight: "1.6",
+    },
+    discussionCard: {
+      background: "#fff",
+      borderRadius: "15px",
+      padding: "25px",
+      marginBottom: "20px",
+      borderLeft: "6px solid #9333ea",
+      boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+    },
+    priorityBadge: (priority) => {
+      const colors = {
+        IMMEDIATE: ["#dc2626", "#991b1b"],
+        Q1: ["#f59e0b", "#d97706"],
+        "Q1-Q2": ["#3b82f6", "#2563eb"],
+        Q2: ["#10b981", "#059669"],
+        "Q2-Q3": ["#8b5cf6", "#7c3aed"],
+        Q3: ["#06b6d4", "#0891b2"],
+        "Q3-Q4": ["#ec4899", "#db2777"],
+        Q4: ["#6366f1", "#4f46e5"],
+      };
+      const [color1, color2] = colors[priority] || ["#6b7280", "#4b5563"];
+      return {
+        display: "inline-block",
+        padding: "8px 16px",
+        borderRadius: "20px",
+        background: `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`,
+        color: "#fff",
+        fontWeight: "700",
+        fontSize: "12px",
+        marginLeft: "10px",
+      };
+    },
+    statusIndicator: (status) => {
+      const colors = { red: "#dc2626", yellow: "#f59e0b", green: "#10b981" };
+      return {
+        width: "20px",
+        height: "20px",
+        borderRadius: "50%",
+        background: colors[status] || "#6b7280",
+        display: "inline-block",
+        marginRight: "10px",
+        boxShadow: `0 0 20px ${colors[status] || "#6b7280"}`,
+      };
+    },
+  };
+
+  const StatCard = ({ title, value, subtitle, gradient }) => (
+    <div style={styles.statCard(gradient)}>
+      <div style={styles.statValue}>{value}</div>
+      <div style={styles.statTitle}>{title}</div>
+      <div style={styles.statSubtitle}>{subtitle}</div>
+    </div>
+  );
+
+  const CriticalAlert = ({ gap, isExpanded, onToggle }) => (
+    <div
+      style={{
+        ...styles.urgentCard,
+        minHeight: isExpanded ? "auto" : "200px",
+      }}
+      onClick={onToggle}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "15px",
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: "12px", opacity: 0.9, marginBottom: "5px" }}>
+            {gap.affected} • {gap.impact}
+          </div>
+          <div style={{ fontSize: "24px", fontWeight: "900" }}>{gap.area}</div>
+        </div>
+        <div style={{ fontSize: "48px" }}>⚠️</div>
+      </div>
+      <div style={{ fontSize: "14px", marginBottom: "10px", opacity: 0.9 }}>
+        <strong>Action Required:</strong> {gap.action}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <span style={styles.priorityBadge(gap.priority)}>{gap.priority}</span>
+        <span style={{ fontSize: "12px", opacity: 0.8 }}>
+          {isExpanded ? "▲ Click to collapse" : "▼ Click for details"}
+        </span>
+      </div>
+
+      {isExpanded && gap.details && (
+        <div style={styles.detailCard}>
+          {gap.details.why && (
+            <>
+              <div style={styles.sectionTitle}>Why This Matters:</div>
+              <p>{gap.details.why}</p>
+            </>
+          )}
+          {gap.details.problem && (
+            <>
+              <div style={styles.sectionTitle}>The Problem:</div>
+              <p>{gap.details.problem}</p>
+            </>
+          )}
+          {gap.details.immediate && (
+            <>
+              <div style={styles.sectionTitle}>Immediate Actions:</div>
+              <ul style={styles.bulletList}>
+                {gap.details.immediate.map((item, idx) => (
+                  <li key={idx} style={styles.bulletItem}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {gap.details.shortTerm && (
+            <>
+              <div style={styles.sectionTitle}>
+                Short-Term Actions (90 days):
+              </div>
+              <ul style={styles.bulletList}>
+                {gap.details.shortTerm.map((item, idx) => (
+                  <li key={idx} style={styles.bulletItem}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {gap.details.solutions && (
+            <>
+              <div style={styles.sectionTitle}>Solutions:</div>
+              <ul style={styles.bulletList}>
+                {gap.details.solutions.map((item, idx) => (
+                  <li key={idx} style={styles.bulletItem}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {gap.details.currentGaps && (
+            <>
+              <div style={styles.sectionTitle}>Current Gaps:</div>
+              <p>{gap.details.currentGaps}</p>
+            </>
+          )}
+          {gap.details.targets && (
+            <>
+              <div style={styles.sectionTitle}>Targets:</div>
+              <p>{gap.details.targets}</p>
+            </>
+          )}
+          {gap.details.irony && (
+            <>
+              <div style={styles.sectionTitle}>The Irony:</div>
+              <p style={{ fontStyle: "italic" }}>{gap.details.irony}</p>
+            </>
+          )}
+          {gap.details.current && (
+            <>
+              <div style={styles.sectionTitle}>Current State:</div>
+              <p>{gap.details.current}</p>
+            </>
+          )}
+          {gap.details.required && (
+            <>
+              <div style={styles.sectionTitle}>Required State:</div>
+              <p>{gap.details.required}</p>
+            </>
+          )}
+          {gap.details.boarding && (
+            <>
+              <div style={styles.sectionTitle}>Boarding Schools:</div>
+              <p>{gap.details.boarding}</p>
+            </>
+          )}
+          {gap.details.recommendations && (
+            <>
+              <div style={styles.sectionTitle}>Key Recommendations:</div>
+              <ul style={styles.bulletList}>
+                {gap.details.recommendations.map((item, idx) => (
+                  <li key={idx} style={styles.bulletItem}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div style={styles.container}>
+      {/* Header */}
+      <div style={styles.header}>
+        <h1 style={styles.title}>🎓 School Appraisal Dashboard</h1>
+        <p style={styles.subtitle}>
+          Eduversal Indonesia - Comprehensive Analysis 2024/2025
+        </p>
+        <div style={{ marginTop: "15px", fontSize: "14px", color: "#6b7280" }}>
+          <strong>References:</strong>{" "}
+          <a
+            href="https://docs.google.com/spreadsheets/d/1y9WnP92vp5_0DK5baRGHrfllB_-ttI3I60paoa5Dvbw/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#9333ea",
+              textDecoration: "underline",
+              marginRight: "15px",
+            }}
+          >
+            Appraisal Data
+          </a>
+          <a
+            href="https://docs.google.com/document/d/1cp5ieKsGG08PrAMNhDFne4PiBcIEfevrmRu0-LuxNOM/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#9333ea", textDecoration: "underline" }}
+          >
+            Strategic Recommendations
+          </a>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div style={styles.tabContainer}>
+        {[
+          { id: "overview", label: "Overview" },
+          { id: "schools", label: "Schools" },
+          { id: "subjects", label: "Subjects" },
+          { id: "appraisers", label: "Appraisers" },
+          { id: "meetings", label: "Meetings" },
+          { id: "findings", label: "🔍 Findings" },
+          { id: "compliance", label: "📝 Compliance" },
+          { id: "expectations", label: "📋 Expectations" },
+          { id: "teaching", label: "👨‍🏫 Teaching" },
+          { id: "pdframework", label: "🎓 PD System" },
+          { id: "network", label: "🤝 Network" },
+          { id: "cambridge", label: "🎯 Cambridge" },
+          { id: "islamic", label: "🕌 Islamic" },
+          { id: "data", label: "📊 Data" },
+          { id: "strategic", label: "⚡ Strategic" },
+          { id: "priorities", label: "🔥 Priorities" },
+          { id: "gaps", label: "📈 Gaps" },
+          { id: "kpis", label: "🎯 KPIs" },
+          { id: "roadmap", label: "🗺️ Roadmap" },
+          { id: "discussion", label: "💬 Discussion" },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            style={styles.tab(activeTab === tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ORIGINAL OVERVIEW TAB */}
+      {activeTab === "overview" && (
+        <div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "20px",
+              marginBottom: "30px",
+            }}
+          >
+            <StatCard
+              title="Total Schools"
+              value={dashboardData.key_stats.total_schools}
+              subtitle="Partner schools analyzed"
+              gradient={["#667eea", "#764ba2"]}
+            />
+            <StatCard
+              title="Observations"
+              value={dashboardData.key_stats.total_observations}
+              subtitle="Teacher observations conducted"
+              gradient={["#f093fb", "#f5576c"]}
+            />
+            <StatCard
+              title="Appraisers"
+              value={dashboardData.key_stats.total_appraisers}
+              subtitle="Professional appraisers"
+              gradient={["#4facfe", "#00f2fe"]}
+            />
+            <StatCard
+              title="Meetings"
+              value={dashboardData.key_stats.total_meetings}
+              subtitle="Management meetings held"
+              gradient={["#43e97b", "#38f9d7"]}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "20px",
+              marginBottom: "30px",
+            }}
+          >
+            <div
+              style={{ ...styles.chartContainer, border: "4px solid #fbbf24" }}
+            >
+              <div
+                style={{
+                  fontSize: "48px",
+                  fontWeight: "900",
+                  color: "#d97706",
+                  marginBottom: "10px",
+                }}
+              >
+                {dashboardData.key_stats.avg_obs_per_school}
+              </div>
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                }}
+              >
+                Avg Observations per School
+              </div>
+            </div>
+            <div
+              style={{ ...styles.chartContainer, border: "4px solid #34d399" }}
+            >
+              <div
+                style={{
+                  fontSize: "48px",
+                  fontWeight: "900",
+                  color: "#059669",
+                  marginBottom: "10px",
+                }}
+              >
+                {dashboardData.key_stats.avg_meetings_per_school}
+              </div>
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                }}
+              >
+                Avg Meetings per School
+              </div>
+            </div>
+            <div
+              style={{ ...styles.chartContainer, border: "4px solid #60a5fa" }}
+            >
+              <div
+                style={{
+                  fontSize: "48px",
+                  fontWeight: "900",
+                  color: "#2563eb",
+                  marginBottom: "10px",
+                }}
+              >
+                {dashboardData.key_stats.avg_obs_per_appraiser}
+              </div>
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                }}
+              >
+                Avg Observations per Appraiser
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
+              gap: "30px",
+            }}
+          >
+            <div style={styles.chartContainer}>
+              <h3 style={styles.chartTitle}>🏫 Schools Performance</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={dashboardData.schools}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis
+                    dataKey="name"
+                    angle={-45}
+                    textAnchor="end"
+                    height={120}
+                    tick={{ fontSize: 10 }}
+                  />
+                  <YAxis />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#fff",
+                      border: "2px solid #667eea",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <Bar
+                    dataKey="observations"
+                    fill="#667eea"
+                    radius={[10, 10, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div style={styles.chartContainer}>
+              <h3 style={styles.chartTitle}>📚 Subject Distribution</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={dashboardData.subjects.filter(
+                      (s) => s.observations > 5
+                    )}
+                    dataKey="observations"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    label={(entry) => `${entry.name}: ${entry.observations}`}
+                  >
+                    {dashboardData.subjects
+                      .filter((s) => s.observations > 5)
+                      .map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* SCHOOLS TAB */}
+      {activeTab === "schools" && (
+        <div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "20px",
+              marginBottom: "30px",
+            }}
+          >
+            {dashboardData.schools.map((school, index) => (
+              <div
+                key={school.name}
+                style={styles.schoolCard(COLORS[index % COLORS.length])}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <div style={{ fontSize: "40px" }}>🏫</div>
+                  <div
+                    style={{
+                      fontSize: "36px",
+                      fontWeight: "900",
+                      color: COLORS[index % COLORS.length],
+                    }}
+                  >
+                    {school.observations}
+                  </div>
+                </div>
+                <h3
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    color: "#1f2937",
+                    marginBottom: "15px",
+                  }}
+                >
+                  {school.name}
+                </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <span style={{ color: "#6b7280" }}>Subjects Covered:</span>
+                    <span style={{ fontWeight: "700", color: "#9333ea" }}>
+                      {school.subjects}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <span style={{ color: "#6b7280" }}>
+                      Classrooms Visited:
+                    </span>
+                    <span style={{ fontWeight: "700", color: "#ec4899" }}>
+                      {school.classrooms}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <span style={{ color: "#6b7280" }}>Obs per Classroom:</span>
+                    <span style={{ fontWeight: "700", color: "#3b82f6" }}>
+                      {(school.observations / school.classrooms).toFixed(1)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={styles.chartContainer}>
+            <h3 style={styles.chartTitle}>📊 School Comparison</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={dashboardData.schools}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="name"
+                  angle={-45}
+                  textAnchor="end"
+                  height={120}
+                  tick={{ fontSize: 11 }}
+                />
+                <YAxis />
+                <Tooltip
+                  contentStyle={{
+                    background: "#fff",
+                    border: "2px solid #667eea",
+                    borderRadius: "10px",
+                  }}
+                />
+                <Legend />
+                <Bar
+                  dataKey="observations"
+                  fill="#667eea"
+                  name="Observations"
+                  radius={[10, 10, 0, 0]}
+                />
+                <Bar
+                  dataKey="subjects"
+                  fill="#f093fb"
+                  name="Subjects"
+                  radius={[10, 10, 0, 0]}
+                />
+                <Bar
+                  dataKey="classrooms"
+                  fill="#4facfe"
+                  name="Classrooms"
+                  radius={[10, 10, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* SUBJECTS TAB */}
+      {activeTab === "subjects" && (
+        <div>
+          <div style={styles.chartContainer}>
+            <h3 style={styles.chartTitle}>📖 Subject Analysis</h3>
+            <ResponsiveContainer width="100%" height={500}>
+              <BarChart
+                data={dashboardData.subjects.sort(
+                  (a, b) => b.observations - a.observations
+                )}
+                layout="vertical"
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  width={150}
+                  tick={{ fontSize: 12 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: "#fff",
+                    border: "2px solid #667eea",
+                    borderRadius: "10px",
+                  }}
+                />
+                <Bar dataKey="observations" radius={[0, 10, 10, 0]}>
+                  {dashboardData.subjects.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={GRADIENT_COLORS[index % GRADIENT_COLORS.length]}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: "15px",
+            }}
+          >
+            {dashboardData.subjects
+              .sort((a, b) => b.observations - a.observations)
+              .map((subject, index) => (
+                <div
+                  key={subject.name}
+                  style={{
+                    background: `linear-gradient(135deg, ${
+                      GRADIENT_COLORS[index % GRADIENT_COLORS.length]
+                    } 0%, ${
+                      GRADIENT_COLORS[(index + 1) % GRADIENT_COLORS.length]
+                    } 100%)`,
+                    borderRadius: "15px",
+                    padding: "20px",
+                    color: "#fff",
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                    transition: "all 0.3s",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "32px",
+                      fontWeight: "900",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {subject.observations}
+                  </div>
+                  <div style={{ fontSize: "13px", fontWeight: "700" }}>
+                    {subject.name}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* APPRAISERS TAB */}
+      {activeTab === "appraisers" && (
+        <div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "20px",
+              marginBottom: "30px",
+            }}
+          >
+            {dashboardData.appraisers
+              .sort((a, b) => b.observations - a.observations)
+              .map((appraiser, index) => (
+                <div key={appraiser.name} style={styles.chartContainer}>
+                  <div
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${
+                        GRADIENT_COLORS[index % GRADIENT_COLORS.length]
+                      }, ${
+                        GRADIENT_COLORS[(index + 1) % GRADIENT_COLORS.length]
+                      })`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#fff",
+                      fontSize: "24px",
+                      fontWeight: "900",
+                      margin: "0 auto 15px",
+                    }}
+                  >
+                    {appraiser.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "700",
+                      textAlign: "center",
+                      color: "#1f2937",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    {appraiser.name}
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#ede9fe",
+                        borderRadius: "10px",
+                        padding: "12px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "28px",
+                          fontWeight: "900",
+                          color: "#9333ea",
+                        }}
+                      >
+                        {appraiser.observations}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#6b21a8",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Observations
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        background: "#fce7f3",
+                        borderRadius: "10px",
+                        padding: "12px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "28px",
+                          fontWeight: "900",
+                          color: "#ec4899",
+                        }}
+                      >
+                        {appraiser.schools_covered}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#be185d",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Schools Covered
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div style={styles.chartContainer}>
+            <h3 style={styles.chartTitle}>👥 Appraiser Performance</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <RadarChart data={dashboardData.appraisers}>
+                <PolarGrid stroke="#e5e7eb" />
+                <PolarAngleAxis dataKey="name" tick={{ fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 50]} />
+                <Radar
+                  name="Observations"
+                  dataKey="observations"
+                  stroke="#667eea"
+                  fill="#667eea"
+                  fillOpacity={0.6}
+                />
+                <Radar
+                  name="Schools"
+                  dataKey="schools_covered"
+                  stroke="#f093fb"
+                  fill="#f093fb"
+                  fillOpacity={0.6}
+                />
+                <Legend />
+                <Tooltip />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* MEETINGS TAB */}
+      {activeTab === "meetings" && (
+        <div>
+          <div style={styles.chartContainer}>
+            <h3 style={styles.chartTitle}>🤝 Meeting Types Distribution</h3>
+            <ResponsiveContainer width="100%" height={600}>
+              <BarChart
+                data={dashboardData.meetings.sort((a, b) => b.count - a.count)}
+                layout="vertical"
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis
+                  dataKey="type"
+                  type="category"
+                  width={250}
+                  tick={{ fontSize: 11 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: "#fff",
+                    border: "2px solid #667eea",
+                    borderRadius: "10px",
+                  }}
+                />
+                <Bar dataKey="count" radius={[0, 10, 10, 0]}>
+                  {dashboardData.meetings.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "20px",
+            }}
+          >
+            <div style={styles.statCard(["#9333ea", "#ec4899"])}>
+              <div style={{ fontSize: "24px", marginBottom: "15px" }}>📅</div>
+              <div style={styles.statValue}>
+                {dashboardData.key_stats.total_meetings}
+              </div>
+              <div style={styles.statTitle}>Total Meetings</div>
+            </div>
+            <div style={styles.statCard(["#3b82f6", "#06b6d4"])}>
+              <div style={{ fontSize: "24px", marginBottom: "15px" }}>👥</div>
+              <div style={styles.statValue}>
+                {dashboardData.meetings.length}
+              </div>
+              <div style={styles.statTitle}>Meeting Types</div>
+            </div>
+            <div style={styles.statCard(["#10b981", "#14b8a6"])}>
+              <div style={{ fontSize: "24px", marginBottom: "15px" }}>✅</div>
+              <div style={styles.statValue}>
+                {Math.round(
+                  dashboardData.key_stats.total_meetings /
+                    dashboardData.meetings.length
+                )}
+              </div>
+              <div style={styles.statTitle}>Avg per Type</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* COMPLIANCE TAB - New */}
+      {activeTab === "compliance" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            📝 The Compliance vs. Improvement Paradox
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Moving from checklist completion to genuine school improvement
+          </p>
+
+          {/* The Problem */}
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginBottom: "30px",
+              borderLeft: "6px solid #dc2626",
+            }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#dc2626" }}>
+              ⚠️ The Problem
+            </h3>
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "20px",
+                lineHeight: "1.8",
+              }}
+            >
+              {strategicData.complianceParadox.problem}
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "20px",
+                marginTop: "30px",
+              }}
+            >
+              <div
+                style={{
+                  padding: "25px",
+                  borderRadius: "15px",
+                  background: "#fff5f5",
+                  border: "2px solid #dc2626",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#991b1b",
+                    marginBottom: "10px",
+                    fontWeight: "700",
+                  }}
+                >
+                  CURRENT MENTAL MODEL
+                </div>
+                <div
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    color: "#1f2937",
+                  }}
+                >
+                  {strategicData.complianceParadox.currentMentalModel}
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "25px",
+                  borderRadius: "15px",
+                  background: "#f0fdf4",
+                  border: "2px solid #10b981",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#065f46",
+                    marginBottom: "10px",
+                    fontWeight: "700",
+                  }}
+                >
+                  REQUIRED MENTAL MODEL
+                </div>
+                <div
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    color: "#1f2937",
+                  }}
+                >
+                  {strategicData.complianceParadox.requiredMentalModel}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Observed Patterns */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              📋 Observed Patterns Across Schools
+            </h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.complianceParadox.observedPatterns.map(
+                (pattern, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "10px",
+                      background: "#fffbeb",
+                      borderLeft: "6px solid #f59e0b",
+                      display: "grid",
+                      gridTemplateColumns: "2fr 1fr 2fr",
+                      gap: "20px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "700",
+                          color: "#1f2937",
+                        }}
+                      >
+                        {pattern.pattern}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "900",
+                          color: "#f59e0b",
+                        }}
+                      >
+                        {pattern.schools}
+                      </div>
+                      <div style={{ fontSize: "12px", color: "#6b7280" }}>
+                        schools
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          color: "#dc2626",
+                          fontWeight: "600",
+                        }}
+                      >
+                        → {pattern.implication}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* The Transformation */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>🔄 Required Transformation</h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.complianceParadox.transformation.map(
+                (trans, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "10px",
+                      background: "#f9fafb",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "20px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flex: 1,
+                        padding: "15px",
+                        background: "#fee2e2",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#991b1b",
+                          marginBottom: "5px",
+                        }}
+                      >
+                        FROM
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "600",
+                          color: "#1f2937",
+                        }}
+                      >
+                        {trans.from}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "32px", color: "#10b981" }}>→</div>
+                    <div
+                      style={{
+                        flex: 1,
+                        padding: "15px",
+                        background: "#dcfce7",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#065f46",
+                          marginBottom: "5px",
+                        }}
+                      >
+                        TO
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "600",
+                          color: "#1f2937",
+                        }}
+                      >
+                        {trans.to}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Impact Metrics */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>📊 Introducing Impact Metrics</h3>
+            <p style={{ marginBottom: "20px", color: "#6b7280" }}>
+              For each domain, define measurable outcomes instead of document
+              existence
+            </p>
+            <div style={{ display: "grid", gap: "20px" }}>
+              {strategicData.complianceParadox.impactMetrics.map(
+                (metric, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "10px",
+                      background: "#f9fafb",
+                      borderTop: `4px solid ${
+                        GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                      }`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                        marginBottom: "15px",
+                      }}
+                    >
+                      {metric.domain}
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr auto 1fr",
+                        gap: "15px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            color: "#dc2626",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          ❌ CURRENT
+                        </div>
+                        <div style={{ fontSize: "14px" }}>{metric.current}</div>
+                      </div>
+                      <div style={{ fontSize: "24px" }}>→</div>
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            color: "#10b981",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          ✅ PROPOSED
+                        </div>
+                        <div style={{ fontSize: "14px", fontWeight: "600" }}>
+                          {metric.proposed}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PD FRAMEWORK TAB - New */}
+      {activeTab === "pdframework" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🎓 Professional Development Framework
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Transform from compliance-driven to growth-focused teacher
+            development
+          </p>
+
+          {/* Tiered System */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              📚 Three-Tiered Development System
+            </h3>
+
+            {/* Tier 1 */}
+            <div
+              style={{
+                marginBottom: "30px",
+                padding: "25px",
+                borderRadius: "15px",
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                color: "#fff",
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                TIER 1: {strategicData.pdFramework.tieredSystem.tier1.name}
+              </h4>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "15px",
+                }}
+              >
+                {strategicData.pdFramework.tieredSystem.tier1.components.map(
+                  (comp, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: "15px",
+                        background: "rgba(255,255,255,0.2)",
+                        borderRadius: "10px",
+                        fontSize: "14px",
+                      }}
+                    >
+                      ✓ {comp}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Tier 2 */}
+            <div
+              style={{
+                marginBottom: "30px",
+                padding: "25px",
+                borderRadius: "15px",
+                background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                color: "#fff",
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                TIER 2: {strategicData.pdFramework.tieredSystem.tier2.name}
+              </h4>
+              <div style={{ display: "grid", gap: "12px" }}>
+                <div
+                  style={{
+                    padding: "15px",
+                    background: "rgba(255,255,255,0.2)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <strong>New Teachers:</strong>{" "}
+                  {strategicData.pdFramework.tieredSystem.tier2.newTeachers}
+                </div>
+                <div
+                  style={{
+                    padding: "15px",
+                    background: "rgba(255,255,255,0.2)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <strong>Developing Teachers:</strong>{" "}
+                  {strategicData.pdFramework.tieredSystem.tier2.developing}
+                </div>
+                <div
+                  style={{
+                    padding: "15px",
+                    background: "rgba(255,255,255,0.2)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <strong>Experienced Teachers:</strong>{" "}
+                  {strategicData.pdFramework.tieredSystem.tier2.experienced}
+                </div>
+              </div>
+            </div>
+
+            {/* Tier 3 */}
+            <div
+              style={{
+                padding: "25px",
+                borderRadius: "15px",
+                background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                color: "#fff",
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                TIER 3: {strategicData.pdFramework.tieredSystem.tier3.name}
+              </h4>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "15px",
+                }}
+              >
+                {strategicData.pdFramework.tieredSystem.tier3.options.map(
+                  (opt, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: "15px",
+                        background: "rgba(255,255,255,0.2)",
+                        borderRadius: "10px",
+                        fontSize: "14px",
+                      }}
+                    >
+                      ⭐ {opt}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Observation Transformation */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>👀 Transform Observation Culture</h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "20px",
+                marginBottom: "30px",
+              }}
+            >
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "#fee2e2",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    color: "#dc2626",
+                    marginBottom: "15px",
+                  }}
+                >
+                  ❌ FROM (Current)
+                </div>
+                <ul style={{ ...styles.bulletList, marginLeft: "0" }}>
+                  {strategicData.pdFramework.observationTransformation.from.map(
+                    (item, idx) => (
+                      <li
+                        key={idx}
+                        style={{ ...styles.bulletItem, color: "#991b1b" }}
+                      >
+                        {item}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "#dcfce7",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    color: "#10b981",
+                    marginBottom: "15px",
+                  }}
+                >
+                  ✅ TO (Required)
+                </div>
+                <ul style={{ ...styles.bulletList, marginLeft: "0" }}>
+                  {strategicData.pdFramework.observationTransformation.to.map(
+                    (item, idx) => (
+                      <li
+                        key={idx}
+                        style={{ ...styles.bulletItem, color: "#065f46" }}
+                      >
+                        {item}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            </div>
+
+            <h4
+              style={{
+                fontSize: "18px",
+                fontWeight: "700",
+                marginBottom: "15px",
+              }}
+            >
+              Observation Frequency Targets
+            </h4>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "15px",
+                marginBottom: "30px",
+              }}
+            >
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "10px",
+                  background: "#fffbeb",
+                  borderLeft: "6px solid #f59e0b",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#92400e",
+                    marginBottom: "5px",
+                  }}
+                >
+                  New Teachers
+                </div>
+                <div style={{ fontSize: "18px", fontWeight: "700" }}>
+                  {
+                    strategicData.pdFramework.observationTransformation.targets
+                      .newTeachers
+                  }
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "10px",
+                  background: "#dbeafe",
+                  borderLeft: "6px solid #3b82f6",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#1e3a8a",
+                    marginBottom: "5px",
+                  }}
+                >
+                  All Teachers
+                </div>
+                <div style={{ fontSize: "18px", fontWeight: "700" }}>
+                  {
+                    strategicData.pdFramework.observationTransformation.targets
+                      .allTeachers
+                  }
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "10px",
+                  background: "#f0fdf4",
+                  borderLeft: "6px solid #10b981",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#065f46",
+                    marginBottom: "5px",
+                  }}
+                >
+                  Principals
+                </div>
+                <div style={{ fontSize: "18px", fontWeight: "700" }}>
+                  {
+                    strategicData.pdFramework.observationTransformation.targets
+                      .principals
+                  }
+                </div>
+              </div>
+            </div>
+
+            <h4
+              style={{
+                fontSize: "18px",
+                fontWeight: "700",
+                marginBottom: "15px",
+              }}
+            >
+              Post-Observation Protocol (15 min max)
+            </h4>
+            <div style={{ display: "grid", gap: "10px" }}>
+              {strategicData.pdFramework.observationTransformation.postObservationProtocol.map(
+                (q, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "15px",
+                      background: "#f9fafb",
+                      borderRadius: "10px",
+                      borderLeft: `4px solid ${
+                        GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                      }`,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        marginRight: "10px",
+                      }}
+                    >
+                      {idx + 1}.
+                    </span>
+                    {q}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* PLC Structure */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              👥 Professional Learning Communities (PLCs)
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "20px",
+                marginBottom: "30px",
+              }}
+            >
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "linear-gradient(135deg, #667eea, #764ba2)",
+                  color: "#fff",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    opacity: 0.9,
+                    marginBottom: "5px",
+                  }}
+                >
+                  WEEKLY
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: "700" }}>
+                  {strategicData.pdFramework.plcStructure.weekly}
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "linear-gradient(135deg, #f093fb, #f5576c)",
+                  color: "#fff",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    opacity: 0.9,
+                    marginBottom: "5px",
+                  }}
+                >
+                  BI-WEEKLY
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: "700" }}>
+                  {strategicData.pdFramework.plcStructure.biweekly}
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "linear-gradient(135deg, #4facfe, #00f2fe)",
+                  color: "#fff",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    opacity: 0.9,
+                    marginBottom: "5px",
+                  }}
+                >
+                  MONTHLY
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: "700" }}>
+                  {strategicData.pdFramework.plcStructure.monthly}
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "linear-gradient(135deg, #43e97b, #38f9d7)",
+                  color: "#fff",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    opacity: 0.9,
+                    marginBottom: "5px",
+                  }}
+                >
+                  TERMLY
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: "700" }}>
+                  {strategicData.pdFramework.plcStructure.termly}
+                </div>
+              </div>
+            </div>
+
+            <h4
+              style={{
+                fontSize: "18px",
+                fontWeight: "700",
+                marginBottom: "15px",
+              }}
+            >
+              PLC Non-Negotiables
+            </h4>
+            <ul style={styles.bulletList}>
+              {strategicData.pdFramework.plcStructure.nonNegotiables.map(
+                (item, idx) => (
+                  <li
+                    key={idx}
+                    style={{
+                      ...styles.bulletItem,
+                      fontSize: "15px",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {item}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+
+          {/* Teacher Agency */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>
+              🎯 Create Teacher Agency in Development
+            </h3>
+            <p
+              style={{
+                marginBottom: "20px",
+                fontSize: "16px",
+                color: "#6b7280",
+                fontStyle: "italic",
+              }}
+            >
+              Replace "You must attend this training" with "Based on your goals,
+              which of these options will help you most?"
+            </p>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {Object.entries(strategicData.pdFramework.teacherAgency).map(
+                ([key, value], idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "10px",
+                      background: "#f9fafb",
+                      borderLeft: `6px solid ${
+                        GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                      }`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                        marginBottom: "8px",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {key.replace(/([A-Z])/g, " $1").trim()}
+                    </div>
+                    <div style={{ fontSize: "14px", color: "#6b7280" }}>
+                      {value}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* STRATEGIC TAB */}
+      {activeTab === "strategic" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🚨 Critical Strategic Gaps Requiring Immediate Attention
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "30px",
+            }}
+          >
+            Click on each card to see full details and recommendations
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+              gap: "20px",
+              marginBottom: "40px",
+            }}
+          >
+            {strategicData.criticalGaps.map((gap, idx) => (
+              <CriticalAlert
+                key={idx}
+                gap={gap}
+                isExpanded={expandedCards[gap.area]}
+                onToggle={() =>
+                  setExpandedCards({
+                    ...expandedCards,
+                    [gap.area]: !expandedCards[gap.area],
+                  })
+                }
+              />
+            ))}
+          </div>
+
+          <div style={styles.chartContainer}>
+            <h3 style={styles.chartTitle}>
+              🎯 Eduversal Graduate Profile - Our North Star
+            </h3>
+            <p style={{ marginBottom: "20px", color: "#6b7280" }}>
+              An Eduversal graduate should be: Globally Competent, Academically
+              Excellent, Morally Grounded, Socially Responsible, and Future
+              Ready
+            </p>
+            <ResponsiveContainer width="100%" height={350}>
+              <RadarChart data={strategicData.graduateProfile}>
+                <PolarGrid stroke="#e0e0e0" />
+                <PolarAngleAxis dataKey="attribute" tick={{ fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} />
+                <Radar
+                  name="Current Status"
+                  dataKey="score"
+                  stroke="#667eea"
+                  fill="#667eea"
+                  fillOpacity={0.6}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: "#fff",
+                    border: "2px solid #667eea",
+                    borderRadius: "10px",
+                  }}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+
+            <div style={{ marginTop: "30px" }}>
+              {strategicData.graduateProfile.map((attr, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    marginBottom: "15px",
+                    padding: "15px",
+                    background: "#f9fafb",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "700",
+                      color: "#1f2937",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    {attr.attribute}
+                  </div>
+                  <div style={{ fontSize: "14px", color: "#6b7280" }}>
+                    {attr.description}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* NETWORK TAB - New */}
+      {activeTab === "network" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🤝 Network Synergy: Our Untapped Advantage
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            15+ schools, hundreds of teachers - let's leverage our collective
+            strength
+          </p>
+
+          {/* The Missed Opportunity */}
+          <div style={{ ...styles.urgentCard, marginBottom: "30px" }}>
+            <h3
+              style={{
+                fontSize: "24px",
+                fontWeight: "900",
+                marginBottom: "15px",
+              }}
+            >
+              ⚠️ The Missed Opportunity
+            </h3>
+            <p style={{ fontSize: "16px", lineHeight: "1.8" }}>
+              {strategicData.networkSynergy.missedOpportunity}
+            </p>
+          </div>
+
+          {/* Collaboration Programs */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              🔄 Cross-School Collaboration Programs
+            </h3>
+            <div style={{ display: "grid", gap: "20px" }}>
+              {strategicData.networkSynergy.collaborationPrograms.map(
+                (prog, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "25px",
+                      borderRadius: "15px",
+                      background: `linear-gradient(135deg, ${
+                        GRADIENT_COLORS[(idx * 2) % GRADIENT_COLORS.length]
+                      }, ${
+                        GRADIENT_COLORS[(idx * 2 + 1) % GRADIENT_COLORS.length]
+                      })`,
+                      color: "#fff",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "15px",
+                      }}
+                    >
+                      <div style={{ fontSize: "22px", fontWeight: "900" }}>
+                        {prog.program}
+                      </div>
+                      <div
+                        style={{
+                          padding: "8px 16px",
+                          background: "rgba(255,255,255,0.3)",
+                          borderRadius: "20px",
+                          fontSize: "14px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        {prog.frequency}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "15px", opacity: 0.95 }}>
+                      {prog.description}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Resource Library */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>📚 Network Resource Library</h3>
+            <p
+              style={{
+                marginBottom: "20px",
+                fontSize: "16px",
+                color: "#6b7280",
+              }}
+            >
+              {strategicData.networkSynergy.resourceLibrary.description}
+            </p>
+            <div
+              style={{
+                padding: "20px",
+                background: "#f9fafb",
+                borderRadius: "15px",
+                marginBottom: "20px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                Contents:
+              </div>
+              <ul style={styles.bulletList}>
+                {strategicData.networkSynergy.resourceLibrary.contents.map(
+                  (item, idx) => (
+                    <li key={idx} style={styles.bulletItem}>
+                      {item}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div
+              style={{
+                padding: "20px",
+                background: "#dbeafe",
+                borderRadius: "15px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#1e40af",
+                }}
+              >
+                Platform:{" "}
+                {strategicData.networkSynergy.resourceLibrary.platform}
+              </div>
+            </div>
+          </div>
+
+          {/* Network Events */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>📅 Network Learning Events</h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "20px",
+              }}
+            >
+              {strategicData.networkSynergy.networkEvents.map((event, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "20px",
+                    borderRadius: "15px",
+                    background: "#f9fafb",
+                    borderTop: `4px solid ${
+                      GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                    }`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "700",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {event.event}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      color: "#6b7280",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {event.timing}
+                  </div>
+                  <div style={{ fontSize: "14px", color: "#1f2937" }}>
+                    {event.content}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Wins */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={{ ...styles.chartTitle, color: "#10b981" }}>
+              🚀 Quick Wins for Semester II
+            </h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.networkSynergy.quickWins.map((win, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "20px",
+                    borderRadius: "10px",
+                    background: "#f0fdf4",
+                    borderLeft: "6px solid #10b981",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      background: "#10b981",
+                      color: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "20px",
+                      fontWeight: "900",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {idx + 1}
+                  </div>
+                  <div style={{ fontSize: "16px", fontWeight: "600" }}>
+                    {win}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CAMBRIDGE TAB - New */}
+      {activeTab === "cambridge" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🎯 Cambridge Learner Attributes
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            {strategicData.cambridgeLearnerAttributes.description}
+          </p>
+
+          {/* Attributes */}
+          <div style={{ display: "grid", gap: "30px", marginBottom: "40px" }}>
+            {strategicData.cambridgeLearnerAttributes.attributes.map(
+              (attr, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    ...styles.chartContainer,
+                    borderLeft: `8px solid ${
+                      GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                    }`,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "start",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <div>
+                      <h3
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "900",
+                          color: "#1f2937",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        {attr.name}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: "16px",
+                          color: "#6b7280",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {attr.definition}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        padding: "10px 20px",
+                        borderRadius: "10px",
+                        background:
+                          attr.gap === "High"
+                            ? "#fee2e2"
+                            : attr.gap === "Medium"
+                            ? "#fef3c7"
+                            : "#dcfce7",
+                        color:
+                          attr.gap === "High"
+                            ? "#991b1b"
+                            : attr.gap === "Medium"
+                            ? "#92400e"
+                            : "#065f46",
+                        fontWeight: "700",
+                        fontSize: "14px",
+                        minWidth: "100px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Gap: {attr.gap}
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      marginBottom: "20px",
+                      padding: "15px",
+                      background: "#fff5f5",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        color: "#991b1b",
+                        marginBottom: "5px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Current Evidence:
+                    </div>
+                    <div style={{ fontSize: "15px", color: "#1f2937" }}>
+                      {attr.currentEvidence}
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      padding: "15px",
+                      background: "#f0fdf4",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        color: "#065f46",
+                        marginBottom: "10px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Actions to Develop:
+                    </div>
+                    <ul style={styles.bulletList}>
+                      {attr.actions.map((action, aidx) => (
+                        <li
+                          key={aidx}
+                          style={{ ...styles.bulletItem, color: "#1f2937" }}
+                        >
+                          {action}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+
+          {/* Implementation */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>📋 Implementation Checklist</h3>
+            <div style={{ display: "grid", gap: "12px" }}>
+              {strategicData.cambridgeLearnerAttributes.implementation.map(
+                (item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "18px",
+                      borderRadius: "10px",
+                      background: "#f9fafb",
+                      borderLeft: `4px solid ${
+                        GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                      }`,
+                      fontSize: "15px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    ✓ {item}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ISLAMIC TAB - New */}
+      {activeTab === "islamic" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🕌 Islamic Education Integration
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            From parallel programs to integrated Islamic-Academic education
+          </p>
+
+          {/* Current State & Vision */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gap: "20px",
+              marginBottom: "30px",
+            }}
+          >
+            <div
+              style={{
+                padding: "25px",
+                borderRadius: "15px",
+                background: "#fee2e2",
+                border: "2px solid #dc2626",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#991b1b",
+                  marginBottom: "10px",
+                }}
+              >
+                CURRENT STATE
+              </div>
+              <p style={{ fontSize: "15px", color: "#1f2937" }}>
+                {strategicData.islamicIntegration.currentState}
+              </p>
+            </div>
+            <div
+              style={{
+                padding: "25px",
+                borderRadius: "15px",
+                background: "#dcfce7",
+                border: "2px solid #10b981",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  color: "#065f46",
+                  marginBottom: "10px",
+                }}
+              >
+                VISION
+              </div>
+              <p style={{ fontSize: "15px", color: "#1f2937" }}>
+                {strategicData.islamicIntegration.vision}
+              </p>
+            </div>
+          </div>
+
+          {/* Subject Integration */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              📚 Islamic Values in Academic Subjects
+            </h3>
+            <div style={{ display: "grid", gap: "20px" }}>
+              {strategicData.islamicIntegration.subjectIntegration.map(
+                (subj, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "15px",
+                      background: `linear-gradient(135deg, ${
+                        GRADIENT_COLORS[(idx * 2) % GRADIENT_COLORS.length]
+                      }, ${
+                        GRADIENT_COLORS[(idx * 2 + 1) % GRADIENT_COLORS.length]
+                      })`,
+                      color: "#fff",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "900",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      {subj.subject}
+                    </div>
+                    <div style={{ fontSize: "15px", opacity: 0.95 }}>
+                      {subj.examples}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Arabic Strategy */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>🔤 Arabic Language Strategy</h3>
+            <p
+              style={{
+                marginBottom: "20px",
+                fontSize: "15px",
+                color: "#6b7280",
+                fontStyle: "italic",
+              }}
+            >
+              Arabic is currently weak across the network. Comprehensive
+              strategy needed:
+            </p>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.islamicIntegration.arabicStrategy.map(
+                (strategy, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "18px",
+                      borderRadius: "10px",
+                      background: "#fffbeb",
+                      borderLeft: "6px solid #f59e0b",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {strategy}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Tahfizh Program */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>📖 Tahfizh Program Enhancement</h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.islamicIntegration.tahfizhProgram.map(
+                (item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "18px",
+                      borderRadius: "10px",
+                      background: "#f0fdf4",
+                      borderLeft: "6px solid #10b981",
+                      fontSize: "15px",
+                    }}
+                  >
+                    ✓ {item}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DATA TAB - New */}
+      {activeTab === "data" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            📊 Data-Informed Decision Making
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            {strategicData.dataRhythm.description}
+          </p>
+
+          {/* The Flow Transformation */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>🔄 Transform the Data Flow</h3>
+            <div style={{ display: "grid", gap: "30px" }}>
+              <div
+                style={{
+                  padding: "25px",
+                  borderRadius: "15px",
+                  background: "#fee2e2",
+                  border: "2px solid #dc2626",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    color: "#991b1b",
+                    marginBottom: "10px",
+                  }}
+                >
+                  ❌ CURRENT FLOW
+                </div>
+                <div
+                  style={{
+                    fontSize: "18px",
+                    color: "#1f2937",
+                    fontWeight: "600",
+                  }}
+                >
+                  {strategicData.dataRhythm.currentFlow}
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: "25px",
+                  borderRadius: "15px",
+                  background: "#dcfce7",
+                  border: "2px solid #10b981",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    color: "#065f46",
+                    marginBottom: "10px",
+                  }}
+                >
+                  ✅ REQUIRED FLOW
+                </div>
+                <div
+                  style={{
+                    fontSize: "18px",
+                    color: "#1f2937",
+                    fontWeight: "600",
+                  }}
+                >
+                  {strategicData.dataRhythm.requiredFlow}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Data Rhythm */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>📅 Establish Data Rhythm</h3>
+            <div style={{ display: "grid", gap: "20px" }}>
+              {strategicData.dataRhythm.rhythm.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "25px",
+                    borderRadius: "15px",
+                    background: `linear-gradient(135deg, ${
+                      GRADIENT_COLORS[(idx * 2) % GRADIENT_COLORS.length]
+                    }, ${
+                      GRADIENT_COLORS[(idx * 2 + 1) % GRADIENT_COLORS.length]
+                    })`,
+                    color: "#fff",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "22px",
+                        fontWeight: "900",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {item.frequency}
+                    </div>
+                    <div
+                      style={{
+                        padding: "8px 16px",
+                        background: "rgba(255,255,255,0.3)",
+                        borderRadius: "20px",
+                        fontSize: "13px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {item.participants}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "16px",
+                      marginBottom: "10px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    {item.activity}
+                  </div>
+                  <div style={{ fontSize: "14px", opacity: 0.95 }}>
+                    {item.focus}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dashboards */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>📊 Create Data Dashboards</h3>
+            <div style={{ marginBottom: "30px" }}>
+              <h4
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                Dashboard Components:
+              </h4>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "15px",
+                }}
+              >
+                {strategicData.dataRhythm.dashboards.components.map(
+                  (comp, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: "15px",
+                        borderRadius: "10px",
+                        background: "#f9fafb",
+                        borderLeft: `4px solid ${
+                          GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                        }`,
+                        fontSize: "14px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {comp}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+            <div>
+              <h4
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "700",
+                  marginBottom: "15px",
+                }}
+              >
+                School-Level KPIs:
+              </h4>
+              <div style={{ display: "grid", gap: "12px" }}>
+                {strategicData.dataRhythm.dashboards.schoolLevel.map(
+                  (kpi, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: "15px",
+                        borderRadius: "10px",
+                        background: "#dbeafe",
+                        fontSize: "14px",
+                      }}
+                    >
+                      ✓ {kpi}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Training */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>🎓 Train Leaders in Data Use</h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.dataRhythm.training.map((training, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "20px",
+                    borderRadius: "10px",
+                    background: "#f0fdf4",
+                    borderLeft: "6px solid #10b981",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {training}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PRIORITIES TAB - Enhanced */}
+      {activeTab === "priorities" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            ⚡ Strategic Priority Matrix • Impact vs Effort
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "30px",
+            }}
+          >
+            12 strategic initiatives mapped by impact and implementation effort
+          </p>
+
+          <div style={{ textAlign: "center", marginBottom: "30px" }}>
+            {["all", "Q1", "Q2", "Q3", "Q4"].map((q) => (
+              <button
+                key={q}
+                onClick={() => setSelectedPriority(q)}
+                style={{ ...styles.tab(selectedPriority === q), margin: "5px" }}
+              >
+                {q === "all" ? "All Quarters" : q}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <ResponsiveContainer width="100%" height={500}>
+              <ScatterChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  type="number"
+                  dataKey="effort"
+                  name="Effort"
+                  domain={[0, 10]}
+                  label={{ value: "Effort Required", position: "bottom" }}
+                />
+                <YAxis
+                  type="number"
+                  dataKey="impact"
+                  name="Impact"
+                  domain={[0, 10]}
+                  label={{ value: "Impact", angle: -90, position: "left" }}
+                />
+                <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+                <Scatter
+                  name="Initiatives"
+                  data={strategicData.priorityMatrix.filter(
+                    (p) =>
+                      selectedPriority === "all" ||
+                      p.quarter.includes(selectedPriority)
+                  )}
+                  fill="#667eea"
+                >
+                  {strategicData.priorityMatrix
+                    .filter(
+                      (p) =>
+                        selectedPriority === "all" ||
+                        p.quarter.includes(selectedPriority)
+                    )
+                    .map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={GRADIENT_COLORS[index % GRADIENT_COLORS.length]}
+                      />
+                    ))}
+                </Scatter>
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gap: "15px",
+            }}
+          >
+            {strategicData.priorityMatrix
+              .filter(
+                (p) =>
+                  selectedPriority === "all" ||
+                  p.quarter.includes(selectedPriority)
+              )
+              .sort((a, b) => b.impact - a.impact)
+              .map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    ...styles.chartContainer,
+                    padding: "20px",
+                    borderLeft: `6px solid ${
+                      GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                    }`,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "700",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {item.initiative}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          opacity: 0.8,
+                          marginBottom: "10px",
+                        }}
+                      >
+                        Impact: {item.impact}/10 • Effort: {item.effort}/10
+                      </div>
+                    </div>
+                    <span style={styles.priorityBadge(item.quarter)}>
+                      {item.priority}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      color: "#6b7280",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    {item.description}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* CAMBRIDGE GAPS TAB - Enhanced */}
+      {activeTab === "gaps" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            📊 Cambridge International Standards Gap Analysis{" "}
+            <span
+              style={{ fontSize: "18px", color: "#dc2626", fontWeight: "600" }}
+            >
+              (estimated values)
+            </span>
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "30px",
+            }}
+          >
+            Comparison between current Eduversal performance and Cambridge
+            International expectations
+          </p>
+
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={strategicData.cambridgeGaps} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis
+                  dataKey="standard"
+                  type="category"
+                  width={180}
+                  tick={{ fontSize: 12 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: "#fff",
+                    border: "2px solid #667eea",
+                    borderRadius: "10px",
+                  }}
+                />
+                <Legend />
+                <Bar
+                  dataKey="current"
+                  fill="#f59e0b"
+                  name="Current"
+                  radius={[0, 10, 10, 0]}
+                />
+                <Bar
+                  dataKey="target"
+                  fill="#10b981"
+                  name="Target"
+                  radius={[0, 10, 10, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "20px",
+            }}
+          >
+            {strategicData.cambridgeGaps
+              .sort((a, b) => b.gap - a.gap)
+              .map((gap, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    ...styles.statCard([
+                      COLORS[idx % COLORS.length],
+                      COLORS[(idx + 1) % COLORS.length],
+                    ]),
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "36px",
+                      fontWeight: "900",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {gap.gap}%
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "700",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {gap.standard}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      opacity: 0.9,
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Current: {gap.current}% → Target: {gap.target}%
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "13px",
+                      opacity: 0.85,
+                      lineHeight: "1.5",
+                    }}
+                  >
+                    {gap.detail}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* KPIs TAB */}
+      {activeTab === "kpis" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "30px",
+              textAlign: "center",
+            }}
+          >
+            📈 Network Key Performance Indicators{" "}
+            <span
+              style={{ fontSize: "18px", color: "#dc2626", fontWeight: "600" }}
+            >
+              (estimated values)
+            </span>
+          </h2>
+
+          {["Academic", "Safety", "Development", "Engagement", "Admin"].map(
+            (category) => (
+              <div key={category} style={{ marginBottom: "30px" }}>
+                <h3
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "700",
+                    color: "#1f2937",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {category} KPIs
+                </h3>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                    gap: "15px",
+                  }}
+                >
+                  {strategicData.kpis
+                    .filter((k) => k.category === category)
+                    .map((kpi, idx) => (
+                      <div
+                        key={idx}
+                        style={{ ...styles.chartContainer, padding: "20px" }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginBottom: "15px",
+                          }}
+                        >
+                          <span
+                            style={styles.statusIndicator(kpi.status)}
+                          ></span>
+                          <span style={{ fontSize: "16px", fontWeight: "700" }}>
+                            {kpi.metric}
+                          </span>
+                        </div>
+                        <div style={{ marginBottom: "10px" }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginBottom: "8px",
+                            }}
+                          >
+                            <span style={{ fontSize: "14px" }}>Current</span>
+                            <span
+                              style={{ fontSize: "18px", fontWeight: "900" }}
+                            >
+                              {kpi.current}
+                              {typeof kpi.current === "number" &&
+                              kpi.current < 10
+                                ? ""
+                                : "%"}
+                            </span>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <span style={{ fontSize: "14px" }}>Target</span>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "900",
+                                color: "#10b981",
+                              }}
+                            >
+                              {kpi.target}
+                              {typeof kpi.target === "number" && kpi.target < 10
+                                ? ""
+                                : "%"}
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "8px",
+                            background: "#e5e7eb",
+                            borderRadius: "10px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: `${(kpi.current / kpi.target) * 100}%`,
+                              height: "100%",
+                              background:
+                                kpi.status === "red"
+                                  ? "#dc2626"
+                                  : kpi.status === "yellow"
+                                  ? "#f59e0b"
+                                  : "#10b981",
+                              transition: "width 0.5s",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      )}
+
+      {/* ROADMAP TAB */}
+      {activeTab === "roadmap" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "30px",
+              textAlign: "center",
+            }}
+          >
+            🗺️ Implementation Roadmap • Semester II 2025-2026
+          </h2>
+
+          {[
+            {
+              title: "MUST DO (Non-negotiable)",
+              color: ["#dc2626", "#991b1b"],
+              items: [
+                "Safeguarding policy complete and training delivered in all schools",
+                "Establish network KPIs and begin tracking",
+                "Launch improved observation system with coaching focus",
+              ],
+            },
+            {
+              title: "SHOULD DO (High priority)",
+              color: ["#f59e0b", "#d97706"],
+              items: [
+                "English language policy drafted",
+                "Network resource sharing begun",
+                "Graduate profile created and communicated",
+              ],
+            },
+            {
+              title: "COULD DO (If capacity allows)",
+              color: ["#10b981", "#059669"],
+              items: [
+                "Pilot student-led conferences",
+                "Begin Cambridge PDQ enrollment",
+                "Cross-school observation visits",
+              ],
+            },
+          ].map((section, idx) => (
+            <div key={idx} style={{ marginBottom: "30px" }}>
+              <div
+                style={{
+                  ...styles.statCard(section.color),
+                  marginBottom: "15px",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "900",
+                    marginBottom: "0",
+                  }}
+                >
+                  {section.title}
+                </h3>
+              </div>
+              <div style={{ display: "grid", gap: "15px" }}>
+                {section.items.map((item, itemIdx) => (
+                  <div
+                    key={itemIdx}
+                    style={{
+                      ...styles.chartContainer,
+                      padding: "20px",
+                      borderLeft: `6px solid ${section.color[0]}`,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        background: `linear-gradient(135deg, ${section.color[0]}, ${section.color[1]})`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#fff",
+                        fontSize: "20px",
+                        fontWeight: "900",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {itemIdx + 1}
+                    </div>
+                    <div style={{ fontSize: "16px", fontWeight: "600" }}>
+                      {item}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ ...styles.chartContainer, marginTop: "40px" }}>
+            <h3 style={styles.chartTitle}>
+              📅 Quarterly Implementation Timeline
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "20px",
+              }}
+            >
+              {["Q1", "Q2", "Q3", "Q4"].map((quarter, idx) => {
+                const quarterItems = strategicData.priorityMatrix.filter((p) =>
+                  p.quarter.includes(quarter)
+                );
+                return (
+                  <div
+                    key={quarter}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "15px",
+                      background: `linear-gradient(135deg, ${
+                        GRADIENT_COLORS[idx * 2]
+                      }, ${GRADIENT_COLORS[idx * 2 + 1]})`,
+                      color: "#fff",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "32px",
+                        fontWeight: "900",
+                        marginBottom: "15px",
+                      }}
+                    >
+                      {quarter}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      {quarterItems.length} Initiatives
+                    </div>
+                    <div style={{ fontSize: "13px", opacity: 0.9 }}>
+                      {quarterItems
+                        .slice(0, 3)
+                        .map((item) => item.initiative)
+                        .join(", ")}
+                      {quarterItems.length > 3 && "..."}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div style={{ ...styles.chartContainer, marginTop: "40px" }}>
+            <h3 style={styles.chartTitle}>
+              🎯 Success Indicators for End of 2025-2026
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "15px",
+              }}
+            >
+              {[
+                {
+                  metric: "Safeguarding Training",
+                  target: "100%",
+                  status: "red",
+                },
+                {
+                  metric: "Lesson Plan Submission",
+                  target: ">95%",
+                  status: "yellow",
+                },
+                {
+                  metric: "Formal Observations",
+                  target: "100%",
+                  status: "yellow",
+                },
+                {
+                  metric: "EASE Score Improvement",
+                  target: "+5%",
+                  status: "green",
+                },
+                {
+                  metric: "Cambridge Pass Rate",
+                  target: ">85%",
+                  status: "yellow",
+                },
+                {
+                  metric: "Teacher Satisfaction",
+                  target: ">80%",
+                  status: "green",
+                },
+                {
+                  metric: "Student Attendance",
+                  target: ">95%",
+                  status: "green",
+                },
+              ].map((indicator, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    ...styles.chartContainer,
+                    padding: "15px",
+                    borderTop: `4px solid ${
+                      indicator.status === "red"
+                        ? "#dc2626"
+                        : indicator.status === "yellow"
+                        ? "#f59e0b"
+                        : "#10b981"
+                    }`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      marginBottom: "8px",
+                      opacity: 0.8,
+                    }}
+                  >
+                    {indicator.metric}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "28px",
+                      fontWeight: "900",
+                      color:
+                        indicator.status === "red"
+                          ? "#dc2626"
+                          : indicator.status === "yellow"
+                          ? "#f59e0b"
+                          : "#10b981",
+                    }}
+                  >
+                    {indicator.target}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FINDINGS TAB - New */}
+      {activeTab === "findings" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            🔍 Common Findings Across All Schools
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Patterns identified from 9 school appraisal visits during Semester I
+          </p>
+
+          {/* Strengths Section */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>✅ Recurring Strengths Identified</h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "20px",
+              }}
+            >
+              {strategicData.commonFindings.strengths.map((strength, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "20px",
+                    borderRadius: "15px",
+                    background: `linear-gradient(135deg, ${
+                      GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                    }, ${GRADIENT_COLORS[(idx + 1) % GRADIENT_COLORS.length]})`,
+                    color: "#fff",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "700",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {strength.area}
+                  </div>
+                  <div style={{ fontSize: "14px", opacity: 0.9 }}>
+                    {strength.description}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Policy Gaps */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>⚠️ Policy and Documentation Gaps</h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.commonFindings.policyGaps.map((gap, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "20px",
+                    borderRadius: "10px",
+                    background: "#fff5f5",
+                    borderLeft: "6px solid #dc2626",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                      }}
+                    >
+                      {gap.issue}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "700",
+                        color: "#dc2626",
+                      }}
+                    >
+                      {gap.schools}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: "14px", color: "#6b7280" }}>
+                    Impact: {gap.impact}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Instruction Issues */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>👨‍🏫 Instructional Practice Issues</h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+                gap: "20px",
+              }}
+            >
+              {strategicData.commonFindings.instructionIssues.map(
+                (issue, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px",
+                      borderRadius: "10px",
+                      background: "#fffbeb",
+                      borderLeft: "6px solid #f59e0b",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      {issue.issue}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        color: "#6b7280",
+                        lineHeight: "1.6",
+                      }}
+                    >
+                      {issue.description}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Administrative Issues */}
+          <div style={{ ...styles.chartContainer }}>
+            <h3 style={styles.chartTitle}>
+              📋 Administrative Compliance Issues
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "15px",
+              }}
+            >
+              {strategicData.commonFindings.administrativeIssues.map(
+                (issue, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "15px",
+                      borderRadius: "10px",
+                      background: "#f0f9ff",
+                      borderLeft: "4px solid #3b82f6",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      {issue.issue}
+                    </div>
+                    <div style={{ fontSize: "13px", color: "#6b7280" }}>
+                      Affected: {issue.affected}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EXPECTATIONS TAB - New */}
+      {activeTab === "expectations" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            📋 Eduversal Expectations from Partner Schools
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Five domains of school excellence and their key requirements
+          </p>
+
+          {/* Domain 1 */}
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginBottom: "30px",
+              borderTop: "6px solid #667eea",
+            }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#667eea" }}>
+              Domain 1: School Development
+            </h3>
+            <ul style={styles.bulletList}>
+              {strategicData.eduversalExpectations.domain1.map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{ ...styles.bulletItem, fontSize: "15px" }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Domain 2 */}
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginBottom: "30px",
+              borderTop: "6px solid #f093fb",
+            }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#ec4899" }}>
+              Domain 2: School Management and Leadership
+            </h3>
+            <ul style={styles.bulletList}>
+              {strategicData.eduversalExpectations.domain2.map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{ ...styles.bulletItem, fontSize: "15px" }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Domain 3 */}
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginBottom: "30px",
+              borderTop: "6px solid #4facfe",
+            }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#3b82f6" }}>
+              Domain 3: Subject Departments & Professional Development
+            </h3>
+            <ul style={styles.bulletList}>
+              {strategicData.eduversalExpectations.domain3.map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{ ...styles.bulletItem, fontSize: "15px" }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Domain 4 */}
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginBottom: "30px",
+              borderTop: "6px solid #43e97b",
+            }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#10b981" }}>
+              Domain 4: Olympiad and Educational Technology
+            </h3>
+            <ul style={styles.bulletList}>
+              {strategicData.eduversalExpectations.domain4.map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{ ...styles.bulletItem, fontSize: "15px" }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Domain 5 */}
+          <div
+            style={{ ...styles.chartContainer, borderTop: "6px solid #fa709a" }}
+          >
+            <h3 style={{ ...styles.chartTitle, color: "#dc2626" }}>
+              Domain 5: Curriculum, Teaching & Assessment
+            </h3>
+            <ul style={styles.bulletList}>
+              {strategicData.eduversalExpectations.domain5.map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{ ...styles.bulletItem, fontSize: "15px" }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* TEACHING TAB - New */}
+      {activeTab === "teaching" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            👨‍🏫 Effective Teaching Practice Guide
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Evidence-based lesson structure and observation indicators
+          </p>
+
+          {/* Effective Lesson Structure */}
+          <div style={{ ...styles.chartContainer, marginBottom: "30px" }}>
+            <h3 style={styles.chartTitle}>
+              📚 Effective Lesson Structure (45-minute lesson)
+            </h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {strategicData.lessonStructure.effective.map((phase, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "20px",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    background: "#f9fafb",
+                    borderLeft: `6px solid ${
+                      GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                    }`,
+                  }}
+                >
+                  <div
+                    style={{
+                      minWidth: "60px",
+                      height: "60px",
+                      borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${
+                        GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                      }, ${
+                        GRADIENT_COLORS[(idx + 1) % GRADIENT_COLORS.length]
+                      })`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#fff",
+                      fontSize: "14px",
+                      fontWeight: "900",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {phase.duration}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#1f2937",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      {phase.phase}
+                    </div>
+                    <div style={{ fontSize: "14px", color: "#6b7280" }}>
+                      {phase.description}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Red Flags and Green Flags */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+              gap: "30px",
+            }}
+          >
+            {/* Red Flags */}
+            <div
+              style={{
+                ...styles.chartContainer,
+                borderTop: "6px solid #dc2626",
+              }}
+            >
+              <h3 style={{ ...styles.chartTitle, color: "#dc2626" }}>
+                🚫 Red Flags to Watch For
+              </h3>
+              <ul style={styles.bulletList}>
+                {strategicData.lessonStructure.redFlags.map((flag, idx) => (
+                  <li
+                    key={idx}
+                    style={{
+                      ...styles.bulletItem,
+                      color: "#991b1b",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {flag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Green Flags */}
+            <div
+              style={{
+                ...styles.chartContainer,
+                borderTop: "6px solid #10b981",
+              }}
+            >
+              <h3 style={{ ...styles.chartTitle, color: "#10b981" }}>
+                ✅ Green Flags to Recognize
+              </h3>
+              <ul style={styles.bulletList}>
+                {strategicData.lessonStructure.greenFlags.map((flag, idx) => (
+                  <li
+                    key={idx}
+                    style={{
+                      ...styles.bulletItem,
+                      color: "#065f46",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {flag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DISCUSSION TAB */}
+      {activeTab === "discussion" && (
+        <div>
+          <h2
+            style={{
+              fontSize: "32px",
+              fontWeight: "900",
+              color: "#1f2937",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
+          >
+            💬 Discussion Questions for Principal Meeting
+          </h2>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#6b7280",
+              marginBottom: "40px",
+            }}
+          >
+            Key questions to guide strategic discussion and gather principal
+            feedback
+          </p>
+
+          {strategicData.discussionQuestions.map((item, idx) => (
+            <div key={idx} style={styles.discussionCard}>
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  color: "#9333ea",
+                  marginBottom: "10px",
+                  textTransform: "uppercase",
+                }}
+              >
+                {item.topic}
+              </div>
+              <div
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                  marginBottom: "15px",
+                }}
+              >
+                {item.question}
+              </div>
+              <div
+                style={{
+                  fontSize: "15px",
+                  color: "#6b7280",
+                  lineHeight: "1.6",
+                  fontStyle: "italic",
+                }}
+              >
+                Context: {item.context}
+              </div>
+            </div>
+          ))}
+
+          <div
+            style={{
+              ...styles.chartContainer,
+              marginTop: "40px",
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              color: "#fff",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "24px",
+                fontWeight: "700",
+                marginBottom: "20px",
+              }}
+            >
+              Next Steps After the Meeting
+            </h3>
+            <ul style={styles.bulletList}>
+              <li style={styles.bulletItem}>
+                Document decisions and action items
+              </li>
+              <li style={styles.bulletItem}>
+                Assign responsibilities and timelines
+              </li>
+              <li style={styles.bulletItem}>
+                Create implementation teams for each priority
+              </li>
+              <li style={styles.bulletItem}>
+                Schedule monthly follow-up meetings
+              </li>
+              <li style={styles.bulletItem}>
+                Establish progress tracking mechanisms
+              </li>
+              <li style={styles.bulletItem}>
+                Share outcomes with all stakeholders
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <div style={{ marginTop: "60px", textAlign: "center" }}>
+        <div
+          style={{
+            display: "inline-block",
+            background:
+              "linear-gradient(135deg, #9333ea 0%, #ec4899 50%, #3b82f6 100%)",
+            color: "#fff",
+            padding: "20px 40px",
+            borderRadius: "50px",
+            boxShadow: "0 10px 30px rgba(147, 51, 234, 0.3)",
+            fontSize: "16px",
+            fontWeight: "700",
+          }}
+        >
+          🎯 Total Activities: {dashboardData.key_stats.total_activities} | 📊{" "}
+          {dashboardData.key_stats.total_observations} Observations +{" "}
+          {dashboardData.key_stats.total_meetings} Meetings
+        </div>
+      </div>
+    </div>
+  );
+};
+
+    ReactDOM.render(<ComprehensiveDashboard />, document.getElementById("root"));
+    </script>
+
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>
