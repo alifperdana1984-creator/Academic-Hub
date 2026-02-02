@@ -1,9 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read the source HTML
-let html = fs.readFileSync('index.html', 'utf8');
-
 // Replace placeholders with environment variables
 const replacements = {
   '__FIREBASE_API_KEY__': process.env.FIREBASE_API_KEY || '',
@@ -14,17 +11,41 @@ const replacements = {
   '__FIREBASE_APP_ID__': process.env.FIREBASE_APP_ID || '',
 };
 
-for (const [placeholder, value] of Object.entries(replacements)) {
-  html = html.replace(new RegExp(placeholder, 'g'), value);
-}
-
 // Create dist directory
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist');
 }
 
-// Write the processed HTML
-fs.writeFileSync('dist/index.html', html);
+// List of HTML files to process
+const htmlFiles = [
+  'index.html',
+  'AcademicStandards.html',
+  'CambridgeExamsDashboard.html',
+  'CambridgePathwaySimulator.html',
+  'IslamicSchoolsPerformance.html',
+  'PartnerSchoolsPerformance.html',
+  'SchoolAppraisalsDashboard.html',
+];
+
+// Process each HTML file
+htmlFiles.forEach(file => {
+  if (fs.existsSync(file)) {
+    let html = fs.readFileSync(file, 'utf8');
+
+    for (const [placeholder, value] of Object.entries(replacements)) {
+      html = html.replace(new RegExp(placeholder, 'g'), value);
+    }
+
+    fs.writeFileSync(path.join('dist', file), html);
+    console.log(`Processed: ${file}`);
+  }
+});
+
+// Copy auth-guard.js
+if (fs.existsSync('auth-guard.js')) {
+  fs.copyFileSync('auth-guard.js', 'dist/auth-guard.js');
+  console.log('Copied: auth-guard.js');
+}
 
 // Copy images folder if it exists
 const imagesDir = 'images';
@@ -40,10 +61,11 @@ if (fs.existsSync(imagesDir)) {
       path.join(destImagesDir, file)
     );
   });
+  console.log('Copied: images folder');
 }
 
-console.log('Build completed successfully!');
-console.log('Environment variables injected:');
+console.log('\nBuild completed successfully!');
+console.log('Environment variables:');
 Object.keys(replacements).forEach(key => {
   const value = replacements[key];
   console.log(`  ${key}: ${value ? '[SET]' : '[NOT SET]'}`);
