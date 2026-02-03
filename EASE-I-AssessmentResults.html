@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EASE-I Assessment Dashboard</title>
+      <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .controls {
+        padding: 30px;
+        background: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .control-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .control-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .control-item label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #495057;
+        font-size: 0.95em;
+      }
+
+      .control-item select {
+        padding: 12px;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        font-size: 1em;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .control-item select:hover {
+        border-color: #667eea;
+      }
+
+      .control-item select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        background: #f8f9fa;
+      }
+
+      .metric-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .metric-card h3 {
+        font-size: 0.9em;
+        color: #6c757d;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .metric-card .value {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 5px;
+      }
+
+      .metric-card .subtitle {
+        font-size: 0.85em;
+        color: #868e96;
+      }
+
+      .charts {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+
+      .chart-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .chart-container.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .chart-title {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #495057;
+      }
+
+      @media (max-width: 1200px) {
+        .charts {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .participation-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        margin-top: 5px;
+      }
+
+      .participation-high {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .participation-medium {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .participation-low {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      /* Participation Data button styling */
+      .data-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 12px 30px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1em;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .data-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .data-button:active {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🎓 EASE I - Assessment Dashboard</h1>
+        <p>Interactive Performance & Participation Analytics</p>
+
+        <!-- YENİ: Participation Data butonu -->
+        <a
+          href="https://docs.google.com/spreadsheets/d/1bXdoEkM0yCLaYl_xBaQ3MYEV81JH03HnnQ3RRPlH1zk/edit?usp=sharing"
+          target="_blank"
+          class="data-button"
+        >
+          📊 Participation Data
+        </a>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <div class="control-item">
+            <label for="schoolSelect">🏫 Select School</label>
+            <select id="schoolSelect">
+              <option value="all">All Schools</option>
+            </select>
+          </div>
+          <div class="control-item">
+            <label for="gradeSelect">📚 Select Grade</label>
+            <select id="gradeSelect">
+              <option value="all">All Grades</option>
+              <option value="7">Grade 7</option>
+              <option value="8">Grade 8</option>
+              <option value="9">Grade 9</option>
+              <option value="10">Grade 10</option>
+              <option value="11">Grade 11</option>
+              <option value="12">Grade 12</option>
+            </select>
+          </div>
+          <div class="control-item">
+            <label for="subjectSelect">📖 Select Subject</label>
+            <select id="subjectSelect">
+              <option value="all">All Subjects</option>
+              <option value="Math">Math</option>
+              <option value="Science">Science</option>
+              <option value="Biology">Biology</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Religion">Religion</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics" id="metricsContainer"></div>
+
+      <div class="charts">
+        <div class="chart-container full-width">
+          <div class="chart-title">📊 School Performance Comparison</div>
+          <div id="performanceChart"></div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-title">👥 Participation by Grade</div>
+          <div id="participationGradeChart"></div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-title">🎯 Participation Rate by School</div>
+          <div id="participationRateChart"></div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-title">📈 Subject Performance Distribution</div>
+          <div id="subjectPerformanceChart"></div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-title">🔍 Grade-wise Average Scores</div>
+          <div id="gradeAverageChart"></div>
+        </div>
+
+        <div class="chart-container full-width">
+          <div class="chart-title">
+            🎨 Performance Heatmap: Schools vs Grades
+          </div>
+          <div id="heatmapChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script>
+      // Wait for everything to load
+      window.onload = function () {
+        console.log("Window loaded");
+
+        // Check if Plotly loaded
+        if (typeof Plotly === "undefined") {
+          console.error("Plotly failed to load!");
+          document.body.innerHTML =
+            '<div style="color:white;text-align:center;padding:50px;"><h1>Error: Plotly library failed to load</h1><p>Please refresh the page</p></div>';
+          return;
+        }
+
+        console.log("Plotly loaded successfully!");
+
+        // Data structure
+        const data = {
+          schools: [
+            {
+              name: "Cahaya Rancamaya",
+              grades: {
+                7: {
+                  Math: { participated: 51, total: 51, score: 65 },
+                  Science: { participated: 51, total: 51, score: 78 },
+                  Religion: { participated: 51, total: 51, score: 86 },
+                  avg: 76.33
+                },
+                8: {
+                  Math: { participated: 8, total: 24, score: 0 },
+                  Science: { participated: 0, total: 24, score: 0 },
+                  Religion: { participated: 23, total: 24, score: 82 },
+                  avg: 82
+                },
+                9: {
+                  Math: { participated: 0, total: 49, score: 0 },
+                  Biology: { participated: 0, total: 49, score: 0 },
+                  Physics: { participated: 0, total: 49, score: 0 },
+                  Chemistry: { participated: 0, total: 49, score: 0 },
+                  Religion: { participated: 47, total: 49, score: 92 },
+                  avg: 92
+                },
+                10: {
+                  Math: { participated: 50, total: 51, score: 59 },
+                  Biology: { participated: 51, total: 51, score: 63 },
+                  Physics: { participated: 51, total: 51, score: 68 },
+                  Chemistry: { participated: 50, total: 51, score: 61 },
+                  Religion: { participated: 48, total: 51, score: 91 },
+                  avg: 68.4
+                },
+                11: {
+                  Math: { participated: 0, total: 34, score: 0 },
+                  Biology: { participated: 0, total: 34, score: 0 },
+                  Physics: { participated: 0, total: 34, score: 0 },
+                  Chemistry: { participated: 0, total: 34, score: 0 },
+                  Religion: { participated: 34, total: 34, score: 90 },
+                  avg: 90
+                },
+                12: {
+                  Math: { participated: 0, total: 30, score: 0 },
+                  Biology: { participated: 1, total: 30, score: 0 },
+                  Physics: { participated: 0, total: 30, score: 0 },
+                  Chemistry: { participated: 0, total: 30, score: 0 },
+                  Religion: { participated: 28, total: 30, score: 91 },
+                  avg: 91
+                }
+              }
+            },
+            {
+              name: "Emer Islamic Boarding School",
+              grades: {
+                7: {
+                  Math: { participated: 1, total: 35, score: 0 },
+                  Science: { participated: 0, total: 35, score: 0 },
+                  Religion: { participated: 35, total: 35, score: 81 },
+                  avg: 81
+                },
+                8: {
+                  Math: { participated: 4, total: 22, score: 0 },
+                  Science: { participated: 0, total: 22, score: 0 },
+                  Religion: { participated: 21, total: 22, score: 82 },
+                  avg: 82
+                },
+                10: {
+                  Math: { participated: 8, total: 23, score: 0 },
+                  Biology: { participated: 0, total: 23, score: 0 },
+                  Physics: { participated: 0, total: 23, score: 0 },
+                  Chemistry: { participated: 0, total: 23, score: 0 },
+                  Religion: { participated: 23, total: 23, score: 92 },
+                  avg: 92
+                },
+                11: {
+                  Math: { participated: 7, total: 26, score: 0 },
+                  Biology: { participated: 0, total: 26, score: 0 },
+                  Physics: { participated: 0, total: 26, score: 0 },
+                  Chemistry: { participated: 0, total: 26, score: 0 },
+                  Religion: { participated: 26, total: 26, score: 91 },
+                  avg: 91
+                }
+              }
+            },
+            {
+              name: "Kesatuan Bangsa",
+              grades: {
+                7: {
+                  Math: { participated: 34, total: 34, score: 70 },
+                  Science: { participated: 34, total: 34, score: 74 },
+                  Religion: { participated: 31, total: 34, score: 82 },
+                  avg: 75.33
+                },
+                8: {
+                  Math: { participated: 25, total: 26, score: 66 },
+                  Science: { participated: 25, total: 26, score: 75 },
+                  Religion: { participated: 22, total: 26, score: 83 },
+                  avg: 74.67
+                },
+                9: {
+                  Math: { participated: 56, total: 58, score: 70 },
+                  Biology: { participated: 56, total: 58, score: 67 },
+                  Physics: { participated: 55, total: 58, score: 66 },
+                  Chemistry: { participated: 54, total: 58, score: 76 },
+                  Religion: { participated: 54, total: 58, score: 91 },
+                  avg: 74
+                },
+                10: {
+                  Math: { participated: 86, total: 90, score: 62 },
+                  Biology: { participated: 86, total: 90, score: 72 },
+                  Physics: { participated: 85, total: 90, score: 72 },
+                  Chemistry: { participated: 89, total: 90, score: 68 },
+                  Religion: { participated: 80, total: 90, score: 93 },
+                  avg: 73.4
+                },
+                11: {
+                  Math: { participated: 70, total: 73, score: 50 },
+                  Biology: { participated: 18, total: 73, score: 49 },
+                  Physics: { participated: 20, total: 73, score: 63 },
+                  Chemistry: { participated: 44, total: 73, score: 59 },
+                  Religion: { participated: 62, total: 73, score: 85 },
+                  avg: 61.2
+                },
+                12: {
+                  Math: { participated: 61, total: 68, score: 65 },
+                  Biology: { participated: 36, total: 68, score: 60 },
+                  Physics: { participated: 25, total: 68, score: 66 },
+                  Chemistry: { participated: 23, total: 68, score: 85 },
+                  Religion: { participated: 56, total: 68, score: 93 },
+                  avg: 73.8
+                }
+              }
+            },
+            {
+              name: "Kharisma Bangsa",
+              grades: {
+                7: {
+                  Math: { participated: 56, total: 57, score: 70 },
+                  Science: { participated: 56, total: 57, score: 84 },
+                  Religion: { participated: 54, total: 57, score: 86 },
+                  avg: 80
+                },
+                8: {
+                  Math: { participated: 68, total: 68, score: 63 },
+                  Science: { participated: 68, total: 68, score: 78 },
+                  Religion: { participated: 64, total: 68, score: 81 },
+                  avg: 74
+                },
+                9: {
+                  Math: { participated: 66, total: 70, score: 65 },
+                  Biology: { participated: 66, total: 70, score: 64 },
+                  Physics: { participated: 66, total: 70, score: 71 },
+                  Chemistry: { participated: 66, total: 70, score: 75 },
+                  Religion: { participated: 62, total: 70, score: 87 },
+                  avg: 72.4
+                },
+                10: {
+                  Math: { participated: 113, total: 117, score: 60 },
+                  Biology: { participated: 113, total: 117, score: 68 },
+                  Physics: { participated: 113, total: 117, score: 72 },
+                  Chemistry: { participated: 112, total: 117, score: 62 },
+                  Religion: { participated: 106, total: 117, score: 90 },
+                  avg: 70.4
+                },
+                11: {
+                  Math: { participated: 86, total: 89, score: 57 },
+                  Biology: { participated: 67, total: 89, score: 59 },
+                  Physics: { participated: 53, total: 89, score: 61 },
+                  Chemistry: { participated: 49, total: 89, score: 70 },
+                  Religion: { participated: 80, total: 89, score: 85 },
+                  avg: 66.4
+                },
+                12: {
+                  Math: { participated: 95, total: 102, score: 66 },
+                  Biology: { participated: 65, total: 102, score: 66 },
+                  Physics: { participated: 64, total: 102, score: 61 },
+                  Chemistry: { participated: 62, total: 102, score: 78 },
+                  Religion: { participated: 93, total: 102, score: 93 },
+                  avg: 72.8
+                }
+              }
+            },
+            {
+              name: "Mega Islamic School",
+              grades: {
+                7: {
+                  Math: { participated: 13, total: 13, score: 70 },
+                  Science: { participated: 13, total: 13, score: 75 },
+                  Religion: { participated: 13, total: 13, score: 88 },
+                  avg: 77.67
+                },
+                8: {
+                  Math: { participated: 16, total: 16, score: 70 },
+                  Science: { participated: 16, total: 16, score: 73 },
+                  Religion: { participated: 16, total: 16, score: 89 },
+                  avg: 77.33
+                },
+                9: {
+                  Math: { participated: 17, total: 18, score: 71 },
+                  Biology: { participated: 17, total: 18, score: 63 },
+                  Physics: { participated: 16, total: 18, score: 74 },
+                  Chemistry: { participated: 17, total: 18, score: 81 },
+                  Religion: { participated: 17, total: 18, score: 95 },
+                  avg: 76.8
+                },
+                10: {
+                  Math: { participated: 16, total: 16, score: 41 },
+                  Biology: { participated: 15, total: 16, score: 55 },
+                  Physics: { participated: 15, total: 16, score: 64 },
+                  Chemistry: { participated: 15, total: 16, score: 52 },
+                  Religion: { participated: 16, total: 16, score: 94 },
+                  avg: 61.2
+                },
+                11: {
+                  Math: { participated: 14, total: 14, score: 39 },
+                  Biology: { participated: 14, total: 14, score: 41 },
+                  Physics: { participated: 14, total: 14, score: 45 },
+                  Chemistry: { participated: 14, total: 14, score: 53 },
+                  Religion: { participated: 14, total: 14, score: 89 },
+                  avg: 53.4
+                },
+                12: {
+                  Math: { participated: 16, total: 18, score: 56 },
+                  Biology: { participated: 15, total: 18, score: 54 },
+                  Physics: { participated: 14, total: 18, score: 45 },
+                  Chemistry: { participated: 18, total: 18, score: 72 },
+                  Religion: { participated: 17, total: 18, score: 92 },
+                  avg: 63.8
+                }
+              }
+            },
+            {
+              name: "Pakar Belia Islamic School",
+              grades: {
+                7: {
+                  Math: { participated: 29, total: 31, score: 68 },
+                  Science: { participated: 29, total: 31, score: 72 },
+                  Religion: { participated: 29, total: 31, score: 88 },
+                  avg: 76
+                },
+                10: {
+                  Math: { participated: 26, total: 27, score: 71 },
+                  Biology: { participated: 26, total: 27, score: 59 },
+                  Physics: { participated: 26, total: 27, score: 69 },
+                  Chemistry: { participated: 26, total: 27, score: 66 },
+                  Religion: { participated: 27, total: 27, score: 91 },
+                  avg: 71.2
+                }
+              }
+            },
+            {
+              name: "Prestige School",
+              grades: {
+                7: {
+                  Math: { participated: 15, total: 16, score: 54 },
+                  Science: { participated: 15, total: 16, score: 71 },
+                  Religion: { participated: 15, total: 16, score: 86 },
+                  avg: 70.33
+                },
+                8: {
+                  Math: { participated: 5, total: 5, score: 41 },
+                  Science: { participated: 5, total: 5, score: 61 },
+                  Religion: { participated: 5, total: 5, score: 79 },
+                  avg: 60.33
+                },
+                9: {
+                  Math: { participated: 4, total: 4, score: 81 },
+                  Biology: { participated: 4, total: 4, score: 77 },
+                  Physics: { participated: 4, total: 4, score: 56 },
+                  Chemistry: { participated: 4, total: 4, score: 54 },
+                  Religion: { participated: 4, total: 4, score: 98 },
+                  avg: 73.2
+                }
+              }
+            },
+            {
+              name: "Pribadi Bandung",
+              grades: {
+                7: {
+                  Math: { participated: 34, total: 34, score: 66 },
+                  Science: { participated: 34, total: 34, score: 76 },
+                  Religion: { participated: 33, total: 34, score: 86 },
+                  avg: 76
+                },
+                8: {
+                  Math: { participated: 28, total: 28, score: 53 },
+                  Science: { participated: 27, total: 28, score: 74 },
+                  Religion: { participated: 28, total: 28, score: 80 },
+                  avg: 69
+                },
+                9: {
+                  Math: { participated: 35, total: 35, score: 65 },
+                  Biology: { participated: 34, total: 35, score: 63 },
+                  Physics: { participated: 33, total: 35, score: 65 },
+                  Chemistry: { participated: 32, total: 35, score: 74 },
+                  Religion: { participated: 33, total: 35, score: 89 },
+                  avg: 71.2
+                },
+                10: {
+                  Math: { participated: 57, total: 60, score: 55 },
+                  Biology: { participated: 56, total: 60, score: 63 },
+                  Physics: { participated: 56, total: 60, score: 65 },
+                  Chemistry: { participated: 57, total: 60, score: 61 },
+                  Religion: { participated: 55, total: 60, score: 92 },
+                  avg: 67.2
+                },
+                11: {
+                  Math: { participated: 41, total: 44, score: 50 },
+                  Biology: { participated: 29, total: 44, score: 44 },
+                  Physics: { participated: 27, total: 44, score: 56 },
+                  Chemistry: { participated: 27, total: 44, score: 59 },
+                  Religion: { participated: 39, total: 44, score: 84 },
+                  avg: 58.6
+                },
+                12: {
+                  Math: { participated: 67, total: 68, score: 59 },
+                  Biology: { participated: 60, total: 68, score: 54 },
+                  Physics: { participated: 34, total: 68, score: 47 },
+                  Chemistry: { participated: 40, total: 68, score: 65 },
+                  Religion: { participated: 67, total: 68, score: 89 },
+                  avg: 62.8
+                }
+              }
+            },
+            {
+              name: "Pribadi Depok",
+              grades: {
+                7: {
+                  Math: { participated: 25, total: 24, score: 71 },
+                  Science: { participated: 24, total: 24, score: 82 },
+                  Religion: { participated: 23, total: 24, score: 87 },
+                  avg: 80
+                },
+                8: {
+                  Math: { participated: 31, total: 33, score: 62 },
+                  Science: { participated: 31, total: 33, score: 79 },
+                  Religion: { participated: 29, total: 33, score: 85 },
+                  avg: 75.33
+                },
+                9: {
+                  Math: { participated: 28, total: 29, score: 72 },
+                  Biology: { participated: 28, total: 29, score: 66 },
+                  Physics: { participated: 28, total: 29, score: 72 },
+                  Chemistry: { participated: 28, total: 29, score: 79 },
+                  Religion: { participated: 24, total: 29, score: 88 },
+                  avg: 75.4
+                },
+                10: {
+                  Math: { participated: 35, total: 35, score: 58 },
+                  Biology: { participated: 35, total: 35, score: 62 },
+                  Physics: { participated: 35, total: 35, score: 73 },
+                  Chemistry: { participated: 35, total: 35, score: 65 },
+                  Religion: { participated: 33, total: 35, score: 91 },
+                  avg: 69.8
+                },
+                11: {
+                  Math: { participated: 46, total: 48, score: 54 },
+                  Biology: { participated: 46, total: 48, score: 50 },
+                  Physics: { participated: 46, total: 48, score: 53 },
+                  Chemistry: { participated: 46, total: 48, score: 54 },
+                  Religion: { participated: 44, total: 48, score: 86 },
+                  avg: 59.4
+                },
+                12: {
+                  Math: { participated: 50, total: 54, score: 62 },
+                  Biology: { participated: 49, total: 54, score: 65 },
+                  Physics: { participated: 48, total: 54, score: 56 },
+                  Chemistry: { participated: 48, total: 54, score: 66 },
+                  Religion: { participated: 49, total: 54, score: 90 },
+                  avg: 67.8
+                }
+              }
+            },
+            {
+              name: "Pribadi Premiere",
+              grades: {
+                7: {
+                  Math: { participated: 9, total: 9, score: 62 },
+                  Science: { participated: 9, total: 9, score: 75 },
+                  Religion: { participated: 7, total: 9, score: 90 },
+                  avg: 75.67
+                },
+                8: {
+                  Math: { participated: 9, total: 9, score: 72 },
+                  Science: { participated: 9, total: 9, score: 79 },
+                  Religion: { participated: 9, total: 9, score: 87 },
+                  avg: 79.33
+                },
+                9: {
+                  Math: { participated: 5, total: 5, score: 84 },
+                  Biology: { participated: 5, total: 5, score: 83 },
+                  Physics: { participated: 5, total: 5, score: 82 },
+                  Chemistry: { participated: 5, total: 5, score: 87 },
+                  Religion: { participated: 5, total: 5, score: 95 },
+                  avg: 86.2
+                },
+                10: {
+                  Math: { participated: 7, total: 7, score: 58 },
+                  Biology: { participated: 7, total: 7, score: 67 },
+                  Physics: { participated: 7, total: 7, score: 72 },
+                  Chemistry: { participated: 7, total: 7, score: 64 },
+                  Religion: { participated: 7, total: 7, score: 82 },
+                  avg: 68.6
+                },
+                11: {
+                  Math: { participated: 8, total: 9, score: 40 },
+                  Biology: { participated: 8, total: 9, score: 40 },
+                  Physics: { participated: 9, total: 9, score: 48 },
+                  Chemistry: { participated: 9, total: 9, score: 53 },
+                  Religion: { participated: 8, total: 9, score: 87 },
+                  avg: 53.6
+                },
+                12: {
+                  Math: { participated: 3, total: 3, score: 61 },
+                  Biology: { participated: 3, total: 3, score: 42 },
+                  Physics: { participated: 3, total: 3, score: 41 },
+                  Chemistry: { participated: 3, total: 3, score: 61 },
+                  Religion: { participated: 3, total: 3, score: 92 },
+                  avg: 59.4
+                }
+              }
+            },
+            {
+              name: "Semesta 1",
+              grades: {
+                7: {
+                  Math: { participated: 31, total: 32, score: 62 },
+                  Science: { participated: 31, total: 32, score: 75 },
+                  Religion: { participated: 31, total: 32, score: 86 },
+                  avg: 74.33
+                },
+                8: {
+                  Math: { participated: 36, total: 37, score: 57 },
+                  Science: { participated: 37, total: 37, score: 78 },
+                  Religion: { participated: 36, total: 37, score: 87 },
+                  avg: 74
+                },
+                9: {
+                  Math: { participated: 19, total: 19, score: 68 },
+                  Biology: { participated: 19, total: 19, score: 60 },
+                  Physics: { participated: 19, total: 19, score: 67 },
+                  Chemistry: { participated: 18, total: 19, score: 73 },
+                  Religion: { participated: 19, total: 19, score: 90 },
+                  avg: 71.6
+                },
+                10: {
+                  Math: { participated: 87, total: 90, score: 53 },
+                  Biology: { participated: 58, total: 90, score: 58 },
+                  Physics: { participated: 29, total: 90, score: 64 },
+                  Chemistry: { participated: 87, total: 90, score: 58 },
+                  Religion: { participated: 79, total: 90, score: 89 },
+                  avg: 64.4
+                },
+                11: {
+                  Math: { participated: 70, total: 70, score: 51 },
+                  Biology: { participated: 36, total: 70, score: 52 },
+                  Physics: { participated: 34, total: 70, score: 53 },
+                  Chemistry: { participated: 70, total: 70, score: 61 },
+                  Religion: { participated: 65, total: 70, score: 85 },
+                  avg: 60.4
+                },
+                12: {
+                  Math: { participated: 63, total: 66, score: 61 },
+                  Biology: { participated: 40, total: 66, score: 57 },
+                  Physics: { participated: 23, total: 66, score: 62 },
+                  Chemistry: { participated: 65, total: 66, score: 69 },
+                  Religion: { participated: 62, total: 66, score: 94 },
+                  avg: 68.6
+                }
+              }
+            },
+            {
+              name: "Semesta 3",
+              grades: {
+                7: {
+                  Math: { participated: 18, total: 18, score: 71 },
+                  Science: { participated: 18, total: 18, score: 83 },
+                  Religion: { participated: 18, total: 18, score: 85 },
+                  avg: 79.67
+                },
+                8: {
+                  Math: { participated: 20, total: 25, score: 63 },
+                  Science: { participated: 21, total: 25, score: 79 },
+                  Religion: { participated: 22, total: 25, score: 82 },
+                  avg: 74.67
+                },
+                9: {
+                  Math: { participated: 30, total: 33, score: 72 },
+                  Biology: { participated: 32, total: 33, score: 74 },
+                  Physics: { participated: 32, total: 33, score: 77 },
+                  Chemistry: { participated: 32, total: 33, score: 77 },
+                  Religion: { participated: 31, total: 33, score: 92 },
+                  avg: 78.4
+                }
+              }
+            },
+            {
+              name: "Fatih Bilingual School",
+              grades: {
+                7: {
+                  Math: { participated: 30, total: 30, score: 47 },
+                  Science: { participated: 30, total: 30, score: 60 },
+                  Religion: { participated: 30, total: 30, score: 75 },
+                  avg: 60.67
+                },
+                8: {
+                  Math: { participated: 32, total: 33, score: 46 },
+                  Science: { participated: 33, total: 33, score: 61 },
+                  Religion: { participated: 31, total: 33, score: 74 },
+                  avg: 60.33
+                },
+                9: {
+                  Math: { participated: 25, total: 25, score: 59 },
+                  Biology: { participated: 25, total: 25, score: 55 },
+                  Physics: { participated: 25, total: 25, score: 62 },
+                  Chemistry: { participated: 25, total: 25, score: 55 },
+                  Religion: { participated: 25, total: 25, score: 85 },
+                  avg: 63.2
+                },
+                10: {
+                  Math: { participated: 27, total: 27, score: 41 },
+                  Biology: { participated: 27, total: 27, score: 48 },
+                  Physics: { participated: 26, total: 27, score: 53 },
+                  Chemistry: { participated: 27, total: 27, score: 41 },
+                  Religion: { participated: 25, total: 27, score: 80 },
+                  avg: 52.6
+                },
+                11: {
+                  Math: { participated: 35, total: 36, score: 43 },
+                  Biology: { participated: 15, total: 36, score: 41 },
+                  Physics: { participated: 22, total: 36, score: 61 },
+                  Chemistry: { participated: 36, total: 36, score: 48 },
+                  Religion: { participated: 35, total: 36, score: 80 },
+                  avg: 54.6
+                },
+                12: {
+                  Math: { participated: 27, total: 30, score: 58 },
+                  Biology: { participated: 10, total: 30, score: 63 },
+                  Physics: { participated: 19, total: 30, score: 50 },
+                  Chemistry: { participated: 29, total: 30, score: 47 },
+                  Religion: { participated: 27, total: 30, score: 87 },
+                  avg: 61
+                }
+              }
+            },
+            {
+              name: "TNA Fatih",
+              grades: {
+                7: {
+                  Math: { participated: 17, total: 18, score: 52 },
+                  Science: { participated: 17, total: 18, score: 58 },
+                  Religion: { participated: 17, total: 18, score: 85 },
+                  avg: 65
+                },
+                8: {
+                  Math: { participated: 17, total: 19, score: 44 },
+                  Science: { participated: 18, total: 19, score: 64 },
+                  Religion: { participated: 19, total: 19, score: 78 },
+                  avg: 62
+                },
+                9: {
+                  Math: { participated: 22, total: 22, score: 52 },
+                  Biology: { participated: 22, total: 22, score: 55 },
+                  Physics: { participated: 22, total: 22, score: 59 },
+                  Chemistry: { participated: 22, total: 22, score: 55 },
+                  Religion: { participated: 22, total: 22, score: 93 },
+                  avg: 62.8
+                },
+                10: {
+                  Math: { participated: 32, total: 35, score: 43 },
+                  Biology: { participated: 33, total: 35, score: 51 },
+                  Physics: { participated: 33, total: 35, score: 58 },
+                  Chemistry: { participated: 33, total: 35, score: 51 },
+                  Religion: { participated: 31, total: 35, score: 93 },
+                  avg: 59.2
+                },
+                11: {
+                  Math: { participated: 31, total: 33, score: 46 },
+                  Biology: { participated: 24, total: 33, score: 58 },
+                  Physics: { participated: 11, total: 33, score: 62 },
+                  Chemistry: { participated: 20, total: 33, score: 57 },
+                  Religion: { participated: 32, total: 33, score: 89 },
+                  avg: 62.4
+                },
+                12: {
+                  Math: { participated: 24, total: 24, score: 56 },
+                  Biology: { participated: 19, total: 24, score: 53 },
+                  Physics: { participated: 5, total: 24, score: 65 },
+                  Chemistry: { participated: 24, total: 24, score: 50 },
+                  Religion: { participated: 23, total: 24, score: 94 },
+                  avg: 63.6
+                }
+              }
+            }
+          ]
+        };
+
+        // Populate school selector
+        const schoolSelect = document.getElementById("schoolSelect");
+        data.schools.forEach((school) => {
+          const option = document.createElement("option");
+          option.value = school.name;
+          option.textContent = school.name;
+          schoolSelect.appendChild(option);
+        });
+
+        // Update dashboard
+        function updateDashboard() {
+          const selectedSchool = document.getElementById("schoolSelect").value;
+          const selectedGrade = document.getElementById("gradeSelect").value;
+          const selectedSubject =
+            document.getElementById("subjectSelect").value;
+
+          updateMetrics(selectedSchool, selectedGrade, selectedSubject);
+          updatePerformanceChart(
+            selectedSchool,
+            selectedGrade,
+            selectedSubject
+          );
+          updateParticipationGradeChart(selectedSchool);
+          updateParticipationRateChart(selectedGrade, selectedSubject);
+          updateSubjectPerformanceChart(selectedSchool, selectedGrade);
+          updateGradeAverageChart(selectedSchool);
+          updateHeatmap();
+        }
+
+        function updateMetrics(school, grade, subject) {
+          let totalParticipated = 0;
+          let totalStudents = 0;
+          let avgScore = 0;
+          let scoreCount = 0;
+          let gradeStudentCount = {}; // Track unique students per grade
+          let gradeParticipationTracked = {}; // Track if we've counted this grade already
+
+          const schools =
+            school === "all"
+              ? data.schools
+              : data.schools.filter((s) => s.name === school);
+
+          schools.forEach((s) => {
+            Object.entries(s.grades).forEach(([g, subjects]) => {
+              if (grade === "all" || g === grade) {
+                const gradeKey = s.name + "_" + g;
+
+                // Count total students per grade only once
+                if (!gradeStudentCount[gradeKey]) {
+                  const firstSubject = Object.keys(subjects).find(
+                    (k) => k !== "avg" && subjects[k].total
+                  );
+                  if (firstSubject) {
+                    gradeStudentCount[gradeKey] = subjects[firstSubject].total;
+                    totalStudents += subjects[firstSubject].total;
+                  }
+                }
+
+                // For participation:
+                // If "all subjects" selected: use maximum participation across subjects (unique students estimate)
+                // If specific subject selected: use that subject's participation
+                if (!gradeParticipationTracked[gradeKey]) {
+                  if (subject === "all") {
+                    // Use max participation across all subjects as estimate of unique students
+                    let maxParticipation = 0;
+                    Object.entries(subjects).forEach(([subj, val]) => {
+                      if (subj !== "avg" && val.participated !== undefined) {
+                        maxParticipation = Math.max(
+                          maxParticipation,
+                          val.participated
+                        );
+                      }
+                    });
+                    totalParticipated += maxParticipation;
+                  } else {
+                    // Use specific subject's participation
+                    if (
+                      subjects[subject] &&
+                      subjects[subject].participated !== undefined
+                    ) {
+                      totalParticipated += subjects[subject].participated;
+                    }
+                  }
+                  gradeParticipationTracked[gradeKey] = true;
+                }
+
+                // Count scores (for average calculation)
+                Object.entries(subjects).forEach(([subj, val]) => {
+                  if (
+                    subj !== "avg" &&
+                    (subject === "all" || subj === subject)
+                  ) {
+                    if (val.score > 0) {
+                      avgScore += val.score;
+                      scoreCount++;
+                    }
+                  }
+                });
+              }
+            });
+          });
+
+          const participationRate =
+            totalStudents > 0
+              ? ((totalParticipated / totalStudents) * 100).toFixed(1)
+              : 0;
+          const finalAvgScore =
+            scoreCount > 0 ? (avgScore / scoreCount).toFixed(1) : 0;
+
+          let rateClass = "participation-low";
+          if (participationRate >= 80) rateClass = "participation-high";
+          else if (participationRate >= 60) rateClass = "participation-medium";
+
+          const metricsHTML = `
+                <div class="metric-card">
+                    <h3>Total Students</h3>
+                    <div class="value">${totalStudents.toLocaleString()}</div>
+                    <div class="subtitle">Enrolled</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Participated</h3>
+                    <div class="value">${totalParticipated.toLocaleString()}</div>
+                    <div class="subtitle">Students</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Participation Rate</h3>
+                    <div class="value">${participationRate}%</div>
+                    <span class="participation-badge ${rateClass}">${
+            participationRate >= 80
+              ? "High"
+              : participationRate >= 60
+              ? "Medium"
+              : "Low"
+          }</span>
+                </div>
+                <div class="metric-card">
+                    <h3>Average Score</h3>
+                    <div class="value">${finalAvgScore}%</div>
+                    <div class="subtitle">Performance</div>
+                </div>
+            `;
+
+          document.getElementById("metricsContainer").innerHTML = metricsHTML;
+        }
+
+        function updatePerformanceChart(school, grade, subject) {
+          const schools =
+            school === "all"
+              ? data.schools
+              : data.schools.filter((s) => s.name === school);
+          const schoolNames = [];
+          const avgScores = [];
+          const participationCounts = [];
+
+          schools.forEach((s) => {
+            let totalScore = 0;
+            let count = 0;
+            let gradeParticipationTracked = {};
+            let schoolTotalParticipation = 0;
+
+            Object.entries(s.grades).forEach(([g, subjects]) => {
+              if (grade === "all" || g === grade) {
+                // Calculate participation (same logic as updateMetrics)
+                const gradeKey = g;
+                if (!gradeParticipationTracked[gradeKey]) {
+                  if (subject === "all") {
+                    let maxParticipation = 0;
+                    Object.entries(subjects).forEach(([subj, val]) => {
+                      if (subj !== "avg" && val.participated !== undefined) {
+                        maxParticipation = Math.max(
+                          maxParticipation,
+                          val.participated
+                        );
+                      }
+                    });
+                    schoolTotalParticipation += maxParticipation;
+                  } else {
+                    if (
+                      subjects[subject] &&
+                      subjects[subject].participated !== undefined
+                    ) {
+                      schoolTotalParticipation +=
+                        subjects[subject].participated;
+                    }
+                  }
+                  gradeParticipationTracked[gradeKey] = true;
+                }
+
+                // Calculate scores
+                Object.entries(subjects).forEach(([subj, val]) => {
+                  if (
+                    subj !== "avg" &&
+                    (subject === "all" || subj === subject)
+                  ) {
+                    if (val.score > 0) {
+                      totalScore += val.score;
+                      count++;
+                    }
+                  }
+                });
+              }
+            });
+
+            if (count > 0) {
+              schoolNames.push(s.name);
+              avgScores.push((totalScore / count).toFixed(1));
+              participationCounts.push(schoolTotalParticipation);
+            }
+          });
+
+          const trace1 = {
+            x: schoolNames,
+            y: avgScores,
+            type: "bar",
+            name: "Average Score",
+            marker: {
+              color: avgScores.map((score) => {
+                if (score >= 70) return "#28a745";
+                if (score >= 60) return "#ffc107";
+                return "#dc3545";
+              }),
+              line: { width: 2, color: "white" }
+            },
+            text: avgScores.map((s) => s + "%"),
+            textposition: "outside",
+            hovertemplate: "<b>%{x}</b><br>Average Score: %{y}%<extra></extra>",
+            yaxis: "y1"
+          };
+
+          const trace2 = {
+            x: schoolNames,
+            y: participationCounts,
+            type: "scatter",
+            mode: "lines+markers",
+            name: "Participated Students",
+            line: {
+              color: "#dc3545",
+              width: 3
+            },
+            marker: {
+              color: "#dc3545",
+              size: 10,
+              line: {
+                color: "white",
+                width: 2
+              }
+            },
+            hovertemplate:
+              "<b>%{x}</b><br>Participated: %{y} students<extra></extra>",
+            yaxis: "y2"
+          };
+
+          const layout = {
+            xaxis: { tickangle: -45 },
+            yaxis: {
+              title: "Average Score (%)",
+              range: [0, 100],
+              side: "left"
+            },
+            yaxis2: {
+              title: "Participated Students",
+              overlaying: "y",
+              side: "right",
+              showgrid: false
+            },
+            margin: { b: 150, t: 20, r: 80 },
+            paper_bgcolor: "white",
+            plot_bgcolor: "white",
+            font: { family: "Segoe UI" },
+            legend: {
+              orientation: "h",
+              y: 1.1,
+              x: 0.5,
+              xanchor: "center"
+            }
+          };
+
+          Plotly.newPlot("performanceChart", [trace1, trace2], layout, {
+            responsive: true
+          });
+        }
+
+        function updateParticipationGradeChart(school) {
+          const grades = ["7", "8", "9", "10", "11", "12"];
+          const participated = [];
+          const total = [];
+
+          grades.forEach((g) => {
+            let partCount = 0;
+            let totalCount = 0;
+
+            const schools =
+              school === "all"
+                ? data.schools
+                : data.schools.filter((s) => s.name === school);
+
+            schools.forEach((s) => {
+              if (s.grades[g]) {
+                // For total: count once per school-grade (use first subject's total)
+                const firstSubject = Object.keys(s.grades[g]).find(
+                  (k) => k !== "avg" && s.grades[g][k].total
+                );
+                if (firstSubject) {
+                  totalCount += s.grades[g][firstSubject].total;
+                }
+
+                // For participation: use maximum participation across subjects (unique students estimate)
+                let maxParticipation = 0;
+                Object.entries(s.grades[g]).forEach(([subj, val]) => {
+                  if (subj !== "avg" && val.participated !== undefined) {
+                    maxParticipation = Math.max(
+                      maxParticipation,
+                      val.participated
+                    );
+                  }
+                });
+                partCount += maxParticipation;
+              }
+            });
+
+            participated.push(partCount);
+            total.push(totalCount);
+          });
+
+          const trace1 = {
+            x: grades.map((g) => "Grade " + g),
+            y: participated,
+            name: "Participated",
+            type: "bar",
+            marker: { color: "#667eea" },
+            hovertemplate: "Participated: %{y}<extra></extra>"
+          };
+
+          const trace2 = {
+            x: grades.map((g) => "Grade " + g),
+            y: total,
+            name: "Total Students",
+            type: "bar",
+            marker: { color: "#764ba2" },
+            hovertemplate: "Total: %{y}<extra></extra>"
+          };
+
+          const layout = {
+            barmode: "group",
+            yaxis: { title: "Number of Students" },
+            margin: { t: 20 },
+            legend: { orientation: "h", y: -0.2 },
+            paper_bgcolor: "white",
+            plot_bgcolor: "white"
+          };
+
+          Plotly.newPlot("participationGradeChart", [trace1, trace2], layout, {
+            responsive: true
+          });
+        }
+
+        function updateParticipationRateChart(grade, subject) {
+          const schoolNames = [];
+          const rates = [];
+
+          data.schools.forEach((s) => {
+            let totalPart = 0;
+            let totalStud = 0;
+            let gradeStudentCount = {};
+            let gradeParticipationTracked = {};
+
+            Object.entries(s.grades).forEach(([g, subjects]) => {
+              if (grade === "all" || g === grade) {
+                const gradeKey = g;
+
+                // Count total students per grade only once
+                if (!gradeStudentCount[gradeKey]) {
+                  const firstSubject = Object.keys(subjects).find(
+                    (k) => k !== "avg" && subjects[k].total
+                  );
+                  if (firstSubject) {
+                    gradeStudentCount[gradeKey] = subjects[firstSubject].total;
+                    totalStud += subjects[firstSubject].total;
+                  }
+                }
+
+                // Count participation (same logic as updateMetrics)
+                if (!gradeParticipationTracked[gradeKey]) {
+                  if (subject === "all") {
+                    // Use max participation across all subjects
+                    let maxParticipation = 0;
+                    Object.entries(subjects).forEach(([subj, val]) => {
+                      if (subj !== "avg" && val.participated !== undefined) {
+                        maxParticipation = Math.max(
+                          maxParticipation,
+                          val.participated
+                        );
+                      }
+                    });
+                    totalPart += maxParticipation;
+                  } else {
+                    // Use specific subject's participation
+                    if (
+                      subjects[subject] &&
+                      subjects[subject].participated !== undefined
+                    ) {
+                      totalPart += subjects[subject].participated;
+                    }
+                  }
+                  gradeParticipationTracked[gradeKey] = true;
+                }
+              }
+            });
+
+            if (totalStud > 0) {
+              schoolNames.push(s.name);
+              rates.push(((totalPart / totalStud) * 100).toFixed(1));
+            }
+          });
+
+          const trace = {
+            labels: schoolNames,
+            values: rates,
+            type: "pie",
+            marker: {
+              colors: [
+                "#667eea",
+                "#764ba2",
+                "#f093fb",
+                "#4facfe",
+                "#00f2fe",
+                "#43e97b",
+                "#38f9d7",
+                "#fa709a",
+                "#fee140",
+                "#30cfd0",
+                "#a8edea",
+                "#fed6e3",
+                "#c471f5",
+                "#fa71cd"
+              ]
+            },
+            textinfo: "label+percent",
+            hovertemplate:
+              "<b>%{label}</b><br>Participation Rate: %{value}%<extra></extra>"
+          };
+
+          const layout = {
+            margin: { t: 20, b: 20 },
+            paper_bgcolor: "white"
+          };
+
+          Plotly.newPlot("participationRateChart", [trace], layout, {
+            responsive: true
+          });
+        }
+
+        function updateSubjectPerformanceChart(school, grade) {
+          const subjects = [
+            "Math",
+            "Science",
+            "Biology",
+            "Physics",
+            "Chemistry",
+            "Religion"
+          ];
+          const scores = [];
+
+          subjects.forEach((subj) => {
+            let totalWeightedScore = 0;
+            let totalParticipation = 0;
+
+            const schools =
+              school === "all"
+                ? data.schools
+                : data.schools.filter((s) => s.name === school);
+
+            schools.forEach((s) => {
+              Object.entries(s.grades).forEach(([g, subs]) => {
+                if (grade === "all" || g === grade) {
+                  if (
+                    subs[subj] &&
+                    subs[subj].score > 0 &&
+                    subs[subj].participated > 0
+                  ) {
+                    // Weighted by participation count
+                    totalWeightedScore +=
+                      subs[subj].score * subs[subj].participated;
+                    totalParticipation += subs[subj].participated;
+                  }
+                }
+              });
+            });
+
+            scores.push(
+              totalParticipation > 0
+                ? (totalWeightedScore / totalParticipation).toFixed(1)
+                : 0
+            );
+          });
+
+          const trace = {
+            x: subjects,
+            y: scores,
+            type: "scatter",
+            mode: "lines+markers",
+            marker: {
+              size: 12,
+              color: "#667eea",
+              line: { width: 2, color: "white" }
+            },
+            line: { width: 3, color: "#764ba2" },
+            text: scores.map((s) => s + "%"),
+            textposition: "top center",
+            hovertemplate: "<b>%{x}</b><br>Average: %{y}%<extra></extra>"
+          };
+
+          const layout = {
+            yaxis: { title: "Average Score (%)", range: [0, 100] },
+            margin: { t: 20 },
+            paper_bgcolor: "white",
+            plot_bgcolor: "white"
+          };
+
+          Plotly.newPlot("subjectPerformanceChart", [trace], layout, {
+            responsive: true
+          });
+        }
+
+        function updateGradeAverageChart(school) {
+          const grades = ["7", "8", "9", "10", "11", "12"];
+          const avgScores = [];
+
+          grades.forEach((g) => {
+            let totalWeightedScore = 0;
+            let totalParticipation = 0;
+
+            const schools =
+              school === "all"
+                ? data.schools
+                : data.schools.filter((s) => s.name === school);
+
+            schools.forEach((s) => {
+              if (s.grades[g]) {
+                // Calculate weighted average for this school-grade
+                Object.entries(s.grades[g]).forEach(([subj, val]) => {
+                  if (subj !== "avg" && val.score > 0 && val.participated > 0) {
+                    totalWeightedScore += val.score * val.participated;
+                    totalParticipation += val.participated;
+                  }
+                });
+              }
+            });
+
+            avgScores.push(
+              totalParticipation > 0
+                ? (totalWeightedScore / totalParticipation).toFixed(1)
+                : 0
+            );
+          });
+
+          const trace = {
+            x: grades.map((g) => "Grade " + g),
+            y: avgScores,
+            type: "scatter",
+            mode: "lines+markers",
+            fill: "tozeroy",
+            marker: {
+              size: 10,
+              color: "#667eea"
+            },
+            line: { width: 3, color: "#764ba2" },
+            text: avgScores.map((s) => s + "%"),
+            textposition: "top center",
+            hovertemplate:
+              "<b>%{x}</b><br>Weighted Average: %{y}%<extra></extra>"
+          };
+
+          const layout = {
+            yaxis: { title: "Weighted Average Score (%)", range: [0, 100] },
+            margin: { t: 20 },
+            paper_bgcolor: "white",
+            plot_bgcolor: "white"
+          };
+
+          Plotly.newPlot("gradeAverageChart", [trace], layout, {
+            responsive: true
+          });
+        }
+
+        function updateHeatmap() {
+          const schools = data.schools.map((s) => s.name);
+          const grades = [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ];
+          const zData = [];
+
+          data.schools.forEach((s) => {
+            const row = [];
+            ["7", "8", "9", "10", "11", "12"].forEach((g) => {
+              if (s.grades[g]) {
+                // Calculate weighted average for this school-grade
+                let totalWeightedScore = 0;
+                let totalParticipation = 0;
+
+                Object.entries(s.grades[g]).forEach(([subj, val]) => {
+                  if (subj !== "avg" && val.score > 0 && val.participated > 0) {
+                    totalWeightedScore += val.score * val.participated;
+                    totalParticipation += val.participated;
+                  }
+                });
+
+                const weightedAvg =
+                  totalParticipation > 0
+                    ? totalWeightedScore / totalParticipation
+                    : 0;
+                row.push(parseFloat(weightedAvg.toFixed(1)));
+              } else {
+                row.push(0);
+              }
+            });
+            zData.push(row);
+          });
+
+          const trace = {
+            x: grades,
+            y: schools,
+            z: zData,
+            type: "heatmap",
+            colorscale: [
+              [0, "#fee5d9"],
+              [0.25, "#fcae91"],
+              [0.5, "#fb6a4a"],
+              [0.75, "#de2d26"],
+              [1, "#a50f15"]
+            ],
+            hovertemplate:
+              "<b>%{y}</b><br>%{x}<br>Weighted Score: %{z}%<extra></extra>",
+            colorbar: { title: "Weighted Score (%)" }
+          };
+
+          const layout = {
+            xaxis: { side: "bottom" },
+            yaxis: { automargin: true },
+            margin: { l: 200, t: 20 },
+            paper_bgcolor: "white"
+          };
+
+          Plotly.newPlot("heatmapChart", [trace], layout, { responsive: true });
+        }
+
+        // Event listeners
+        document
+          .getElementById("schoolSelect")
+          .addEventListener("change", updateDashboard);
+        document
+          .getElementById("gradeSelect")
+          .addEventListener("change", updateDashboard);
+        document
+          .getElementById("subjectSelect")
+          .addEventListener("change", updateDashboard);
+
+        // Initial load
+        updateDashboard();
+      }; // End of window.onload
+    </script>
+    
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>

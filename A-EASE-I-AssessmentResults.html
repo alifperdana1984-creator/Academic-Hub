@@ -1,0 +1,3835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>A-EASE-I Assessment Dashboard</title>
+        <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15/prop-types.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+    const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+            ResponsiveContainer, ReferenceLine, Cell, PieChart, Pie,
+            LineChart, Line } = Recharts;
+
+
+
+// Color palette
+const COLORS = {
+  primary: "#1e3a5f",
+  secondary: "#2d6a4f",
+  accent: "#e76f51",
+  warning: "#f4a261",
+  success: "#2a9d8f",
+  light: "#e9ecef",
+};
+
+const SUBJECT_COLORS = [
+  "#1e3a5f",
+  "#2d6a4f",
+  "#40916c",
+  "#52b788",
+  "#74c69d",
+  "#95d5b2",
+  "#b7e4c7",
+  "#e76f51",
+];
+
+// Initial data - will be replaced when Excel is uploaded
+// Initial data - will be replaced when Excel is uploaded
+const initialData = {
+  participants: [
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Chemistry",
+      "Teacher Name": "Ahmad Zaky Haidir S.Si., M.Han",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Albiansyah, S.Pd.",
+      "Final Score": 0.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Arcciasa Junanda Sihadiharjo, S.S.",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Physics",
+      "Teacher Name": "Aris Setyawan, S.Si.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Ashari, Lc. M.E",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Cantika Choirunisa Anediandrasari",
+      "Final Score": 60.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Dhanang Priambodo, S.Si",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Dyah Harimurti, S.S.",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Euis Nursifa Laila Nugraha, S.Pd.",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Ilsan Rajib Mulqi, S.Si., M.Pd.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Jati Kuncoro, S.Pd.",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Math A Level",
+      "Teacher Name": "Mahyudin S.Pd.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Chemistry",
+      "Teacher Name": "Muhamad Farhan Ramadhan, S.Si.",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Nadya Khairiyah",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Sri Intan Lina, S.Pd., M.Pd.",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Steviana Amalia Ratih, S.Pd.",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Physics",
+      "Teacher Name": "Susanto, S.Si.",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Tharie Andini Mayasari, S.Si",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Triyanda, S.Pd",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Ulya Nabila, S.Pd",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Zakwan Itshar S.Mat.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Biology",
+      "Teacher Name": "Abdulloh Yahya, S.Pd.",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Adelia Puspita, S.Pd., M.Pd.",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Math A Level",
+      "Teacher Name": "Dino Agustin Putra, S.Mat",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Erwin Luigi Muhammad Adha, S.Pd",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Ika Indah Sari, S.Pd",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Physics",
+      "Teacher Name": "Levya Dewi Astrini, S.Pd",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Math A Level",
+      "Teacher Name": "Lily Ardiyanti, S.Pd",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Maradona Sihombing, Lc",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Muhammad Syam Adegustian",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Nazarullah, BA.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Chemistry",
+      "Teacher Name": "Nurul Khumairoh, S.Pd",
+      "Final Score": 47.5,
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Syarifah Hudiya, S.Pd",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Anvarsho Sharipov",
+      "Final Score": 0.0,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Dhiyauddin, S.Pd.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Math A Level",
+      "Teacher Name": "Dwiki Ahmad, B.Sc.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Dwiki Ahmad, B.Sc.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Ferghi Yusuf",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Biology",
+      "Teacher Name": "Kurniawan Fadil Adha, S.Si",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Muhammad Farisi Azmi",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Nurul Asmi Amalia",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Abdulborii",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Ahmi Yofaniar Pratiwi",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Anis Etikasari",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Anisa Novianti",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Azma Azizah Nurul Ummah",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Caswa, S.Pd.I",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Deera Army Pramana",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Desi Setyaningsih, B.Sc, M.Ed.",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Dika Maulia Fitri Ramadani",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Dwi Astuti",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Dwi Kawuryani",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Farichatus Sholichah",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Hari Muryanto",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Hari Muryanto",
+      "Final Score": 0.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Hari Wibowo",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Irsa Sike Hawa Misara",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Kudainazar Baltabaev",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Lismawati",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Lukman Nul Hakim",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Muh. Riswang",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Muhammad Awaludin Noor",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Muhammad Yusron",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Nabila Dwi Rahmawati",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Nailul Muna",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Noor Hidayatiningsih",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Rahmawati Nur Alifah",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Rani Kurniawati",
+      "Final Score": 45.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Rieza Dzulfikar,S.Si",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Rizki Arda Wardana",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Robby Ariniyal Mafatihal Khozainil Jannah",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Toro Budi Wardoyo",
+      "Final Score": 47.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Ulfiana Prisdiansari",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Williem Morgen",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Aditya Kemal Jacob Alis",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Ahmad Khoirun Nada",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Alvi Rahmi",
+      "Final Score": 47.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Amri Ramadhan",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Andhy Noor Aprila",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Asti Widiyaningsih",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Aytan Alasgarova",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Citta Raissa Andini",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Devi Mayang Sari",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Diqna Nur Annisa",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Hafizo Turrahma",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Hafsa Perdana",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Humaira Esma",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Jefri Siakim",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Kakay Euis",
+      "Final Score": 52.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Khafifah Armanisa",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Kiki Sri Nurhayati",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Laila Lailufari",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Latt Latt Mon",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Makrus Ali, B.A.",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Muhammad Afta Jadid",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Muhammad Agustiuddin",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Natasya Alfiani",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Orhan Genc",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Risna Hardiana",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Robiatul Adawiyah",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Romadhona Febriarisqa, B.Sc",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math A Level",
+      "Teacher Name": "Shahla Imamguliyeva",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Siti Maesaroh",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Sri Utami",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Suciati Gita Dwistanti, M.Pd.",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Susilo Ponco Wibowo",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Syarifah Zahra",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Tiara Sekar Harnum",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Achmad Shiddiq Rachmatullahkova Peudada., S.Si.",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Agus Rizky, S.Pd.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Alfandi Anwar",
+      "Final Score": 47.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Annisa Rizma Safitri, B.Sc.",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "English",
+      "Teacher Name": "Aprilia Ningsih, S.Pd.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "English",
+      "Teacher Name": "Chikmatun Chasanah, S.Pd.",
+      "Final Score": 52.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Math A Level",
+      "Teacher Name": "Kurnia Setyanti, S.Pd.",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Mutiara Hikmah, S.Pd.",
+      "Final Score": 60.0,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Biology",
+      "Teacher Name": "Putri Apriani Pasaribu",
+      "Final Score": 52.5,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Rian Hidayat, S.Pd.I., M.Pd., Gr.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Ryan Prasetya W.",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Abdul Malik",
+      "Final Score": 17.5,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Agung Yudha Bathara",
+      "Final Score": 52.5,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Cut Noviyantika, S.Pd.",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Fakhriy Muhammad , S.Si., M.Sc.",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Biology",
+      "Teacher Name": "Fitrah Al Farizi, S.Pd.",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Jusvita, S.Si.",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Rifki Nurfauziah, S.Pd.",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Siti Aisyah, S.Pd., M.Ed., Gr.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Wida Cahyaningsih, S.Pd.",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Yulia Aprilliyanti, S.Si.",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Nuroni, S.Pd.I",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Mustika Yanti, S.Pd",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Nabila Humaira",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Putri Ananda",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Yola Audila Agma",
+      "Final Score": 50.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Abdul Aziz, B.A.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Alza Kirana Thaharah, S.Si.",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Anka Utama Putra S.A., M.Sc",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Arif Rahman Rhoma, S.Pd.",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Aulia Al Adawiyah, B.Sc.",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Bisma Adilaga, B.Ed.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math A Level",
+      "Teacher Name": "Bisma Adilaga, B.Ed.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Camelya Megarinta Hadyati, B.Sc",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Dewi Binary Pratiwi, S.Pd.",
+      "Final Score": 47.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Physics",
+      "Teacher Name": "Dilrabo Pirmaeva",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Dinda Ayu Tania Salsabila, S.Pd.",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Endro Antono, B.Sc.",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Hengki Gitama, S.Pd.I.,M.Pd.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Hilya Auliya, S.Si.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Imron Rosadi, S.Ud.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Indrie Anggraeni, S.S.",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math A Level",
+      "Teacher Name": "Khikmatulloi Saidzoda",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Miftahul Aulia Imzarnis, S.Pd, Gr.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Burhanul Asfia, S. Pd., M.Pd.",
+      "Final Score": 97.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Science",
+      "Teacher Name": "Nanan Nasiroh",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Nur Iman, S.S.",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "OMURBEK TOKTOBAEV",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math A Level",
+      "Teacher Name": "Riksan Herdiana",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math A Level",
+      "Teacher Name": "Shani Rahmawati, M. Pd.",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Siska Indriani, S. Hum., Gr.",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Siti Maisaroh, S.Pd., Gr.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Tamara Sausan, S.Pd., MCE",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Physics",
+      "Teacher Name": "Tazqia Intisavira, S.Pd.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Tesa Lisa Zahria, S.Pd., Gr.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "English",
+      "Teacher Name": "Aldila Nimas Savitri, S.Pd.",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Physics",
+      "Teacher Name": "Antinah, S.Pd.",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Physics",
+      "Teacher Name": "Biadelma Nanda Illiandi",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Religion",
+      "Teacher Name": "Dian Rahmawati, S.Pd.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "English",
+      "Teacher Name": "Eisha Sabila Dieni Hanifa, S.Pd.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Chemistry",
+      "Teacher Name": "Eki Maulana, B.Sc., M.Si.",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Religion",
+      "Teacher Name": "Furqon, Latif Hamdani, BA.",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Biology",
+      "Teacher Name": "Hanna Diva Fauzia, S.Pd.",
+      "Final Score": 52.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Biology",
+      "Teacher Name": "Ildar Iakhin",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Math A Level",
+      "Teacher Name": "Izzat Ahmedov",
+      "Final Score": 62.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Science",
+      "Teacher Name": "Muhammad Amirul Fataa, B.Sc",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Math A Level",
+      "Teacher Name": "Muhammad Ishaq Nurdin",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Science",
+      "Teacher Name": "Nadiatul Hikmah, S.T",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "English",
+      "Teacher Name": "Nairah Umpa Camid",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Chemistry",
+      "Teacher Name": "Resky Ervaldi Saputra, B.Sc., M.T.",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Siti Masitoh, S.Mat",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Math A Level",
+      "Teacher Name": "Ujang Irpan, S.Pd.",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "English",
+      "Teacher Name": "Zalika Putri Intan Palupi",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Aan Mulyana, S.S., Gr.",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Physics",
+      "Teacher Name": "Aufaa Nurjihan, S.Pd.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Biology",
+      "Teacher Name": "Faiqoh El Himmah, S. Pd.",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Kurnia Lestari",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Religion",
+      "Teacher Name": "Peni Nur Islami Dini",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Science",
+      "Teacher Name": "Qurrota A'yun, M.Pd",
+      "Final Score": 70.0,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Sinta Herawati, M.Pd., Gr.",
+      "Final Score": 60.0,
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Math A Level",
+      "Teacher Name": "Zhafarina Maulida Putri, S.Pd.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Science",
+      "Teacher Name": "Ahmad Nafran Razani, S.Pd.",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Dwi Mekamawarti",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Fitriyanto, B.A",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Religion",
+      "Teacher Name": "Imam Taufiq",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Khoirul Anam",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Lia Indriyani, S.S., M.Pd.",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Mafudz Rois",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Science",
+      "Teacher Name": "Nurutami Annisa Fitri, S.Pd.",
+      "Final Score": 92.5,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Biology",
+      "Teacher Name": "Roosita Damayanti, S.Pd.",
+      "Final Score": 55.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Physics",
+      "Teacher Name": "Wahyu Marida Amalawati, S.Pd., S.S., Gr.",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Yustitia Angelia",
+      "Final Score": 57.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Physics",
+      "Teacher Name": "Andya Satya Purnomo Putro, S.Si.",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Science",
+      "Teacher Name": "Ardiana Dwi Hapsari, S.Pd",
+      "Final Score": 67.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Aulia Rahma Tambusai, S.Pd.",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Candrawulan Primadianningsih",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Dinta Indu Makarimu Yahya",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Dwi Eldina",
+      "Final Score": 72.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Math A Level",
+      "Teacher Name": "Erdita Aulia Syaharani",
+      "Final Score": 80.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Ike Nila Dewi, S.S.",
+      "Final Score": 65.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Imas Walijah, S.Pd., M.Ed",
+      "Final Score": 82.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Irkhamna Noviyani Khusna Millaty",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Physics",
+      "Teacher Name": "Irvani Dwi Prasanti, S.Si.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Math A Level",
+      "Teacher Name": "Muhammad Ghozian Kafi Ahsan, S.Pd., M.Pd.",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Imaduddin, Lc.",
+      "Final Score": 95.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Nevi Pramuditha Putri, S.Pd.",
+      "Final Score": 77.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Niswa Ajilla",
+      "Final Score": 85.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Nurohman",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Math IGCSE",
+      "Teacher Name": "Rahmanda Amrullah S.Mat.",
+      "Final Score": 90.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Rashid Khatbullin",
+      "Final Score": 87.5,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Ratna Dwi Setyorini, S.T., M.Pd.",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Riswi haryatfrehni",
+      "Final Score": 75.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Siti Rahmawati Nurlatifah, Lc.",
+      "Final Score": 100.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Wulan Rachmawati",
+      "Final Score": 60.0,
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Yolinda Pramudanti",
+      "Final Score": 40.0,
+    },
+  ],
+  allTeachers: [
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Jati Kuncoro, S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Cantika Choirunisa Anediandrasari, S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Dhanang Priambodo, S.Si",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Chemistry",
+      "Teacher Name": "Ahmad Zaky Haidir S.Si., M.Han",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Chemistry",
+      "Teacher Name": "Muhamad Farhan Ramadhan, S.Si., M.Pd",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Albiansyah, S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Arcciasa Junanda Sihadiharjo, S.S.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Dyah Harimurti, S.S.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Euis Nursifa Laila Nugraha, S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Fandi Suryo Hutomo, S.Mb.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Mukhsin, B.A",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "English",
+      "Teacher Name": "Ulya Nabila, S.Pd",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Mathematics",
+      "Teacher Name": "Ilsan Rajib Mulqi, S.Si., M.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Mathematics",
+      "Teacher Name": "Sri Intan Lina, S.Pd., M.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Mathematics",
+      "Teacher Name": "Mahyudin S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Mathematics",
+      "Teacher Name": "Zakwan Itshar S.Mat.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Mathematics",
+      "Teacher Name": "Tharie Andini Mayasari, S.Si",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Physics",
+      "Teacher Name": "Aris Setyawan, S.Si.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Physics",
+      "Teacher Name": "Susanto, S.Si.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Biology",
+      "Teacher Name": "Steviana Amalia Ratih, S.Pd.",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Nadya Khairiyah",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Ashari, Lc. M.E",
+    },
+    {
+      "School Name": "Cahaya Rancamaya",
+      Subject: "Religion",
+      "Teacher Name": "Triyanda, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Biology",
+      "Teacher Name": "Abdulloh Yahya, S.Pd.",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Chemistry",
+      "Teacher Name": "Nurul Khumairoh, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Muhammad Syam Adegustian",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Syarifah Hudiya, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Adelia Puspita, S.Pd., M.Pd.",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Erwin Luigi Muhammad Adha, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "English",
+      "Teacher Name": "Rohmah Mustaurida, S.Kpm.",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Mathematics",
+      "Teacher Name": "Lily Ardiyanti, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Mathematics",
+      "Teacher Name": "Dino Agustin Putra, S.Mat",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Physics",
+      "Teacher Name": "Levya Dewi Astrini, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Ika Indah Sari, S.Pd",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Nazarullah, BA.",
+    },
+    {
+      "School Name": "Emer Islamic Boarding School",
+      Subject: "Religion",
+      "Teacher Name": "Maradona Sihombing, Lc",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Biology",
+      "Teacher Name": "Kurniawan Fadil Adha, S.Si",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Biology",
+      "Teacher Name": "Anar Majidov",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Chemistry",
+      "Teacher Name": "Imat Ruhimat, M.Ed",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Chemistry",
+      "Teacher Name": "Imam Husnan Nugroho",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Raysa Murlia",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Anvarsho Sharipov",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Angela Carla Jimenez",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Ferghi Yusuf",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Mathematics",
+      "Teacher Name": "Muhammad Rafsanjani",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Mathematics",
+      "Teacher Name": "Dwiki Ahmad, B.Sc.",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Mathematics",
+      "Teacher Name": "Dhiyauddin, S.Pd.",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Muhammad Farisi Azmi, S.Pd.",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Nurul Asmi Amalia",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Zarfi Rizal",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Ade Yosa Ferdian",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Nabila Rahma, S.Pd.",
+    },
+    {
+      "School Name": "Fatih Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Rayhan Rabbani, S.Si",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Ahmi Yofaniar Pratiwi",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Deera Army Pramana",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Dika Maulia Fitri Ramadani",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Sri Risky Ananda",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Anisa Novianti",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Muhammad Awaludin Noor",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Rieza Dzulfikar,S.Si",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Rizki Arda Wardana",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Rani Kurniawati",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Citra Dewi Harmia",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "E. Rosnawati",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Hani Klafrina",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Irsa Sike Hawa Misara",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Kudainazar Baltabaev",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Toro Budi Wardoyo",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Lismawati",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Anis Etikasari",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Dwi Astuti",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Hari Muryanto",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Desi Setyaningsih, B.Sc, M.Ed.",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Rahmawati Nur Alifah",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Noor Hidayatiningsih",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Muhammad Yusron",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Abdulborii",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Dwi Kawuryani",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Medina Rendani Sabana",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Hari Wibowo",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Nailul Muna",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Robby Ariniyal Mafatihal Khozainil Jannah",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Ulfiana Prisdiansari",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Farichatus Sholichah",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Williem Morgen",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Muh. Riswang",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Caswa, S.Pd.I",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Lukman Nul Hakim",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Wahyudi",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Nabila Dwi Rahmawati",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Eko Andi Hartono",
+    },
+    {
+      "School Name": "Kesatuan Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Azma Azizah Nurul Ummah",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Siti Maesyaroh",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Aditya Kemal Jacob Alis",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Khafifah Armanisa",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Biology",
+      "Teacher Name": "Diqna Nur Annisa",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Akhmad Nur Ikhwan Taqwim",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Sri Utami",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Chemistry",
+      "Teacher Name": "Humaira Esma",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Latt Latt Mon",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Aytan Alasgarova",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Giovani Makilan Ojerio",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Natasya Alfiani",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Allan Grant",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Citta Raissa Andini",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Fuad Imamguliyev",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Susilo Ponco Wibowo",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Akbar Dermawan Sinaga",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Suciati Gita Dwistanti, M.Pd.",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "English",
+      "Teacher Name": "Alvi Rahmi",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Devi Mayang Sari",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Hafsa Perdana",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Orhan Genc",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Robiatul Adawiyah",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Shahla Imamguliyeva",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Tiara Sekar Harnum",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Asti Widiyaningsih",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Romadhona Febriarisqa, B.Sc",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Mathematics",
+      "Teacher Name": "Muhammad Agustiuddin",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Syarifah Zahra",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Amri Ramadhan",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Physics",
+      "Teacher Name": "Muhammad Afta Jadid",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Andhy Noor Aprila",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Siti Munawaroh",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Makrus Ali, B.A.",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Adrian Zaidan",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Fauzah Haqiqiah, Lc.",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Hafizo Turrahma",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Hilmi Dikri S.Pd.",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Religion",
+      "Teacher Name": "Jefri Siakim",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Risna Hardiana",
+    },
+    {
+      "School Name": "Kharisma Bangsa School",
+      Subject: "Science",
+      "Teacher Name": "Laila Lailufari",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Biology",
+      "Teacher Name": "Putri Apriani Pasaribu, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Alfandi Anwar",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Mutiara Hikmah, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "English",
+      "Teacher Name": "Aprilia Ningsih, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "English",
+      "Teacher Name": "Chikmatun Chasanah, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Mathematics",
+      "Teacher Name": "Kurnia Setyanti, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Mathematics",
+      "Teacher Name": "Annisa Rizma Safitri, B.Sc.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Achmad Shiddiq Rachmatullahkova Peudada., S.Si.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Rian Hidayat, S.Pd.I., M.Pd., Gr.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Agus Rizky, S.Pd.",
+    },
+    {
+      "School Name": "Mega Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Ryan Prasetya W.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Agung Yudha Bathara, S.Sos.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Cut Noviyantika, S.Pd.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "English",
+      "Teacher Name": "Wida Cahyaningsih, S.Pd.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Mathematics",
+      "Teacher Name": "Jusvita, S.Si.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Mathematics",
+      "Teacher Name": "Siti Aisyah, S.Pd., M.Ed., Gr.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Biology",
+      "Teacher Name": "Fitrah Al Farizi, S.Pd.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Chemistry",
+      "Teacher Name": "Fakhriy Muhammad , S.Si., M.Sc.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Physics",
+      "Teacher Name": "Yulia Aprilliyanti, S.Si.",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Abdul Malik",
+    },
+    {
+      "School Name": "Pakar Belia Islamic School",
+      Subject: "Religion",
+      "Teacher Name": "Rifki Nurfauziah, S.Pd.",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Mathematics",
+      "Teacher Name": "Putri Ananda",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Elly Adhayanti, S.Pd.",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Nurul Ihya Mawadatul Akmal, S.Pd.",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "English",
+      "Teacher Name": "Intan Suhariani",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Physics",
+      "Teacher Name": "Yola Audila Agma",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Zulham",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Abdul Rofi Amrullah, Lc.",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Nuroni, S.Pd.I",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Saidatunnisa Nasution",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Nabila Humaira",
+    },
+    {
+      "School Name": "Prestige Bilingual School",
+      Subject: "Science",
+      "Teacher Name": "Siti Rizka Amina, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Dewi Binary Pratiwi, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Alza Kirana Thaharah, S.Si.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Biology",
+      "Teacher Name": "Siti Maisaroh, S.Pd., Gr.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Miftahul Aulia Imzarnis, S.Pd, Gr.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Hilya Auliya, S.Si.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Chemistry",
+      "Teacher Name": "Endro Antono, B.Sc.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Arif Rahman Rhoma, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Indrie Anggraeni, S.S.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Nur Iman, S.S.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Russell Harry Lavin",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Siska Indriani, S. Hum., Gr.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Aulia Al Adawiyah, B.A.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Dinda Ayu Tania Salsabila, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "OMURBEK TOKTOBAEV",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "English",
+      "Teacher Name": "Vani Octavia, S. Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Riksan Herdiana, ST.,M.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Camelya Megarinta Hadyati, B.Sc",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Bisma Adilaga, B.Ed.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Shani Rahmawati, M. Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Tamara Sausan, S.Pd., MCE",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Tesa Lisa Zahria, S.Pd., Gr.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Mathematics",
+      "Teacher Name": "Khikmatulloi Saidzoda",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Physics",
+      "Teacher Name": "Dilrabo Pirmaeva",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Science",
+      "Teacher Name": "Kiki Sri Nurhayati, S.Si.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Burhanul Asfia, S. Pd., M.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Abdul Aziz, B.A.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Aminah, S.Ag.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Hengki Gitama, S.Pd.I.,M.Pd.,Gr.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Religion",
+      "Teacher Name": "Imron Rosadi, S.Ud.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Physics",
+      "Teacher Name": "Tazqia Intisavira, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Bandung School",
+      Subject: "Science",
+      "Teacher Name": "Nanan Nasiroh, S.Pd",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Biology",
+      "Teacher Name": "Hanna Diva Fauzia, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Biology",
+      "Teacher Name": "Ildar Iakhin",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Chemistry",
+      "Teacher Name": "Eki Maulana, B.Sc., M.Si.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Chemistry",
+      "Teacher Name": "Resky Ervaldi Saputra, B.Sc., M.T.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Mathematics",
+      "Teacher Name": "Albina Iakhina",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Mathematics",
+      "Teacher Name": "Muhammad Ishaq Nurdin",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Mathematics",
+      "Teacher Name": "Ujang Irpan, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Mathematics",
+      "Teacher Name": "Izzat Ahmedov",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Mathematics",
+      "Teacher Name": "Siti Masitoh, S.Mat",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Science",
+      "Teacher Name": "Muhammad Amirul Fataa, B.Sc.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Physics",
+      "Teacher Name": "Sutirto, S.Si., MT.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Physics",
+      "Teacher Name": "Antinah, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Depok School",
+      Subject: "Science",
+      "Teacher Name": "Nadiatul Hikmah, S.T",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Biology",
+      "Teacher Name": "Faiqoh El Himmah, S. Pd.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Chemistry",
+      "Teacher Name": "Rizqan Maulana, B.Sc., M.Sc.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Aan Mulyana, S.S., Gr.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Kurnia Lestari",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Thomas Alexander Uty",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "English",
+      "Teacher Name": "Sinta Herawati, M.Pd., Gr.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Mathematics",
+      "Teacher Name": "Zhafarina Maulida Putri, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Physics",
+      "Teacher Name": "Aufaa Nurjihan, S.Pd.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Religion",
+      "Teacher Name": "Peni Nur Islami Dini",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Religion",
+      "Teacher Name": "Afiat Fahma Zamani, Lc. M.Hum.",
+    },
+    {
+      "School Name": "Pribadi Premiere School",
+      Subject: "Science",
+      "Teacher Name": "Qurrota A'yun, M.Pd",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Biology",
+      "Teacher Name": "Roosita Damayanti, S.Pd.",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Science",
+      "Teacher Name": "Ahmad Nafran Razani, S.Pd.",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Science",
+      "Teacher Name": "Nurutami Annisa Fitri, S.Pd.",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Shela",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Yustitia Angelia",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Fitriyanto, B.A",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "English",
+      "Teacher Name": "Lia Indriyani, S.S., M.Pd.",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Physics",
+      "Teacher Name": "Wahyu Marida Amalawati, S.Pd., S.S., Gr.",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Religion",
+      "Teacher Name": "Imam Taufiq",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Mathematics",
+      "Teacher Name": "Mafudz Rois",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Mathematics",
+      "Teacher Name": "Khoirul Anam",
+    },
+    {
+      "School Name": "Semesta 3 School",
+      Subject: "Mathematics",
+      "Teacher Name": "Dwi Mekamawarti",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Dwi Eldina",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Riswi Haryatfrehni, S.Si.,M.Sc",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Biology",
+      "Teacher Name": "Irkhamna Noviyani Khusna Millaty",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Candrawulan Primadianningsih",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Nevi Pramuditha Putri, S.Pd.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Imas Walijah, S.Pd., M.Ed",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Chemistry",
+      "Teacher Name": "Ratna Dwi Setyorini, S.T., M.Pd.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Wulan Rachmawati",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Yolinda Pramudanti",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Himni Addi Nugroho, S.S., M.Hum., Gr.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Ike Nila Dewi, S.S.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "English",
+      "Teacher Name": "Rashid Khatbullin",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Mathematics",
+      "Teacher Name": "Muhammad Ghozian Kafi Ahsan, S.Pd., M.Pd.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Mathematics",
+      "Teacher Name": "Rahmanda Amrullah S.Mat.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Mathematics",
+      "Teacher Name": "Fitria Rakhmawati, S.Si.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Mathematics",
+      "Teacher Name": "Aulia Rahma Tambusai, S.Pd.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Mathematics",
+      "Teacher Name": "Erdita Aulia Syaharani",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Physics",
+      "Teacher Name": "Irvani Dwi Prasanti, S.Si.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Physics",
+      "Teacher Name": "Andya Satya Purnomo Putro, S.Si.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Muhammad Imaduddin, Lc.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Dinta Indu Makarimu Yahya",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Nurohman",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Religion",
+      "Teacher Name": "Siti Rahmawati Nurlatifah, Lc.",
+    },
+    {
+      "School Name": "Semesta School",
+      Subject: "Science",
+      "Teacher Name": "Ardiana Dwi Hapsari, S.Pd.,Gr",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Biology",
+      "Teacher Name": "Dewi Keumalasari, S.Si., Gr",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Chemistry",
+      "Teacher Name": "Cut Amalia Azlin, S.Si",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Chemistry",
+      "Teacher Name": "Zahrina Shalhan, S.Pd.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "English",
+      "Teacher Name": "Firdha Fadilla, S.Pd",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "English",
+      "Teacher Name": "Jihan Nurjannah, S.Pd.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "English",
+      "Teacher Name": "Yumelda Ulan Afrilian, B.A.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Mathematics",
+      "Teacher Name": "Fatmawati S.Si., M.Ed., Gr.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Mathematics",
+      "Teacher Name": "Nina Meutia, S.Si., Gr.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Mathematics",
+      "Teacher Name": "Mentari Rahmawati, S.Pd.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Science",
+      "Teacher Name": "Yuni Mulia, B.Sc., M.Ed.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Religion",
+      "Teacher Name": "Munazzah, B.A.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Religion",
+      "Teacher Name": "Rika Hariyati, B.A.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Religion",
+      "Teacher Name": "Sri Mulyani, LC., M.A.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Science",
+      "Teacher Name": "Shahnoza Sharipova Rustamovna",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Science",
+      "Teacher Name": "Rizka Ora Aurora Yahya, S.Pd., M.Si.",
+    },
+    {
+      "School Name": "TNA Fatih School",
+      Subject: "Science",
+      "Teacher Name": "Vina Azfiana, S.Pd., Gr.",
+    },
+  ],
+};
+
+// Custom tooltip component
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-xl border border-gray-200">
+        <p className="font-semibold text-gray-800 mb-1">{label}</p>
+        {payload.map((entry, index) => (
+          <p key={index} className="text-sm" style={{ color: entry.color }}>
+            {entry.name}:{" "}
+            <span className="font-bold">
+              {typeof entry.value === "number"
+                ? entry.value.toFixed(1)
+                : entry.value}
+            </span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+// Stats Card Component
+const StatCard = ({ title, value, subtitle, icon, color = "primary" }) => {
+  const colorClasses = {
+    primary: "from-blue-900 to-blue-700",
+    success: "from-emerald-700 to-emerald-500",
+    warning: "from-amber-600 to-amber-400",
+    accent: "from-rose-600 to-rose-400",
+  };
+
+  return (
+    <div
+      className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl p-5 text-white shadow-lg transform hover:scale-102 transition-all duration-300`}
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-white/70 text-sm font-medium uppercase tracking-wide">
+            {title}
+          </p>
+          <p className="text-3xl font-bold mt-1">{value}</p>
+          {subtitle && <p className="text-white/80 text-sm mt-1">{subtitle}</p>}
+        </div>
+        <div className="text-4xl opacity-30">{icon}</div>
+      </div>
+    </div>
+  );
+};
+
+function AEASEDashboard() {
+  const [data, setData] = useState(initialData);
+  const [selectedSchool, setSelectedSchool] = useState("all");
+  const [selectedSubject, setSelectedSubject] = useState("all");
+  const [activeTab, setActiveTab] = useState("overview");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Process data
+  const processedData = useMemo(() => {
+    const { participants, allTeachers } = data;
+
+    // Get unique schools and subjects
+    const schools = [
+      ...new Set(participants.map((p) => p["School Name"])),
+    ].sort();
+    const subjects = [...new Set(participants.map((p) => p.Subject))].sort();
+
+    // Calculate subject averages
+    const subjectAverages = {};
+    subjects.forEach((subject) => {
+      const subjectData = participants.filter((p) => p.Subject === subject);
+      subjectAverages[subject] =
+        subjectData.length > 0
+          ? subjectData.reduce((sum, p) => sum + p["Final Score"], 0) /
+            subjectData.length
+          : 0;
+    });
+
+    // Overall average
+    const overallAverage =
+      participants.length > 0
+        ? participants.reduce((sum, p) => sum + p["Final Score"], 0) /
+          participants.length
+        : 0;
+
+    // School summaries with participation data
+    const schoolSummaries = schools
+      .map((school) => {
+        const schoolParticipants = participants.filter(
+          (p) => p["School Name"] === school
+        );
+        const schoolTeachers = allTeachers.filter((t) => {
+          // Match school names (handle slight variations)
+          const teacherSchool = t["School Name"];
+          return (
+            teacherSchool === school ||
+            teacherSchool.includes(school.split(" ")[0]) ||
+            school.includes(teacherSchool.split(" ")[0])
+          );
+        });
+
+        return {
+          school,
+          shortName: school
+            .replace(" School", "")
+            .replace(" Islamic", "")
+            .replace(" Bilingual", ""),
+          participants: schoolParticipants.length,
+          totalTeachers: Math.max(
+            schoolTeachers.length,
+            schoolParticipants.length
+          ),
+          average:
+            schoolParticipants.length > 0
+              ? schoolParticipants.reduce(
+                  (sum, p) => sum + p["Final Score"],
+                  0
+                ) / schoolParticipants.length
+              : 0,
+          participationRate:
+            schoolTeachers.length > 0
+              ? (schoolParticipants.length / schoolTeachers.length) * 100
+              : 100,
+        };
+      })
+      .filter((s) => s.participants > 0);
+
+    // Subject summaries
+    const subjectSummaries = subjects.map((subject) => {
+      const subjectParticipants = participants.filter(
+        (p) => p.Subject === subject
+      );
+      return {
+        subject,
+        participants: subjectParticipants.length,
+        average: subjectAverages[subject],
+        min: Math.min(...subjectParticipants.map((p) => p["Final Score"])),
+        max: Math.max(...subjectParticipants.map((p) => p["Final Score"])),
+      };
+    });
+
+    // School-Subject matrix for detailed view
+    const schoolSubjectData = schools
+      .map((school) => {
+        const result = {
+          school,
+          shortName: school.replace(" School", "").replace(" Islamic", ""),
+        };
+        subjects.forEach((subject) => {
+          const matches = participants.filter(
+            (p) => p["School Name"] === school && p.Subject === subject
+          );
+          result[subject] =
+            matches.length > 0
+              ? matches.reduce((sum, p) => sum + p["Final Score"], 0) /
+                matches.length
+              : null;
+          result[`${subject}_count`] = matches.length;
+        });
+        return result;
+      })
+      .filter((s) => participants.some((p) => p["School Name"] === s.school));
+
+    // Calculate non-participants by subject
+    const participantKeys = new Set(
+      participants.map(
+        (p) => `${p["School Name"]}|${p.Subject}|${p["Teacher Name"]}`
+      )
+    );
+
+    const nonParticipants = {};
+    allTeachers.forEach((t) => {
+      const key = `${t["School Name"]}|${t.Subject}|${t["Teacher Name"]}`;
+
+      if (t.Subject === "Mathematics") {
+        // Her iki matematik sınavını da kontrol et
+        const igcseKey = `${t["School Name"]}|Math IGCSE|${t["Teacher Name"]}`;
+        const aLevelKey = `${t["School Name"]}|Math A Level|${t["Teacher Name"]}`;
+
+        // Hiçbirine girmediyse, her iki listede de göster
+        if (!participantKeys.has(igcseKey) && !participantKeys.has(aLevelKey)) {
+          if (!nonParticipants["Math IGCSE"])
+            nonParticipants["Math IGCSE"] = [];
+          nonParticipants["Math IGCSE"].push({
+            name: t["Teacher Name"],
+            school: t["School Name"],
+          });
+
+          if (!nonParticipants["Math A Level"])
+            nonParticipants["Math A Level"] = [];
+          nonParticipants["Math A Level"].push({
+            name: t["Teacher Name"],
+            school: t["School Name"],
+          });
+        }
+      } else if (!participantKeys.has(key)) {
+        const subject = t.Subject;
+        if (!nonParticipants[subject]) nonParticipants[subject] = [];
+        nonParticipants[subject].push({
+          name: t["Teacher Name"],
+          school: t["School Name"],
+        });
+      }
+    });
+
+    // Sort non-participants by school name
+    Object.keys(nonParticipants).forEach((subject) => {
+      nonParticipants[subject].sort((a, b) => a.school.localeCompare(b.school));
+    });
+
+    return {
+      schools,
+      subjects,
+      subjectAverages,
+      overallAverage,
+      schoolSummaries,
+      subjectSummaries,
+      schoolSubjectData,
+      nonParticipants,
+      totalParticipants: participants.length,
+      totalTeachers: 295,
+
+      // allTeachers.length > participants.length ? allTeachers.length : 295,
+    };
+  }, [data]);
+
+  // Handle file upload
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setIsLoading(true);
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const workbook = XLSX.read(arrayBuffer);
+
+      // Read participants sheet
+      const participantsSheet = workbook.Sheets["All Participants"];
+      const participantsData = XLSX.utils.sheet_to_json(participantsSheet);
+
+      // Read all teachers sheet
+      const teachersSheet = workbook.Sheets["All Teachers"];
+      const teachersData = XLSX.utils.sheet_to_json(teachersSheet);
+
+      setData({
+        participants: participantsData,
+        allTeachers: teachersData,
+      });
+    } catch (error) {
+      console.error("Error reading file:", error);
+      alert("Error reading file. Please check the Excel format.");
+    }
+
+    setIsLoading(false);
+  };
+
+  // Filter data based on selection
+  const filteredParticipants = useMemo(() => {
+    let filtered = data.participants;
+    if (selectedSchool !== "all") {
+      filtered = filtered.filter((p) => p["School Name"] === selectedSchool);
+    }
+    if (selectedSubject !== "all") {
+      filtered = filtered.filter((p) => p.Subject === selectedSubject);
+    }
+    return filtered;
+  }, [data.participants, selectedSchool, selectedSubject]);
+
+  // Get bar color based on value
+  const getBarColor = (value, average) => {
+    if (value >= average + 10) return "#2d6a4f";
+    if (value >= average) return "#40916c";
+    if (value >= average - 10) return "#f4a261";
+    return "#e76f51";
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white shadow-2xl">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">
+                A-EASE Dashboard
+              </h1>
+              <p className="text-blue-200 mt-1">
+                Eduversal Indonesia Network Teacher Assessment Results
+              </p>
+            </div>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1iuO3fqVhIEwqEKK1oBE9gPWT_gpXA_x6rQM9L6Pfbs0/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all border border-white/20 text-sm font-medium"
+            >
+              📊 Participation Data
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 shadow-2xl">
+            <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading data...</p>
+          </div>
+        </div>
+      )}
+
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <StatCard
+            title="Total Participants"
+            value={processedData.totalParticipants}
+            subtitle={`out of ${processedData.totalTeachers} teachers`}
+            icon="👩‍🏫"
+            color="primary"
+          />
+          <StatCard
+            title="Overall Average"
+            value={processedData.overallAverage.toFixed(1)}
+            subtitle="out of 100"
+            icon="📊"
+            color="success"
+          />
+          <StatCard
+            title="Schools"
+            value={processedData.schoolSummaries.length}
+            subtitle="with participation"
+            icon="🏫"
+            color="warning"
+          />
+          <StatCard
+            title="Subjects"
+            value={processedData.subjects.length}
+            subtitle="assessed"
+            icon="📚"
+            color="accent"
+          />
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex gap-2 mb-6 bg-white/80 backdrop-blur rounded-xl p-2 shadow-lg">
+          {[
+            { id: "overview", label: "Overview", icon: "📈" },
+            { id: "schools", label: "School Analysis", icon: "🏫" },
+            { id: "subjects", label: "Subject Analysis", icon: "📚" },
+            { id: "details", label: "Detailed Results", icon: "📋" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+                activeTab === tab.id
+                  ? "bg-blue-900 text-white shadow-lg"
+                  : "hover:bg-gray-100 text-gray-600"
+              }`}
+            >
+              <span className="mr-2">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Overview Tab */}
+        {activeTab === "overview" && (
+          <div className="space-y-6">
+            {/* Subject Averages */}
+            <div className="bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                Subject Averages
+              </h2>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart
+                  data={processedData.subjectSummaries
+                    .slice()
+                    .sort((a, b) => b.average - a.average)}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis
+                    dataKey="subject"
+                    tick={{ fontSize: 12 }}
+                    angle={-20}
+                    textAnchor="end"
+                    height={80}
+                  />
+                  <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <ReferenceLine
+                    y={processedData.overallAverage}
+                    stroke="#e76f51"
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    label={{
+                      value: `Avg: ${processedData.overallAverage.toFixed(1)}`,
+                      position: "right",
+                      fill: "#e76f51",
+                      fontSize: 12,
+                    }}
+                  />
+                  <Bar dataKey="average" name="Average" radius={[8, 8, 0, 0]}>
+                    {processedData.subjectSummaries.map((entry, index) => (
+                      <Cell
+                        key={index}
+                        fill={SUBJECT_COLORS[index % SUBJECT_COLORS.length]}
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* School Rankings */}
+            <div className="bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                School Rankings
+              </h2>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart
+                  data={processedData.schoolSummaries
+                    .slice()
+                    .sort((a, b) => b.average - a.average)}
+                  layout="vertical"
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis
+                    type="number"
+                    domain={[0, 100]}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis
+                    dataKey="shortName"
+                    type="category"
+                    width={150}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <ReferenceLine
+                    x={processedData.overallAverage}
+                    stroke="#e76f51"
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                  />
+                  <Bar dataKey="average" name="Average" radius={[0, 8, 8, 0]}>
+                    {processedData.schoolSummaries.map((entry, index) => (
+                      <Cell
+                        key={index}
+                        fill={getBarColor(
+                          entry.average,
+                          processedData.overallAverage
+                        )}
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="flex gap-4 justify-center mt-4 text-sm">
+                <span className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded"
+                    style={{ background: "#2d6a4f" }}
+                  ></span>{" "}
+                  Excellent (+10)
+                </span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded"
+                    style={{ background: "#40916c" }}
+                  ></span>{" "}
+                  Good
+                </span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded"
+                    style={{ background: "#f4a261" }}
+                  ></span>{" "}
+                  Average
+                </span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded"
+                    style={{ background: "#e76f51" }}
+                  ></span>{" "}
+                  Needs Improvement
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Schools Tab */}
+        {activeTab === "schools" && (
+          <div className="space-y-6">
+            <div className="bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  School Performance by Subject
+                </h2>
+                <select
+                  value={selectedSchool}
+                  onChange={(e) => setSelectedSchool(e.target.value)}
+                  className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Schools</option>
+                  {processedData.schools.map((school) => (
+                    <option key={school} value={school}>
+                      {school}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedSchool === "all" ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {processedData.schoolSummaries
+                    .slice(0, 6)
+                    .map((school, idx) => {
+                      const schoolData = processedData.schoolSubjectData.find(
+                        (s) => s.school === school.school
+                      );
+                      const chartData = processedData.subjects
+                        .filter(
+                          (subj) => schoolData && schoolData[subj] !== null
+                        )
+                        .map((subj) => ({
+                          subject: subj,
+                          score: schoolData ? schoolData[subj] : 0,
+                          count: schoolData ? schoolData[`${subj}_count`] : 0,
+                          average: processedData.subjectAverages[subj],
+                        }));
+
+                      return (
+                        <div key={idx} className="bg-gray-50 rounded-xl p-4">
+                          <div className="flex justify-between items-center mb-3">
+                            <h3 className="font-bold text-gray-800">
+                              {school.shortName}
+                            </h3>
+                            <span className="text-sm text-gray-500">
+                              {school.participants} participants
+                            </span>
+                          </div>
+                          <ResponsiveContainer width="100%" height={200}>
+                            <BarChart data={chartData}>
+                              <CartesianGrid
+                                strokeDasharray="3 3"
+                                stroke="#e5e7eb"
+                              />
+                              <XAxis
+                                dataKey="subject"
+                                tick={{ fontSize: 10 }}
+                                angle={-30}
+                                textAnchor="end"
+                                height={60}
+                              />
+                              <YAxis
+                                domain={[0, 100]}
+                                tick={{ fontSize: 10 }}
+                              />
+                              <Tooltip content={<CustomTooltip />} />
+                              <ReferenceLine
+                                y={school.average}
+                                stroke="#e76f51"
+                                strokeWidth={2}
+                                strokeDasharray="3 3"
+                              />
+                              <Bar
+                                dataKey="score"
+                                name="Score"
+                                fill={COLORS.primary}
+                                radius={[4, 4, 0, 0]}
+                              />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      );
+                    })}
+                </div>
+              ) : (
+                <div>
+                  {(() => {
+                    const schoolData = processedData.schoolSubjectData.find(
+                      (s) => s.school === selectedSchool
+                    );
+                    const chartData = processedData.subjects
+                      .filter((subj) => schoolData && schoolData[subj] !== null)
+                      .map((subj) => ({
+                        subject: subj,
+                        score: schoolData ? schoolData[subj] : 0,
+                        count: schoolData ? schoolData[`${subj}_count`] : 0,
+                        average: processedData.subjectAverages[subj],
+                      }));
+
+                    const school = processedData.schoolSummaries.find(
+                      (s) => s.school === selectedSchool
+                    );
+
+                    return (
+                      <>
+                        <div className="grid grid-cols-3 gap-4 mb-6">
+                          <div className="bg-blue-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">Average</p>
+                            <p className="text-2xl font-bold text-blue-900">
+                              {school?.average?.toFixed(1) || "-"}
+                            </p>
+                          </div>
+                          <div className="bg-green-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">
+                              Participants
+                            </p>
+                            <p className="text-2xl font-bold text-green-800">
+                              {school?.participants || 0}
+                            </p>
+                          </div>
+                          <div className="bg-amber-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">
+                              Participation Rate
+                            </p>
+                            <p className="text-2xl font-bold text-amber-700">
+                              {school?.participationRate?.toFixed(0) || 0}%
+                            </p>
+                          </div>
+                        </div>
+                        <ResponsiveContainer width="100%" height={400}>
+                          <BarChart data={chartData}>
+                            <CartesianGrid
+                              strokeDasharray="3 3"
+                              stroke="#e5e7eb"
+                            />
+                            <XAxis dataKey="subject" tick={{ fontSize: 12 }} />
+                            <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                            <Tooltip
+                              content={({ active, payload, label }) => {
+                                if (active && payload && payload.length) {
+                                  const data = payload[0].payload;
+                                  return (
+                                    <div className="bg-white/95 backdrop-blur p-3 rounded-lg shadow-xl border">
+                                      <p className="font-bold">{label}</p>
+                                      <p className="text-blue-600">
+                                        Score: {data.score?.toFixed(1)}
+                                      </p>
+                                      <p className="text-gray-500">
+                                        Participants: {data.count}
+                                      </p>
+                                      <p className="text-red-500">
+                                        Subject Avg: {data.average?.toFixed(1)}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <ReferenceLine
+                              y={processedData.overallAverage}
+                              stroke="#e76f51"
+                              strokeWidth={2}
+                              strokeDasharray="5 5"
+                              label={{
+                                value: "Overall Avg",
+                                position: "right",
+                                fill: "#e76f51",
+                              }}
+                            />
+                            <Bar
+                              dataKey="score"
+                              name="School Score"
+                              radius={[8, 8, 0, 0]}
+                            >
+                              {chartData.map((entry, index) => (
+                                <Cell
+                                  key={index}
+                                  fill={getBarColor(entry.score, entry.average)}
+                                />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Subjects Tab */}
+        {activeTab === "subjects" && (
+          <div className="space-y-6">
+            <div className="bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Subject Performance by School
+                </h2>
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Subjects</option>
+                  {processedData.subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedSubject === "all" ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {processedData.subjects.map((subject, idx) => {
+                    const subjectData = processedData.schoolSubjectData
+                      .filter((s) => s[subject] !== null)
+                      .map((s) => ({
+                        school: s.shortName,
+                        score: s[subject],
+                        count: s[`${subject}_count`],
+                      }))
+                      .slice()
+                      .sort((a, b) => b.score - a.score);
+
+                    const subjectAvg = processedData.subjectAverages[subject];
+
+                    return (
+                      <div key={idx} className="bg-gray-50 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h3 className="font-bold text-gray-800">{subject}</h3>
+                          <span className="text-sm px-2 py-1 rounded-full bg-blue-100 text-blue-800">
+                            Avg: {subjectAvg?.toFixed(1)}
+                          </span>
+                        </div>
+                        <ResponsiveContainer width="100%" height={200}>
+                          <BarChart data={subjectData} layout="vertical">
+                            <CartesianGrid
+                              strokeDasharray="3 3"
+                              stroke="#e5e7eb"
+                            />
+                            <XAxis
+                              type="number"
+                              domain={[0, 100]}
+                              tick={{ fontSize: 10 }}
+                            />
+                            <YAxis
+                              dataKey="school"
+                              type="category"
+                              width={100}
+                              tick={{ fontSize: 10 }}
+                            />
+                            <Tooltip content={<CustomTooltip />} />
+                            <ReferenceLine
+                              x={subjectAvg}
+                              stroke="#e76f51"
+                              strokeWidth={2}
+                              strokeDasharray="3 3"
+                            />
+                            <Bar
+                              dataKey="score"
+                              name="Score"
+                              fill={SUBJECT_COLORS[idx % SUBJECT_COLORS.length]}
+                              radius={[0, 4, 4, 0]}
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>
+                  {(() => {
+                    const subjectData = processedData.schoolSubjectData
+                      .filter((s) => s[selectedSubject] !== null)
+                      .map((s) => ({
+                        school: s.shortName,
+                        fullName: s.school,
+                        score: s[selectedSubject],
+                        count: s[`${selectedSubject}_count`],
+                      }))
+                      .slice()
+                      .sort((a, b) => b.score - a.score);
+
+                    const subjectAvg =
+                      processedData.subjectAverages[selectedSubject];
+                    const subjectInfo = processedData.subjectSummaries.find(
+                      (s) => s.subject === selectedSubject
+                    );
+
+                    return (
+                      <>
+                        <div className="grid grid-cols-4 gap-4 mb-6">
+                          <div className="bg-blue-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">
+                              Subject Average
+                            </p>
+                            <p className="text-2xl font-bold text-blue-900">
+                              {subjectAvg?.toFixed(1)}
+                            </p>
+                          </div>
+                          <div className="bg-green-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">Highest</p>
+                            <p className="text-2xl font-bold text-green-800">
+                              {subjectInfo?.max?.toFixed(1)}
+                            </p>
+                          </div>
+                          <div className="bg-red-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">Lowest</p>
+                            <p className="text-2xl font-bold text-red-700">
+                              {subjectInfo?.min?.toFixed(1)}
+                            </p>
+                          </div>
+                          <div className="bg-purple-50 rounded-xl p-4 text-center">
+                            <p className="text-sm text-gray-500">
+                              Total Participants
+                            </p>
+                            <p className="text-2xl font-bold text-purple-800">
+                              {subjectInfo?.participants}
+                            </p>
+                          </div>
+                        </div>
+                        <ResponsiveContainer width="100%" height={400}>
+                          <BarChart data={subjectData} layout="vertical">
+                            <CartesianGrid
+                              strokeDasharray="3 3"
+                              stroke="#e5e7eb"
+                            />
+                            <XAxis
+                              type="number"
+                              domain={[0, 100]}
+                              tick={{ fontSize: 12 }}
+                            />
+                            <YAxis
+                              dataKey="school"
+                              type="category"
+                              width={150}
+                              tick={{ fontSize: 11 }}
+                            />
+                            <Tooltip
+                              content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                  const data = payload[0].payload;
+                                  return (
+                                    <div className="bg-white/95 backdrop-blur p-3 rounded-lg shadow-xl border">
+                                      <p className="font-bold">
+                                        {data.fullName}
+                                      </p>
+                                      <p className="text-blue-600">
+                                        Score: {data.score?.toFixed(1)}
+                                      </p>
+                                      <p className="text-gray-500">
+                                        Participants: {data.count} teachers
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <ReferenceLine
+                              x={subjectAvg}
+                              stroke="#e76f51"
+                              strokeWidth={2}
+                              strokeDasharray="5 5"
+                              label={{
+                                value: `Subject Avg: ${subjectAvg?.toFixed(1)}`,
+                                position: "top",
+                                fill: "#e76f51",
+                              }}
+                            />
+                            <Bar
+                              dataKey="score"
+                              name="Score"
+                              radius={[0, 8, 8, 0]}
+                            >
+                              {subjectData.map((entry, index) => (
+                                <Cell
+                                  key={index}
+                                  fill={getBarColor(entry.score, subjectAvg)}
+                                />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+
+                        {/* Non-Participants List */}
+                        {processedData.nonParticipants[selectedSubject] &&
+                          processedData.nonParticipants[selectedSubject]
+                            .length > 0 && (
+                            <div className="mt-8 bg-amber-50 rounded-xl p-5 border border-amber-200">
+                              <h3 className="text-lg font-bold text-amber-800 mb-4 flex items-center gap-2">
+                                <span>⚠️</span>
+                                Non-Participants (
+                                {
+                                  processedData.nonParticipants[selectedSubject]
+                                    .length
+                                }{" "}
+                                teachers)
+                              </h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                                {processedData.nonParticipants[
+                                  selectedSubject
+                                ].map((teacher, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="bg-white rounded-lg px-3 py-2 text-sm border border-amber-100"
+                                  >
+                                    <span className="font-medium text-gray-800">
+                                      {teacher.name}
+                                    </span>
+                                    <span className="text-gray-500 ml-2">
+                                      — {teacher.school.replace(" School", "")}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Details Tab */}
+        {activeTab === "details" && (
+          <div className="bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-800">
+                Detailed Results
+              </h2>
+              <div className="flex gap-4">
+                <select
+                  value={selectedSchool}
+                  onChange={(e) => setSelectedSchool(e.target.value)}
+                  className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm"
+                >
+                  <option value="all">All Schools</option>
+                  {processedData.schools.map((school) => (
+                    <option key={school} value={school}>
+                      {school}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm"
+                >
+                  <option value="all">All Subjects</option>
+                  {processedData.subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="px-4 py-3 text-left text-sm font-bold text-gray-700 rounded-tl-lg">
+                      #
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">
+                      Teacher
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">
+                      School
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">
+                      Subject
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-bold text-gray-700 rounded-tr-lg">
+                      Score
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredParticipants
+                    .slice()
+                    .sort((a, b) => b["Final Score"] - a["Final Score"])
+                    .map((participant, idx) => {
+                      const subjectAvg =
+                        processedData.subjectAverages[participant.Subject];
+                      const scoreColor =
+                        participant["Final Score"] >= subjectAvg
+                          ? "text-green-600 bg-green-50"
+                          : "text-red-600 bg-red-50";
+
+                      return (
+                        <tr
+                          key={idx}
+                          className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                        >
+                          <td className="px-4 py-3 text-sm text-gray-500">
+                            {idx + 1}
+                          </td>
+                          <td className="px-4 py-3 text-sm font-medium text-gray-800">
+                            {participant["Teacher Name"]}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            {participant["School Name"]}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                              {participant.Subject}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <span
+                              className={`px-3 py-1 rounded-full font-bold ${scoreColor}`}
+                            >
+                              {participant["Final Score"]?.toFixed(1)}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-4 text-sm text-gray-500 text-center">
+              Showing {filteredParticipants.length} records
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-4 mt-12">
+        <div className="max-w-7xl mx-auto px-6 text-center text-sm text-gray-400">
+          A-EASE Teacher Assessment Dashboard • Eduversal Indonesia •{" "}
+          {new Date().toLocaleDateString("en-US")}
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<AEASEDashboard />);
+  </script>
+
+      <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+</body>
+</html>

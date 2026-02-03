@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EASE II - Performance Dashboard</title>
+      <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --bg-primary: #0a0f1a;
+        --bg-secondary: #111827;
+        --bg-card: #1a2234;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --accent-orange: #f97316;
+        --accent-blue: #3b82f6;
+        --border-color: #2d3a4f;
+        --grade-low: #dc2626;
+        --grade-mid: #f59e0b;
+        --grade-high: #22c55e;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .dashboard {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      .header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .badge {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        background: var(--accent-orange);
+        color: var(--bg-primary);
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value {
+        font-family: "Space Mono", monospace;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .stat-value.highlight {
+        color: var(--accent-orange);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .card-title::before {
+        content: "";
+        width: 4px;
+        height: 16px;
+        background: var(--accent-orange);
+        border-radius: 2px;
+      }
+
+      /* Heatmap Styles */
+      .heatmap-container {
+        overflow-x: auto;
+      }
+
+      .heatmap {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 3px;
+        font-size: 0.8rem;
+      }
+
+      .heatmap th {
+        font-family: "Space Mono", monospace;
+        font-weight: 600;
+        padding: 0.6rem 0.4rem;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.7rem;
+      }
+
+      .heatmap th.school-header {
+        text-align: left;
+        min-width: 180px;
+      }
+
+      .heatmap td {
+        text-align: center;
+        padding: 0.4rem 0.3rem;
+        border-radius: 6px;
+        font-family: "Space Mono", monospace;
+        font-weight: 500;
+        font-size: 0.75rem;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        cursor: default;
+        position: relative;
+        min-width: 70px;
+      }
+
+      .cell-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .cell-avg {
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .cell-part {
+        font-size: 0.6rem;
+        opacity: 0.75;
+        font-weight: 400;
+      }
+
+      .heatmap td:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        z-index: 10;
+      }
+
+      .heatmap td.school-name {
+        text-align: left;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: transparent !important;
+      }
+
+      .heatmap td.school-name:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .heatmap td.zero {
+        background: var(--bg-secondary);
+        color: var(--text-muted);
+      }
+
+      /* Performance Legend */
+      .legend {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+      }
+
+      .legend-color {
+        width: 24px;
+        height: 12px;
+        border-radius: 3px;
+      }
+
+      .legend-gradient {
+        width: 120px;
+        height: 12px;
+        border-radius: 3px;
+        background: linear-gradient(to right, #dc2626, #f59e0b, #22c55e);
+      }
+
+      /* Subject Selector */
+      .subject-selector {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .subject-btn {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--bg-card);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .subject-btn:hover {
+        border-color: var(--accent-orange);
+        color: var(--text-primary);
+      }
+
+      .subject-btn.active {
+        background: var(--accent-orange);
+        border-color: var(--accent-orange);
+        color: var(--bg-primary);
+      }
+
+      .subject-icon {
+        margin-right: 0.5rem;
+      }
+
+      /* Grade Selector */
+      .grade-selector {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      .grade-btn {
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.4rem 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .grade-btn:hover {
+        border-color: var(--accent-blue);
+        color: var(--text-primary);
+      }
+
+      .grade-btn.active {
+        background: var(--accent-blue);
+        border-color: var(--accent-blue);
+        color: white;
+      }
+
+      /* English Dropdown */
+      .english-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-arrow {
+        font-size: 0.6rem;
+        margin-left: 0.25rem;
+      }
+
+      .english-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        min-width: 120px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        margin-top: 0.25rem;
+        overflow: hidden;
+      }
+
+      .english-dropdown-content.show {
+        display: block;
+      }
+
+      .dropdown-item {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        border: none;
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .dropdown-item:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+
+      .dropdown-item.active {
+        background: var(--accent-orange);
+        color: var(--bg-primary);
+      }
+
+      /* Chart Container */
+      .chart-container {
+        position: relative;
+        height: 350px;
+      }
+
+      /* Full Width Card */
+      .card-full {
+        grid-column: 1 / -1;
+      }
+
+      /* Participation indicator */
+      .participation-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+
+      .participation-low {
+        background: var(--grade-low);
+      }
+
+      .participation-mid {
+        background: var(--grade-mid);
+      }
+
+      .participation-high {
+        background: var(--grade-high);
+      }
+
+      /* Tooltip */
+      .tooltip {
+        position: absolute;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 0.75rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+        z-index: 100;
+        white-space: nowrap;
+      }
+
+      .tooltip.visible {
+        opacity: 1;
+      }
+
+      .tooltip-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .tooltip-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        color: var(--text-secondary);
+      }
+
+      .tooltip-value {
+        font-family: "Space Mono", monospace;
+        color: var(--text-primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .stats-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+        }
+        .stats-row {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+      /* Header Link Button */
+      .header-link-btn {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        border: 2px solid var(--accent-blue);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--accent-blue);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .header-link-btn:hover {
+        background: var(--accent-blue);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <header class="header">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+          "
+        >
+          <div>
+            <div class="header-top">
+              <span class="badge">EASE II</span>
+              <h1>Performance Dashboard</h1>
+            </div>
+            <p class="subtitle">
+              Eduversal Network Schools • Grade 7-12 Comparison
+            </p>
+          </div>
+          <a
+            href="https://docs.google.com/spreadsheets/d/1mp8nafm_0HotIP1XsVJ6J0gvF7Rfdh6xkFV6bvdwovw/edit?usp=sharing"
+            target="_blank"
+            class="header-link-btn"
+          >
+            📊 Participation Data
+          </a>
+        </div>
+      </header>
+
+      <div class="subject-selector">
+        <div class="english-dropdown">
+          <button
+            class="subject-btn"
+            data-subject="english"
+            id="englishBtn"
+            onclick="toggleEnglishDropdown(event)"
+          >
+            <span class="subject-icon">📝</span>English
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          <div class="english-dropdown-content" id="englishDropdown">
+            <button
+              class="dropdown-item"
+              onclick="switchSubject('english_core')"
+            >
+              Core
+            </button>
+            <button
+              class="dropdown-item"
+              onclick="switchSubject('english_extended')"
+            >
+              Extended
+            </button>
+          </div>
+        </div>
+        <button
+          class="subject-btn active"
+          data-subject="mathematics"
+          onclick="switchSubject('mathematics')"
+        >
+          <span class="subject-icon">📐</span>Mathematics
+        </button>
+        <button
+          class="subject-btn"
+          data-subject="religion"
+          onclick="switchSubject('religion')"
+        >
+          <span class="subject-icon">📖</span>Religion
+        </button>
+        <button
+          class="subject-btn"
+          data-subject="science"
+          onclick="switchSubject('science')"
+        >
+          <span class="subject-icon">🔬</span>Science
+        </button>
+        <button
+          class="subject-btn"
+          data-subject="physics"
+          onclick="switchSubject('physics')"
+        >
+          <span class="subject-icon">⚛️</span>Physics
+        </button>
+        <button
+          class="subject-btn"
+          data-subject="chemistry"
+          onclick="switchSubject('chemistry')"
+        >
+          <span class="subject-icon">🧪</span>Chemistry
+        </button>
+        <button
+          class="subject-btn"
+          data-subject="biology"
+          onclick="switchSubject('biology')"
+        >
+          <span class="subject-icon">🧬</span>Biology
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Network Average</div>
+          <div class="stat-value highlight" id="network-avg">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Participation</div>
+          <div class="stat-value" id="total-participation">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Top Performer</div>
+          <div class="stat-value" id="top-school">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Schools</div>
+          <div class="stat-value" id="active-schools">--</div>
+        </div>
+      </div>
+
+      <div class="card card-full" style="margin-bottom: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+          "
+        >
+          <h2 class="card-title" style="margin-bottom: 0">
+            Score vs Participation Overview
+          </h2>
+          <div class="grade-selector" id="gradeSelector">
+            <button
+              class="grade-btn active"
+              data-grade="all"
+              onclick="switchGrade('all')"
+            >
+              All Grades
+            </button>
+            <button class="grade-btn" data-grade="0" onclick="switchGrade(0)">
+              G7
+            </button>
+            <button class="grade-btn" data-grade="1" onclick="switchGrade(1)">
+              G8
+            </button>
+            <button class="grade-btn" data-grade="2" onclick="switchGrade(2)">
+              G9
+            </button>
+            <button class="grade-btn" data-grade="3" onclick="switchGrade(3)">
+              G10
+            </button>
+            <button class="grade-btn" data-grade="4" onclick="switchGrade(4)">
+              G11
+            </button>
+            <button class="grade-btn" data-grade="5" onclick="switchGrade(5)">
+              G12
+            </button>
+          </div>
+        </div>
+        <div class="chart-container" style="height: 400px">
+          <canvas id="overviewChart"></canvas>
+        </div>
+        <div class="legend" style="border-top: none; padding-top: 0.5rem">
+          <div class="legend-item">
+            <div class="legend-gradient"></div>
+            <span>Average Score (bars: 50 → 85+)</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-color"
+              style="
+                background: #fbbf24;
+                height: 3px;
+                border: 1px dashed #fbbf24;
+              "
+            ></div>
+            <span>Network Average</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #ef4444"></div>
+            <span>Participation Count (line)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-full" style="margin-bottom: 1.5rem">
+        <h2 class="card-title">
+          Performance Heatmap (Average Scores by School & Grade)
+        </h2>
+        <div class="heatmap-container">
+          <table class="heatmap" id="heatmap">
+            <!-- Generated by JS -->
+          </table>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div
+              class="legend-color"
+              style="background: var(--bg-secondary)"
+            ></div>
+            <span>No Data (0)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-gradient"></div>
+            <span>50 → 85+ Score</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="card-title">School Average Comparison</h2>
+          <div class="chart-container" style="height: 500px">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="card-title">Grade Progression Trend</h2>
+          <div class="chart-container" style="height: 500px">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-full">
+        <h2 class="card-title">Participation by School & Grade</h2>
+        <div class="chart-container" style="height: 450px">
+          <canvas id="participationChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip" id="tooltip">
+      <div class="tooltip-title"></div>
+      <div class="tooltip-row">
+        <span>Average:</span>
+        <span class="tooltip-value avg"></span>
+      </div>
+      <div class="tooltip-row">
+        <span>Participation:</span>
+        <span class="tooltip-value part"></span>
+      </div>
+    </div>
+
+    <script>
+      // Data for all subjects
+      const allData = {
+        mathematics: {
+          name: "Mathematics",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [75, 0, 0, 62, 0, 0],
+            [53, 50, 0, 42, 56, 0],
+            [78, 74, 70, 64, 58, 69],
+            [75, 70, 67, 63, 57, 60],
+            [76, 71, 73, 57, 66, 53],
+            [79, 0, 0, 76, 0, 0],
+            [66, 49, 59, 0, 0, 0],
+            [75, 62, 64, 61, 55, 49],
+            [80, 71, 70, 62, 65, 64],
+            [74, 83, 72, 51, 46, 66],
+            [79, 69, 70, 54, 61, 64],
+            [84, 76, 83, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [50, 0, 0, 52, 0, 0],
+            [34, 22, 0, 21, 26, 0],
+            [34, 26, 58, 89, 71, 67],
+            [57, 65, 68, 105, 79, 91],
+            [13, 15, 17, 16, 14, 18],
+            [31, 0, 0, 28, 0, 0],
+            [16, 5, 4, 0, 0, 0],
+            [33, 28, 35, 56, 41, 66],
+            [24, 32, 29, 35, 46, 52],
+            [8, 9, 5, 7, 9, 3],
+            [30, 37, 19, 89, 69, 65],
+            [18, 20, 28, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        religion: {
+          name: "Religion",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [85, 82, 87, 89, 87, 87],
+            [81, 83, 0, 91, 91, 0],
+            [82, 81, 84, 86, 80, 87],
+            [85, 79, 84, 85, 79, 84],
+            [87, 89, 92, 89, 93, 83],
+            [89, 0, 0, 88, 0, 0],
+            [82, 80, 91, 0, 0, 0],
+            [82, 81, 93, 87, 82, 80],
+            [85, 84, 85, 88, 83, 84],
+            [90, 86, 96, 85, 84, 85],
+            [84, 87, 84, 89, 83, 88],
+            [85, 81, 88, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [50, 24, 45, 51, 18, 21],
+            [33, 22, 0, 21, 26, 0],
+            [29, 22, 54, 83, 61, 61],
+            [53, 62, 65, 103, 74, 88],
+            [13, 15, 16, 16, 14, 18],
+            [31, 0, 0, 28, 0, 0],
+            [16, 5, 4, 0, 0, 0],
+            [33, 27, 35, 55, 35, 63],
+            [24, 31, 26, 32, 44, 52],
+            [6, 9, 5, 7, 9, 3],
+            [30, 36, 19, 80, 64, 62],
+            [18, 25, 32, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        biology: {
+          name: "Biology",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [0, 0, 0, 72, 0, 0],
+            [0, 0, 0, 59, 50, 0],
+            [0, 0, 79, 76, 61, 78],
+            [0, 0, 78, 73, 67, 75],
+            [0, 0, 81, 60, 54, 68],
+            [0, 0, 0, 75, 0, 0],
+            [0, 0, 66, 0, 0, 0],
+            [0, 0, 74, 70, 49, 61],
+            [0, 0, 74, 73, 58, 77],
+            [0, 0, 89, 61, 53, 67],
+            [0, 0, 67, 68, 68, 67],
+            [0, 0, 81, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [0, 0, 0, 52, 0, 0],
+            [0, 0, 0, 21, 26, 0],
+            [0, 0, 35, 89, 38, 38],
+            [0, 0, 69, 104, 60, 55],
+            [0, 0, 17, 16, 14, 17],
+            [0, 0, 0, 28, 0, 0],
+            [0, 0, 4, 0, 0, 0],
+            [0, 0, 35, 58, 30, 60],
+            [0, 0, 29, 35, 48, 52],
+            [0, 0, 5, 7, 9, 3],
+            [0, 0, 19, 59, 36, 42],
+            [0, 0, 33, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        science: {
+          name: "Science",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [79, 0, 0, 0, 0, 0],
+            [64, 58, 0, 0, 0, 0],
+            [83, 71, 0, 0, 0, 0],
+            [88, 72, 0, 0, 0, 0],
+            [78, 68, 0, 0, 0, 0],
+            [79, 0, 0, 0, 0, 0],
+            [74, 59, 0, 0, 0, 0],
+            [77, 64, 0, 0, 0, 0],
+            [86, 74, 0, 0, 0, 0],
+            [78, 78, 0, 0, 0, 0],
+            [86, 73, 0, 0, 0, 0],
+            [86, 71, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [51, 0, 0, 0, 0, 0],
+            [34, 22, 0, 0, 0, 0],
+            [34, 26, 0, 0, 0, 0],
+            [56, 65, 0, 0, 0, 0],
+            [13, 15, 0, 0, 0, 0],
+            [31, 0, 0, 0, 0, 0],
+            [14, 5, 0, 0, 0, 0],
+            [33, 27, 0, 0, 0, 0],
+            [24, 33, 0, 0, 0, 0],
+            [8, 9, 0, 0, 0, 0],
+            [30, 37, 0, 0, 0, 0],
+            [17, 24, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        english_core: {
+          name: "English Core",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 62, 0, 0],
+            [86, 78, 74, 78, 77, 76],
+            [0, 0, 0, 0, 0, 0],
+            [74, 76, 78, 65, 76, 60],
+            [80, 0, 0, 71, 0, 0],
+            [82, 69, 76, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 70],
+            [0, 0, 0, 0, 0, 0],
+            [81, 77, 71, 62, 66, 57],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 21, 0, 0],
+            [32, 26, 58, 88, 69, 67],
+            [0, 0, 0, 0, 0, 0],
+            [13, 15, 16, 16, 14, 18],
+            [31, 0, 0, 28, 0, 0],
+            [16, 5, 4, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 19],
+            [0, 0, 0, 0, 0, 0],
+            [30, 36, 19, 51, 34, 28],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        english_extended: {
+          name: "English Extended",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [73, 85, 87, 77, 68, 69],
+            [52, 67, 0, 0, 64, 0],
+            [0, 0, 0, 0, 0, 0],
+            [80, 89, 92, 81, 83, 86],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [71, 90, 88, 86, 79, 74],
+            [85, 87, 91, 76, 77, 91],
+            [82, 91, 94, 82, 67, 59],
+            [0, 0, 0, 81, 82, 0],
+            [85, 91, 91, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [50, 24, 45, 51, 18, 23],
+            [33, 22, 0, 0, 26, 0],
+            [0, 0, 0, 0, 0, 0],
+            [57, 65, 70, 108, 80, 93],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [34, 27, 35, 57, 38, 63],
+            [24, 32, 29, 34, 46, 34],
+            [8, 9, 5, 7, 9, 0],
+            [0, 0, 0, 37, 35, 36],
+            [18, 24, 33, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        physics: {
+          name: "Physics",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [0, 0, 0, 68, 0, 0],
+            [0, 0, 0, 60, 66, 0],
+            [0, 0, 63, 69, 65, 71],
+            [0, 0, 67, 68, 64, 69],
+            [0, 0, 67, 64, 48, 49],
+            [0, 0, 0, 69, 0, 0],
+            [0, 0, 60, 0, 0, 0],
+            [0, 0, 57, 63, 54, 49],
+            [0, 0, 63, 71, 58, 66],
+            [0, 0, 64, 64, 53, 57],
+            [0, 0, 55, 66, 57, 67],
+            [0, 0, 70, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [0, 0, 0, 52, 0, 0],
+            [0, 0, 0, 21, 26, 0],
+            [0, 0, 35, 88, 33, 29],
+            [0, 0, 69, 104, 46, 60],
+            [0, 0, 17, 16, 14, 18],
+            [0, 0, 0, 28, 0, 0],
+            [0, 0, 4, 0, 0, 0],
+            [0, 0, 35, 57, 27, 35],
+            [0, 0, 29, 35, 48, 53],
+            [0, 0, 5, 7, 9, 3],
+            [0, 0, 19, 30, 34, 24],
+            [0, 0, 33, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        },
+        chemistry: {
+          name: "Chemistry",
+          schools: [
+            "Cahaya Rancamaya",
+            "Emer Islamic Boarding School",
+            "Kesatuan Bangsa",
+            "Kharisma Bangsa",
+            "Mega Islamic School",
+            "Pakar Belia Islamic School",
+            "Prestige School",
+            "Pribadi Bandung",
+            "Pribadi Depok",
+            "Pribadi Premiere",
+            "Semesta 1",
+            "Semesta 3",
+            "Fatih Bilingual School",
+            "TNA Fatih"
+          ],
+          grades: [
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
+          ],
+          averages: [
+            [0, 0, 0, 64, 0, 0],
+            [0, 0, 0, 50, 54, 0],
+            [0, 0, 71, 61, 63, 76],
+            [0, 0, 69, 61, 68, 73],
+            [0, 0, 78, 42, 58, 72],
+            [0, 0, 0, 63, 0, 0],
+            [0, 0, 71, 0, 0, 0],
+            [0, 0, 68, 57, 54, 65],
+            [0, 0, 72, 69, 50, 64],
+            [0, 0, 87, 57, 43, 52],
+            [0, 0, 62, 57, 63, 60],
+            [0, 0, 80, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ],
+          participation: [
+            [0, 0, 0, 52, 0, 0],
+            [0, 0, 0, 21, 26, 0],
+            [0, 0, 58, 89, 44, 27],
+            [0, 0, 68, 104, 45, 61],
+            [0, 0, 17, 16, 14, 17],
+            [0, 0, 0, 28, 0, 0],
+            [0, 0, 4, 0, 0, 0],
+            [0, 0, 35, 58, 28, 40],
+            [0, 0, 29, 34, 48, 53],
+            [0, 0, 5, 7, 9, 3],
+            [0, 0, 19, 88, 70, 65],
+            [0, 0, 33, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+          ]
+        }
+      };
+
+      let currentSubject = "mathematics";
+      let currentGrade = "all";
+      let data = allData[currentSubject];
+
+      // Chart instances
+      let barChart, lineChart, participationChart, overviewChart;
+
+      // Color scale function
+      function getScoreColor(score) {
+        if (score === 0) return "var(--bg-secondary)";
+        if (score < 55) return "#dc2626";
+        if (score < 60) return "#ea580c";
+        if (score < 65) return "#f59e0b";
+        if (score < 70) return "#84cc16";
+        if (score < 75) return "#22c55e";
+        return "#10b981";
+      }
+
+      function getTextColor(score) {
+        if (score === 0) return "var(--text-muted)";
+        return "#fff";
+      }
+
+      // Calculate statistics
+      function calculateStats() {
+        let totalScore = 0;
+        let totalCount = 0;
+        let totalParticipation = 0;
+        let schoolAverages = [];
+        let activeSchools = 0;
+
+        data.schools.forEach((school, i) => {
+          let schoolTotal = 0;
+          let schoolCount = 0;
+          let schoolPart = 0;
+          let hasData = false;
+
+          data.grades.forEach((grade, j) => {
+            const avg = data.averages[i][j];
+            const part = data.participation[i][j];
+
+            if (avg > 0 && part > 0) {
+              schoolTotal += avg * part;
+              schoolCount += part;
+              hasData = true;
+            }
+            totalParticipation += part;
+          });
+
+          if (hasData) {
+            activeSchools++;
+            const weightedAvg = schoolTotal / schoolCount;
+            schoolAverages.push({
+              school,
+              avg: weightedAvg,
+              count: schoolCount
+            });
+            totalScore += schoolTotal;
+            totalCount += schoolCount;
+          }
+        });
+
+        const networkAvg =
+          totalCount > 0 ? (totalScore / totalCount).toFixed(1) : 0;
+        const topSchool = schoolAverages.sort((a, b) => b.avg - a.avg)[0];
+
+        document.getElementById("network-avg").textContent = networkAvg;
+        document.getElementById("total-participation").textContent =
+          totalParticipation.toLocaleString();
+        document.getElementById("top-school").textContent = topSchool
+          ? topSchool.school.split(" ")[0]
+          : "--";
+        document.getElementById(
+          "active-schools"
+        ).textContent = `${activeSchools}/${data.schools.length}`;
+
+        return {
+          networkAvg,
+          totalParticipation,
+          schoolAverages,
+          activeSchools
+        };
+      }
+
+      // Overview Chart - Score vs Participation
+      function createOverviewChart() {
+        const ctx = document.getElementById("overviewChart").getContext("2d");
+
+        let schoolData;
+
+        if (currentGrade === "all") {
+          // Weighted average across all grades
+          schoolData = data.schools
+            .map((school, i) => {
+              let totalScore = 0;
+              let totalWeight = 0;
+              let totalPart = 0;
+
+              data.grades.forEach((grade, j) => {
+                const avg = data.averages[i][j];
+                const part = data.participation[i][j];
+                if (avg > 0 && part > 0) {
+                  totalScore += avg * part;
+                  totalWeight += part;
+                }
+                totalPart += part;
+              });
+
+              return {
+                school: school,
+                shortName:
+                  school.length > 15 ? school.substring(0, 15) + ".." : school,
+                avg: totalWeight > 0 ? totalScore / totalWeight : 0,
+                participation: totalPart
+              };
+            })
+            .filter((s) => s.participation > 0);
+        } else {
+          // Single grade data
+          const gradeIdx = currentGrade;
+          schoolData = data.schools
+            .map((school, i) => {
+              const avg = data.averages[i][gradeIdx];
+              const part = data.participation[i][gradeIdx];
+
+              return {
+                school: school,
+                shortName:
+                  school.length > 15 ? school.substring(0, 15) + ".." : school,
+                avg: avg,
+                participation: part
+              };
+            })
+            .filter((s) => s.participation > 0);
+        }
+
+        // Sort by average descending
+        schoolData.sort((a, b) => b.avg - a.avg);
+
+        // Calculate network average for the dotted line
+        let networkAvg;
+        if (currentGrade === "all") {
+          let totalScore = 0;
+          let totalWeight = 0;
+          data.schools.forEach((school, i) => {
+            data.grades.forEach((grade, j) => {
+              const avg = data.averages[i][j];
+              const part = data.participation[i][j];
+              if (avg > 0 && part > 0) {
+                totalScore += avg * part;
+                totalWeight += part;
+              }
+            });
+          });
+          networkAvg = totalWeight > 0 ? totalScore / totalWeight : 0;
+        } else {
+          const gradeIdx = currentGrade;
+          let totalScore = 0;
+          let totalWeight = 0;
+          data.schools.forEach((school, i) => {
+            const avg = data.averages[i][gradeIdx];
+            const part = data.participation[i][gradeIdx];
+            if (avg > 0 && part > 0) {
+              totalScore += avg * part;
+              totalWeight += part;
+            }
+          });
+          networkAvg = totalWeight > 0 ? totalScore / totalWeight : 0;
+        }
+
+        overviewChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: schoolData.map((s) => s.shortName),
+            datasets: [
+              {
+                label: "Average Score",
+                data: schoolData.map((s) => s.avg.toFixed(1)),
+                backgroundColor: schoolData.map((s) => {
+                  if (s.avg === 0) return "rgba(30, 41, 59, 0.8)";
+                  if (s.avg < 55) return "rgba(220, 38, 38, 0.85)";
+                  if (s.avg < 60) return "rgba(234, 88, 12, 0.85)";
+                  if (s.avg < 65) return "rgba(245, 158, 11, 0.85)";
+                  if (s.avg < 70) return "rgba(132, 204, 22, 0.85)";
+                  if (s.avg < 75) return "rgba(34, 197, 94, 0.85)";
+                  if (s.avg < 80) return "rgba(16, 185, 129, 0.85)";
+                  if (s.avg < 85) return "rgba(6, 182, 212, 0.85)";
+                  return "rgba(59, 130, 246, 0.85)";
+                }),
+                borderColor: schoolData.map((s) => {
+                  if (s.avg === 0) return "#1e293b";
+                  if (s.avg < 55) return "#dc2626";
+                  if (s.avg < 60) return "#ea580c";
+                  if (s.avg < 65) return "#f59e0b";
+                  if (s.avg < 70) return "#84cc16";
+                  if (s.avg < 75) return "#22c55e";
+                  if (s.avg < 80) return "#10b981";
+                  if (s.avg < 85) return "#06b6d4";
+                  return "#3b82f6";
+                }),
+                borderWidth: 1,
+                borderRadius: 6,
+                order: 2,
+                yAxisID: "y"
+              },
+              {
+                label: "Participation",
+                data: schoolData.map((s) => s.participation),
+                type: "line",
+                borderColor: "#ef4444",
+                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                borderWidth: 3,
+                pointRadius: 5,
+                pointBackgroundColor: "#ef4444",
+                tension: 0.3,
+                order: 1,
+                yAxisID: "y1"
+              },
+              {
+                label: "Network Average",
+                data: schoolData.map(() => networkAvg.toFixed(1)),
+                type: "line",
+                borderColor: "#fbbf24",
+                borderWidth: 2,
+                borderDash: [8, 4],
+                pointRadius: 0,
+                fill: false,
+                order: 0,
+                yAxisID: "y"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: "index",
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: "#1a2234",
+                titleColor: "#f1f5f9",
+                bodyColor: "#94a3b8",
+                borderColor: "#2d3a4f",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    if (context.datasetIndex === 0) {
+                      return `Average: ${context.raw}`;
+                    } else if (context.datasetIndex === 1) {
+                      return `Participants: ${context.raw}`;
+                    } else {
+                      return `Network Avg: ${context.raw}`;
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: {
+                  color: "#f1f5f9",
+                  font: { family: "DM Sans", size: 10 },
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                type: "linear",
+                position: "left",
+                min: 0,
+                max: 100,
+                grid: { color: "#2d3a4f" },
+                ticks: {
+                  color: "#94a3b8",
+                  font: { family: "Space Mono" }
+                },
+                title: {
+                  display: true,
+                  text: "Average Score",
+                  color: "#94a3b8",
+                  font: { family: "DM Sans", size: 11, weight: "600" }
+                }
+              },
+              y1: {
+                type: "linear",
+                position: "right",
+                min: 0,
+                grid: { display: false },
+                ticks: {
+                  color: "#ef4444",
+                  font: { family: "Space Mono" }
+                },
+                title: {
+                  display: true,
+                  text: "Total Participation",
+                  color: "#ef4444",
+                  font: { family: "DM Sans", size: 11, weight: "600" }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Generate Heatmap
+      function generateHeatmap() {
+        const table = document.getElementById("heatmap");
+
+        // Header
+        let html = '<thead><tr><th class="school-header">School</th>';
+        data.grades.forEach((grade) => {
+          html += `<th>${grade}</th>`;
+        });
+        html += "<th>Avg</th></tr></thead><tbody>";
+
+        // Rows
+        data.schools.forEach((school, i) => {
+          html += `<tr><td class="school-name">${school}</td>`;
+
+          let rowTotal = 0;
+          let rowCount = 0;
+
+          data.grades.forEach((grade, j) => {
+            const avg = data.averages[i][j];
+            const part = data.participation[i][j];
+            const bgColor = getScoreColor(avg);
+            const textColor = getTextColor(avg);
+
+            if (avg > 0 && part > 0) {
+              rowTotal += avg * part;
+              rowCount += part;
+            }
+
+            html += `<td style="background: ${bgColor}; color: ${textColor};" 
+                                class="${avg === 0 ? "zero" : ""}"
+                                data-school="${school}" 
+                                data-grade="${grade}"
+                                data-avg="${avg}"
+                                data-part="${part}">
+                                <div class="cell-content">
+                                    <span class="cell-avg">${avg || "-"}</span>
+                                    <span class="cell-part">${
+                                      part > 0 ? `n=${part}` : ""
+                                    }</span>
+                                </div>
+                            </td>`;
+          });
+
+          // Row average
+          const rowAvg = rowCount > 0 ? (rowTotal / rowCount).toFixed(0) : "-";
+          const rowAvgNum = rowCount > 0 ? rowTotal / rowCount : 0;
+          html += `<td style="background: ${getScoreColor(
+            rowAvgNum
+          )}; color: ${getTextColor(rowAvgNum)}; font-weight: 700;">
+                            ${rowAvg}
+                        </td>`;
+          html += "</tr>";
+        });
+
+        // Footer row (network averages)
+        html +=
+          '<tr style="border-top: 2px solid var(--border-color);"><td class="school-name" style="font-weight: 700;">Network Avg</td>';
+        data.grades.forEach((grade, j) => {
+          let gradeTotal = 0;
+          let gradeCount = 0;
+
+          data.schools.forEach((school, i) => {
+            const avg = data.averages[i][j];
+            const part = data.participation[i][j];
+            if (avg > 0 && part > 0) {
+              gradeTotal += avg * part;
+              gradeCount += part;
+            }
+          });
+
+          const gradeAvg =
+            gradeCount > 0 ? (gradeTotal / gradeCount).toFixed(0) : "-";
+          const gradeAvgNum = gradeCount > 0 ? gradeTotal / gradeCount : 0;
+          html += `<td style="background: ${getScoreColor(
+            gradeAvgNum
+          )}; color: ${getTextColor(gradeAvgNum)}; font-weight: 700;">
+                            ${gradeAvg}
+                        </td>`;
+        });
+        html += "<td></td></tr>";
+
+        html += "</tbody>";
+        table.innerHTML = html;
+
+        // Add tooltip events
+        table.querySelectorAll("td:not(.school-name)").forEach((cell) => {
+          cell.addEventListener("mouseenter", showTooltip);
+          cell.addEventListener("mouseleave", hideTooltip);
+        });
+      }
+
+      // Tooltip functions
+      const tooltip = document.getElementById("tooltip");
+
+      function showTooltip(e) {
+        const cell = e.target;
+        if (!cell.dataset.school) return;
+
+        tooltip.querySelector(
+          ".tooltip-title"
+        ).textContent = `${cell.dataset.school} - ${cell.dataset.grade}`;
+        tooltip.querySelector(".avg").textContent = cell.dataset.avg || "-";
+        tooltip.querySelector(".part").textContent = cell.dataset.part || "-";
+
+        tooltip.style.left = e.pageX + 10 + "px";
+        tooltip.style.top = e.pageY - 10 + "px";
+        tooltip.classList.add("visible");
+      }
+
+      function hideTooltip() {
+        tooltip.classList.remove("visible");
+      }
+
+      // Bar Chart - School Averages
+      function createBarChart(stats) {
+        const ctx = document.getElementById("barChart").getContext("2d");
+
+        const sortedSchools = stats.schoolAverages.sort(
+          (a, b) => b.avg - a.avg
+        );
+
+        barChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: sortedSchools.map((s) =>
+              s.school.length > 15
+                ? s.school.substring(0, 15) + "..."
+                : s.school
+            ),
+            datasets: [
+              {
+                label: "Weighted Average",
+                data: sortedSchools.map((s) => s.avg.toFixed(1)),
+                backgroundColor: sortedSchools.map((s) => {
+                  if (s.avg >= 75) return "#22c55e";
+                  if (s.avg >= 65) return "#f59e0b";
+                  return "#dc2626";
+                }),
+                borderRadius: 6,
+                borderSkipped: false
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: "y",
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: "#1a2234",
+                titleColor: "#f1f5f9",
+                bodyColor: "#94a3b8",
+                borderColor: "#2d3a4f",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    const school = sortedSchools[context.dataIndex];
+                    return `Avg: ${school.avg.toFixed(1)} (n=${school.count})`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                min: 0,
+                max: 100,
+                grid: { color: "#2d3a4f" },
+                ticks: { color: "#94a3b8", font: { family: "Space Mono" } }
+              },
+              y: {
+                grid: { display: false },
+                ticks: {
+                  color: "#f1f5f9",
+                  font: { family: "DM Sans", size: 11 },
+                  callback: function (value, index) {
+                    const school = sortedSchools[index];
+                    return `${
+                      school.school.length > 12
+                        ? school.school.substring(0, 12) + ".."
+                        : school.school
+                    } (n=${school.count})`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Line Chart - Grade Progression
+      function createLineChart() {
+        const ctx = document.getElementById("lineChart").getContext("2d");
+
+        // Calculate network average per grade with participation
+        const gradeData = data.grades.map((grade, j) => {
+          let total = 0;
+          let count = 0;
+          data.schools.forEach((school, i) => {
+            const avg = data.averages[i][j];
+            const part = data.participation[i][j];
+            if (avg > 0 && part > 0) {
+              total += avg * part;
+              count += part;
+            }
+          });
+          return { avg: count > 0 ? total / count : null, n: count };
+        });
+
+        // All schools with data
+        const schoolColors = [
+          "#ef4444",
+          "#f97316",
+          "#f59e0b",
+          "#84cc16",
+          "#22c55e",
+          "#14b8a6",
+          "#06b6d4",
+          "#3b82f6",
+          "#6366f1",
+          "#8b5cf6",
+          "#a855f7",
+          "#ec4899"
+        ];
+
+        const activeSchools = data.schools
+          .map((name, idx) => ({
+            name,
+            idx,
+            data: data.averages[idx],
+            participation: data.participation[idx],
+            hasData: data.participation[idx].some((p) => p > 0)
+          }))
+          .filter((s) => s.hasData);
+
+        lineChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: data.grades.map((g, i) => `${g}\n(n=${gradeData[i].n})`),
+            datasets: [
+              {
+                label: "Network Avg",
+                data: gradeData.map((d) => d.avg),
+                borderColor: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderWidth: 4,
+                fill: false,
+                tension: 0.3,
+                pointRadius: 6,
+                pointBackgroundColor: "#ffffff"
+              },
+              ...activeSchools.map((school, i) => ({
+                label:
+                  school.name.length > 15
+                    ? school.name.substring(0, 15) + ".."
+                    : school.name,
+                data: school.data.map((v) => (v === 0 ? null : v)),
+                borderColor: schoolColors[i % schoolColors.length],
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 3,
+                spanGaps: true,
+                fill: false
+              }))
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: "index",
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  color: "#94a3b8",
+                  usePointStyle: true,
+                  padding: 12,
+                  font: { family: "DM Sans", size: 10 }
+                }
+              },
+              tooltip: {
+                backgroundColor: "#1a2234",
+                titleColor: "#f1f5f9",
+                bodyColor: "#94a3b8",
+                borderColor: "#2d3a4f",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    const idx = context.dataIndex;
+                    if (context.datasetIndex === 0) {
+                      return `Network: ${gradeData[idx].avg?.toFixed(1)} (n=${
+                        gradeData[idx].n
+                      })`;
+                    } else {
+                      const school = activeSchools[context.datasetIndex - 1];
+                      const part = school.participation[idx];
+                      return `${school.name}: ${context.raw} (n=${part})`;
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                min: 0,
+                max: 100,
+                grid: { color: "#2d3a4f" },
+                ticks: { color: "#94a3b8", font: { family: "Space Mono" } }
+              },
+              x: {
+                grid: { color: "#2d3a4f" },
+                ticks: {
+                  color: "#f1f5f9",
+                  font: { family: "DM Sans", size: 10 },
+                  maxRotation: 0
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Participation Chart
+      function createParticipationChart() {
+        const ctx = document
+          .getElementById("participationChart")
+          .getContext("2d");
+
+        const colors = [
+          "#f97316",
+          "#3b82f6",
+          "#8b5cf6",
+          "#06b6d4",
+          "#22c55e",
+          "#f59e0b"
+        ];
+
+        // Filter schools with data and prepare labels with totals
+        const activeSchoolIndices = data.schools
+          .map((s, i) => ({
+            name: s,
+            idx: i,
+            total: data.participation[i].reduce((a, b) => a + b, 0)
+          }))
+          .filter((s) => s.total > 0);
+
+        participationChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: activeSchoolIndices.map(
+              (s) =>
+                `${
+                  s.name.length > 12 ? s.name.substring(0, 12) + ".." : s.name
+                }\n(Total: ${s.total})`
+            ),
+            datasets: data.grades.map((grade, j) => ({
+              label: grade,
+              data: activeSchoolIndices.map(
+                (s) => data.participation[s.idx][j]
+              ),
+              backgroundColor: colors[j],
+              borderRadius: 4
+            }))
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  color: "#94a3b8",
+                  usePointStyle: true,
+                  padding: 15,
+                  font: { family: "DM Sans", size: 11 }
+                }
+              },
+              tooltip: {
+                backgroundColor: "#1a2234",
+                titleColor: "#f1f5f9",
+                bodyColor: "#94a3b8",
+                borderColor: "#2d3a4f",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    const schoolIdx =
+                      activeSchoolIndices[context.dataIndex].idx;
+                    const gradeIdx = context.datasetIndex;
+                    const avg = data.averages[schoolIdx][gradeIdx];
+                    return `${context.dataset.label}: n=${context.raw} (Avg: ${
+                      avg || "-"
+                    })`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                stacked: true,
+                grid: { display: false },
+                ticks: {
+                  color: "#f1f5f9",
+                  font: { family: "DM Sans", size: 9 },
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                stacked: true,
+                grid: { color: "#2d3a4f" },
+                ticks: { color: "#94a3b8", font: { family: "Space Mono" } },
+                title: {
+                  display: true,
+                  text: "Number of Participants",
+                  color: "#64748b",
+                  font: { family: "DM Sans", size: 11 }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        initDashboard();
+      });
+
+      function initDashboard() {
+        const stats = calculateStats();
+        generateHeatmap();
+        createOverviewChart();
+        createBarChart(stats);
+        createLineChart();
+        createParticipationChart();
+      }
+
+      function switchSubject(subject) {
+        if (subject === currentSubject) return;
+
+        currentSubject = subject;
+        data = allData[currentSubject];
+        currentGrade = "all"; // Reset grade selection when switching subject
+
+        // Update button states
+        document.querySelectorAll(".subject-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.dataset.subject === subject) {
+            btn.classList.add("active");
+          }
+        });
+
+        // Handle English button state
+        const englishBtn = document.getElementById("englishBtn");
+        if (subject === "english_core" || subject === "english_extended") {
+          englishBtn.classList.add("active");
+          // Update dropdown items
+          document.querySelectorAll(".dropdown-item").forEach((item) => {
+            item.classList.remove("active");
+          });
+          if (subject === "english_core") {
+            document
+              .querySelector(".dropdown-item:first-child")
+              .classList.add("active");
+          } else {
+            document
+              .querySelector(".dropdown-item:last-child")
+              .classList.add("active");
+          }
+        } else {
+          englishBtn.classList.remove("active");
+          document.querySelectorAll(".dropdown-item").forEach((item) => {
+            item.classList.remove("active");
+          });
+        }
+
+        // Close dropdown
+        document.getElementById("englishDropdown").classList.remove("show");
+
+        // Reset grade buttons
+        document.querySelectorAll(".grade-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.dataset.grade === "all") {
+            btn.classList.add("active");
+          }
+        });
+
+        // Destroy existing charts
+        if (barChart) barChart.destroy();
+        if (lineChart) lineChart.destroy();
+        if (participationChart) participationChart.destroy();
+        if (overviewChart) overviewChart.destroy();
+
+        // Reinitialize
+        initDashboard();
+      }
+
+      function toggleEnglishDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById("englishDropdown");
+        dropdown.classList.toggle("show");
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (event) {
+        const dropdown = document.getElementById("englishDropdown");
+        const englishBtn = document.getElementById("englishBtn");
+        if (
+          !englishBtn.contains(event.target) &&
+          !dropdown.contains(event.target)
+        ) {
+          dropdown.classList.remove("show");
+        }
+      });
+
+      function switchGrade(grade) {
+        currentGrade = grade;
+
+        // Update button states
+        document.querySelectorAll(".grade-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.dataset.grade === String(grade)) {
+            btn.classList.add("active");
+          }
+        });
+
+        // Only recreate overview chart
+        if (overviewChart) overviewChart.destroy();
+        createOverviewChart();
+      }
+    </script>
+    
+    <!-- Floating Home Button -->
+    <a
+      href="index.html"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+      "
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+  </body>
+</html>
