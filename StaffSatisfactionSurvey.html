@@ -1,0 +1,3407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eduversal Staff Satisfaction Dashboard 2025</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+       <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+   <style>
+      :root {
+        --bg-primary: #f8fafc;
+        --bg-secondary: #f1f5f9;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f8fafc;
+        --accent-blue: #2563eb;
+        --accent-cyan: #0891b2;
+        --accent-green: #059669;
+        --accent-yellow: #d97706;
+        --accent-red: #dc2626;
+        --accent-purple: #7c3aed;
+        --text-primary: #1e293b;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --gradient-1: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        font-size: 13px;
+      }
+
+      .dashboard {
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .header-left h1 {
+        font-size: 24px;
+        font-weight: 700;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 4px;
+      }
+
+      .header-left p {
+        color: var(--text-secondary);
+        font-size: 13px;
+      }
+
+      .header-links {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .header-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .header-link:hover {
+        background: var(--accent-blue);
+        color: white;
+        border-color: var(--accent-blue);
+      }
+
+      .header-stats {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        text-align: center;
+        min-width: 80px;
+      }
+
+      .stat-value {
+        font-family: "Space Mono", monospace;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--accent-blue);
+      }
+
+      .stat-label {
+        font-size: 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        gap: 2px;
+        margin-bottom: 16px;
+        background: var(--bg-secondary);
+        padding: 3px;
+        border-radius: 10px;
+        width: fit-content;
+      }
+
+      .tab {
+        padding: 8px 16px;
+        background: transparent;
+        border: none;
+        border-radius: 7px;
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .tab:hover {
+        color: var(--text-primary);
+      }
+
+      .tab.active {
+        background: var(--bg-card);
+        color: var(--accent-blue);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Grid layouts */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .grid-5 {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .grid-6 {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+      }
+
+      /* Cards */
+      .card {
+        background: var(--bg-card);
+        border-radius: 10px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 16px;
+      }
+
+      .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-title::before {
+        content: "";
+        width: 3px;
+        height: 16px;
+        background: var(--gradient-1);
+        border-radius: 2px;
+      }
+
+      /* KPI Cards - Compact */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .kpi-card {
+        background: var(--bg-card);
+        border-radius: 10px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+      }
+
+      .kpi-icon {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      .kpi-title {
+        font-size: 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .kpi-value {
+        font-family: "Space Mono", monospace;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 4px 0;
+      }
+
+      .kpi-value.excellent {
+        color: var(--accent-green);
+      }
+      .kpi-value.good {
+        color: var(--accent-cyan);
+      }
+      .kpi-value.warning {
+        color: var(--accent-yellow);
+      }
+      .kpi-value.critical {
+        color: var(--accent-red);
+      }
+
+      .kpi-subtitle {
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      /* Score badges */
+      .score-badge {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .score-badge.excellent {
+        background: rgba(5, 150, 105, 0.1);
+        color: var(--accent-green);
+      }
+      .score-badge.good {
+        background: rgba(8, 145, 178, 0.1);
+        color: var(--accent-cyan);
+      }
+      .score-badge.warning {
+        background: rgba(217, 119, 6, 0.1);
+        color: var(--accent-yellow);
+      }
+      .score-badge.critical {
+        background: rgba(220, 38, 38, 0.1);
+        color: var(--accent-red);
+      }
+
+      /* Tables - Compact */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      .data-table th {
+        text-align: left;
+        padding: 8px 6px;
+        font-size: 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid var(--border);
+        background: var(--bg-secondary);
+      }
+
+      .data-table td {
+        padding: 10px 6px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .data-table tr:hover td {
+        background: var(--bg-secondary);
+      }
+
+      /* Category bars */
+      .category-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 0;
+      }
+
+      .category-name {
+        font-size: 11px;
+        color: var(--text-secondary);
+        min-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .category-bar-container {
+        flex: 1;
+        height: 6px;
+        background: var(--bg-secondary);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .category-bar {
+        height: 100%;
+        border-radius: 3px;
+      }
+
+      .category-score {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 35px;
+        text-align: right;
+      }
+
+      /* Question details - Compact */
+      .question-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        background: var(--bg-secondary);
+      }
+
+      .question-score {
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        min-width: 38px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      .question-text {
+        font-size: 11px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      /* Insight cards */
+      .insight-card {
+        background: var(--bg-secondary);
+        border-radius: 8px;
+        padding: 12px;
+        border-left: 3px solid var(--accent-blue);
+      }
+
+      .insight-card.warning {
+        border-left-color: var(--accent-yellow);
+      }
+      .insight-card.critical {
+        border-left-color: var(--accent-red);
+      }
+      .insight-card.success {
+        border-left-color: var(--accent-green);
+      }
+
+      .insight-title {
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .insight-text {
+        font-size: 11px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+
+      /* Theme bars */
+      .theme-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .theme-bar {
+        flex: 1;
+        height: 20px;
+        background: var(--bg-secondary);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .theme-fill {
+        height: 100%;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        padding-left: 6px;
+        font-size: 10px;
+        color: white;
+        font-weight: 600;
+      }
+
+      .theme-label {
+        min-width: 130px;
+        font-size: 11px;
+        color: var(--text-secondary);
+      }
+      .theme-count {
+        font-family: "Space Mono";
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 40px;
+        text-align: right;
+      }
+
+      /* Heatmap */
+      .heatmap-container {
+        overflow-x: auto;
+      }
+
+      .heatmap {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+      }
+
+      .heatmap th {
+        padding: 8px 4px;
+        font-weight: 500;
+        text-align: center;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        font-size: 10px;
+      }
+
+      .heatmap th:first-child {
+        text-align: left;
+        min-width: 130px;
+      }
+
+      .heatmap td {
+        padding: 6px 4px;
+        text-align: center;
+        border: 1px solid var(--border);
+        font-family: "Space Mono", monospace;
+        font-weight: 600;
+        font-size: 11px;
+      }
+
+      .heatmap td:first-child {
+        text-align: left;
+        font-family: "DM Sans";
+        font-weight: 500;
+      }
+
+      /* Response Chart */
+      .chart-container {
+        height: 280px;
+      }
+
+      /* Mini stats */
+      .mini-stat {
+        background: var(--bg-secondary);
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .mini-stat-label {
+        font-size: 9px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .mini-stat-value {
+        font-family: "Space Mono";
+        font-size: 20px;
+        font-weight: 700;
+        margin: 2px 0;
+      }
+      .mini-stat-sub {
+        font-size: 10px;
+        color: var(--text-secondary);
+      }
+
+      /* Pills */
+      .filter-pills {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        padding: 5px 12px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        font-size: 11px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .pill:hover,
+      .pill.active {
+        background: var(--accent-blue);
+        color: white;
+        border-color: var(--accent-blue);
+      }
+
+      /* Demographic grid */
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .demo-item {
+        background: var(--bg-secondary);
+        padding: 8px;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      .demo-label {
+        font-size: 9px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .demo-value {
+        font-family: "Space Mono";
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--accent-blue);
+      }
+      .demo-sub {
+        font-size: 10px;
+        color: var(--text-secondary);
+      }
+
+      /* Responsive */
+      @media (max-width: 1400px) {
+        .kpi-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .grid-6 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .grid-4 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .dashboard {
+          padding: 16px;
+        }
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .grid-4 {
+          grid-template-columns: 1fr;
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .demo-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header-stats {
+          width: 100%;
+          justify-content: flex-start;
+          gap: 16px;
+        }
+        .stat-item {
+          min-width: 60px;
+        }
+        .stat-value {
+          font-size: 22px;
+        }
+
+        .heatmap {
+          font-size: 9px;
+        }
+        .heatmap th,
+        .heatmap td {
+          padding: 4px 2px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .dashboard {
+          padding: 12px;
+        }
+
+        .header-left h1 {
+          font-size: 18px;
+        }
+        .header-links {
+          flex-direction: column;
+          gap: 8px;
+        }
+        .header-link {
+          width: 100%;
+          justify-content: center;
+        }
+        .header-stats {
+          gap: 12px;
+        }
+        .stat-value {
+          font-size: 20px;
+        }
+        .stat-item {
+          min-width: 50px;
+        }
+
+        .tabs {
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar {
+          display: none;
+        }
+        .tab {
+          padding: 8px 12px;
+          font-size: 11px;
+          white-space: nowrap;
+        }
+
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        .kpi-card {
+          padding: 12px;
+        }
+        .kpi-value {
+          font-size: 20px;
+        }
+        .kpi-icon {
+          font-size: 16px;
+        }
+
+        .card {
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .card-title {
+          font-size: 12px;
+          margin-bottom: 10px;
+        }
+
+        .category-name {
+          min-width: 100px;
+          font-size: 10px;
+        }
+        .category-bar-container {
+          height: 5px;
+        }
+        .category-score {
+          font-size: 10px;
+          min-width: 30px;
+        }
+
+        .question-item {
+          padding: 6px;
+        }
+        .question-score {
+          font-size: 10px;
+          min-width: 32px;
+          padding: 2px 4px;
+        }
+        .question-text {
+          font-size: 10px;
+        }
+
+        .insight-card {
+          padding: 10px;
+        }
+        .insight-title {
+          font-size: 10px;
+        }
+        .insight-text {
+          font-size: 10px;
+        }
+
+        .data-table {
+          font-size: 10px;
+        }
+        .data-table th,
+        .data-table td {
+          padding: 6px 4px;
+        }
+        .score-badge {
+          font-size: 9px;
+          padding: 2px 6px;
+        }
+
+        .theme-label {
+          min-width: 80px;
+          font-size: 10px;
+        }
+        .theme-bar {
+          height: 16px;
+        }
+        .theme-fill {
+          font-size: 9px;
+        }
+        .theme-count {
+          font-size: 10px;
+          min-width: 30px;
+        }
+
+        .mini-stat {
+          padding: 8px;
+        }
+        .mini-stat-value {
+          font-size: 16px;
+        }
+        .mini-stat-label {
+          font-size: 8px;
+        }
+
+        .demo-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .demo-value {
+          font-size: 14px;
+        }
+
+        .chart-container {
+          height: 220px;
+        }
+
+        .heatmap-container {
+          margin: 0 -12px;
+          padding: 0 12px;
+        }
+        .heatmap {
+          min-width: 800px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .dashboard {
+          padding: 8px;
+        }
+
+        .header-left h1 {
+          font-size: 16px;
+        }
+        .header-left p {
+          font-size: 11px;
+        }
+        .header-stats {
+          gap: 8px;
+        }
+        .stat-value {
+          font-size: 18px;
+        }
+        .stat-label {
+          font-size: 8px;
+        }
+
+        .kpi-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 6px;
+        }
+        .kpi-card {
+          padding: 10px;
+        }
+        .kpi-value {
+          font-size: 18px;
+        }
+        .kpi-title {
+          font-size: 9px;
+        }
+        .kpi-subtitle {
+          font-size: 9px;
+        }
+
+        .tab {
+          padding: 6px 10px;
+          font-size: 10px;
+        }
+
+        .card {
+          padding: 10px;
+        }
+
+        .category-item {
+          gap: 6px;
+        }
+        .category-name {
+          min-width: 80px;
+          font-size: 9px;
+        }
+
+        .filter-pills {
+          gap: 4px;
+        }
+        .pill {
+          padding: 4px 8px;
+          font-size: 10px;
+        }
+
+        .chart-container {
+          height: 180px;
+        }
+      }
+
+      @media print {
+        .tabs {
+          display: none;
+        }
+        .tab-content {
+          display: block !important;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>📊 Eduversal Staff Satisfaction Survey</h1>
+          <p>Network-wide Analysis Dashboard • December 2025</p>
+          <div class="header-links">
+            <a
+              href="https://forms.gle/NwRt2DHFxEkR6V6LA"
+              target="_blank"
+              class="header-link"
+            >
+              📝 Survey Form
+            </a>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1treZnFD1ZaSU-A9xivMaqRgV2rVaY21Z-0RkR2URf2U/edit?usp=sharing"
+              target="_blank"
+              class="header-link"
+            >
+              📊 Raw Responses
+            </a>
+          </div>
+        </div>
+        <div class="header-stats">
+          <div class="stat-item">
+            <div class="stat-value">337</div>
+            <div class="stat-label">Responses</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">14</div>
+            <div class="stat-label">Schools</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">112</div>
+            <div class="stat-label">Questions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">4.27</div>
+            <div class="stat-label">Avg Score</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">84%</div>
+            <div class="stat-label">Full-time</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('overview')">
+          📈 Overview
+        </button>
+        <button class="tab" onclick="showTab('categories')">
+          📋 Categories
+        </button>
+        <button class="tab" onclick="showTab('schools')">🏫 Schools</button>
+        <button class="tab" onclick="showTab('feedback')">💬 Feedback</button>
+        <button class="tab" onclick="showTab('demographics')">
+          👥 Demographics
+        </button>
+        <button class="tab" onclick="showTab('actions')">🎯 Actions</button>
+      </div>
+
+      <!-- TAB 1: Overview -->
+      <div id="overview" class="tab-content active">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon">📈</div>
+            <div class="kpi-title">Overall Score</div>
+            <div class="kpi-value good">4.27</div>
+            <div class="kpi-subtitle">out of 5.0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">👍</div>
+            <div class="kpi-title">eNPS Score</div>
+            <div class="kpi-value excellent">+62</div>
+            <div class="kpi-subtitle">94% positive</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">🔄</div>
+            <div class="kpi-title">Retention</div>
+            <div class="kpi-value good">92%</div>
+            <div class="kpi-subtitle">stay next year</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">⭐</div>
+            <div class="kpi-title">Top Category</div>
+            <div class="kpi-value excellent">4.51</div>
+            <div class="kpi-subtitle">Teaching</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">⚠️</div>
+            <div class="kpi-title">Lowest</div>
+            <div class="kpi-value warning">3.87</div>
+            <div class="kpi-subtitle">Compensation</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">🚨</div>
+            <div class="kpi-title">At Risk Staff</div>
+            <div class="kpi-value warning">25</div>
+            <div class="kpi-subtitle">8% of total</div>
+          </div>
+        </div>
+
+        <!-- Response Distribution Chart -->
+        <div class="card">
+          <div class="card-title">📊 Response Distribution by School</div>
+          <div class="chart-container">
+            <canvas id="responseChart"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Category Summary -->
+          <div class="card">
+            <div class="card-title">Category Performance Ranking</div>
+            <div id="categoryOverview"></div>
+          </div>
+
+          <!-- Quick Stats Grid -->
+          <div class="card">
+            <div class="card-title">Staff Sentiment Breakdown</div>
+            <div class="grid-2" style="gap: 8px">
+              <div class="mini-stat">
+                <div class="mini-stat-label">Definitely Recommend</div>
+                <div class="mini-stat-value" style="color: var(--accent-green)">
+                  63%
+                </div>
+                <div class="mini-stat-sub">190 staff</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Probably Recommend</div>
+                <div class="mini-stat-value" style="color: var(--accent-cyan)">
+                  31%
+                </div>
+                <div class="mini-stat-sub">94 staff</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Definitely Stay</div>
+                <div class="mini-stat-value" style="color: var(--accent-green)">
+                  66%
+                </div>
+                <div class="mini-stat-sub">199 staff</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Probably Stay</div>
+                <div class="mini-stat-value" style="color: var(--accent-cyan)">
+                  26%
+                </div>
+                <div class="mini-stat-sub">77 staff</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Not Sure / No</div>
+                <div
+                  class="mini-stat-value"
+                  style="color: var(--accent-yellow)"
+                >
+                  8%
+                </div>
+                <div class="mini-stat-sub">25 staff</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Survey Period</div>
+                <div
+                  class="mini-stat-value"
+                  style="color: var(--accent-blue); font-size: 14px"
+                >
+                  Dec 9-22
+                </div>
+                <div class="mini-stat-sub">14 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Insights Row -->
+        <div class="grid-4">
+          <div class="insight-card success">
+            <div class="insight-title">✨ Top Strength</div>
+            <div class="insight-text">
+              <strong>Teaching & Learning (4.51)</strong> — Supportive student
+              environment
+            </div>
+          </div>
+          <div class="insight-card critical">
+            <div class="insight-title">🚨 Priority Action</div>
+            <div class="insight-text">
+              <strong>Compensation (3.87)</strong> — All schools lowest category
+            </div>
+          </div>
+          <div class="insight-card warning">
+            <div class="insight-title">⚠️ Watch Area</div>
+            <div class="insight-text">
+              <strong>Wellbeing (4.07)</strong> — Mental health resources 3.90
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-title">📍 Focus Schools</div>
+            <div class="insight-text">
+              <strong>Mega & Kesatuan</strong> — Below 4.0 threshold
+            </div>
+          </div>
+        </div>
+
+        <!-- Top & Bottom Questions -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-green)">
+              ✨ Highest Scoring Questions
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.75
+              </div>
+              <div class="question-text">
+                Supportive and inviting place for students to learn
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.71
+              </div>
+              <div class="question-text">
+                Promotes academic success for all students
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.67
+              </div>
+              <div class="question-text">
+                Emphasizes helping students academically when needed
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.60
+              </div>
+              <div class="question-text">
+                Teaching lessons in ways relevant to students
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.57
+              </div>
+              <div class="question-text">
+                Proud to tell others I'm part of this school
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-red)">
+              🚨 Lowest Scoring Questions
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.75
+              </div>
+              <div class="question-text">
+                School is transparent about compensation policies
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.78
+              </div>
+              <div class="question-text">Salary is fair for the work I do</div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.78
+              </div>
+              <div class="question-text">Benefits package is competitive</div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.82
+              </div>
+              <div class="question-text">
+                Understand how compensation is determined
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                3.90
+              </div>
+              <div class="question-text">
+                School provides mental health & wellbeing resources
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Categories -->
+      <div id="categories" class="tab-content">
+        <div class="filter-pills">
+          <span class="pill active" onclick="filterCategory('all')"
+            >All (14)</span
+          >
+          <span class="pill" onclick="filterCategory('high')"
+            >High >4.3 (7)</span
+          >
+          <span class="pill" onclick="filterCategory('medium')"
+            >Medium 4.0-4.3 (5)</span
+          >
+          <span class="pill" onclick="filterCategory('low')">Low <4.0 (2)</span>
+        </div>
+
+        <div class="grid-3" id="categoryDetails">
+          <!-- Teaching & Learning -->
+          <div class="card" data-category="teaching" data-score="4.51">
+            <div class="card-title">
+              Teaching & Learning
+              <span class="score-badge excellent" style="margin-left: auto"
+                >4.51</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.75
+              </div>
+              <div class="question-text">
+                School provides a supportive and inviting environment for
+                student learning
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.71
+              </div>
+              <div class="question-text">
+                School actively promotes and supports academic success for all
+                students
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.67
+              </div>
+              <div class="question-text">
+                Students receive academic help and support when they need it
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.55
+              </div>
+              <div class="question-text">
+                School maintains high standards for academic performance
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.49
+              </div>
+              <div class="question-text">
+                Teachers have adequate resources and materials to teach
+                effectively
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                3.95
+              </div>
+              <div class="question-text">
+                Teachers have enough time to prepare quality lessons ⚠️
+              </div>
+            </div>
+          </div>
+
+          <!-- Collaboration -->
+          <div class="card" data-category="collaboration" data-score="4.42">
+            <div class="card-title">
+              Collaboration
+              <span class="score-badge good" style="margin-left: auto"
+                >4.42</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.52
+              </div>
+              <div class="question-text">
+                New staff members are warmly welcomed and supported by
+                colleagues
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.46
+              </div>
+              <div class="question-text">
+                There is a strong culture of mutual support among all staff
+                members
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.42
+              </div>
+              <div class="question-text">
+                Staff have opportunities to work with colleagues from other
+                departments
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.41
+              </div>
+              <div class="question-text">
+                Teachers regularly share best practices and effective teaching
+                strategies
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.36
+              </div>
+              <div class="question-text">
+                Teachers collaborate effectively on curriculum planning and
+                instruction
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.32
+              </div>
+              <div class="question-text">
+                There is a strong sense of teamwork and cooperation among staff
+              </div>
+            </div>
+          </div>
+
+          <!-- Employee Engagement -->
+          <div class="card" data-category="engagement" data-score="4.39">
+            <div class="card-title">
+              Employee Engagement
+              <span class="score-badge good" style="margin-left: auto"
+                >4.39</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.57
+              </div>
+              <div class="question-text">
+                I feel proud when I tell others that I work at this school
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.44
+              </div>
+              <div class="question-text">
+                I feel my daily work contributes meaningfully to the school's
+                mission
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.42
+              </div>
+              <div class="question-text">
+                The school motivates me to help achieve its goals and objectives
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.41
+              </div>
+              <div class="question-text">
+                This school inspires me to do my best work every day
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.40
+              </div>
+              <div class="question-text">
+                I would recommend this school as a great place to work
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.25
+              </div>
+              <div class="question-text">
+                I see myself continuing to work at this school in the long term
+              </div>
+            </div>
+          </div>
+
+          <!-- Professional Development -->
+          <div class="card" data-category="profdev" data-score="4.34">
+            <div class="card-title">
+              Professional Development
+              <span class="score-badge good" style="margin-left: auto"
+                >4.34</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.57
+              </div>
+              <div class="question-text">
+                I have meaningful opportunities to learn from my colleagues
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.42
+              </div>
+              <div class="question-text">
+                The school encourages me to pursue professional growth
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.41
+              </div>
+              <div class="question-text">
+                School supports teachers in obtaining additional certifications
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.38
+              </div>
+              <div class="question-text">
+                School provides adequate professional development opportunities
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.23
+              </div>
+              <div class="question-text">
+                I have opportunities to attend external training and conferences
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.19
+              </div>
+              <div class="question-text">
+                School invests adequately in staff professional development
+              </div>
+            </div>
+          </div>
+
+          <!-- Leadership & Change -->
+          <div class="card" data-category="leadership" data-score="4.30">
+            <div class="card-title">
+              Leadership & Change
+              <span class="score-badge good" style="margin-left: auto"
+                >4.30</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.34
+              </div>
+              <div class="question-text">
+                Leadership team has a clear vision for the school's future
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.32
+              </div>
+              <div class="question-text">
+                School leadership team is visible and actively engaged
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.30
+              </div>
+              <div class="question-text">
+                Leadership is accessible and approachable when needed
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.28
+              </div>
+              <div class="question-text">
+                I have confidence in the decisions made by leadership
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.21
+              </div>
+              <div class="question-text">
+                Changes and transitions are managed well at this school
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.16
+              </div>
+              <div class="question-text">
+                Overall, this school is managed well as an organization
+              </div>
+            </div>
+          </div>
+
+          <!-- Communication -->
+          <div class="card" data-category="communication" data-score="4.30">
+            <div class="card-title">
+              Communication
+              <span class="score-badge good" style="margin-left: auto"
+                >4.30</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(5, 150, 105, 0.1);
+                  color: var(--accent-green);
+                "
+              >
+                4.50
+              </div>
+              <div class="question-text">
+                Parents are communicated with effectively about student progress
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.39
+              </div>
+              <div class="question-text">
+                There are effective channels for sharing information among staff
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.33
+              </div>
+              <div class="question-text">
+                I am kept well-informed about important school matters
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.26
+              </div>
+              <div class="question-text">
+                I feel comfortable communicating with the leadership team
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.21
+              </div>
+              <div class="question-text">
+                Communication from leadership is clear and timely
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.21
+              </div>
+              <div class="question-text">
+                Staff feedback is welcomed and acted upon by leadership
+              </div>
+            </div>
+          </div>
+
+          <!-- Workload & Wellbeing -->
+          <div class="card" data-category="workload" data-score="4.07">
+            <div class="card-title">
+              Workload & Wellbeing
+              <span class="score-badge warning" style="margin-left: auto"
+                >4.07</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.90
+              </div>
+              <div class="question-text">
+                School provides adequate resources for mental health and
+                wellbeing 🚨
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                3.91
+              </div>
+              <div class="question-text">
+                Administrative tasks do not interfere excessively with teaching
+                duties
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                4.00
+              </div>
+              <div class="question-text">
+                I am able to take adequate breaks when needed during the workday
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.02
+              </div>
+              <div class="question-text">
+                I have adequate time to complete all my responsibilities
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.10
+              </div>
+              <div class="question-text">My overall workload is manageable</div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.11
+              </div>
+              <div class="question-text">
+                The school actively supports staff wellbeing
+              </div>
+            </div>
+          </div>
+
+          <!-- Performance Management -->
+          <div class="card" data-category="performance" data-score="4.14">
+            <div class="card-title">
+              Performance Management
+              <span class="score-badge warning" style="margin-left: auto"
+                >4.14</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                3.98
+              </div>
+              <div class="question-text">
+                I receive regular and timely feedback on my performance ⚠️
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                4.03
+              </div>
+              <div class="question-text">
+                Poor performance is addressed and dealt with effectively
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.07
+              </div>
+              <div class="question-text">
+                I have regular performance review discussions with my supervisor
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.15
+              </div>
+              <div class="question-text">
+                My performance is evaluated fairly and objectively
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.18
+              </div>
+              <div class="question-text">
+                Good performance is appropriately recognized and rewarded
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(8, 145, 178, 0.1);
+                  color: var(--accent-cyan);
+                "
+              >
+                4.25
+              </div>
+              <div class="question-text">
+                The feedback I receive helps me improve my performance
+              </div>
+            </div>
+          </div>
+
+          <!-- Compensation & Benefits -->
+          <div class="card" data-category="compensation" data-score="3.87">
+            <div class="card-title">
+              Compensation & Benefits
+              <span class="score-badge critical" style="margin-left: auto"
+                >3.87</span
+              >
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.75
+              </div>
+              <div class="question-text">
+                School is transparent about how compensation policies work 🚨
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.78
+              </div>
+              <div class="question-text">
+                My salary is fair for the work that I do 🚨
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.78
+              </div>
+              <div class="question-text">
+                The benefits package offered is competitive with other schools
+                🚨
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.82
+              </div>
+              <div class="question-text">
+                I understand how my compensation is determined
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(220, 38, 38, 0.1);
+                  color: var(--accent-red);
+                "
+              >
+                3.82
+              </div>
+              <div class="question-text">
+                My compensation reflects my experience and qualifications
+              </div>
+            </div>
+            <div class="question-item">
+              <div
+                class="question-score"
+                style="
+                  background: rgba(217, 119, 6, 0.1);
+                  color: var(--accent-yellow);
+                "
+              >
+                3.93
+              </div>
+              <div class="question-text">
+                Non-monetary benefits (leave, insurance, etc.) are satisfactory
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Schools -->
+      <div id="schools" class="tab-content">
+        <div class="card">
+          <div class="card-title">
+            📊 School Performance Heatmap (All Categories)
+          </div>
+          <div class="heatmap-container">
+            <table class="heatmap">
+              <thead>
+                <tr>
+                  <th>School</th>
+                  <th>N</th>
+                  <th>Overall</th>
+                  <th>Teach</th>
+                  <th>ProfDev</th>
+                  <th>Resource</th>
+                  <th>Comm</th>
+                  <th>Collab</th>
+                  <th>Interp</th>
+                  <th>Safety</th>
+                  <th>Inclus</th>
+                  <th>Wellbe</th>
+                  <th>Leader</th>
+                  <th>Engage</th>
+                  <th>Super</th>
+                  <th>Perf</th>
+                  <th>Comp</th>
+                </tr>
+              </thead>
+              <tbody id="heatmapBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏆 Top Performing Schools</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>School</th>
+                  <th>Score</th>
+                  <th>N</th>
+                  <th>vs Avg</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Semesta Srondol</td>
+                  <td><span class="score-badge excellent">4.92</span></td>
+                  <td>2</td>
+                  <td style="color: var(--accent-green)">+0.65</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Semesta Jangli</td>
+                  <td><span class="score-badge excellent">4.47</span></td>
+                  <td>22</td>
+                  <td style="color: var(--accent-green)">+0.20</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Prestige Bilingual</td>
+                  <td><span class="score-badge good">4.44</span></td>
+                  <td>22</td>
+                  <td style="color: var(--accent-green)">+0.17</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Cahaya Rancamaya</td>
+                  <td><span class="score-badge good">4.38</span></td>
+                  <td>41</td>
+                  <td style="color: var(--accent-green)">+0.11</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>TNA Fatih Bilingual</td>
+                  <td><span class="score-badge good">4.36</span></td>
+                  <td>43</td>
+                  <td style="color: var(--accent-green)">+0.09</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title">⚠️ Schools Needing Support</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>School</th>
+                  <th>Score</th>
+                  <th>Gap</th>
+                  <th>Lowest Area</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mega Islamic Boarding</td>
+                  <td><span class="score-badge critical">3.84</span></td>
+                  <td style="color: var(--accent-red)">-0.43</td>
+                  <td>Comp (3.47)</td>
+                </tr>
+                <tr>
+                  <td>Kesatuan Bangsa</td>
+                  <td><span class="score-badge critical">3.87</span></td>
+                  <td style="color: var(--accent-red)">-0.40</td>
+                  <td>Comm (3.61)</td>
+                </tr>
+                <tr>
+                  <td>Kharisma Bangsa</td>
+                  <td><span class="score-badge warning">4.18</span></td>
+                  <td style="color: var(--accent-yellow)">-0.09</td>
+                  <td>Comp (3.55)</td>
+                </tr>
+                <tr>
+                  <td>Pribadi Premiere</td>
+                  <td><span class="score-badge warning">4.19</span></td>
+                  <td style="color: var(--accent-yellow)">-0.08</td>
+                  <td>Comp (3.85)</td>
+                </tr>
+                <tr>
+                  <td>Pribadi Depok</td>
+                  <td><span class="score-badge good">4.21</span></td>
+                  <td style="color: var(--accent-yellow)">-0.06</td>
+                  <td>Comp (3.59)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- School Comparison Chart -->
+        <div class="card">
+          <div class="card-title">📈 School Score Distribution</div>
+          <div style="height: 250px">
+            <canvas id="schoolCompareChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: Feedback -->
+      <div id="feedback" class="tab-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              💚 What Staff Love Most (301 responses)
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">🌿 Environment</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 38%; background: var(--accent-green)"
+                >
+                  38%
+                </div>
+              </div>
+              <div class="theme-count">114</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">👥 Colleagues</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 22%; background: var(--accent-cyan)"
+                >
+                  22%
+                </div>
+              </div>
+              <div class="theme-count">66</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">👨‍🎓 Students</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 18%; background: var(--accent-blue)"
+                >
+                  18%
+                </div>
+              </div>
+              <div class="theme-count">54</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">📈 Growth</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 11%; background: var(--accent-purple)"
+                >
+                  11%
+                </div>
+              </div>
+              <div class="theme-count">33</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">👔 Management</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 5%; background: var(--text-muted)"
+                >
+                  5%
+                </div>
+              </div>
+              <div class="theme-count">16</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              🔧 Improvement Requests (301 responses)
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">🏢 Facilities</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 23%; background: var(--accent-red)"
+                >
+                  23%
+                </div>
+              </div>
+              <div class="theme-count">68</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">📢 Communication</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 13%; background: var(--accent-yellow)"
+                >
+                  13%
+                </div>
+              </div>
+              <div class="theme-count">39</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">⏰ Workload</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 8%; background: var(--accent-yellow)"
+                >
+                  8%
+                </div>
+              </div>
+              <div class="theme-count">23</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">👔 Management</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 7%; background: var(--accent-cyan)"
+                >
+                  7%
+                </div>
+              </div>
+              <div class="theme-count">20</div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-label">💰 Salary</div>
+              <div class="theme-bar">
+                <div
+                  class="theme-fill"
+                  style="width: 5%; background: var(--accent-red)"
+                >
+                  5%
+                </div>
+              </div>
+              <div class="theme-count">14</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📝 Sample Feedback Themes</div>
+          <div class="grid-3">
+            <div class="insight-card success">
+              <div class="insight-title">Positive</div>
+              <div class="insight-text">
+                "Supportive working environment and strong sense of teamwork
+                among teachers and staff."
+              </div>
+            </div>
+            <div class="insight-card success">
+              <div class="insight-title">Positive</div>
+              <div class="insight-text">
+                "School's commitment to student development, both academically
+                and character-wise."
+              </div>
+            </div>
+            <div class="insight-card success">
+              <div class="insight-title">Positive</div>
+              <div class="insight-text">
+                "The students and competency among teachers. Environment also."
+              </div>
+            </div>
+            <div class="insight-card warning">
+              <div class="insight-title">Improvement</div>
+              <div class="insight-text">
+                "Communication flow between departments needs improvement."
+              </div>
+            </div>
+            <div class="insight-card warning">
+              <div class="insight-title">Improvement</div>
+              <div class="insight-text">
+                "Need fresh initiations from other points of view."
+              </div>
+            </div>
+            <div class="insight-card warning">
+              <div class="insight-title">Improvement</div>
+              <div class="insight-text">
+                "More structured support and training for staff."
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: Demographics -->
+      <div id="demographics" class="tab-content">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">👤 By Role</div>
+            <div class="category-item">
+              <span class="category-name">Principal (n=14)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 91%; background: var(--accent-green)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-green)"
+                >4.56</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">Other (n=18)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 86%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.31</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">Subject Teacher (n=119)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 86%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.29</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">Admin Staff (n=17)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 85%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.24</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">Homeroom Teacher (n=84)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 84%; background: var(--accent-yellow)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-yellow)"
+                >4.19</span
+              >
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">⏱️ By Tenure</div>
+            <div class="category-item">
+              <span class="category-name">10+ Years (n=50)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 87%; background: var(--accent-green)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-green)"
+                >4.36</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">7-9 Years (n=13)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 86%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.32</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">1-3 Years (n=115)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 86%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.29</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">&lt;1 Year (n=68)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 85%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.26</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">4-6 Years (n=55) ⚠️</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 84%; background: var(--accent-yellow)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-yellow)"
+                >4.19</span
+              >
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📚 By Level</div>
+            <div class="category-item">
+              <span class="category-name">SMP+SMA (n=73)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 86%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.31</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">SMA (n=58)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 85%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.27</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">SMP (n=55)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 85%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.25</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">SD (n=52)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 85%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.24</span
+              >
+            </div>
+            <div class="category-item">
+              <span class="category-name">KB-TK (n=34)</span>
+              <div class="category-bar-container">
+                <div
+                  class="category-bar"
+                  style="width: 84%; background: var(--accent-cyan)"
+                ></div>
+              </div>
+              <span class="category-score" style="color: var(--accent-cyan)"
+                >4.21</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📊 Response Distribution Summary</div>
+          <div class="demo-grid">
+            <div class="demo-item">
+              <div class="demo-label">Full-time</div>
+              <div class="demo-value">252</div>
+              <div class="demo-sub">84%</div>
+            </div>
+            <div class="demo-item">
+              <div class="demo-label">Contract</div>
+              <div class="demo-value">46</div>
+              <div class="demo-sub">15%</div>
+            </div>
+            <div class="demo-item">
+              <div class="demo-label">Part-time</div>
+              <div class="demo-value">3</div>
+              <div class="demo-sub">1%</div>
+            </div>
+            <div class="demo-item">
+              <div class="demo-label">Teachers</div>
+              <div class="demo-value">203</div>
+              <div class="demo-sub">67%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-card warning" style="margin-top: 16px">
+          <div class="insight-title">🎯 Key Demographic Finding</div>
+          <div class="insight-text">
+            <strong>Mid-tenure engagement valley:</strong> Staff with 4-6 years
+            tenure show the lowest satisfaction (4.19). Combined with Homeroom
+            Teachers (4.19) being lowest among teaching roles, suggests need for
+            targeted mid-career development programs.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: Actions -->
+      <div id="actions" class="tab-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-red)">
+              🚨 Immediate Actions (0-30 days)
+            </div>
+            <div class="insight-card critical" style="margin-bottom: 10px">
+              <div class="insight-title">1. Compensation Review</div>
+              <div class="insight-text">
+                All 14 schools show Compensation as lowest category. Conduct
+                market salary analysis, improve transparency, communicate
+                clearly about compensation structure.
+              </div>
+            </div>
+            <div class="insight-card critical" style="margin-bottom: 10px">
+              <div class="insight-title">2. Mega Islamic & Kesatuan Bangsa</div>
+              <div class="insight-text">
+                Both schools below 4.0 threshold. Assign dedicated support team,
+                conduct focus groups, develop targeted improvement plans.
+              </div>
+            </div>
+            <div class="insight-card critical">
+              <div class="insight-title">3. At-Risk Staff</div>
+              <div class="insight-text">
+                25 staff (8%) indicated uncertainty or intent to leave. Identify
+                through HR, conduct stay interviews, address concerns
+                proactively.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-yellow)">
+              ⚠️ Short-term Actions (30-90 days)
+            </div>
+            <div class="insight-card warning" style="margin-bottom: 10px">
+              <div class="insight-title">4. Mental Health Resources</div>
+              <div class="insight-text">
+                Score of 3.90 is critical. Launch EAP program, provide
+                counseling access, train managers on wellbeing support.
+              </div>
+            </div>
+            <div class="insight-card warning" style="margin-bottom: 10px">
+              <div class="insight-title">5. Performance Feedback</div>
+              <div class="insight-text">
+                Regular feedback score (3.98) needs improvement. Implement
+                structured 1:1 schedules, train supervisors on feedback
+                delivery.
+              </div>
+            </div>
+            <div class="insight-card warning">
+              <div class="insight-title">6. Lesson Preparation Time</div>
+              <div class="insight-text">
+                Score of 3.95 indicates time pressure. Review administrative
+                burden, streamline processes, protect planning time.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-cyan)">
+              📅 Medium-term Actions (90-180 days)
+            </div>
+            <div class="insight-card" style="margin-bottom: 10px">
+              <div class="insight-title">7. Mid-Career Development</div>
+              <div class="insight-text">
+                4-6 year tenure staff show lowest satisfaction. Create career
+                pathway programs, mentoring opportunities, leadership
+                development tracks.
+              </div>
+            </div>
+            <div class="insight-card" style="margin-bottom: 10px">
+              <div class="insight-title">8. Homeroom Teacher Support</div>
+              <div class="insight-text">
+                Lowest satisfaction among teaching roles (4.19). Review workload
+                distribution, provide additional resources, recognize unique
+                challenges.
+              </div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title">9. Communication Enhancement</div>
+              <div class="insight-text">
+                39 staff cited communication issues. Standardize communication
+                channels, improve department coordination, increase leadership
+                visibility.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title" style="color: var(--accent-green)">
+              ✨ Leverage Strengths
+            </div>
+            <div class="insight-card success" style="margin-bottom: 10px">
+              <div class="insight-title">Teaching Excellence</div>
+              <div class="insight-text">
+                Score of 4.51 is highest. Document best practices, showcase in
+                recruitment, use as foundation for employer branding.
+              </div>
+            </div>
+            <div class="insight-card success" style="margin-bottom: 10px">
+              <div class="insight-title">Best Practice Schools</div>
+              <div class="insight-text">
+                Semesta Jangli (4.47) & Prestige (4.44) can mentor struggling
+                schools. Facilitate peer learning, share successful initiatives.
+              </div>
+            </div>
+            <div class="insight-card success">
+              <div class="insight-title">High Engagement</div>
+              <div class="insight-text">
+                63% "definitely recommend" and 66% "definitely stay". Leverage
+                ambassadors for recruitment, maintain engagement momentum.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📊 Action Priority Matrix</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Action</th>
+                <th>Impact</th>
+                <th>Effort</th>
+                <th>Owner</th>
+                <th>Timeline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="score-badge critical">P1</span></td>
+                <td>Compensation transparency communication</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>HR</td>
+                <td>2 weeks</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge critical">P1</span></td>
+                <td>Mega Islamic & Kesatuan support plan</td>
+                <td>High</td>
+                <td>Med</td>
+                <td>Academic Dir</td>
+                <td>4 weeks</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge critical">P1</span></td>
+                <td>At-risk staff stay interviews</td>
+                <td>High</td>
+                <td>Med</td>
+                <td>Principals</td>
+                <td>3 weeks</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge warning">P2</span></td>
+                <td>Mental health resource launch</td>
+                <td>High</td>
+                <td>High</td>
+                <td>HR</td>
+                <td>60 days</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge warning">P2</span></td>
+                <td>Performance feedback training</td>
+                <td>Med</td>
+                <td>Med</td>
+                <td>HR/Training</td>
+                <td>45 days</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge good">P3</span></td>
+                <td>Mid-career development program</td>
+                <td>Med</td>
+                <td>High</td>
+                <td>HR/Academic</td>
+                <td>90 days</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Tab functionality
+      function showTab(tabId) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((c) => c.classList.remove("active"));
+        document
+          .querySelector(`[onclick="showTab('${tabId}')"]`)
+          .classList.add("active");
+        document.getElementById(tabId).classList.add("active");
+      }
+
+      // Response Chart
+      const responseCtx = document
+        .getElementById("responseChart")
+        .getContext("2d");
+      new Chart(responseCtx, {
+        type: "bar",
+        data: {
+          labels: [
+            "Semesta GP",
+            "TNA Fatih",
+            "Cahaya R",
+            "Kharisma",
+            "Pribadi Prem",
+            "Semesta J",
+            "Prestige",
+            "Pribadi Band",
+            "Mega Islamic",
+            "Pribadi Dep",
+            "Kesatuan",
+            "Emer Islamic",
+            "Semesta Sr",
+          ],
+          datasets: [
+            {
+              label: "Responses",
+              data: [44, 43, 41, 31, 26, 22, 22, 20, 16, 15, 10, 9, 2],
+              backgroundColor: [
+                "#2563eb",
+                "#2563eb",
+                "#2563eb",
+                "#0891b2",
+                "#0891b2",
+                "#0891b2",
+                "#0891b2",
+                "#0891b2",
+                "#d97706",
+                "#d97706",
+                "#d97706",
+                "#d97706",
+                "#d97706",
+              ],
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { color: "#e2e8f0" } },
+            x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          },
+        },
+      });
+
+      // School Compare Chart
+      const schoolCtx = document
+        .getElementById("schoolCompareChart")
+        .getContext("2d");
+      new Chart(schoolCtx, {
+        type: "bar",
+        data: {
+          labels: [
+            "Srondol",
+            "Jangli",
+            "Prestige",
+            "Cahaya",
+            "TNA",
+            "Bandung",
+            "Emer",
+            "GP",
+            "Depok",
+            "Premiere",
+            "Kharisma",
+            "Kesatuan",
+            "Mega",
+          ],
+          datasets: [
+            {
+              label: "Overall Score",
+              data: [
+                4.92, 4.47, 4.44, 4.38, 4.36, 4.29, 4.29, 4.22, 4.21, 4.19,
+                4.18, 3.87, 3.84,
+              ],
+              backgroundColor: function (context) {
+                const value = context.raw;
+                if (value >= 4.5) return "#059669";
+                if (value >= 4.0) return "#0891b2";
+                if (value >= 3.5) return "#d97706";
+                return "#dc2626";
+              },
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { min: 3.5, max: 5, grid: { color: "#e2e8f0" } },
+            y: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          },
+        },
+      });
+
+      // Category data
+      const categories = [
+        { name: "Teaching & Learning", score: 4.51 },
+        { name: "Collaboration", score: 4.42 },
+        { name: "Employee Engagement", score: 4.39 },
+        { name: "Interpersonal Relations", score: 4.36 },
+        { name: "School Safety", score: 4.34 },
+        { name: "Professional Dev", score: 4.34 },
+        { name: "Direct Supervisor", score: 4.32 },
+        { name: "Inclusion & Fair", score: 4.31 },
+        { name: "Leadership", score: 4.3 },
+        { name: "Communication", score: 4.3 },
+        { name: "Resources", score: 4.26 },
+        { name: "Performance Mgmt", score: 4.14 },
+        { name: "Workload/Wellbeing", score: 4.07 },
+        { name: "Compensation", score: 3.87 },
+      ];
+
+      function renderCategoryOverview() {
+        const container = document.getElementById("categoryOverview");
+        container.innerHTML = categories
+          .map((cat) => {
+            const width = (cat.score / 5) * 100;
+            const color =
+              cat.score >= 4.5
+                ? "var(--accent-green)"
+                : cat.score >= 4.0
+                  ? "var(--accent-cyan)"
+                  : cat.score >= 3.5
+                    ? "var(--accent-yellow)"
+                    : "var(--accent-red)";
+            return `<div class="category-item">
+                    <span class="category-name">${cat.name}</span>
+                    <div class="category-bar-container"><div class="category-bar" style="width: ${width}%; background: ${color};"></div></div>
+                    <span class="category-score" style="color: ${color};">${cat.score.toFixed(
+                      2,
+                    )}</span>
+                </div>`;
+          })
+          .join("");
+      }
+
+      // Heatmap data
+      const schoolHeatmap = [
+        {
+          name: "Semesta Srondol",
+          n: 2,
+          overall: 4.92,
+          teach: 4.78,
+          prof: 4.75,
+          res: 4.72,
+          comm: 5.0,
+          coll: 5.0,
+          inter: 5.0,
+          safe: 5.0,
+          incl: 4.88,
+          well: 5.0,
+          lead: 5.0,
+          eng: 4.81,
+          sup: 5.0,
+          perf: 4.94,
+          comp: 5.0,
+        },
+        {
+          name: "Semesta Jangli",
+          n: 22,
+          overall: 4.47,
+          teach: 4.63,
+          prof: 4.52,
+          res: 4.48,
+          comm: 4.48,
+          coll: 4.58,
+          inter: 4.53,
+          safe: 4.5,
+          incl: 4.54,
+          well: 4.24,
+          lead: 4.49,
+          eng: 4.63,
+          sup: 4.45,
+          perf: 4.38,
+          comp: 4.1,
+        },
+        {
+          name: "Prestige Bilingual",
+          n: 22,
+          overall: 4.44,
+          teach: 4.7,
+          prof: 4.72,
+          res: 4.31,
+          comm: 4.55,
+          coll: 4.58,
+          inter: 4.55,
+          safe: 4.52,
+          incl: 4.38,
+          well: 4.07,
+          lead: 4.6,
+          eng: 4.41,
+          sup: 4.57,
+          perf: 4.32,
+          comp: 3.94,
+        },
+        {
+          name: "Cahaya Rancamaya",
+          n: 41,
+          overall: 4.38,
+          teach: 4.68,
+          prof: 4.45,
+          res: 4.59,
+          comm: 4.45,
+          coll: 4.46,
+          inter: 4.4,
+          safe: 4.4,
+          incl: 4.27,
+          well: 4.12,
+          lead: 4.41,
+          eng: 4.48,
+          sup: 4.29,
+          perf: 4.21,
+          comp: 4.08,
+        },
+        {
+          name: "TNA Fatih",
+          n: 43,
+          overall: 4.36,
+          teach: 4.54,
+          prof: 4.52,
+          res: 4.36,
+          comm: 4.46,
+          coll: 4.52,
+          inter: 4.42,
+          safe: 4.46,
+          incl: 4.34,
+          well: 3.99,
+          lead: 4.37,
+          eng: 4.57,
+          sup: 4.44,
+          perf: 4.22,
+          comp: 3.78,
+        },
+        {
+          name: "Pribadi Bandung",
+          n: 20,
+          overall: 4.29,
+          teach: 4.38,
+          prof: 4.22,
+          res: 4.1,
+          comm: 4.5,
+          coll: 4.55,
+          inter: 4.34,
+          safe: 4.36,
+          incl: 4.39,
+          well: 4.11,
+          lead: 4.38,
+          eng: 4.45,
+          sup: 4.41,
+          perf: 4.22,
+          comp: 3.7,
+        },
+        {
+          name: "Emer Islamic",
+          n: 9,
+          overall: 4.29,
+          teach: 4.54,
+          prof: 4.46,
+          res: 4.28,
+          comm: 4.4,
+          coll: 4.56,
+          inter: 4.38,
+          safe: 4.47,
+          incl: 4.39,
+          well: 3.89,
+          lead: 4.47,
+          eng: 3.82,
+          sup: 4.47,
+          perf: 4.14,
+          comp: 3.78,
+        },
+        {
+          name: "Semesta GP",
+          n: 44,
+          overall: 4.22,
+          teach: 4.48,
+          prof: 4.36,
+          res: 4.47,
+          comm: 4.19,
+          coll: 4.27,
+          inter: 4.3,
+          safe: 4.26,
+          incl: 4.25,
+          well: 3.93,
+          lead: 4.18,
+          eng: 4.41,
+          sup: 4.16,
+          perf: 4.06,
+          comp: 3.8,
+        },
+        {
+          name: "Pribadi Depok",
+          n: 15,
+          overall: 4.21,
+          teach: 4.58,
+          prof: 4.27,
+          res: 4.19,
+          comm: 4.08,
+          coll: 4.44,
+          inter: 4.35,
+          safe: 4.29,
+          incl: 4.23,
+          well: 4.12,
+          lead: 4.1,
+          eng: 4.52,
+          sup: 4.18,
+          perf: 3.98,
+          comp: 3.59,
+        },
+        {
+          name: "Pribadi Premiere",
+          n: 26,
+          overall: 4.19,
+          teach: 4.52,
+          prof: 4.29,
+          res: 4.24,
+          comm: 4.15,
+          coll: 4.3,
+          inter: 4.24,
+          safe: 4.1,
+          incl: 4.3,
+          well: 4.06,
+          lead: 4.19,
+          eng: 4.31,
+          sup: 4.14,
+          perf: 3.99,
+          comp: 3.85,
+        },
+        {
+          name: "Kharisma Bangsa",
+          n: 31,
+          overall: 4.18,
+          teach: 4.48,
+          prof: 4.15,
+          res: 4.09,
+          comm: 4.24,
+          coll: 4.41,
+          inter: 4.37,
+          safe: 4.31,
+          incl: 4.27,
+          well: 4.05,
+          lead: 4.06,
+          eng: 4.18,
+          sup: 4.23,
+          perf: 4.08,
+          comp: 3.55,
+        },
+        {
+          name: "Kesatuan Bangsa",
+          n: 10,
+          overall: 3.87,
+          teach: 4.18,
+          prof: 3.88,
+          res: 3.91,
+          comm: 3.61,
+          coll: 3.86,
+          inter: 3.89,
+          safe: 3.92,
+          incl: 3.98,
+          well: 3.69,
+          lead: 3.86,
+          eng: 4.2,
+          sup: 3.87,
+          perf: 3.65,
+          comp: 3.7,
+        },
+        {
+          name: "Mega Islamic",
+          n: 16,
+          overall: 3.84,
+          teach: 4.17,
+          prof: 3.88,
+          res: 3.7,
+          comm: 3.83,
+          coll: 3.95,
+          inter: 3.87,
+          safe: 3.83,
+          incl: 3.8,
+          well: 3.66,
+          lead: 3.81,
+          eng: 4.23,
+          sup: 3.95,
+          perf: 3.65,
+          comp: 3.47,
+        },
+      ];
+
+      function getHeatColor(score) {
+        if (score >= 4.5)
+          return "background: rgba(5,150,105,0.2); color: #059669;";
+        if (score >= 4.0)
+          return "background: rgba(8,145,178,0.15); color: #0891b2;";
+        if (score >= 3.5)
+          return "background: rgba(217,119,6,0.15); color: #d97706;";
+        return "background: rgba(220,38,38,0.15); color: #dc2626;";
+      }
+
+      function renderHeatmap() {
+        const tbody = document.getElementById("heatmapBody");
+        tbody.innerHTML = schoolHeatmap
+          .map(
+            (s) => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.n}</td>
+                    <td style="${getHeatColor(s.overall)}">${s.overall.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.teach)}">${s.teach.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.prof)}">${s.prof.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.res)}">${s.res.toFixed(2)}</td>
+                    <td style="${getHeatColor(s.comm)}">${s.comm.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.coll)}">${s.coll.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.inter)}">${s.inter.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.safe)}">${s.safe.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.incl)}">${s.incl.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.well)}">${s.well.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.lead)}">${s.lead.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.eng)}">${s.eng.toFixed(2)}</td>
+                    <td style="${getHeatColor(s.sup)}">${s.sup.toFixed(2)}</td>
+                    <td style="${getHeatColor(s.perf)}">${s.perf.toFixed(
+                      2,
+                    )}</td>
+                    <td style="${getHeatColor(s.comp)}">${s.comp.toFixed(
+                      2,
+                    )}</td>
+                </tr>
+            `,
+          )
+          .join("");
+      }
+
+      function filterCategory(type) {
+        document
+          .querySelectorAll(".filter-pills .pill")
+          .forEach((p) => p.classList.remove("active"));
+        event.target.classList.add("active");
+
+        document.querySelectorAll("#categoryDetails .card").forEach((card) => {
+          const score = parseFloat(card.dataset.score);
+          if (type === "all") card.style.display = "block";
+          else if (type === "high" && score >= 4.3)
+            card.style.display = "block";
+          else if (type === "medium" && score >= 4.0 && score < 4.3)
+            card.style.display = "block";
+          else if (type === "low" && score < 4.0) card.style.display = "block";
+          else card.style.display = "none";
+        });
+      }
+
+      // Initialize
+      renderCategoryOverview();
+      renderHeatmap();
+    </script>
+
+        <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn" title="Ana Sayfa">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
+    <style>
+      .floating-home-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #1a704f 0%, #2d9868 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(26, 112, 79, 0.4);
+        transition: all 0.3s ease;
+        z-index: 9999;
+      }
+      .floating-home-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(26, 112, 79, 0.6);
+      }
+    </style>
+  </body>
+</html>

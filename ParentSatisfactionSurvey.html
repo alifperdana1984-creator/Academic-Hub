@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eduversal Parent Satisfaction Survey - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+      <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+    <script type="module" src="auth-guard.js"></script>
+  <style>
+      *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#2c3e50;padding:20px}.container{max-width:1400px;margin:0 auto}header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:30px;border-radius:10px;margin-bottom:30px;box-shadow:0 4px 6px rgba(0,0,0,0.1)}h1{font-size:28px;margin-bottom:10px}.subtitle{opacity:0.9;font-size:14px;margin-bottom:15px}.header-links{margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.3);font-size:13px}.header-links a{color:white;text-decoration:none;margin-right:20px;padding:5px 10px;background:rgba(255,255,255,0.2);border-radius:4px;display:inline-block;margin-top:5px;transition:all 0.3s}.header-links a:hover{background:rgba(255,255,255,0.3);transform:translateY(-2px)}.participation-banner{background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);color:white;padding:30px;border-radius:10px;margin-bottom:20px;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-align:center}.participation-banner h2{font-size:28px;margin-bottom:20px;font-weight:700}.participation-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:15px}.participation-stat{background:rgba(255,255,255,0.25);padding:20px;border-radius:8px;border:2px solid rgba(255,255,255,0.3)}.participation-stat-value{font-size:42px;font-weight:bold;margin-bottom:8px;text-shadow:2px 2px 4px rgba(0,0,0,0.2)}.participation-stat-label{font-size:14px;opacity:0.95;font-weight:500}.filters{background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}.filter-group{display:inline-block;margin-right:20px}.filter-group label{display:block;margin-bottom:5px;font-weight:600;font-size:13px;color:#555}.filter-group select{padding:8px 12px;border:2px solid #e0e0e0;border-radius:5px;font-size:14px;min-width:200px;cursor:pointer;transition:all 0.3s}.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:30px}.metric-card{background:white;padding:25px;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:transform 0.3s}.metric-card:hover{transform:translateY(-5px);box-shadow:0 4px 8px rgba(0,0,0,0.15)}.metric-label{font-size:13px;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}.metric-value{font-size:36px;font-weight:bold;color:#2c3e50}.metric-subtitle{font-size:12px;color:#999;margin-top:5px}.section{background:white;padding:30px;border-radius:10px;margin-bottom:30px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}.section-title{font-size:20px;margin-bottom:20px;color:#2c3e50;border-left:4px solid #667eea;padding-left:15px}.chart-container{position:relative;height:400px;margin-top:20px}.heatmap-container{overflow-x:auto;margin-top:20px}table{width:100%;border-collapse:collapse}th,td{padding:12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f8f9fa;font-weight:600;font-size:13px;color:#555;position:sticky;top:0}.score-cell{font-weight:600;padding:8px 12px;border-radius:4px;text-align:center}.score-high{background:#d4edda;color:#155724}.score-medium{background:#fff3cd;color:#856404}.score-low{background:#f8d7da;color:#721c24}.domain-bar{display:flex;align-items:center;margin-bottom:15px}.domain-label{width:150px;font-size:14px;font-weight:500}.domain-progress{flex:1;height:30px;background:#e0e0e0;border-radius:15px;position:relative;margin:0 15px}.domain-progress-fill{height:100%;border-radius:15px;transition:width 0.5s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:white;font-weight:600;font-size:13px}
+      .accordion{background:white;margin-bottom:15px;border-radius:8px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:all 0.3s}.accordion:hover{box-shadow:0 4px 8px rgba(0,0,0,0.15)}.accordion-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:20px 25px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;user-select:none}.accordion-header:hover{background:linear-gradient(135deg,#5568d3 0%,#653a8d 100%)}.accordion-header h3{font-size:18px;margin:0}.accordion-icon{font-size:24px;font-weight:bold;transition:transform 0.3s}.accordion-icon.active{transform:rotate(180deg)}.accordion-content{max-height:0;overflow:hidden;transition:max-height 0.3s ease-out;background:#fff}.accordion-content.active{max-height:10000px;transition:max-height 0.5s ease-in}.accordion-body{padding:25px}
+      .feedback-category{margin-bottom:25px;padding:20px;background:#f8f9fa;border-radius:8px;border-left:4px solid #667eea}.feedback-category h4{color:#667eea;font-size:16px;margin-bottom:15px;display:flex;align-items:center;gap:10px}.feedback-count{background:#667eea;color:white;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}.feedback-item{background:white;padding:12px 15px;margin-bottom:8px;border-radius:5px;border-left:3px solid #667eea;font-size:13px;line-height:1.6;color:#444;transition:all 0.2s}.feedback-item:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);transform:translateX(3px)}.feedback-item-icon{color:#667eea;font-weight:bold;margin-right:6px}.feedback-item-lang{font-size:11px;color:#999;font-style:italic;margin-top:5px;padding-top:5px;border-top:1px solid #eee}.improvement-item{border-left-color:#ffc107}.improvement-item .feedback-item-icon{color:#ffc107}.suggestion-item{border-left-color:#28a745}.suggestion-item .feedback-item-icon{color:#28a745}.show-more-btn{background:#667eea;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;font-size:13px;margin-top:10px;transition:all 0.3s}.show-more-btn:hover{background:#5568d3;transform:translateY(-2px)}.hidden{display:none}.action-item{background:#f8f9fa;padding:20px;border-radius:8px;margin-bottom:15px;border-left:4px solid #dc3545}.action-item.priority-medium{border-left-color:#ffc107}.action-item.priority-low{border-left-color:#28a745}.action-title{font-weight:600;font-size:16px;margin-bottom:8px}.action-detail{font-size:14px;color:#666;margin-bottom:5px}.badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase;margin-left:10px}.badge-high{background:#dc3545;color:white}.badge-medium{background:#ffc107;color:#000}.badge-low{background:#28a745;color:white}.lang-note{background:#fff8e1;border-left:4px solid:#ffc107;padding:12px 15px;margin:15px 0;border-radius:5px;font-size:13px;color:#666}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📊 Parent Satisfaction Survey Dashboard</h1>
+        <div class="subtitle">
+          Eduversal Indonesia School Network | Academic Year 2025-2026 |
+          Semester I
+        </div>
+        <div class="header-links">
+          <strong>📋 Survey Resources:</strong><br />
+          <a
+            href="https://docs.google.com/spreadsheets/d/1Ew-eN8RdMVQuyf1qJQqXRgxkigjHq_n9zNie1LIhsIU/edit?usp=sharing"
+            target="_blank"
+            >📊 View Full Responses</a
+          >
+          <a href="https://forms.gle/rD2Qd2w6P6z7cgUQA" target="_blank"
+            >📝 Access Survey Form</a
+          >
+        </div>
+      </header>
+
+      <div class="participation-banner">
+        <h2>🎯 Survey Participation Overview</h2>
+        <div class="participation-stats">
+          <div class="participation-stat">
+            <div class="participation-stat-value">256</div>
+            <div class="participation-stat-label">Total Parent Responses</div>
+          </div>
+          <div class="participation-stat">
+            <div class="participation-stat-value">10</div>
+            <div class="participation-stat-label">Schools Participating</div>
+          </div>
+          <div class="participation-stat">
+            <div class="participation-stat-value">69</div>
+            <div class="participation-stat-label">Survey Questions</div>
+          </div>
+          <div class="participation-stat">
+            <div class="participation-stat-value">13,662</div>
+            <div class="participation-stat-label">Total Data Points</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label for="schoolFilter">Filter by School</label>
+          <select id="schoolFilter" onchange="updateDashboard()">
+            <option value="all">All Schools (Network-Wide)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="executiveSummary" class="dashboard-grid"></div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>📊 School Performance Comparison</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="heatmap-container">
+              <table id="schoolHeatmap"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>📈 Domain Analysis</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body"><div id="domainBars"></div></div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>🎯 Performance Radar</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="chart-container"><canvas id="radarChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>👥 Grade Level Comparison</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="chart-container"><canvas id="gradeChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>💯 NPS & Loyalty Metrics</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="chart-container"><canvas id="npsChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>👨‍👩‍👧‍👦 Parent Demographics</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="dashboard-grid">
+              <div style="min-height: 300px">
+                <canvas id="enrollmentChart"></canvas>
+              </div>
+              <div style="min-height: 300px">
+                <canvas id="childrenChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>📝 Parent Feedback & Voices (198 responses)</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <div class="lang-note">
+              <strong>📌 Language Note:</strong> Comments shown in English
+              (auto-translated from Indonesian). Original Indonesian available
+              on hover.
+            </div>
+            <div id="detailedFeedback"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3>🎯 Priority Action Items</h3>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body"><div id="actionItems"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const dashboardData = {
+        summary: {
+          total_responses: 198,
+          nps_score: 61.111111111111114,
+          avg_satisfaction: 4.358585858585859,
+          continuation_rate: 91.91919191919192,
+          num_schools: 10,
+        },
+        schools: [
+          {
+            name: "Cahaya Rancamaya",
+            responses: 37,
+            nps: 72.97297297297297,
+            continuation: 91.8918918918919,
+            avg_rating: 4.45945945945946,
+            domains: {
+              Teaching: 4.345345345345345,
+              Communication: 4.33445945945946,
+              Interpersonal: 4.27027027027027,
+              Safety: 4.351351351351351,
+              Facilities: 4.408783783783784,
+              Technology: 4.3359073359073355,
+              Extracurricular: 4.38996138996139,
+              "Academic Support": 4.1925675675675675,
+              "Value for Money": 4.248648648648649,
+            },
+          },
+          {
+            name: "Fatih Bilingual School",
+            responses: 4,
+            nps: 25.0,
+            continuation: 75.0,
+            avg_rating: 3.75,
+            domains: {
+              Teaching: 3.7777777777777777,
+              Communication: 3.6875,
+              Interpersonal: 3.5555555555555554,
+              Safety: 3.625,
+              Facilities: 3.46875,
+              Technology: 3.6785714285714284,
+              Extracurricular: 3.9642857142857144,
+              "Academic Support": 3.71875,
+              "Value for Money": 3.8,
+            },
+          },
+          {
+            name: "Kesatuan Bangsa School",
+            responses: 2,
+            nps: 100.0,
+            continuation: 100.0,
+            avg_rating: 5.0,
+            domains: {
+              Teaching: 5.0,
+              Communication: 4.9375,
+              Interpersonal: 4.944444444444445,
+              Safety: 5.0,
+              Facilities: 5.0,
+              Technology: 5.0,
+              Extracurricular: 5.0,
+              "Academic Support": 5.0,
+              "Value for Money": 5.0,
+            },
+          },
+          {
+            name: "Kharisma Bangsa School",
+            responses: 24,
+            nps: 83.33333333333334,
+            continuation: 100.0,
+            avg_rating: 4.625,
+            domains: {
+              Teaching: 4.555555555555556,
+              Communication: 4.604166666666666,
+              Interpersonal: 4.62962962962963,
+              Safety: 4.432291666666667,
+              Facilities: 4.432291666666667,
+              Technology: 4.517857142857143,
+              Extracurricular: 4.529761904761904,
+              "Academic Support": 4.4375,
+              "Value for Money": 4.383333333333334,
+            },
+          },
+          {
+            name: "Mega Islamic Boarding School",
+            responses: 28,
+            nps: 57.14285714285714,
+            continuation: 85.71428571428571,
+            avg_rating: 4.5,
+            domains: {
+              Teaching: 4.492063492063492,
+              Communication: 4.504464285714286,
+              Interpersonal: 4.503968253968254,
+              Safety: 4.598214285714286,
+              Facilities: 4.486607142857143,
+              Technology: 4.622448979591836,
+              Extracurricular: 4.474489795918367,
+              "Academic Support": 4.325892857142858,
+              "Value for Money": 4.371428571428572,
+            },
+          },
+          {
+            name: "Prestige Billingual School",
+            responses: 70,
+            nps: 60.0,
+            continuation: 94.28571428571428,
+            avg_rating: 4.3428571428571425,
+            domains: {
+              Teaching: 4.314285714285714,
+              Communication: 4.3464285714285715,
+              Interpersonal: 4.415873015873015,
+              Safety: 4.366071428571429,
+              Facilities: 3.992857142857143,
+              Technology: 4.204081632653062,
+              Extracurricular: 4.340816326530612,
+              "Academic Support": 4.133928571428571,
+              "Value for Money": 4.188571428571429,
+            },
+          },
+          {
+            name: "Pribadi Bandung School",
+            responses: 10,
+            nps: 20.0,
+            continuation: 80.0,
+            avg_rating: 3.9,
+            domains: {
+              Teaching: 4.322222222222222,
+              Communication: 4.15,
+              Interpersonal: 4.088888888888889,
+              Safety: 4.0,
+              Facilities: 3.7874999999999996,
+              Technology: 3.9428571428571426,
+              Extracurricular: 4.085714285714286,
+              "Academic Support": 4.0875,
+              "Value for Money": 3.4799999999999995,
+            },
+          },
+          {
+            name: "Pribadi Depok School ",
+            responses: 9,
+            nps: 44.44444444444444,
+            continuation: 88.88888888888889,
+            avg_rating: 3.888888888888889,
+            domains: {
+              Teaching: 4.506172839506173,
+              Communication: 4.263888888888889,
+              Interpersonal: 4.395061728395062,
+              Safety: 4.166666666666667,
+              Facilities: 3.708333333333333,
+              Technology: 4.0476190476190474,
+              Extracurricular: 4.238095238095238,
+              "Academic Support": 4.180555555555555,
+              "Value for Money": 3.977777777777777,
+            },
+          },
+          {
+            name: "Pribadi Premiere School",
+            responses: 6,
+            nps: 50.0,
+            continuation: 100.0,
+            avg_rating: 4.333333333333333,
+            domains: {
+              Teaching: 4.425925925925926,
+              Communication: 4.3125,
+              Interpersonal: 4.574074074074074,
+              Safety: 4.604166666666667,
+              Facilities: 4.104166666666667,
+              Technology: 4.3809523809523805,
+              Extracurricular: 4.357142857142857,
+              "Academic Support": 4.166666666666666,
+              "Value for Money": 4.0,
+            },
+          },
+          {
+            name: "TNA Fatih Billingual School",
+            responses: 8,
+            nps: 50.0,
+            continuation: 87.5,
+            avg_rating: 4.0,
+            domains: {
+              Teaching: 4.347222222222222,
+              Communication: 4.3125,
+              Interpersonal: 4.458333333333333,
+              Safety: 4.46875,
+              Facilities: 4.4375,
+              Technology: 4.375,
+              Extracurricular: 4.428571428571429,
+              "Academic Support": 4.15625,
+              "Value for Money": 3.9,
+            },
+          },
+        ],
+        domains: {
+          Teaching: {
+            avg: 4.384399551066218,
+            std: 0.6981229792408826,
+            distribution: { 5: 878, 4: 739, 3: 142, 2: 18, 1: 5 },
+          },
+          Communication: {
+            avg: 4.374368686868687,
+            std: 0.7300052942019803,
+            distribution: { 5: 795, 4: 620, 3: 144, 2: 17, 1: 8 },
+          },
+          Interpersonal: {
+            avg: 4.404040404040404,
+            std: 0.6912058683698183,
+            distribution: { 5: 904, 4: 720, 3: 140, 2: 10, 1: 8 },
+          },
+          Safety: {
+            avg: 4.379419191919192,
+            std: 0.7208525558503396,
+            distribution: { 5: 776, 4: 675, 3: 104, 2: 16, 1: 13 },
+          },
+          Facilities: {
+            avg: 4.191287878787879,
+            std: 0.8304554293514879,
+            distribution: { 5: 667, 4: 624, 3: 235, 2: 45, 1: 13 },
+          },
+          Technology: {
+            avg: 4.315295815295815,
+            std: 0.7442868935705259,
+            distribution: { 5: 643, 4: 566, 3: 151, 2: 23, 1: 3 },
+          },
+          Extracurricular: {
+            avg: 4.3773448773448775,
+            std: 0.6839913133487724,
+            distribution: { 5: 663, 4: 603, 3: 102, 2: 16, 1: 2 },
+          },
+          "Academic Support": {
+            avg: 4.2108585858585865,
+            std: 0.7827028715772288,
+            distribution: { 5: 634, 4: 697, 3: 212, 2: 35, 1: 6 },
+          },
+          "Value for Money": {
+            avg: 4.186868686868687,
+            std: 0.7945858603865681,
+            distribution: { 5: 377, 4: 462, 3: 114, 2: 33, 1: 4 },
+          },
+        },
+        grade_levels: {
+          Primary: {
+            count: 131,
+            domains: {
+              Teaching: 4.397794741306192,
+              Communication: 4.368320610687023,
+              Interpersonal: 4.419847328244275,
+              Safety: 4.364503816793894,
+              Facilities: 4.147900763358779,
+              Technology: 4.318429661941112,
+              Extracurricular: 4.368593238822247,
+              "Academic Support": 4.208969465648855,
+              "Value for Money": 4.157251908396946,
+            },
+          },
+          Secondary: {
+            count: 45,
+            domains: {
+              Teaching: 4.353086419753087,
+              Communication: 4.327777777777778,
+              Interpersonal: 4.3654320987654325,
+              Safety: 4.430555555555555,
+              Facilities: 4.361111111111112,
+              Technology: 4.406349206349206,
+              Extracurricular: 4.4603174603174605,
+              "Academic Support": 4.280555555555555,
+              "Value for Money": 4.257777777777777,
+            },
+          },
+        },
+        qualitative: {
+          likes_themes: [
+            ["teachers", 80],
+            ["curriculum", 48],
+            ["safety", 30],
+            ["facilities", 22],
+            ["communication", 20],
+          ],
+          improvement_themes: [
+            ["facilities", 47],
+            ["teachers", 34],
+            ["safety", 19],
+            ["extracurricular", 18],
+            ["communication", 15],
+          ],
+        },
+        action_items: [
+          {
+            domain: "Value for Money",
+            score: 4.186868686868687,
+            priority: "Low",
+          },
+          { domain: "Facilities", score: 4.191287878787879, priority: "Low" },
+          {
+            domain: "Academic Support",
+            score: 4.2108585858585865,
+            priority: "Low",
+          },
+          { domain: "Technology", score: 4.315295815295815, priority: "Low" },
+          {
+            domain: "Communication",
+            score: 4.374368686868687,
+            priority: "Low",
+          },
+        ],
+        domain_details: {
+          Teaching: {
+            total_responses: 1782,
+            distribution: {
+              "5_star": 878,
+              "4_star": 739,
+              "3_star": 142,
+              "2_star": 18,
+              "1_star": 5,
+            },
+            questions: [
+              {
+                question:
+                  "This school provides high quality instruction to my child.",
+                avg: 4.41919191919192,
+                responses: 198,
+              },
+              {
+                question: "This school has high expectations for all students.",
+                avg: 4.3686868686868685,
+                responses: 198,
+              },
+              {
+                question:
+                  "This school encourages students to enroll in rigorous courses such as Checkpoint, IGCSE, or other Cambridge programs.",
+                avg: 4.373737373737374,
+                responses: 198,
+              },
+              {
+                question:
+                  "Provides me with information about grade-level standards that my child is responsible for mastering.",
+                avg: 4.343434343434343,
+                responses: 198,
+              },
+              {
+                question:
+                  "Prepares my child academically for his/her next phase of schooling.",
+                avg: 4.429292929292929,
+                responses: 198,
+              },
+              {
+                question:
+                  "Teachers use a variety of teaching methods to help my child learn.",
+                avg: 4.459595959595959,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child receives appropriate homework that reinforces learning.",
+                avg: 4.242424242424242,
+                responses: 198,
+              },
+              {
+                question:
+                  "Teachers provide helpful feedback on my child's progress.",
+                avg: 4.404040404040404,
+                responses: 198,
+              },
+              {
+                question:
+                  "Overall, I would rate the academic program at my school as very effective.",
+                avg: 4.41919191919192,
+                responses: 198,
+              },
+            ],
+          },
+          Communication: {
+            total_responses: 1584,
+            distribution: {
+              "5_star": 795,
+              "4_star": 620,
+              "3_star": 144,
+              "2_star": 17,
+              "1_star": 8,
+            },
+            questions: [
+              {
+                question:
+                  "The school keeps me well informed about my child's progress.",
+                avg: 4.459595959595959,
+                responses: 198,
+              },
+              {
+                question:
+                  "Teachers are available and easy to contact when I have questions.",
+                avg: 4.570707070707071,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school communicates important information in a timely manner.",
+                avg: 4.338383838383838,
+                responses: 198,
+              },
+              {
+                question:
+                  "Parent-teacher conferences are useful and informative.",
+                avg: 4.393939393939394,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school newsletter/updates keep me informed about school activities.",
+                avg: 4.267676767676767,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school website and online platforms are helpful and easy to use.",
+                avg: 4.338383838383838,
+                responses: 198,
+              },
+              {
+                question:
+                  "I receive adequate information about school policies and procedures.",
+                avg: 4.313131313131313,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school listens to parent feedback and acts on it.",
+                avg: 4.313131313131313,
+                responses: 198,
+              },
+            ],
+          },
+          Interpersonal: {
+            total_responses: 1782,
+            distribution: {
+              "5_star": 904,
+              "4_star": 720,
+              "3_star": 140,
+              "2_star": 10,
+              "1_star": 8,
+            },
+            questions: [
+              {
+                question: "I feel welcome to participate in this school.",
+                avg: 4.318181818181818,
+                responses: 198,
+              },
+              {
+                question: "The school staff treats me with respect.",
+                avg: 4.540404040404041,
+                responses: 198,
+              },
+              {
+                question: "The school staff takes my concerns seriously.",
+                avg: 4.393939393939394,
+                responses: 198,
+              },
+              {
+                question: "The school staff welcomes my suggestions.",
+                avg: 4.333333333333333,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school staff responds to my needs in a timely manner.",
+                avg: 4.287878787878788,
+                responses: 198,
+              },
+              {
+                question: "The school staff is helpful.",
+                avg: 4.474747474747475,
+                responses: 198,
+              },
+              {
+                question: "My child's background",
+                avg: 4.5353535353535355,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school fosters a sense of community among parents.",
+                avg: 4.434343434343434,
+                responses: 198,
+              },
+              {
+                question:
+                  "I feel comfortable approaching the school principal with concerns.",
+                avg: 4.318181818181818,
+                responses: 198,
+              },
+            ],
+          },
+          Safety: {
+            total_responses: 1584,
+            distribution: {
+              "5_star": 776,
+              "4_star": 675,
+              "3_star": 104,
+              "2_star": 16,
+              "1_star": 13,
+            },
+            questions: [
+              {
+                question:
+                  "This school clearly informs students what would happen if they break school rules.",
+                avg: 4.41919191919192,
+                responses: 198,
+              },
+              {
+                question: "At this school, discipline is fair.",
+                avg: 4.388888888888889,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child is safe in the neighborhood around the school.",
+                avg: 4.434343434343434,
+                responses: 198,
+              },
+              {
+                question: "My child is safe on school grounds.",
+                avg: 4.484848484848484,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child's school takes action to ensure student safety.",
+                avg: 4.4646464646464645,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school has effective anti-bullying measures in place.",
+                avg: 4.338383838383838,
+                responses: 198,
+              },
+              {
+                question: "The school handles student conflicts appropriately.",
+                avg: 4.287878787878788,
+                responses: 198,
+              },
+              {
+                question:
+                  "I am informed about emergency procedures and safety protocols.",
+                avg: 4.217171717171717,
+                responses: 198,
+              },
+            ],
+          },
+          Facilities: {
+            total_responses: 1584,
+            distribution: {
+              "5_star": 667,
+              "4_star": 624,
+              "3_star": 235,
+              "2_star": 45,
+              "1_star": 13,
+            },
+            questions: [
+              {
+                question:
+                  "My child's school is clean and in good physical condition.",
+                avg: 4.257575757575758,
+                responses: 198,
+              },
+              {
+                question:
+                  "Classrooms are well-equipped for effective learning.",
+                avg: 4.4393939393939394,
+                responses: 198,
+              },
+              {
+                question: "The school library meets my child's learning needs.",
+                avg: 4.237373737373737,
+                responses: 198,
+              },
+              {
+                question: "Science laboratories are adequately equipped.",
+                avg: 4.166666666666667,
+                responses: 198,
+              },
+              {
+                question:
+                  "Sports facilities are adequate for physical education and activities.",
+                avg: 4.232323232323233,
+                responses: 198,
+              },
+              {
+                question: "The school canteen provides healthy food options.",
+                avg: 3.984848484848485,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school playground/outdoor areas are safe and well-maintained.",
+                avg: 4.333333333333333,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school has adequate facilities for students with special needs.",
+                avg: 3.878787878787879,
+                responses: 198,
+              },
+            ],
+          },
+          Technology: {
+            total_responses: 1386,
+            distribution: {
+              "5_star": 643,
+              "4_star": 566,
+              "3_star": 151,
+              "2_star": 23,
+              "1_star": 3,
+            },
+            questions: [
+              {
+                question:
+                  "The school provides adequate access to technology for learning.",
+                avg: 4.353535353535354,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child knows how to use school-provided devices effectively.",
+                avg: 4.363636363636363,
+                responses: 198,
+              },
+              {
+                question:
+                  "Digital learning tools enhance my child's education.",
+                avg: 4.393939393939394,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school ensures safe and appropriate use of technology.",
+                avg: 4.378787878787879,
+                responses: 198,
+              },
+              {
+                question: "Online learning platforms",
+                avg: 4.237373737373737,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school keeps parents informed about digital learning initiatives.",
+                avg: 4.222222222222222,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child has adequate internet access at school for learning activities.",
+                avg: 4.257575757575758,
+                responses: 198,
+              },
+            ],
+          },
+          Extracurricular: {
+            total_responses: 1386,
+            distribution: {
+              "5_star": 663,
+              "4_star": 603,
+              "3_star": 102,
+              "2_star": 16,
+              "1_star": 2,
+            },
+            questions: [
+              {
+                question:
+                  "The school offers a good variety of extracurricular activities.",
+                avg: 4.328282828282828,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child has opportunities to participate in sports.",
+                avg: 4.348484848484849,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school organizes meaningful events and programs.",
+                avg: 4.4646464646464645,
+                responses: 198,
+              },
+              {
+                question:
+                  "School trips and excursions are educational and well-organized.",
+                avg: 4.378787878787879,
+                responses: 198,
+              },
+              {
+                question:
+                  "My child has opportunities to develop leadership skills.",
+                avg: 4.404040404040404,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school supports my child's interests and talents outside academics.",
+                avg: 4.378787878787879,
+                responses: 198,
+              },
+              {
+                question:
+                  "Information about extracurricular activities is communicated clearly.",
+                avg: 4.338383838383838,
+                responses: 198,
+              },
+            ],
+          },
+          "Academic Support": {
+            total_responses: 1584,
+            distribution: {
+              "5_star": 634,
+              "4_star": 697,
+              "3_star": 212,
+              "2_star": 35,
+              "1_star": 6,
+            },
+            questions: [
+              {
+                question:
+                  "The school provides adequate support for struggling students.",
+                avg: 4.262626262626263,
+                responses: 198,
+              },
+              {
+                question: "Guidance counselors are available to help my child.",
+                avg: 4.181818181818182,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school offers tutoring or extra help when needed.",
+                avg: 4.196969696969697,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school adequately prepares students for Cambridge examinations.",
+                avg: 4.217171717171717,
+                responses: 198,
+              },
+              {
+                question:
+                  "Career guidance and future planning support is available.",
+                avg: 4.1313131313131315,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school identifies and supports gifted students appropriately.",
+                avg: 4.237373737373737,
+                responses: 198,
+              },
+              {
+                question:
+                  "Students with learning differences receive appropriate support.",
+                avg: 4.217171717171717,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school provides adequate English language support for non-native speakers.",
+                avg: 4.242424242424242,
+                responses: 198,
+              },
+            ],
+          },
+          "Value for Money": {
+            total_responses: 990,
+            distribution: {
+              "5_star": 377,
+              "4_star": 462,
+              "3_star": 114,
+              "2_star": 33,
+              "1_star": 4,
+            },
+            questions: [
+              {
+                question: "The quality of education justifies the school fees.",
+                avg: 4.181818181818182,
+                responses: 198,
+              },
+              {
+                question: "Additional costs",
+                avg: 4.1313131313131315,
+                responses: 198,
+              },
+              {
+                question: "The school is transparent about all fees and costs.",
+                avg: 4.217171717171717,
+                responses: 198,
+              },
+              {
+                question:
+                  "I am satisfied with the overall value provided by this school.",
+                avg: 4.2272727272727275,
+                responses: 198,
+              },
+              {
+                question:
+                  "The school provides good resources relative to the fees charged.",
+                avg: 4.1767676767676765,
+                responses: 198,
+              },
+            ],
+          },
+        },
+        sample_comments: {
+          likes: [
+            "program dan nilai-nilai yang diajarkan, adanya Kesehatan sekolah dan orang tua",
+            "Sekolah nyaman dan bersih",
+            "Sistem pembelajaran",
+            "Pengajaran dengan kurikulum cambrigde",
+            "bersih dan keamanan dari gangguan luar",
+            "Program career planning",
+            "Fasilitas dan komunikasi dg guru sangat baik",
+            "Saya merasa metode pengajaran kepada siswa/i  menarik sehingga membuat anak saya tidak merasa bosan",
+            "Bu Ade dan pengajar yg ramah serta responsif",
+          ],
+          improvements: [
+            "komunikasi lebih intens",
+            "Guru harus memiliki kreatuvitas dalam mengajar dan dekat dengan siswa. ",
+            "Komunikasi kegiatan ",
+            "Menyediakan berbagai persediaan pembelajaran yg efektif ",
+            "penyiapan siswa dalam menempuh sekolah luar negeri dan informasi dan persiapan yg update",
+            " listrik dan internet sekolah (menyiapkan genset untuk berjaga-jaga apabila terjadi pemadaman listrik)",
+            "Penyediaan genset dan barang yg dijual di kantin sekolah",
+            "Saya rasa butuh perbaikan pada bagian gedung sekolah,seperti pintu sekolah,dinding kelas,dan loby sekolah agar diperluas . Dan yang terpenting pada toilet khususnya toilet anak SD untuk disediakan cleaning service yang bisa menjaga agar toilet tetap bersih karena berpengaruh kepada siswa/i yang menjadi trauma saat ingin ke kamar kecil dengan keadaan toilet yang kotor. Dan mohon untuk melengkapi laboratorium pembelajaran untuk siswa dan siswi. Dan lapangan d tanami pohon agar lebih rindang untuk suasana sekolah.",
+            "Ketersediaan air bersih d toilet, prasarana parkiran & arus lalu lintas kendaraan",
+          ],
+          suggestions: [
+            "Ada kerihanian sekolah atau ekskul keagamaan",
+            "Penggunaan bahasa inggris di kegiatan sehari-hari harus lebih ditingkatkan. ",
+            "Tidak ada",
+            "Dengan terus memandu anak anak dengan impian mereka",
+            "sekolah harus bisa menciptakan siswa yang mampu tembus sekolah ke luar negeri dan memberi informasi update tetang biasiswa luar negeri",
+            "Terus mendukung siswi untuk menjadi lebih baik, pergaulan anak-anak tolong diperhatikan",
+            "Untuk dapat menyediakan fasilitas pembelajaran lebih baik,seperti Laboratorium dan benar2 bisa melatih siswa/i yang lebih lambat dalam pembelajaran untuk bisa betul betul memahami pembelajaran tanpa membiarkan anak2 yang tidak paham pelajarannya",
+            "Mengembangkan sarana & prasarana sekolah seiring dengan perkembangan sekolah. Seperti jumlah toilet, ataupun sarana parkiran.",
+          ],
+        },
+        response_timeline: {
+          "2025-12-11": 14,
+          "2025-12-12": 13,
+          "2025-12-13": 1,
+          "2025-12-15": 2,
+          "2025-12-16": 11,
+          "2025-12-17": 9,
+          "2025-12-18": 26,
+          "2025-12-19": 71,
+          "2025-12-20": 25,
+          "2025-12-21": 12,
+          "2025-12-22": 12,
+          "2025-12-23": 2,
+        },
+        enrollment_distribution: {
+          "Less than 1 year (Kurang dari 1 tahun)": 79,
+          "1-2 years (1-2 tahun)": 45,
+          "3-4 years (3-4 tahun)": 43,
+          "5 or more years (5 tahun atau lebih)": 31,
+        },
+        children_distribution: {
+          "1 child (1 anak)": 145,
+          "2 children (2 anak)": 48,
+          "3 children (3 anak)": 5,
+        },
+        source_distribution: {
+          "Friend (Teman)": 54,
+          "Social Media (Instagram, Tiktok, etc.)": 46,
+          "Other (Lainnya)": 37,
+          "Family (Kerabat)": 30,
+          "Online Search (Pencarian Online)": 20,
+          "School Website (Website Sekolah)": 8,
+          "Education Fair/Expo (Pameran Pendidikan)": 3,
+        },
+        response_stats: {
+          first_response: "2025-12-11 10:34:00.598000",
+          last_response: "2025-12-23 09:38:10.534000",
+          total_days: 11,
+        },
+        detailed_feedback: {
+          positive_feedback: {
+            "Teachers & Staff": {
+              count: 66,
+              examples: [
+                "Pengajaran dengan kurikulum cambrigde",
+                "Fasilitas dan komunikasi dg guru sangat baik",
+                "Saya merasa metode pengajaran kepada siswa/i  menarik sehingga membuat anak saya tidak merasa bosan",
+                "Bu Ade dan pengajar yg ramah serta responsif",
+                "Ramah2 semua karyawannya dr mulai ob security guru, sekolahnya bersib bagus, disiplin, merode belajar yg bagus",
+                "The curriculum, the information and communication from home room teachers, the feeling that kids are safe in school, the variety of food for snacks and lunch.",
+                "Sistem pendidikan, teachers komunikatif, keagamaan jg baik",
+                "Semua staff sekolah seperti satpam, guru, kepsek, dll friendly, kind, dan helpful terhadap madalah yg dihadapi anak. Terutama untuk SD, sekolah bisa menciptakan karakter anak2 yg sopan & berkepribadiab baik.",
+                "Technology & teacher",
+                "Kedekatan antara guru dan siswa sehingga siswa nyaman berada di sekolah",
+                "Most of teachers are helpful, attentive and support good communications with parents to ensure the optimum study condition for each student. That what I like the most as a parent to have children study at pribadi Bandung.",
+                "Lingkungan sekolah yg positif, guru2 yg sangat responsif, kurikulum yg mendukung perkembangan anak saya",
+                "Sekolah mempunyai aturan jelas mengenai bullying. Sehingga anak tau mana yg boleh dilakukan dan yang tidak boleh.\nHal ini sangat penting agar tercipta lingkungan yang aman dan nyaman, menjaga anak melakukan bully terhadap temannya dan begitupun sebaliknya.\nGuru sangat informatif dan komunikatif dalam menyampaikan apapun yang terjadi dengan anak di sekolah.\nMembantu anak menggali potensi dirinya, sehingga setiap anak dapat berkembang sesuai kemampuannya.",
+                "Guru2 yang punya cara khas utk pendekatan ke murid murid",
+                "Pengajar yang sangat baik dan sayang kepada anak",
+              ],
+              examples_en: [
+                "teaching with curriculum cambrigde",
+                "facilities and communication dg teacher very good",
+                "I feeling method teaching to student menarik so that for child I tidak feeling bosan",
+                "Bu Ade and pengajar yg friendly serta responsive",
+                "friendly all staff/employees dr mulai ob security teacher school bersib good at/in merode learn/study yg good",
+                "The curriculum, the information and communication from home room teachers, the feeling that kids are safe in school, the variety of food for snacks and lunch.",
+                "system at/in teachers komunikatif, to jg good",
+                "all staff school seperti security guard teacher to dll friendly kind and helpful towards madalah yg at/in child Terutama for SD, school bisa menciptakan character child yg sopan & at/in good",
+                "technology & teacher",
+                "to between teacher and student so that student comfortable being/staying at/in school",
+                "Most of teachers are helpful, attentive and support good communications with parents to ensure the optimum study condition for each student. That what I like the most as a parent to have children study at pribadi Bandung.",
+                "environment school yg positif, teacher yg very responsive curriculum yg support to child I",
+                "school mempunyai aturan jelas mengenai bullying so that child tau mana yg boleh at/in and that/which tidak boleh. Hal ini very important agar tercipta environment that/which safe and comfortable menjaga child melakukan bully towards temannya and begitupun sebaliknya. teacher very informatif and komunikatif dalam menyampaikan apapun that/which at/in with child at/in school Membantu child menggali potential at/in so that every child can to sesuai to",
+                "teacher that/which punya cara khas utk close to student student",
+                "Pengajar that/which very good and I to child",
+              ],
+            },
+            "Teaching Quality": {
+              count: 37,
+              examples: [
+                "Sistem pembelajaran",
+                "Fasilitas dan kurikulum",
+                "sekolah sangat memperhatikan kebutuhan para murid untuk dapat terus berkembang sesuai jenjang pendidikannya.",
+                "Kurikulum cambrigde nya.",
+                "Dukungan terhadap prestasi non akademik dan bantuan atas ketertinggalan materi/nilai selalu d beri solusi san keringanan",
+                "Pendidikan,fasilitas,akses sekolah yg gampang",
+                "Pembelajarannya",
+                "Kurikulum yang baik",
+                "Fasilitas dan ide pembelajaran sesuai jamannya",
+                "Akademiknya",
+                "Kegiatan yang mendukung perkembangan akademik anak sangat di jalankan dengan baik",
+                "Metode pembelajaran, miss nya ramah2 dan sabar",
+                "Metode pembelajaran",
+                "1.staf/miss nya ramah\n2.kurikulum nasional dan cambridge\n3.sekolah seperti keluarga\n4.banyak macam acara yang dibuat dari sekolah. Yang bersifat mendidik.",
+                "Cara pembelajarannya",
+              ],
+              examples_en: [
+                "system learning",
+                "facilities and curriculum",
+                "school very pay attention to to para student for can continue/continuously to sesuai jenjang at/in",
+                "curriculum cambrigde nya.",
+                "support towards achievement non academic and help/assistance regarding to material always d beri solusi san to",
+                "facilities school yg easy",
+                "learning",
+                "curriculum that/which good",
+                "facilities and idea learning sesuai safe",
+                "academic",
+                "to that/which support to academic child very at/in jalankan with good",
+                "method learning miss nya friendly and sabar",
+                "method learning",
+                "staff nya friendly curriculum nasional and Cambridge school seperti to 4.banyak macam acara that/which at/in from school that/which bersifat at/in",
+                "Cara learning",
+              ],
+            },
+            Facilities: {
+              count: 3,
+              examples: [
+                "Fasilitas yang didapatkan sebanding dengan biaya yang dileluarkan",
+                "In the future, the school should ensure that the facilities and maintenance are aligned with the program.",
+                "Sekolah menginformasikan dan mendukung anak untuk ikut dalam ajang kompetisi terutama ajang OSN, fasilitas olahraga juga sangat memadai untuk anak bisa berolahraga",
+              ],
+            },
+            "Safety & Environment": {
+              count: 19,
+              examples: [
+                "Sekolah nyaman dan bersih",
+                "bersih dan keamanan dari gangguan luar",
+                "General, sekolah responsif baik. Anak aman disekolah. Bullying ditanggpin dengan baik.",
+                "Kegiatan sekolah yang seru dan menambah pengalaman anak2",
+                "Lingkungan yang ramah dan nyaman, kegiatan ekstrakurikuler yang beragam.",
+                "Semua orang menghadirkan rasa nyaman ❤️",
+                "Lingkungan belajar yg baik",
+                "1. Ada ekstra lesson untuk murid untuk mengejar ketertinggalan atau yang kurang memahami materi tertentu, semoga tetap dilanjutkan nilai tambah tersebut.\n2. Rasa kekeluargaan yang tinggi\n3. Setiap selesai 1 bab diadakan quiz untuk mengukur pemahaman siswa\n4. Ada tahsin dan tahfidz",
+                "Lingkungan siswa yang sopan santun.",
+                "Lingkungannya yang aman untuk anak-anak berkembang",
+                "Bersih tenang",
+                "Suasa sekolah yg kondusif, interaksi dan komunikasi yg mudah, sekolah yg nyaman dan yang paling utam adalah tdk ada bullying",
+                "Lingkungan sekolah aman dan nyaman, Mata pelajaran berkualitas, mendorong siswa mandiri dan lebih maju",
+                "Lingkungan sekolah yg nyaman untuk anak",
+                "Lingkungan sekolah dan belajarnya membuat anak2 semangan dan happy",
+              ],
+              examples_en: [
+                "school comfortable and clean",
+                "clean and to from gangguan luar",
+                "General, school responsive good child safe school bullying at/in with good",
+                "to school that/which fun/exciting and add safe child",
+                "environment that/which friendly and comfortable to extracurricular that/which diverse/varied",
+                "all orang at/in feeling comfortable ❤️",
+                "environment learn/study yg good",
+                "1. Ada ekstra lesson for student for pursue/catch up to atau that/which less/insufficient memahami material tertentu, hopefully tetap at/in nilai tambah tersebut. 2. feeling to that/which tinggi 3. every selesai 1 bab at/in quiz for mengukur safe student 4. Ada tahsin and Quran memorization",
+                "environment student that/which sopan santun.",
+                "environment that/which safe for child to",
+                "clean tenang",
+                "Suasa school yg kondusif, interaksi and communication yg mudah, school yg comfortable and that/which paling utam adalah tdk ada bullying",
+                "environment school safe and comfortable Mata pelajaran quality mendorong student at/in and more maju",
+                "environment school yg comfortable for child",
+                "environment school and learn/study for child semangan and happy",
+              ],
+            },
+            Communication: {
+              count: 7,
+              examples: [
+                "Informasi cepat",
+                "Miss”nya memberikn informasi yang lengkap dan sabar kepada orang tua dn mereka bertanggung jawab. Dan merespon dengan cepat , baik",
+                "Sistem, komunikasi dan sekolah sering mndukung pelaksanaan olimpuade untuk anak",
+                "Kekeluargaan, kemudahan komunikasi dengan pihak sekolah dan bantuan untuk anak yang mengalami kesulitan di kelas",
+                "Kemudahan dalam menjalin komunikasi tentang kemajuan dan kekurangan anak saya sebagai siswa SD disini.",
+                "Komunikasi sangat baik antara ortu dengan wali kelas beserta jajaran sekolah lainnya",
+                "Good Communication, small group of students for easier supervision",
+              ],
+              examples_en: [
+                "information cepat",
+                "Miss”nya memberikn information that/which complete and sabar to orang tua dn they/their bertanggung jawab. and merespon with cepat, good",
+                "system communication and school sering mndukung pelaksanaan olimpuade for child",
+                "to to communication with pihak school and help/assistance for child that/which mengalami to at/in to",
+                "to dalam menjalin communication tentang to and to child I sebagai student SD at/in",
+                "communication very good between ortu with wali to beserta jajaran school lainnya",
+                "Good Communication, small group of students for easier supervision",
+              ],
+            },
+            "Islamic/Religious": {
+              count: 5,
+              examples: [
+                "Membentuk karakter anak, pengembangan diri tanpa meminggalkan agama dan akhlaq",
+                "Berlatar belakang islam",
+                "Moderate Islamic values and competitive atmosphere introduced to student",
+                "School view's and islamic culture",
+                "anak lebih berkembang secara akademis, non akademis serta penerapan ilmu agama Islam",
+              ],
+            },
+            "Cambridge/International": {
+              count: 2,
+              examples: [
+                "Berbasis Cambridge",
+                "In my opinion, Kharisma Bangsa School is quite expensive. However, I've observed that the children don't exhibit hedonistic behavior and generally have good manners and behave age-appropriately (no curly hair or over makeup). They are also intelligent, and their graduates are accepted internationally.",
+              ],
+            },
+            "Character Development": {
+              count: 2,
+              examples: [
+                "Program pengembangan kemampuan anak, baik secara akademis, karakter, keterampilan dan kepemimpinan",
+                "Sekolah menyediakan akses bagi siswa yg mempunyai minat bakat tertentu, \n\nsekolah mempunyai jadwal waktu yg baik dari anak mulai bangun tidur sampai jadwal tidur kembali guna membentuk habit dan karakter yg baik bagi anak2,\n\nTersedia lapangan serta tempat gym utk mendukung anak2 tetap sehat dan bugar\n\nMenyediakan waktu pada anak2 utk membaca buku guna melatih anak2 gemar membaca,, sehingga bisa membantu anak2 berwawasan lebih luas lagi\n\nMuhadharah serta Tedx sangat membantu anak2 utk belajar berani percaya diri serta melatih public speaking mjd lebih baik lagi.",
+              ],
+            },
+            Other: {
+              count: 47,
+              examples: [
+                "program dan nilai-nilai yang diajarkan, adanya Kesehatan sekolah dan orang tua",
+                "Program career planning",
+                "Minat, bakat anak digali sejak dini dan diarahkan sesuai dengan kemampuan anak.",
+                "walikelas sangat koperatif dan memberikan informatie sangat jelas sehingga orang tua bisa mengikuti perkembangan anak",
+                "Global mainded",
+                "Personal care for rach student",
+                "Metode belajar nya menarik",
+                "Scholarship offered",
+                "Praying together",
+                "Kegiatan belajar yang seru sehingga anak excited untuk belajar",
+                "Sekolah mengajarkan anak anti bullying dan mamhami anak akan kebutuhannya",
+                "Jam masuk sekolah yang tidak terlalu pagi",
+                "Keramahan para staf",
+                "Kekeluargaan",
+                "Saya suka dengan penerapan pembagian rapor siswa dengan sistem pertemuan langsung oleh orangtua siswa one by one dengan wali kelas..",
+              ],
+            },
+          },
+          improvement_areas: {
+            Facilities: {
+              count: 67,
+              examples: [
+                "Penyediaan genset dan barang yg dijual di kantin sekolah",
+                "Saya rasa butuh perbaikan pada bagian gedung sekolah,seperti pintu sekolah,dinding kelas,dan loby sekolah agar diperluas . Dan yang terpenting pada toilet khususnya toilet anak SD untuk disediakan cleaning service yang bisa menjaga agar toilet tetap bersih karena berpengaruh kepada siswa/i yang menjadi trauma saat ingin ke kamar kecil dengan keadaan toilet yang kotor. Dan mohon untuk melengkapi laboratorium pembelajaran untuk siswa dan siswi. Dan lapangan d tanami pohon agar lebih rindang untuk suasana sekolah.",
+                "Ketersediaan air bersih d toilet, prasarana parkiran & arus lalu lintas kendaraan",
+                "Terkait Fasilitas: Parkiran yang lebih banyak dan mobilitas drop off yang memadai, mengingat semakin tahun pastinya akan semakin banyak muridnya.",
+                "Gedung sekolah harus punya sendiri bukan sewa",
+                "Menyanyangkan karena fasilitas sekolah blm lengkap jika dibandingkan biaya sekolah (tdk ada kolam renang, kantin yg lbh besar, mesjid)",
+                "Building and facilities",
+                "Fasilitas olahraga dan jenis makanan sehat d kantin",
+                "Character building and facilities are further improved especially computer lab and restroom",
+                "Berhubung anak saya menggunakan fasilitas asrama. Mhn agar utk makanan yg memadai baik kualitas atau porsi nya mengingat anak2 masih dlm tumbuh kembang",
+                "1. Facilities need improve, likes water seen dirty, toilet sometimes broken/damage.\n2. Sport facility need roof to prevent from rain \n3.",
+                "Penyediaan air di toilet",
+                "School facilities, sports, more basketball courts, bigger soccer field, swimming pools, more varies extra cullicular options, better canteen.",
+                "Overall Facilities",
+                "Fasilitas lapangan olahraga yg mungkin bisa ditambah, kerapihan dalam kelas lebih ditingkatkan (terkhusus di kelas anak sy 1A dari awal masuk sampai 1 semester gorden kelas terlihat sedikit rusak), ketersediaan tissue di toilet lebih diperhatikan",
+              ],
+              examples_en: [
+                "at/in generator and barang yg at/in at/in canteen school",
+                "I feeling butuh good pada bagian building school door school and lobby school agar at/in. and that/which important pada toilet especially toilet child SD for at/in cleaning service that/which bisa menjaga agar toilet tetap clean karena affects to student that/which at/in traumatized saat ingin to kamar to with to toilet that/which dirty and please for complete/equip laboratory learning for student and student and field/yard d tanami tree agar more and for suasana school",
+                "at/in air clean d toilet feeling parking & arus lalu lintas to",
+                "Terkait facilities parking that/which more banyak and mobility drop off that/which adequate mengingat semakin tahun pastinya akan semakin banyak student",
+                "building school must/should punya at/in bukan sewa",
+                "that/which karena facilities school blm complete jika at/in cost/fee school (tdk ada kolam renang, canteen yg lbh besar, mesjid)",
+                "at/in and facilities",
+                "facilities sports and jenis makanan sehat d canteen",
+                "Character at/in and facilities are further improved especially computer lab and restroom",
+                "Berhubung child I menggunakan facilities dormitory/boarding Mhn agar utk makanan yg adequate good quality atau porsi nya mengingat child masih dlm tumbuh to",
+                "1. Facilities need improve, to water seen at/in toilet sometimes to 2. Sport facility need roof to prevent from rain 3.",
+                "at/in air at/in toilet",
+                "School facilities, sports, more to courts, bigger soccer field, swimming pools, more varies extra cullicular options, better canteen.",
+                "Overall Facilities",
+                "facilities field/yard sports yg mungkin bisa at/in to dalam to more at/in (terkhusus at/in to child sy 1A from awal masuk sampai 1 semester gorden to see at/in rusak), at/in tissue at/in toilet more at/in",
+              ],
+            },
+            Extracurricular: {
+              count: 13,
+              examples: [
+                "Komunikasi kegiatan",
+                "Ekstrakurikuler lebih terorganisir",
+                "Lebih cepat untuk informasi kegiatan” yg menyangkut orang tua",
+                "I think school needs to find out each student's talent then develop the student's talent through club that provided by the school",
+                "Menambah kegiatan anak untuk tampil atau mengikuti kompetisi di luar sekolah, seperti pentas seni, lomba mewarnai, atau kegiatan tematik lainnya, agar anak lebih percaya diri, berani tampil, serta mendapat pengalaman bersosialisasi di lingkungan yang lebih luas.",
+                "Club music harus diadakan",
+                "transparansi dalam bidang keuangan, kegiatan di luar sekolah yang pricey dan terkesan mengada-ada.",
+                "Ditambahkan kegiatan outdoor untuk anak2, khususnya pada saat tdk jadwal perpulangan",
+                "kegiatan di hari minggu lebih membaur dgn lingkungan sekolah\nlebih disiplin dan tegas agar anak tidak bingung",
+                "Encourage children to speak gently and communicate their opinion in term of discussion and class activities in each class",
+                "Kegiatan keislamannya ditingkatkan ditambah kegiatan halaqohnya sesuai dgn namanya islamic boarding school sehingga siswa berjalan selaras antara akademik dgn keagamaan nya",
+                "Jangan ada diskriminasi kegiatan antara anak asrama dan non asrama",
+                "Program dan kegiatan seperti lomba internal dan eksternal sekolah bisa lebih di tingkatkan lg",
+              ],
+              examples_en: [
+                "communication to",
+                "extracurricular more organized",
+                "more cepat for information to yg that/which orang tua",
+                "I think school needs to find out each student's talent then develop the student's talent through club that idea by the school",
+                "add to child for perform/appear atau participate in competition at/in luar school seperti pentas seni, lomba mewarnai, atau to tematik lainnya, agar child more percaya at/in berani perform/appear serta can safe bersosialisasi at/in environment that/which more luas.",
+                "Club music must/should at/in",
+                "transparency dalam and to to at/in luar school that/which expensive and to mengada-ada.",
+                "at/in to outdoor for child especially pada saat tdk jadwal return/going home",
+                "to at/in hari minggu more mingle/mix dgn environment school more at/in and tegas agar child tidak bingung",
+                "Encourage children to speak gently and communicate their opinion in term of at/in and class activities in each class",
+                "to to at/in at/in to halaqohnya sesuai dgn safe Islamic at/in school so that student berjalan selaras between academic dgn to nya",
+                "Jangan ada at/in to between child dormitory/boarding and non dormitory/boarding",
+                "Program and to seperti lomba internal and eksternal school bisa more at/in improve lg",
+              ],
+            },
+            Communication: {
+              count: 10,
+              examples: [
+                "komunikasi lebih intens",
+                "penyiapan siswa dalam menempuh sekolah luar negeri dan informasi dan persiapan yg update",
+                "disiplin di asrama tolong ditingkatkan, seperti pengumpulan HP , harus benar benar  dijalankan, juga kebersihannya terutama di kamar mandi dan wc , komunikasi antara orang tua dengan pihak asrama sangat kurang.",
+                "Sekolah perlu menginformasikan beasiswa kuliah untuk anak SMA (kelas 10-12)",
+                "Saya mendengar mengenai kasus bullying di kelas 1 SD, sekolah pernah menginformasikan update-nya via email namun setelah itu tidak ada perkembangan lagi. Saya rasa hal sensitif seperti ini perlu terus di update kepada orang tua, baik  yang terdampak langsung maupun tidak karena tetap mempengaruhi situasi belajar di sekolah.",
+                "1. Transparansi penggunaan dana sekolah yang dipungut dari orangtua murid.\n2. Transparansi dasar penentuan rincian biaya sekolah yang dipungut dari masing-masing orangtua murid, baik orangtua murid sebagai guru maupun non-guru, termasuk dasar penentuan kenaikan biaya.\n3. Penyeragaman kualitas guru, antara lain dengan mempertimbangkan untuk memasukkan kriteria penilaian orangtua murid sebagai salah satu kriteria penentu kinerja atau penghasilan guru.",
+                "Maintain consistent communication and ensure the information is conveyed clearly.",
+                "Informasi pendidikan indra dan extrakurikuler",
+                "Ya sekolah harus memperbaiki  beberapa sistem pembelajaran pada anak2\nTerutama masih ada anak2 yg mendapatkan nilai dibawah KKM\nMenerapkan aturan yg tegas kpd anak2 utk berkomunikasi dengan bahasa inggris dan arab\nOut put yang didapatkan anak2 saat keluar dr CR sesuai dengan harapan orang tua... \nKarna ini sekolah berbasis agama diharapkan anak3 lulus hafal 1 atau 2 jus alquran",
+                "Internet connection, chrome book is out date and information about Cambridge curriculum assessment is unclear",
+              ],
+              examples_en: [
+                "communication more intens",
+                "penyiapan student dalam menempuh school luar negeri and information and persiapan yg update",
+                "at/in at/in dormitory/boarding tolong at/in seperti pengumpulan HP, must/should benar benar at/in juga to terutama at/in kamar at/in and wc, communication between orang tua with pihak dormitory/boarding very less/insufficient",
+                "school need information student kuliah for child SMA to 10-12)",
+                "I mendengar mengenai kasus bullying at/in to 1 SD, school pernah information update-nya via email namun setelah itu tidak ada to lagi. I feeling hal sensitif seperti ini need continue/continuously at/in update to orang tua, good that/which terdampak langsung as well as tidak karena tetap mempengaruhi situasi learn/study at/in school",
+                "1. transparency use and school that/which at/in from orangtua student 2. transparency dasar penentuan rincian cost/fee school that/which at/in from masing-masing orangtua student good orangtua student sebagai teacher as well as teacher termasuk dasar penentuan to cost/fee 3. safe quality teacher between lain with mempertimbangkan for memasukkan kriteria penilaian orangtua student sebagai salah satu kriteria penentu kinerja atau penghasilan teacher",
+                "Maintain consistent communication and ensure the information is conveyed clearly.",
+                "information at/in indra and extrakurikuler",
+                "Ya school must/should good beberapa system learning pada child Terutama masih ada child yg can nilai at/in KKM Menerapkan aturan yg tegas kpd child utk communication with bahasa inggris and arab Out put that/which at/in child saat to dr CR sesuai with harapan orang tua... Karna ini school berbasis religion at/in child lulus hafal 1 atau 2 jus alquran",
+                "Internet connection, chrome book is out date and information about Cambridge curriculum assessment is unclear",
+              ],
+            },
+            Technology: {
+              count: 1,
+              examples: [
+                "listrik dan internet sekolah (menyiapkan genset untuk berjaga-jaga apabila terjadi pemadaman listrik)",
+              ],
+            },
+            "Fees & Costs": {
+              count: 1,
+              examples: [
+                "Sangat banyak perbaikan terutama SDM karena kualitas sekolah harus didukung dgn SDM yang memiliki attitude dan beradab. Selain itu juga keamanan sekolah tidak sesuai dengan biaya sekolah yang tinggi, Sangat buruk sekali.",
+              ],
+            },
+            Teachers: {
+              count: 13,
+              examples: [
+                "Guru harus memiliki kreatuvitas dalam mengajar dan dekat dengan siswa.",
+                "Need more native english speaker teachers.",
+                "🌹✔️For Kindergarten needs improvement\n🌹✔️For grade 1 School needs must be given for students ( small lone notebook,glue or books  or school can take extra money and provide by school) . And they can use different methods, \n🌹✔️For teachers\nLearning they can do enter to other SD teachers learn from their effective methods. \n🌹✔️Thank you🙏",
+                "Mencari solusi cara mengajarkan bagi anak yg kurang daya nalar dan pemahaman. Bagi anak yg 'berbeda' di mohonkan diberi guru pendamping agak guru 'utama' tidak kewalahan. Jd anak yg 'berbeda' itu bisa mengejar ketertinggalannya.",
+                "Lebih mmperhatikan asupan makanan kepada murid ketika ada acara di sekolah makanan yg di berikan hrus ke real food jgn brupa makan olahan seperti nugget dll, lebih mmperhatikan keadaan siswa yg ketika mengadu ke guru ada teman yg iseng dan bully utk scepat mungkin di tindak.",
+                "Post guard guru masih kurang pada saat snack time dan lunch.. Guru tidak ada yg menjaga setiap lunch anak2.. Sehingga makan siang anak tidak terkontrol apakah habis atau tidak.. Air minum anak juga tidak dikontrol oleh guru, bahkan saat pulang masih ada sisa air minum di botol minumnya.. Masih banyak anak2 yg bermain ayunan dgn berbahaya tidak dikontrol oleh guru.. Penggunaan bahasa inggris oleh siswa di sekolah masih sangat minim, karena guru2nya juga tidak berbahasa inggris dengan baik.. Guru bidang studi seharusnya tidak menjadi wali kelas agar wali kelas dapat mengontrol perkembangan siswa2 di kelasnya dengan baik.. Kamar mandi di sekolah tolong selalu dibersihkan, terlebih saat anak2 sudah menggunakan kamar mandi lgsg dibersihkan sehingga kamar mandi selalu bersih tanpa ada kotoran dan bau..",
+                "Mengawasi ank2 dalam bermain di playground sebaik nya ada guru yg mengawasi",
+                "Koordinasi pada saat acara antara guru dan siswa",
+                "Keterlibatan tenaga pengajar untuk mengoptimalkan potensi maupun kekurangan siswa sebaiknya di tingkatkan",
+                "Tingkatkan kualitas pengajar",
+                "Kualitas materi & pengajaran",
+                "Ada pelajaran tambahan untuk anak anak yg sekira nya kurang, klo memang guru guru tidak ada enricment mgkn bisa di handle sekolah apabila anak anak membutuhkan les tambahan",
+                "Saat jam BM anak2 harap selalu diawasi guna memastikan mereka menggunakan waktunya dengan baik utk belajar.\n\nDengan jumlah siswa yg tidak terlalu banyak harapannya perhatian guru lebih maksimal lagi guna meningkatkan prestasi  serta kemajuan siswanya supaya tidak terlalu jomplang dengan anak2 beasiswa",
+              ],
+              examples_en: [
+                "teacher must/should memiliki creativity dalam teach and close with student",
+                "Need more native english to teachers.",
+                "🌹✔️For Kindergarten needs improvement\n🌹✔️For grade 1 School needs must be given for students ( small lone notebook,glue or books  or school can take extra money and provide by school) . And they can use different methods, \n🌹✔️For teachers\nLearning they can do enter to other SD teachers learn from their effective methods. \n🌹✔️Thank you🙏",
+                "Mencari solusi cara teach bagi child yg less/insufficient daya nalar and safe Bagi child yg 'berbeda' at/in please at/in teacher pendamping agak teacher 'utama' tidak to Jd child yg 'berbeda' itu bisa pursue/catch up to",
+                "more mmperhatikan asupan makanan to student to ada acara at/in school makanan yg at/in berikan hrus to real food jgn brupa makan olahan seperti nugget dll, more mmperhatikan to student yg to mengadu to teacher ada teman yg iseng and bully utk scepat mungkin at/in tindak.",
+                "Post guard teacher masih less/insufficient pada saat snack time and lunch teacher tidak ada yg menjaga every lunch child so that makan siang child tidak terkontrol apakah habis atau tidak.. Air minum child juga tidak at/in oleh teacher bahkan saat pulang masih ada sisa air minum at/in botol minumnya.. Masih banyak child yg bermain ayunan dgn berbahaya tidak at/in oleh teacher use bahasa inggris oleh student at/in school masih very minim, karena teacher juga tidak berbahasa inggris with good teacher and at/in must/should tidak at/in wali to agar wali to can mengontrol to student at/in to with good Kamar at/in at/in school tolong always at/in more saat child sudah menggunakan kamar at/in lgsg at/in so that kamar at/in always clean tanpa ada dirty and bau..",
+                "supervise ank2 dalam bermain at/in playground good nya ada teacher yg supervise",
+                "at/in pada saat acara between teacher and student",
+                "to tenaga pengajar for optimize potential as well as to student good at/in improve",
+                "improve quality pengajar",
+                "quality material & teaching",
+                "Ada pelajaran tambahan for child child yg sekira nya less/insufficient klo memang teacher teacher tidak ada enricment mgkn bisa at/in handle school apabila child child membutuhkan les tambahan",
+                "Saat jam BM child harap always at/in guna memastikan they/their menggunakan waktunya with good utk learn/study with jumlah student yg tidak terlalu banyak harapannya perhatian teacher more maksimal lagi guna meningkatkan achievement serta to student supaya tidak terlalu jomplang with child student",
+              ],
+            },
+            Curriculum: {
+              count: 3,
+              examples: [
+                "Sebaiknya kurikulum Cambrige didaftarkan secara resmi",
+                "Penerapan kurikulum Cambridge secara menyeluruh",
+                "sebaiknya jika ada anak yg kemampuan akademiknya masih kurang bisa didampingi secara intens supaya kemapuannya meningkat, tidak membedakan status sosial masing2 anak",
+              ],
+            },
+            Transportation: {
+              count: 2,
+              examples: [
+                "Area bermain yang masih terdapat sudut2 berbahaya utk anak2. Alangkah baiknya tempat bermain yg bagian keras2 ditutupi dengan busa untuk menghindari benturan saat anak terjatuh",
+                "Perluasan Parkiran mobil untuk lebih mudah antar jemput",
+              ],
+            },
+            Other: {
+              count: 73,
+              examples: [
+                "Menyediakan berbagai persediaan pembelajaran yg efektif",
+                "Pengarahan sekolah ke jenjang lebih tinggi, dibahas lebih serius melibatkan orang tua.",
+                "Penanganan terhadap murid tanpa memilah milah latar belakang siswa",
+                "Karna ank saya dr rumah belajar, utk saat ini sgt2 cukup dan tdk berasa dibedakan.",
+                "Ekskul lebih tertib",
+                "Penanganan terhadap bullying; info yg lebih tranparan dan cepat ke walas dan ortu jika ada anak yg suka melanggar aturan sekolah",
+                "Pengawasan pada siswa",
+                "Kebersihan, kamar mandi kotor.",
+                "Kebersihan kamar mandi untuk lebih ditingkatkan lagi 🙏🙏🙏🙏",
+                "1. Tempat parkir, karena jarak sekolah jauh tidak mungkin kami kesekolah naik angkutan umu atau sepeda motor\n2. Kamar mandi sekolah untuk sekolah berstandar billingual school dan spp yang rata2 menengah keatas kamar mandi tidak layak air kurang sabun tak ada kebersihan sangat kurang bau sekali, bahkan anak sy tahan pipis karena males ke kamar mandi krn bau\n3.kelas 2b sangat sempit tidak layak dijadikan kelas",
+                "Sarpras bisa lebih ditingkatkan lagi",
+                "Saya rasa tidak ada.",
+                "area parkir, area penjemputan anak",
+                "Semua baik",
+                "Sejauh ini saya rasa belum ada yg harus diperbaiki.",
+              ],
+            },
+          },
+          specific_suggestions: [
+            "Ada kerihanian sekolah atau ekskul keagamaan",
+            "Penggunaan bahasa inggris di kegiatan sehari-hari harus lebih ditingkatkan.",
+            "Dengan terus memandu anak anak dengan impian mereka",
+            "sekolah harus bisa menciptakan siswa yang mampu tembus sekolah ke luar negeri dan memberi informasi update tetang biasiswa luar negeri",
+            "Terus mendukung siswi untuk menjadi lebih baik, pergaulan anak-anak tolong diperhatikan",
+            "Untuk dapat menyediakan fasilitas pembelajaran lebih baik,seperti Laboratorium dan benar2 bisa melatih siswa/i yang lebih lambat dalam pembelajaran untuk bisa betul betul memahami pembelajaran tanpa membiarkan anak2 yang tidak paham pelajarannya",
+            "Mengembangkan sarana & prasarana sekolah seiring dengan perkembangan sekolah. Seperti jumlah toilet, ataupun sarana parkiran.",
+            "Jaringan komunikasi 3 arah antara siswa, guru dan orang tua ditingkatkan lagi.",
+            "Mengarahkan anak untuk sekolah lanjutan perlu ditingkatkan sesuai dengan hasil tes minat bakat, sehingga siswa lebih teryakinkan akan potensi asli dirinya",
+            "Tonjolkan sekolah karakternya,",
+            "saat ini kami lihat guru2nya sangat care terhadap setiap muridnya. Semoga selalu konsisten seperti itu, sehingga anak merasa nyaman utk selalu belajar dan berada dilingkungan sekolah.",
+            "Punya gedung sekolah sendiri dengan fasilitas yang lengkap ditengah kota",
+            "semoga di gedung baru memberikan kenyamanan lebih buat anak anak",
+            "To build a proper library with a variety of books.",
+            "Peningkatan fasilitas sekolah",
+            "Memperluas sarana d luar ruangan",
+            "Further improved in term of learning, facilities and quality teachers",
+            "Lebih di tingkatkan dlm pembelajaran agama islamnya",
+            "Agar PTN Top yg ad di Indonesia sosialisasi k sekolah agar menambah motivasi bagi siswa",
+            "Adanya pakta integritas antara guru, siswa dan ortu terhadap aturan anti bullying dll peraturan sekolah",
+            "1. Add facility for sport \n2. Add cable terminal for use in class\n3. When Event trip accordingly with the cost that paid",
+            "Tetap mempertahankan kualitas pendidikan",
+            "With the tuition price we have to pay each month, any minor improvements in different areas are highly appreciated. Considering school will be relocated to a new building and it will be farther for some students to travel, shuttle services provided by school will be much appreciated.",
+            "Try to accomodate parents input",
+            "🌸For SD some workshop to develop their methods.\n🌸 Can be micro teaching, or to enter other SD teachers and learn from each other. \n🌸Or can be take some feedback from students",
+            "Komunikasi yang baik antara guru dan orang tua murid dipertahankan, fasilitas sekolah yang menunjang pembelajaran anak ditingkatkan",
+            "Sekolah ini adalah sekolah yang aman dan nyaman serta lingkungan yang membuat anak bahagia dan bersemangat sekolah.\nSemoga terus seperti itu.\nMungkin untuk pendidikan agamanya perlu lebih ditingkatkan, saat ini cukup tapi menurut saya masih bisa lebih ditingkatkan lagi.",
+            "-Pembersihan toilet setiap min 2 jam sekali agar anak2 nyaman\n-untuk field trip sebaiknya sewa bus \n-anak2 diarahkan lebih banyak menggunakan b.inggris disekolah",
+            "Harus selalu berinovasi",
+            "Perbaiki fasilitas kamar mandi untuk anak anak",
+          ],
+          general_comments: [
+            "secara keseluruhan cukup baik, perlu ada komunikasi maksud dari setiap program yang diberikan atau direncanakan baik program pelajaran, ekskul dan kegiatan sekolah lainnys",
+            "Guru memegang peran penting, oleh sebab itu kualitas peningkatan SDM guru menjadi hal prioritas sekolah.",
+            "jadikan sekolah bangga dengan membuat siswa dapat bersekolah lanjutan di sekolah internasional / luar.. jangan berfokus cuma sekolah negeri di aceh",
+            "Utk di media sosial mgkin lebih sering dishare utk semuanya, tdk hnya ank SD saja, biar diluar sna jg tau klo ada SMP dan SMA nya juga.",
+            "untuk anak anak yang tinggal di asrama tolong lebih diperhatikan.",
+            "Hope the transition to move school location will go smoothly.",
+            "kekecewaan saya terhadap sekolah hanya 1 jika ada rencana untuk pindah lokasi sekolah mengapa tidak diinfokan di awal penerimaan siswa baru karena salah 1 pertimbangan saya untuk menyekolahkan anak di sd pribadi adalah jarak dekat, hanya 10 menit dari rumah kami",
+            "Sirkulasi udara dan kelembapan di ruang kelas tolong d perhatikan lagi",
+            "School fee to expensive",
+            "Jika ada siswa yg melanggar aturan sekolah, guru bidang study jangan segan menghibungi walas dan wali murid, krn mencegah atau memperbaiki dari awal akan lebih baik drpd memperbaiki setelah anak benar2 “terperosok” dalam kenakalan, kemalasan, ataupun budaya2a lainnya yg buruk",
+            "Need quick feedback regarding development of child.\nSo teacher/parents can take action immediately",
+            "Tidak ada, cukup",
+            "All is good and fair, can be improve but it all right at the moment",
+            "🌸For the school rules follow all not according to their parents status.",
+            "Overall sekolah ini sangat baik, saya yakin anak saya di didik dengan baik disini. Namun sekolah harus berbenah di fasilitas kebersihan 🥰🙏🏻",
+            "Sy rasa cukup",
+            "Itu aja terimkasih",
+            "Semoga prestige lebih bagus dan berkembang lagi harapan dari saya, karna sejauh ini buat pelajaran sudah sesuai ekspektasi saya, makasih 🩷",
+            "Semua baik dan memuaskan",
+            "Semoga prestige bilingual school bisa berkembang lebih pesat",
+          ],
+          specific_suggestions_en: [
+            "Ada to school atau extracurricular club to",
+            "use bahasa inggris at/in to daily must/should more at/in",
+            "with continue/continuously guide child child with dreams they/their",
+            "school must/should bisa menciptakan student that/which able to get into school to luar negeri and memberi information update tetang student luar negeri",
+            "continue/continuously support student for at/in more good social interactions child tolong at/in",
+            "for can at/in facilities learning more good laboratory and benar2 bisa melatih student that/which more lambat dalam learning for bisa betul betul memahami learning tanpa membiarkan child that/which tidak paham pelajarannya",
+            "Mengembangkan facilities & feeling school seiring with to school Seperti jumlah toilet ataupun facilities parking",
+            "network communication 3 arah between student teacher and orang tua at/in lagi.",
+            "Mengarahkan child for school lanjutan need at/in sesuai with hasil tes minat bakat, so that student more teryakinkan akan potential asli at/in",
+            "highlight school character",
+            "saat ini we see teacher very care towards every student hopefully always konsisten seperti itu, so that child feeling comfortable utk always learn/study and being/staying at/in school",
+            "Punya building school at/in with facilities that/which complete at/in kota",
+            "hopefully at/in building baru provide to more for child child",
+            "To build a proper library with a variety of books.",
+            "improvement facilities school",
+            "need facilities d luar ruangan",
+            "Further improved in term of learning, facilities and quality teachers",
+            "more at/in improve dlm learning religion islamnya",
+            "Agar PTN Top yg ad at/in Indonesia sosialisasi k school agar add motivasi bagi student",
+            "and pakta integritas between teacher student and ortu towards aturan anti bullying dll peraturan school",
+            "1. Add facility for sport \n2. Add cable terminal for use in class\n3. When Event trip accordingly with the cost that paid",
+            "Tetap mempertahankan quality at/in",
+            "With the tuition price we have to pay each month, any minor improvements in different areas are highly appreciated. Considering school will be relocated to a new building and it will be farther for some students to travel, shuttle services provided by school will be much appreciated.",
+            "Try to accomodate parents input",
+            "🌸For SD some workshop to develop their methods. 🌸 Can be micro teaching, or to enter other SD teachers and learn from each other. 🌸Or can be to some feedback from students",
+            "communication that/which good between teacher and orang tua student at/in facilities school that/which menunjang learning child at/in",
+            "school ini adalah school that/which safe and comfortable serta environment that/which for child bahagia and bersemangat school hopefully continue/continuously seperti itu. Mungkin for at/in safe need more at/in saat ini cukup tapi menurut I masih bisa more at/in lagi.",
+            "clean toilet every min 2 jam sekali agar child comfortable for field trip good sewa bus child at/in more banyak menggunakan b.inggris school",
+            "must/should always berinovasi",
+            "good facilities kamar at/in for child child",
+          ],
+        },
+      };
+      let radarChart, gradeChart, npsChart, enrollmentChart, childrenChart;
+
+      function toggleAccordion(header) {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector(".accordion-icon");
+        const isActive = content.classList.contains("active");
+        document
+          .querySelectorAll(".accordion-content")
+          .forEach((c) => c.classList.remove("active"));
+        document
+          .querySelectorAll(".accordion-icon")
+          .forEach((i) => i.classList.remove("active"));
+        if (!isActive) {
+          content.classList.add("active");
+          icon.classList.add("active");
+          if (header.textContent.includes("Radar")) {
+            setTimeout(
+              () =>
+                updateRadarChart(document.getElementById("schoolFilter").value),
+              100
+            );
+          } else if (header.textContent.includes("Grade")) {
+            setTimeout(() => updateGradeChart(), 100);
+          } else if (header.textContent.includes("NPS")) {
+            setTimeout(() => updateNPSChart(), 100);
+          } else if (header.textContent.includes("Demographics")) {
+            setTimeout(() => updateDemographics(), 100);
+          }
+        }
+      }
+
+      function initializeDashboard() {
+        const schoolFilter = document.getElementById("schoolFilter");
+        dashboardData.schools.forEach((school) => {
+          const option = document.createElement("option");
+          option.value = school.name;
+          option.textContent = `${school.name} (${school.responses} responses)`;
+          schoolFilter.appendChild(option);
+        });
+        updateDashboard();
+        renderDetailedFeedback();
+        document.querySelector(".accordion-header").click();
+      }
+
+      function getScoreColor(score) {
+        return score >= 4 ? "#28a745" : score >= 3 ? "#ffc107" : "#dc3545";
+      }
+      function getScoreClass(score) {
+        return score >= 4
+          ? "score-high"
+          : score >= 3
+          ? "score-medium"
+          : "score-low";
+      }
+
+      function updateDashboard() {
+        const schoolFilter = document.getElementById("schoolFilter").value;
+        let filteredData = dashboardData;
+        if (schoolFilter !== "all") {
+          const school = dashboardData.schools.find(
+            (s) => s.name === schoolFilter
+          );
+          filteredData = {
+            ...dashboardData,
+            summary: {
+              total_responses: school.responses,
+              nps_score: school.nps,
+              avg_satisfaction: school.avg_rating,
+              continuation_rate: school.continuation,
+              num_schools: 1,
+            },
+          };
+        }
+        updateExecutiveSummary(filteredData);
+        updateSchoolHeatmap();
+        updateDomainBars();
+        updateActionItems();
+      }
+
+      function updateExecutiveSummary(data) {
+        const s = data.summary;
+        document.getElementById("executiveSummary").innerHTML = `
+<div class="metric-card">
+<div class="metric-label">Total Responses</div>
+<div class="metric-value">${s.total_responses}</div>
+<div class="metric-subtitle">from ${s.num_schools} schools</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">NPS Score</div>
+<div class="metric-value" style="color:${getScoreColor(
+          s.nps_score / 10
+        )}">${s.nps_score.toFixed(1)}</div>
+<div class="metric-subtitle">${s.nps_score >= 50 ? "Excellent" : "Good"}</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">Avg Satisfaction</div>
+<div class="metric-value" style="color:${getScoreColor(
+          s.avg_satisfaction
+        )}">${s.avg_satisfaction.toFixed(2)}/5</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">Continuation Rate</div>
+<div class="metric-value" style="color:${getScoreColor(
+          s.continuation_rate / 20
+        )}">${s.continuation_rate.toFixed(1)}%</div>
+</div>
+`;
+      }
+
+      function updateSchoolHeatmap() {
+        const domains = Object.keys(dashboardData.domains);
+        let html = `<thead><tr><th>School</th><th style="text-align:center">N</th>${domains
+          .map((d) => `<th style="text-align:center">${d}</th>`)
+          .join("")}<th style="text-align:center">Avg</th></tr></thead><tbody>`;
+        dashboardData.schools.forEach((school) => {
+          const avg =
+            Object.values(school.domains).reduce((a, b) => a + b, 0) /
+            Object.values(school.domains).length;
+          html += `<tr><td style="font-weight:600">${
+            school.name
+          }</td><td style="text-align:center">${school.responses}</td>${domains
+            .map(
+              (d) =>
+                `<td class="score-cell ${getScoreClass(
+                  school.domains[d]
+                )}">${school.domains[d].toFixed(2)}</td>`
+            )
+            .join("")}<td class="score-cell ${getScoreClass(
+            avg
+          )}">${avg.toFixed(2)}</td></tr>`;
+        });
+        document.getElementById("schoolHeatmap").innerHTML = html + "</tbody>";
+      }
+
+      function updateDomainBars() {
+        const domains = Object.entries(dashboardData.domains).sort(
+          (a, b) => b[1].avg - a[1].avg
+        );
+        let html = "";
+        domains.forEach(([d, data]) => {
+          const pct = (data.avg / 5) * 100;
+          html += `<div class="domain-bar"><div class="domain-label">${d}</div><div class="domain-progress"><div class="domain-progress-fill" style="width:${pct}%;background:${getScoreColor(
+            data.avg
+          )}">${data.avg.toFixed(2)}</div></div></div>`;
+        });
+        document.getElementById("domainBars").innerHTML = html;
+      }
+
+      function updateRadarChart(filter) {
+        const ctx = document.getElementById("radarChart").getContext("2d");
+        const domains = Object.keys(dashboardData.domains);
+        if (radarChart) radarChart.destroy();
+        const datasets = [];
+        if (filter === "all") {
+          dashboardData.schools
+            .sort((a, b) => b.responses - a.responses)
+            .slice(0, 5)
+            .forEach((s, i) => {
+              const colors = [
+                "rgba(102,126,234,0.6)",
+                "rgba(118,75,162,0.6)",
+                "rgba(237,100,166,0.6)",
+                "rgba(255,154,158,0.6)",
+                "rgba(250,208,137,0.6)",
+              ];
+              datasets.push({
+                label: s.name,
+                data: domains.map((d) => s.domains[d]),
+                fill: true,
+                backgroundColor: colors[i],
+                borderColor: colors[i].replace("0.6", "1"),
+                borderWidth: 2,
+              });
+            });
+        } else {
+          const s = dashboardData.schools.find((x) => x.name === filter);
+          datasets.push({
+            label: s.name,
+            data: domains.map((d) => s.domains[d]),
+            fill: true,
+            backgroundColor: "rgba(102,126,234,0.6)",
+            borderColor: "rgba(102,126,234,1)",
+            borderWidth: 2,
+          });
+          datasets.push({
+            label: "Network Avg",
+            data: domains.map((d) => dashboardData.domains[d].avg),
+            fill: true,
+            backgroundColor: "rgba(200,200,200,0.3)",
+            borderColor: "rgba(150,150,150,1)",
+            borderWidth: 2,
+            borderDash: [5, 5],
+          });
+        }
+        radarChart = new Chart(ctx, {
+          type: "radar",
+          data: { labels: domains, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: { beginAtZero: true, max: 5, ticks: { stepSize: 1 } },
+            },
+            plugins: { legend: { position: "bottom" } },
+          },
+        });
+      }
+
+      function updateGradeChart() {
+        const ctx = document.getElementById("gradeChart").getContext("2d");
+        const domains = Object.keys(dashboardData.domains);
+        const levels = Object.keys(dashboardData.grade_levels).filter(
+          (g) => dashboardData.grade_levels[g].count > 0
+        );
+        if (gradeChart) gradeChart.destroy();
+        const datasets = levels.map((l, i) => {
+          const colors = ["rgba(102,126,234,0.8)", "rgba(118,75,162,0.8)"];
+          return {
+            label: `${l} (n=${dashboardData.grade_levels[l].count})`,
+            data: domains.map(
+              (d) => dashboardData.grade_levels[l].domains[d] || 0
+            ),
+            backgroundColor: colors[i],
+            borderWidth: 1,
+          };
+        });
+        gradeChart = new Chart(ctx, {
+          type: "bar",
+          data: { labels: domains, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, max: 5 } },
+            plugins: { legend: { position: "bottom" } },
+          },
+        });
+      }
+
+      function updateNPSChart() {
+        const ctx = document.getElementById("npsChart").getContext("2d");
+        if (npsChart) npsChart.destroy();
+        const schools = dashboardData.schools.sort((a, b) => b.nps - a.nps);
+        npsChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: schools.map((s) => s.name),
+            datasets: [
+              {
+                label: "NPS",
+                data: schools.map((s) => s.nps),
+                backgroundColor: schools.map((s) =>
+                  s.nps >= 50 ? "rgba(40,167,69,0.8)" : "rgba(255,193,7,0.8)"
+                ),
+              },
+              {
+                label: "Continuation %",
+                data: schools.map((s) => s.continuation),
+                backgroundColor: "rgba(102,126,234,0.6)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: "y",
+            scales: { x: { max: 100 } },
+            plugins: { legend: { position: "bottom" } },
+          },
+        });
+      }
+
+      function updateDemographics() {
+        if (dashboardData.enrollment_distribution) {
+          const ctx1 = document
+            .getElementById("enrollmentChart")
+            .getContext("2d");
+          if (enrollmentChart) enrollmentChart.destroy();
+          const data = Object.entries(dashboardData.enrollment_distribution);
+          enrollmentChart = new Chart(ctx1, {
+            type: "doughnut",
+            data: {
+              labels: data.map((e) => e[0]),
+              datasets: [
+                {
+                  data: data.map((e) => e[1]),
+                  backgroundColor: [
+                    "#667eea",
+                    "#764ba2",
+                    "#f093fb",
+                    "#f5576c",
+                    "#fad689",
+                  ],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "bottom" },
+                title: { display: true, text: "Enrollment Length" },
+              },
+            },
+          });
+        }
+        if (dashboardData.children_distribution) {
+          const ctx2 = document
+            .getElementById("childrenChart")
+            .getContext("2d");
+          if (childrenChart) childrenChart.destroy();
+          const data = Object.entries(dashboardData.children_distribution);
+          childrenChart = new Chart(ctx2, {
+            type: "pie",
+            data: {
+              labels: data.map((e) => e[0]),
+              datasets: [
+                {
+                  data: data.map((e) => e[1]),
+                  backgroundColor: ["#667eea", "#764ba2", "#f093fb", "#f5576c"],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "bottom" },
+                title: { display: true, text: "Children per Family" },
+              },
+            },
+          });
+        }
+      }
+
+      function renderDetailedFeedback() {
+        const fb = dashboardData.detailed_feedback;
+        let html = "";
+        const icons = {
+          "Teachers & Staff": "👨‍🏫",
+          "Teaching Quality": "📚",
+          Facilities: "🏫",
+          "Safety & Environment": "🛡️",
+          Communication: "💬",
+          Extracurricular: "⚽",
+          Teachers: "👥",
+        };
+        html +=
+          '<h3 style="color:#28a745;font-size:20px;margin-bottom:20px;border-bottom:2px solid #28a745;padding-bottom:8px">🌟 What Parents Appreciate</h3>';
+        [
+          "Teachers & Staff",
+          "Teaching Quality",
+          "Safety & Environment",
+          "Communication",
+        ].forEach((cat) => {
+          if (fb.positive_feedback[cat]) {
+            const d = fb.positive_feedback[cat];
+            html += `<div class="feedback-category"><h4>${
+              icons[cat] || "✓"
+            } ${cat} <span class="feedback-count">${
+              d.count
+            } parents</span></h4>`;
+            const examples = d.examples_en || d.examples;
+            examples.slice(0, 8).forEach((ex, i) => {
+              const orig = d.examples[i];
+              html += `<div class="feedback-item" title="${orig}"><span class="feedback-item-icon">➤</span>${ex}</div>`;
+            });
+            if (examples.length > 8) {
+              html += `<button class="show-more-btn" onclick="toggleMore(this,'p${cat.replace(
+                /\s/g,
+                ""
+              )}')">Show ${
+                examples.length - 8
+              } More</button><div id="p${cat.replace(
+                /\s/g,
+                ""
+              )}" class="hidden">`;
+              examples.slice(8).forEach((ex, i) => {
+                const orig = d.examples[i + 8];
+                html += `<div class="feedback-item" title="${orig}"><span class="feedback-item-icon">➤</span>${ex}</div>`;
+              });
+              html += `</div>`;
+            }
+            html += `</div>`;
+          }
+        });
+        html +=
+          '<h3 style="color:#ffc107;font-size:20px;margin:30px 0 20px;border-bottom:2px solid #ffc107;padding-bottom:8px">🔧 Areas for Improvement</h3>';
+        ["Facilities", "Extracurricular", "Teachers", "Communication"].forEach(
+          (cat) => {
+            if (fb.improvement_areas[cat]) {
+              const d = fb.improvement_areas[cat];
+              html += `<div class="feedback-category" style="border-left-color:#ffc107"><h4 style="color:#f39c12">${
+                icons[cat] || "⚠"
+              } ${cat} <span class="feedback-count" style="background:#ffc107;color:#000">${
+                d.count
+              } mentions</span></h4>`;
+              const examples = d.examples_en || d.examples;
+              examples.slice(0, 8).forEach((ex, i) => {
+                const orig = d.examples[i];
+                html += `<div class="feedback-item improvement-item" title="${orig}"><span class="feedback-item-icon">➤</span>${ex}</div>`;
+              });
+              if (examples.length > 8) {
+                html += `<button class="show-more-btn" onclick="toggleMore(this,'i${cat.replace(
+                  /\s/g,
+                  ""
+                )}')">Show ${
+                  examples.length - 8
+                } More</button><div id="i${cat.replace(
+                  /\s/g,
+                  ""
+                )}" class="hidden">`;
+                examples.slice(8).forEach((ex, i) => {
+                  const orig = d.examples[i + 8];
+                  html += `<div class="feedback-item improvement-item" title="${orig}"><span class="feedback-item-icon">➤</span>${ex}</div>`;
+                });
+                html += `</div>`;
+              }
+              html += `</div>`;
+            }
+          }
+        );
+        html +=
+          '<h3 style="color:#28a745;font-size:20px;margin:30px 0 20px;border-bottom:2px solid #28a745;padding-bottom:8px">💡 Parent Suggestions</h3><div class="feedback-category" style="border-left-color:#28a745">';
+        const sugg = fb.specific_suggestions_en || fb.specific_suggestions;
+        sugg.slice(0, 12).forEach((s, i) => {
+          const orig = fb.specific_suggestions[i];
+          html += `<div class="feedback-item suggestion-item" title="${orig}"><span class="feedback-item-icon">➤</span>${s}</div>`;
+        });
+        if (sugg.length > 12) {
+          html += `<button class="show-more-btn" onclick="toggleMore(this,'sugg')">Show ${
+            sugg.length - 12
+          } More</button><div id="sugg" class="hidden">`;
+          sugg.slice(12).forEach((s, i) => {
+            const orig = fb.specific_suggestions[i + 12];
+            html += `<div class="feedback-item suggestion-item" title="${orig}"><span class="feedback-item-icon">➤</span>${s}</div>`;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+        document.getElementById("detailedFeedback").innerHTML = html;
+      }
+
+      function toggleMore(btn, id) {
+        const el = document.getElementById(id);
+        if (el.classList.contains("hidden")) {
+          el.classList.remove("hidden");
+          btn.textContent = "Show Less";
+        } else {
+          el.classList.add("hidden");
+          const count = el.querySelectorAll(".feedback-item").length;
+          btn.textContent = `Show ${count} More`;
+        }
+      }
+
+      function updateActionItems() {
+        let html = "";
+        dashboardData.action_items.forEach((item, i) => {
+          const rec = {
+            Extracurricular:
+              "Expand programs. Survey student interests. Improve communication.",
+            Facilities: "Conduct audits. Plan upgrades. Improve maintenance.",
+            "Academic Support":
+              "Enhance tutoring. Support struggling students.",
+            Technology: "Assess infrastructure. Provide training.",
+            Teaching: "Professional development. Peer observation.",
+          };
+          html += `<div class="action-item priority-${item.priority.toLowerCase()}"><div class="action-title">${
+            i + 1
+          }. ${
+            item.domain
+          }<span class="badge badge-${item.priority.toLowerCase()}">${
+            item.priority
+          }</span></div><div class="action-detail"><strong>Score:</strong> ${item.score.toFixed(
+            2
+          )}/5.00</div><div class="action-detail"><strong>Actions:</strong> ${
+            rec[item.domain] || "Develop improvement plan."
+          }</div></div>`;
+        });
+        document.getElementById("actionItems").innerHTML = html;
+      }
+
+      window.addEventListener("load", initializeDashboard);
+    </script>
+
+        <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn" title="Ana Sayfa">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
+    <style>
+      .floating-home-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #1a704f 0%, #2d9868 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(26, 112, 79, 0.4);
+        transition: all 0.3s ease;
+        z-index: 9999;
+      }
+      .floating-home-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(26, 112, 79, 0.6);
+      }
+    </style>
+  </body>
+</html>
