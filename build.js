@@ -25,6 +25,9 @@ const htmlFiles = [
   'IslamicSchoolsPerformance.html',
   'PartnerSchoolsPerformance.html',
   'SchoolAppraisalsDashboard.html',
+  'StaffSatisfactionSurvey.html',
+  'StudentSatisfactionSurvey.html',
+  'ParentSatisfactionSurvey.html',
 ];
 
 // Process each HTML file
