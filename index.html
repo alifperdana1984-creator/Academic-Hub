@@ -2629,8 +2629,37 @@
       const loginForm = document.getElementById("loginForm");
       const errorMsg = document.getElementById("errorMsg");
 
-      onAuthStateChanged(auth, (user) => {
+      const allowedDomains = [
+        "scr.sch.id",
+        "eibos.sch.id",
+        "fatih.sch.id",
+        "gcb.sch.id",
+        "kesatuanbangsa.sch.id",
+        "kbs.sch.id",
+        "mega.sch.id",
+        "pakarbelia.sch.id",
+        "prestigeschool.sch.id",
+        "pribadibandung.sch.id",
+        "pribadidepok.sch.id",
+        "pribadipremiere.sch.id",
+        "semesta.sch.id",
+        "tnafatih.sch.id",
+      ];
+
+      function showError(message) {
+        errorMsg.textContent = message;
+        errorMsg.style.display = "block";
+        setTimeout(() => (errorMsg.style.display = "none"), 4000);
+      }
+
+      onAuthStateChanged(auth, async (user) => {
         if (user) {
+          const domain = user.email.split("@")[1];
+          if (!allowedDomains.includes(domain)) {
+            await signOut(auth);
+            showError("Access denied. Only authorized school emails are allowed.");
+            return;
+          }
           document.getElementById("loadingScreen").style.display = "none";
           document.getElementById("loginScreen").style.display = "none";
           document.getElementById("mainContent").style.display = "block";
@@ -2649,6 +2678,13 @@
         const password = document.getElementById("passwordInput").value;
         const loginBtn = document.getElementById("loginBtn");
 
+        // Domain validation
+        const domain = email.split("@")[1];
+        if (!allowedDomains.includes(domain)) {
+          showError("Access denied. Only authorized school emails are allowed.");
+          return;
+        }
+
         // Disable button during login
         loginBtn.disabled = true;
         loginBtn.textContent = "Signing in...";
@@ -2662,9 +2698,7 @@
           } else if (error.code === "auth/network-request-failed") {
             message = "Network error. Check your connection.";
           }
-          errorMsg.textContent = message;
-          errorMsg.style.display = "block";
-          setTimeout(() => (errorMsg.style.display = "none"), 4000);
+          showError(message);
         } finally {
           loginBtn.disabled = false;
           loginBtn.textContent = "Sign In";
@@ -2677,7 +2711,6 @@
 
       // Google Sign-In
       const googleProvider = new GoogleAuthProvider();
-      const allowedDomains = ["kbs.sch.id"];
 
       document
         .getElementById("googleLoginBtn")
@@ -2693,16 +2726,11 @@
 
             if (!allowedDomains.includes(domain)) {
               await signOut(auth);
-              errorMsg.textContent =
-                "Access denied. Only @kbs.sch.id emails are allowed.";
-              errorMsg.style.display = "block";
-              setTimeout(() => (errorMsg.style.display = "none"), 4000);
+              showError("Access denied. Only authorized school emails are allowed.");
             }
           } catch (error) {
             if (error.code !== "auth/popup-closed-by-user") {
-              errorMsg.textContent = error.message || "Google sign-in failed";
-              errorMsg.style.display = "block";
-              setTimeout(() => (errorMsg.style.display = "none"), 4000);
+              showError(error.message || "Google sign-in failed");
             }
           } finally {
             googleBtn.disabled = false;
