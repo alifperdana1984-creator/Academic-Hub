@@ -2656,7 +2656,8 @@
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const domain = user.email.split("@")[1];
-          if (!allowedDomains.includes(domain)) {
+          const isPasswordUser = user.providerData.some(p => p.providerId === "password");
+          if (!allowedDomains.includes(domain) && !isPasswordUser) {
             await signOut(auth);
             showError("Access denied. Only authorized school emails are allowed.");
             return;
@@ -2678,13 +2679,6 @@
         const email = document.getElementById("emailInput").value.trim();
         const password = document.getElementById("passwordInput").value;
         const loginBtn = document.getElementById("loginBtn");
-
-        // Domain validation
-        const domain = email.split("@")[1];
-        if (!allowedDomains.includes(domain)) {
-          showError("Access denied. Only authorized school emails are allowed.");
-          return;
-        }
 
         // Disable button during login
         loginBtn.disabled = true;
