@@ -20,3 +20,7 @@ npm-debug.log*
 
 # Dependencies (if added later)
 node_modules/
+
+# PDF files
+*.pdf
+Sections/*.pdf
