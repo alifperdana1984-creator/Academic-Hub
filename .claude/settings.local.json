@@ -7,7 +7,21 @@
       "Bash(git commit:*)",
       "Bash(git config:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npx serve:*)",
+      "Bash(timeout:*)",
+      "Bash(dir:*)",
+      "Bash(git diff:*)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(powershell:*)",
+      "Bash(del convert_json.ps1 update_html.ps1 section03_data.js)",
+      "Bash(where:*)",
+      "Bash(pdftotext:*)",
+      "Bash(python:*)",
+      "Bash(git -C \"c:\\\\Users\\\\maliu\\\\Desktop\\\\Academic Hub\" status)",
+      "Bash(git -C \"c:\\\\Users\\\\maliu\\\\Desktop\\\\Academic Hub\" push)",
+      "Bash(grep:*)",
+      "Bash(wc:*)"
     ]
   }
 }

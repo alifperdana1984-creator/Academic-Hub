@@ -1,6 +1,23 @@
 const fs = require("fs");
 const path = require("path");
 
+function copyDirRecursive(srcDir, destDir) {
+  if (!fs.existsSync(srcDir)) return;
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+
+  fs.readdirSync(srcDir, { withFileTypes: true }).forEach((entry) => {
+    const srcPath = path.join(srcDir, entry.name);
+    const destPath = path.join(destDir, entry.name);
+    if (entry.isDirectory()) {
+      copyDirRecursive(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  });
+}
+
 // Replace placeholders with environment variables
 const replacements = {
   __FIREBASE_API_KEY__: process.env.FIREBASE_API_KEY || "",
@@ -58,14 +75,16 @@ if (fs.existsSync("auth-guard.js")) {
 const imagesDir = "images";
 if (fs.existsSync(imagesDir)) {
   const destImagesDir = "dist/images";
-  if (!fs.existsSync(destImagesDir)) {
-    fs.mkdirSync(destImagesDir, { recursive: true });
-  }
-
-  fs.readdirSync(imagesDir).forEach((file) => {
-    fs.copyFileSync(path.join(imagesDir, file), path.join(destImagesDir, file));
-  });
+  copyDirRecursive(imagesDir, destImagesDir);
   console.log("Copied: images folder");
+}
+
+// Copy sections folder if it exists (JSON/PDF content for AcademicStandards page)
+const sectionsDir = "Sections";
+if (fs.existsSync(sectionsDir)) {
+  const destSectionsDir = "dist/Sections";
+  copyDirRecursive(sectionsDir, destSectionsDir);
+  console.log("Copied: Sections folder");
 }
 
 console.log("\nBuild completed successfully!");
