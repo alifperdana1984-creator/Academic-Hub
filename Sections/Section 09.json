@@ -1,0 +1,831 @@
+{
+  "id": "09",
+  "title": "Safeguarding, Child Protection, and Wellbeing",
+  "lastUpdated": "2025-01-15",
+  "subsections": [
+    {
+      "id": "9.1",
+      "title": "Purpose and Summary",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish a comprehensive framework that protects all students from harm, promotes wellbeing, and creates a culture of safety across all Eduversal Partner Schools."
+        },
+        {
+          "type": "numbered",
+          "title": "Quick Reference for Any Staff Member Receiving a Disclosure",
+          "items": [
+            "Listen calmly and do not interrupt the student.",
+            "Believe the student and thank them for speaking up.",
+            "Do not promise confidentiality; explain you must share with the DSL to keep them safe.",
+            "Report to the Designated Safeguarding Lead (DSL) immediately on the same day.",
+            "Complete the safeguarding concern form as soon as possible.",
+            "If there is immediate danger, contact emergency services and notify school leadership at once."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.2",
+      "title": "Policy Statement and Core Commitments",
+      "content": [
+        {
+          "type": "text",
+          "title": "Policy Statement",
+          "text": "Eduversal Partner Schools are committed to safeguarding and promoting the welfare of all children and young people. Every child has the right to protection from abuse, neglect, exploitation, and harm."
+        },
+        {
+          "type": "list",
+          "title": "Core Commitments",
+          "items": [
+            "All adults in the school community share responsibility to act on safeguarding concerns.",
+            "Prevention, early intervention, and timely response are essential.",
+            "Partnership with families strengthens child protection outcomes.",
+            "Safeguarding applies to employees, board members, contractors, volunteers, and visitors.",
+            "Continuous learning and policy improvement are mandatory."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.3",
+      "title": "Scope and Definitions",
+      "content": [
+        {
+          "type": "text",
+          "title": "Who Is Protected",
+          "text": "All enrolled students are covered by this policy, with additional vigilance for vulnerable learners including students with disabilities, EAL learners, boarders, and children experiencing family instability."
+        },
+        {
+          "type": "table",
+          "title": "Key Definitions",
+          "headers": [
+            "Term",
+            "Definition"
+          ],
+          "rows": [
+            [
+              "Child / Young Person",
+              "Any individual under 18 years of age."
+            ],
+            [
+              "Safeguarding",
+              "Actions to protect children from harm and promote safe development."
+            ],
+            [
+              "Child Protection",
+              "Specific response to suspected or confirmed abuse or neglect."
+            ],
+            [
+              "Abuse",
+              "Acts or omissions causing physical, emotional, sexual harm, or neglect."
+            ],
+            [
+              "DSL",
+              "Designated Safeguarding Lead responsible for coordination and case management."
+            ],
+            [
+              "Low-Level Concern",
+              "Behavior by an adult that does not meet referral threshold but is inconsistent with expected professional standards."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.4",
+      "title": "Legal and Regulatory Framework",
+      "content": [
+        {
+          "type": "text",
+          "title": "Indonesian Legal Basis",
+          "text": "Implementation is aligned with Indonesian child protection law, digital child protection provisions, and Ministry of Education regulations on anti-violence and safe school environments."
+        },
+        {
+          "type": "list",
+          "title": "Key Regulatory Expectations",
+          "items": [
+            "Mandatory reporting of suspected abuse to relevant authorities.",
+            "Clear school code of conduct and anti-bullying procedures.",
+            "Safe environment standards, supervision controls, and prevention systems.",
+            "Cooperation with child protection, police, and social service agencies."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Primary Reporting Bodies",
+          "items": [
+            "KPAI (Komisi Perlindungan Anak Indonesia)",
+            "P2TP2A local integrated service centers",
+            "Police Unit PPA (Women and Children Protection Unit)",
+            "Relevant social services and health agencies"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.5",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Safeguarding accountability is distributed across governance, leadership, and all school personnel."
+        },
+        {
+          "type": "roles",
+          "title": "Board of Trustees (Eduversal Foundation)",
+          "resp": [
+            "Approve and annually review safeguarding policy.",
+            "Ensure adequate resources for safer recruitment, training, and case management.",
+            "Receive annual safeguarding assurance and monitor network compliance."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Local Yayasan and General Manager",
+          "resp": [
+            "Ensure local legal compliance and implementation quality.",
+            "Support high-risk case escalation, agency coordination, and governance reporting.",
+            "Ensure audits, action plans, and evidence records are maintained."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Principal",
+          "resp": [
+            "Lead school safeguarding culture and operational accountability.",
+            "Ensure all staff understand reporting pathways and boundaries.",
+            "Oversee allegations against staff with HR and legal support."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "DSL and Deputy DSL(s)",
+          "resp": [
+            "Receive, assess, and manage all safeguarding concerns.",
+            "Maintain confidential records and referral decisions.",
+            "Coordinate support plans, external referrals, and case follow-up.",
+            "Lead training, induction controls, and annual safeguarding review."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "All Staff, Volunteers, and Contractors",
+          "resp": [
+            "Complete required safeguarding training and follow the code of conduct.",
+            "Report concerns immediately; do not investigate independently.",
+            "Model professional boundaries and child-centered behavior at all times."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Students and Parents",
+          "resp": [
+            "Students are encouraged to report concerns through trusted adults and school systems.",
+            "Parents partner with school safeguarding plans and follow communication protocols.",
+            "Families receive policy awareness updates and referral pathway guidance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.6",
+      "title": "Safer Recruitment",
+      "content": [
+        {
+          "type": "text",
+          "text": "Recruitment controls are designed to prevent unsuitable individuals from working with children."
+        },
+        {
+          "type": "numbered",
+          "title": "Recruitment Process for All Staff and Volunteers",
+          "items": [
+            "Use job descriptions that clearly state safeguarding responsibilities and regulated activity with children.",
+            "Require complete application history and explanation of gaps.",
+            "Screen declarations on criminal history and child-related disciplinary findings.",
+            "Use interview questions to assess values, boundaries, and disclosure response competence.",
+            "Complete at least two reference checks including child-safety suitability.",
+            "Verify identity, qualifications, right to work, and legally required background checks before start.",
+            "Do not permit unsupervised student contact until pre-employment checks are cleared."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Single Central Register (SCR) Minimum Fields",
+          "headers": [
+            "Field",
+            "Requirement"
+          ],
+          "rows": [
+            [
+              "Identity and right-to-work checks",
+              "Recorded with date and verifier"
+            ],
+            [
+              "Background / police checks",
+              "Recorded with issue date and status"
+            ],
+            [
+              "Reference checks",
+              "At least two, including safeguarding suitability"
+            ],
+            [
+              "Safeguarding training",
+              "Course, completion date, expiry date"
+            ],
+            [
+              "Role restrictions",
+              "Any supervision conditions before clearance"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.7",
+      "title": "Training and Awareness",
+      "content": [
+        {
+          "type": "text",
+          "text": "Every member of the school community must understand safeguarding risks and reporting duties."
+        },
+        {
+          "type": "table",
+          "title": "Minimum Training Matrix",
+          "headers": [
+            "Audience",
+            "Minimum Training",
+            "Frequency"
+          ],
+          "rows": [
+            [
+              "Teaching Staff",
+              "Level 1 child protection training + annual refresher",
+              "Full course every 2 years; refresher yearly"
+            ],
+            [
+              "Support Staff",
+              "Role-appropriate awareness training",
+              "Every 2 years; refresher yearly"
+            ],
+            [
+              "Volunteers",
+              "Basic child protection training before regular contact",
+              "Every 2 years"
+            ],
+            [
+              "DSL / DDSL",
+              "Advanced safeguarding leadership training",
+              "Every 2 years plus updates"
+            ],
+            [
+              "Board and Senior Leaders",
+              "Safeguarding governance training",
+              "Every 2 years"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Student and Parent Awareness",
+          "items": [
+            "Age-appropriate student lessons on safe relationships, reporting, and online safety.",
+            "Regular parent communication on school safeguarding expectations and referral channels.",
+            "Translated and accessible materials where required."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.8",
+      "title": "Recognizing and Responding to Concerns",
+      "content": [
+        {
+          "type": "text",
+          "text": "All staff must recognize possible indicators of abuse and respond in a calm, child-centered, and procedurally correct way."
+        },
+        {
+          "type": "list",
+          "title": "Possible Indicators of Harm",
+          "items": [
+            "Unexplained injuries or repeated injuries.",
+            "Sudden behavioral changes, withdrawal, fear, or regression.",
+            "Age-inappropriate sexualized language or behavior.",
+            "Persistent neglect indicators: poor hygiene, hunger, lack of supervision.",
+            "Frequent absenteeism, distress, or signs of coercion/exploitation."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Response Protocol",
+          "items": [
+            "Listen, reassure, and avoid leading questions.",
+            "State clearly that information must be shared with safeguarding leads.",
+            "Record facts promptly using the standard concern form.",
+            "Report to DSL immediately; if unavailable, escalate to DDSL/Principal.",
+            "If emergency risk exists, contact emergency services and leadership without delay."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.9",
+      "title": "Low-Level Concerns",
+      "content": [
+        {
+          "type": "text",
+          "text": "Low-level concerns involve adult conduct that falls below expected professional standards, even where formal abuse thresholds are not met."
+        },
+        {
+          "type": "list",
+          "title": "Examples",
+          "items": [
+            "Inappropriate personal messaging with students.",
+            "Boundary-blurring behavior or favoritism.",
+            "Dismissive or humiliating comments toward a student.",
+            "Repeated minor protocol breaches that increase safeguarding risk."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Management",
+          "items": [
+            "Report and record through the low-level concern form and log.",
+            "Review patterns over time and escalate where risk accumulates.",
+            "Provide proportionate management action: supervision, coaching, warning, or formal process."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.10",
+      "title": "Record Keeping and Confidentiality",
+      "content": [
+        {
+          "type": "text",
+          "text": "Safeguarding records must be factual, timely, secure, and accessible only to authorized personnel."
+        },
+        {
+          "type": "numbered",
+          "title": "Record-Keeping Standards",
+          "items": [
+            "Record all concerns, decisions, actions, referrals, and outcomes.",
+            "Use dated and signed standardized forms with objective language.",
+            "Store in secure physical or encrypted digital safeguarding systems.",
+            "Keep safeguarding files separate from academic records.",
+            "Retain records according to legal and policy timelines, and transfer securely when required."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.11",
+      "title": "Code of Conduct and Professional Boundaries",
+      "content": [
+        {
+          "type": "text",
+          "text": "Clear professional boundaries protect children and staff."
+        },
+        {
+          "type": "list",
+          "title": "All Staff Must",
+          "items": [
+            "Treat students with respect, fairness, and dignity.",
+            "Use appropriate language and behavior at all times.",
+            "Maintain physical and emotional boundaries.",
+            "Use only approved communication channels with students.",
+            "Avoid one-to-one unsupervised situations where risk is increased.",
+            "Report boundary breaches immediately."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.12",
+      "title": "Allegations Against Staff",
+      "content": [
+        {
+          "type": "text",
+          "text": "Any allegation that an adult has harmed a child, may pose risk, or may be unsuitable to work with children requires immediate and formal handling."
+        },
+        {
+          "type": "numbered",
+          "title": "Immediate Actions",
+          "items": [
+            "Report allegation immediately to Principal (or to higher authority if Principal/GM is implicated).",
+            "Implement immediate risk controls to protect students while preserving fairness and due process.",
+            "Open formal investigation pathway with HR/legal and, where required, external authorities.",
+            "Maintain strict confidentiality and documentation discipline.",
+            "Communicate outcomes and follow-up controls appropriately."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13",
+      "title": "Specific Safeguarding Contexts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Context-specific controls are required for boarding, trips, online environments, peer abuse, and mental health concerns."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Boarding schools (if applicable)",
+            "School trips and off-site activities",
+            "Online safety and digital safeguarding",
+            "Peer-on-peer abuse",
+            "Mental health and wellbeing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13.1",
+      "title": "Boarding Schools (If Applicable)",
+      "content": [
+        {
+          "type": "list",
+          "title": "Core Controls",
+          "items": [
+            "Gender-appropriate supervision and clear staffing ratios.",
+            "Documented nighttime supervision and emergency contact systems.",
+            "Secure access control and student movement management.",
+            "Privacy and dignity protections in residential facilities.",
+            "Specialized safeguarding training for boarding personnel."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13.2",
+      "title": "School Trips and Off-Site Activities",
+      "content": [
+        {
+          "type": "numbered",
+          "title": "Trip Safeguarding Requirements",
+          "items": [
+            "Complete and approve safeguarding risk assessment before departure.",
+            "Set supervision ratios appropriate to age, context, and student needs.",
+            "Ensure gender balance in staffing for mixed groups.",
+            "Carry confidential medical/safeguarding information securely.",
+            "Use clear communication, check-in, and lost-student procedures.",
+            "Record and report any safeguarding incident during or after trip."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13.3",
+      "title": "Online Safety",
+      "content": [
+        {
+          "type": "list",
+          "title": "Priority Digital Risks",
+          "items": [
+            "Cyberbullying and online harassment.",
+            "Online grooming and exploitation.",
+            "Exposure to harmful or age-inappropriate content.",
+            "Sexting and image-based abuse.",
+            "Privacy breaches, identity misuse, and unsafe data sharing."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "School Measures",
+          "items": [
+            "Filtered and monitored internet access.",
+            "Annual Acceptable Use Policy sign-off for students and staff.",
+            "Device management controls on school systems.",
+            "Age-appropriate digital citizenship curriculum.",
+            "Clear reporting and response routes for online incidents."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13.4",
+      "title": "Peer-on-Peer Abuse",
+      "content": [
+        {
+          "type": "text",
+          "text": "Peer abuse includes physical, emotional, sexual, discriminatory, and online harm between students and is treated as a safeguarding issue."
+        },
+        {
+          "type": "list",
+          "title": "Response Principles",
+          "items": [
+            "Zero tolerance for abuse and clear behavior expectations.",
+            "Immediate victim safety and support planning.",
+            "Prompt investigation and proportionate consequences.",
+            "Restorative and educational interventions where appropriate.",
+            "Parent engagement and monitoring of both victim and perpetrator risk."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.13.5",
+      "title": "Mental Health and Wellbeing",
+      "content": [
+        {
+          "type": "text",
+          "text": "Serious mental health concerns such as self-harm or suicidal ideation are safeguarding concerns requiring immediate DSL involvement."
+        },
+        {
+          "type": "numbered",
+          "title": "Immediate Response to High Risk",
+          "items": [
+            "Do not leave the student alone.",
+            "Contact DSL and school leadership immediately.",
+            "Notify parent/guardian unless doing so increases risk.",
+            "Seek urgent medical or psychiatric support when indicated.",
+            "Develop and monitor an individual safety and support plan."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.14",
+      "title": "Whistleblowing",
+      "content": [
+        {
+          "type": "text",
+          "text": "Staff must be able to report safeguarding failures, misconduct, or cover-ups without fear of retaliation."
+        },
+        {
+          "type": "numbered",
+          "title": "Reporting Escalation Path",
+          "items": [
+            "Report to GM where concern involves DSL or staff-level response failures.",
+            "Escalate to Chief of Academics for concerns about school leadership.",
+            "Escalate to Board Chair for network-level or senior leadership concerns.",
+            "Report externally to authorities when internal channels are unsafe or ineffective."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Protections",
+          "items": [
+            "No retaliation for good-faith reporting.",
+            "Confidential handling and fair process.",
+            "Action against malicious or knowingly false reporting."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.15",
+      "title": "Partnership with External Agencies",
+      "content": [
+        {
+          "type": "text",
+          "text": "Complex or high-risk cases require coordinated response with child protection, police, health, and social service agencies."
+        },
+        {
+          "type": "table",
+          "title": "External Agency Collaboration",
+          "headers": [
+            "Agency Type",
+            "Typical Role"
+          ],
+          "rows": [
+            [
+              "KPAI / P2TP2A",
+              "Child protection guidance, services, legal and psychosocial support"
+            ],
+            [
+              "Police Unit PPA",
+              "Investigation of criminal abuse and protection actions"
+            ],
+            [
+              "Hospitals and Mental Health Providers",
+              "Medical assessment, emergency care, psychiatric intervention"
+            ],
+            [
+              "Social Services",
+              "Family welfare interventions and neglect support"
+            ],
+            [
+              "NGOs / Community Services",
+              "Specialized counseling, advocacy, and protection programs"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Operational Expectations",
+          "items": [
+            "Maintain updated referral contacts and documented pathways.",
+            "Use MOUs where appropriate for role clarity and response speed.",
+            "Track referrals, outcomes, and case closure evidence."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.16",
+      "title": "Annual Safeguarding Audit and Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Each school completes an annual safeguarding audit to review policy compliance, response quality, and continuous improvement priorities."
+        },
+        {
+          "type": "numbered",
+          "title": "Audit Scope",
+          "items": [
+            "Policy currency and legal alignment.",
+            "Training completion and effectiveness by role.",
+            "Incident trend and response-time analysis.",
+            "Safer recruitment and SCR completeness.",
+            "Student/parent voice and confidence in reporting.",
+            "Action plan with deadlines, owners, and measurable outcomes."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Annual Reporting",
+          "items": [
+            "Submit safeguarding report to governance bodies.",
+            "Escalate high-risk systemic gaps immediately.",
+            "Use findings to set next-year safeguarding priorities."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.17",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "list",
+          "title": "Policy and Governance Evidence",
+          "items": [
+            "Current safeguarding policy and annual review log.",
+            "Signed staff code of conduct records.",
+            "Whistleblowing, anti-bullying, and online safety policies.",
+            "Board and leadership safeguarding minutes and reports."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Recruitment, Training, and Incident Evidence",
+          "items": [
+            "Single Central Register with checks and verification dates.",
+            "Training records with completion and expiry tracking by role.",
+            "Concern forms, DSL logs, referral records, and case outcomes.",
+            "Trip risk assessments, safety plans, and incident follow-up records."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.18",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "compliance",
+          "categories": [
+            {
+              "title": "Indonesian Legal Requirements",
+              "items": [
+                "Law No. 35/2014 on Child Protection: mandatory reporting, child safety duties, anti-violence measures.",
+                "Law No. 17/2016 and digital protection obligations: online safety controls and prevention actions.",
+                "Ministry regulations on child-friendly schools and school safety implementation."
+              ]
+            },
+            {
+              "title": "CIS Standards",
+              "items": [
+                "Health and Safety expectations for safeguarding policy, training, and safer recruitment.",
+                "School culture standards for respectful, safe, and inclusive environments.",
+                "Operational systems standards for documentation and accountability."
+              ]
+            },
+            {
+              "title": "WASC Categories",
+              "items": [
+                "Category E: student personal and academic growth supported by safe culture and intervention systems.",
+                "Policies and practices requiring equitable protection and timely support for at-risk students."
+              ]
+            },
+            {
+              "title": "Cambridge and International Child Rights",
+              "items": [
+                "Cambridge center expectations for child protection and student welfare safeguards.",
+                "UN Convention on the Rights of the Child principles: best interests, protection, participation, and dignity."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.19",
+      "title": "Appendices (Templates)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Appendix 9-A: Concern / Incident Report Form",
+            "Appendix 9-B: Low-Level Concern Form and Log",
+            "Appendix 9-C: Trip Safeguarding Risk Assessment Template",
+            "Appendix 9-D: Code of Conduct Acknowledgment Form",
+            "Appendix 9-E: DSL Case Management Log",
+            "Appendix 9-F: Safeguarding Training Attendance Record",
+            "Appendix 9-G: Annual Safeguarding Audit Checklist",
+            "Appendix 9-H: Student Safety Plan Template",
+            "Appendix 9-I: Parent Safeguarding Information Sheet (English and Bahasa Indonesia)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.20",
+      "title": "Review and Updates",
+      "content": [
+        {
+          "type": "numbered",
+          "title": "Policy Maintenance Cycle",
+          "items": [
+            "Annual review at the end of each academic year based on audit outcomes.",
+            "Mid-year check in January for urgent risks or regulatory changes.",
+            "Immediate emergency update after serious incidents or legal changes.",
+            "Approval pathway: DSL and school leadership, then governance review for major revisions.",
+            "Communicate updates to staff, students, and parents with implementation guidance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.21",
+      "title": "Contact Information",
+      "content": [
+        {
+          "type": "table",
+          "title": "School-Level Contacts (To Be Localized)",
+          "headers": [
+            "Role",
+            "Contact Placeholder"
+          ],
+          "rows": [
+            [
+              "Designated Safeguarding Lead (DSL)",
+              "dsl@[school].sch.id | [phone] | [office]"
+            ],
+            [
+              "Deputy DSL",
+              "ddsl@[school].sch.id | [phone]"
+            ],
+            [
+              "General Manager",
+              "gm@[school].sch.id | [phone]"
+            ],
+            [
+              "School Counselor",
+              "counselor@[school].sch.id | [phone]"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Network and External Emergency Contacts",
+          "headers": [
+            "Contact",
+            "Details"
+          ],
+          "rows": [
+            [
+              "Eduversal Director of Education",
+              "education@eduversal.org | [central office number]"
+            ],
+            [
+              "Emergency Services",
+              "112"
+            ],
+            [
+              "KPAI",
+              "Use latest local/national hotline and reporting channels"
+            ],
+            [
+              "P2TP2A / Police Unit PPA",
+              "Use current district referral contacts"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9.22",
+      "title": "Conclusion: Commitment to Every Child's Safety",
+      "content": [
+        {
+          "type": "text",
+          "text": "Safeguarding is a daily culture, not a compliance checklist. Eduversal Partner Schools commit to child-centered practice, professional accountability, early intervention, and continuous improvement so that every child is safe, heard, respected, and able to thrive."
+        }
+      ]
+    }
+  ]
+}
