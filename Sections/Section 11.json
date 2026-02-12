@@ -1,0 +1,375 @@
+{
+  "id": "11",
+  "title": "Admissions, Enrollment, and Marketing Ethics",
+  "lastUpdated": "2025-01-15",
+  "subsections": [
+    {
+      "id": "11.1",
+      "title": "Introduction and Rationale",
+      "content": [
+        {
+          "type": "text",
+          "title": "Purpose of Admissions Policy",
+          "text": "Admissions is the first formal relationship between school and family. The process must be fair, transparent, child-centered, and aligned with school values, legal obligations, and long-term student success."
+        },
+        {
+          "type": "list",
+          "title": "Policy Principles",
+          "items": [
+            "Clarity: families understand criteria, timelines, and decisions.",
+            "Equity: decisions are non-discriminatory and needs-aware.",
+            "Fit and support: placement decisions are based on readiness and required support.",
+            "Integrity: marketing and communications must be truthful and verifiable."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.2",
+      "title": "Admissions Policy and Criteria",
+      "content": [
+        {
+          "type": "text",
+          "title": "Open Enrollment Philosophy",
+          "text": "Eduversal Partner Schools welcome students from diverse educational backgrounds while safeguarding educational quality, class capacity, and support feasibility."
+        },
+        {
+          "type": "list",
+          "title": "Core Admissions Criteria",
+          "items": [
+            "Age appropriateness and year-level eligibility.",
+            "Academic profile and prior learning evidence.",
+            "English language readiness and EAL support requirements.",
+            "Behavioral and wellbeing considerations for safe integration.",
+            "Availability of seats and school capacity to provide required support."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Non-Discrimination Commitment",
+          "text": "Admissions decisions must not discriminate based on religion, ethnicity, gender, disability, or socioeconomic status."
+        }
+      ]
+    },
+    {
+      "id": "11.3",
+      "title": "Placement Testing and Assessment",
+      "content": [
+        {
+          "type": "text",
+          "title": "Assessment Purpose",
+          "text": "Placement assessments are diagnostic, not selective. They identify learning profile, support needs, and appropriate entry point so the school can provide the right support from day one."
+        },
+        {
+          "type": "numbered",
+          "title": "Assessment Use Cases",
+          "items": [
+            "Determine best-fit year level, especially for transfer and mid-year applicants.",
+            "Identify EAL proficiency and required language support pathway.",
+            "Flag intervention needs (Tier 2/Tier 3) and referral to learning support.",
+            "Establish baseline data for progress monitoring."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Communication to Families",
+          "items": [
+            "Explain clearly that tests are for support planning, not pass/fail filtering.",
+            "Share summary outcomes and recommended support actions.",
+            "Document assessment decisions in admissions record."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.4",
+      "title": "Enrollment Process and Documentation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Enrollment must follow a standardized workflow with bilingual forms, complete documentation, and clear parent obligations."
+        },
+        {
+          "type": "numbered",
+          "title": "Standard Enrollment Workflow",
+          "items": [
+            "Application submission with required student and parent information.",
+            "Document verification and completeness check.",
+            "Assessment/interview scheduling and placement decision.",
+            "Offer issuance, acceptance confirmation, and fee processing.",
+            "Enrollment contract signing and onboarding handover."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Minimum Required Documentation",
+          "headers": [
+            "Category",
+            "Examples"
+          ],
+          "rows": [
+            [
+              "Identity",
+              "Birth certificate, passport/KTP, family card as applicable"
+            ],
+            [
+              "Academic",
+              "Previous reports/transcripts, school transfer letters"
+            ],
+            [
+              "Health",
+              "Medical information, allergies, relevant support documentation"
+            ],
+            [
+              "Administrative",
+              "Photos, signed forms, fee and contract documents"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.5",
+      "title": "Mid-Year and Transfer Admissions",
+      "content": [
+        {
+          "type": "text",
+          "text": "Mid-year entries require additional checks to protect learning continuity for both incoming and current students."
+        },
+        {
+          "type": "list",
+          "title": "Decision Factors",
+          "items": [
+            "Current class size and capacity limits.",
+            "Teacher workload and support availability.",
+            "Curriculum alignment and transition risk for applicant.",
+            "Priority considerations (e.g., siblings, staff families) where policy permits."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "If Capacity Is Full",
+          "items": [
+            "Offer waitlist placement with transparent communication.",
+            "Provide realistic timeline and update commitments.",
+            "Where possible, refer to other available Eduversal partner schools."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.6",
+      "title": "Marketing and Communications Ethics",
+      "content": [
+        {
+          "type": "text",
+          "title": "Truth in Advertising",
+          "text": "All marketing materials must accurately represent actual facilities, programs, outcomes, and student experience."
+        },
+        {
+          "type": "numbered",
+          "title": "Ethical Marketing Standards",
+          "items": [
+            "Use authentic and current representations of facilities and learning environment.",
+            "State exactly which Cambridge pathways and subjects are currently offered.",
+            "Report examination outcomes accurately with context and cohort size.",
+            "Avoid misleading superlatives and unverifiable ranking claims.",
+            "Obtain consent for student images and testimonials."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Communication Quality Controls",
+          "items": [
+            "Bilingual critical messages (English and Bahasa Indonesia).",
+            "Clear fee disclosure and conditions before commitment.",
+            "Approval workflow for public-facing marketing content."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.7",
+      "title": "Waitlists and Appeals",
+      "content": [
+        {
+          "type": "text",
+          "text": "Waitlist and appeal processes must be documented, consistent, and transparent to families."
+        },
+        {
+          "type": "numbered",
+          "title": "Waitlist Process",
+          "items": [
+            "Notify family of waitlist status and reason (typically capacity).",
+            "Confirm that waitlist is not rejection and application remains active.",
+            "Apply clear prioritization rules and timestamp controls.",
+            "Provide periodic updates and final decision communication."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Appeals Process",
+          "items": [
+            "Family submits appeal within defined window with supporting information.",
+            "School reviews case against policy criteria and available evidence.",
+            "Principal/authorized panel provides final written decision.",
+            "All appeal outcomes are recorded for governance review."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.8",
+      "title": "Withdrawal and Exit Procedures",
+      "content": [
+        {
+          "type": "text",
+          "text": "Withdrawals must follow contractual notice periods and structured exit steps to protect academic continuity and administrative accuracy."
+        },
+        {
+          "type": "list",
+          "title": "Exit Controls",
+          "items": [
+            "Written notice to Principal and Finance Office within required timeline.",
+            "Financial settlement and clearance checks.",
+            "Issuance of transfer documentation and records handover.",
+            "Exit interview/feedback capture where applicable."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.9",
+      "title": "Data Privacy and Protection",
+      "content": [
+        {
+          "type": "text",
+          "text": "Admissions and marketing data must be managed under strict privacy controls, aligned with Indonesian obligations and GDPR-informed best practices."
+        },
+        {
+          "type": "numbered",
+          "title": "Data Protection Requirements",
+          "items": [
+            "Collect only necessary data for admissions, placement, and communication.",
+            "Obtain informed consent for data use, media publication, and direct communication.",
+            "Store records securely with role-based access controls.",
+            "Define retention, archival, and deletion rules for applicant records.",
+            "Provide response protocol for data access requests and breaches."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.10",
+      "title": "Compliance and Accreditation Alignment",
+      "content": [
+        {
+          "type": "compliance",
+          "categories": [
+            {
+              "title": "Indonesian Regulatory Alignment",
+              "items": [
+                "PPDB-related requirements for fair and non-discriminatory admissions.",
+                "Education ministry expectations on transparent school operations.",
+                "Data handling and student protection obligations under national law."
+              ]
+            },
+            {
+              "title": "CIS and WASC Alignment",
+              "items": [
+                "Equitable access and ethical communication in admissions practice.",
+                "Operational integrity through documented policy and procedures.",
+                "Student wellbeing and support readiness during onboarding decisions."
+              ]
+            },
+            {
+              "title": "Cambridge and International School Expectations",
+              "items": [
+                "Admissions transparency for program pathways and subject availability.",
+                "Accurate representation of academic outcomes and qualifications.",
+                "Fair placement and support planning for student success."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.11",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "list",
+          "title": "Policy and Process Evidence",
+          "items": [
+            "Current Admissions Policy (bilingual) with version history.",
+            "Published admissions criteria, timelines, and appeal procedures.",
+            "Marketing ethics and communication approval SOPs."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Operational Evidence",
+          "items": [
+            "Application forms, document checklists, and enrollment contracts.",
+            "Placement assessment summaries and support decisions.",
+            "Waitlist logs, appeal records, and decision letters.",
+            "Withdrawal notices, clearance forms, and transfer documentation.",
+            "Consent records and data access logs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11.12",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "roles",
+          "title": "Principal",
+          "resp": [
+            "Approves admissions policy, major decisions, and appeal outcomes.",
+            "Ensures compliance with legal, ethical, and accreditation standards.",
+            "Approves public marketing narratives and high-risk communications."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "General Manager / Foundation Representative",
+          "resp": [
+            "Oversees strategic enrollment targets and policy governance.",
+            "Monitors compliance risk and escalation decisions.",
+            "Ensures financial and legal consistency across admissions operations."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Admissions Coordinator / Team",
+          "resp": [
+            "Manages application workflow, document checks, and family communication.",
+            "Coordinates assessments, waitlist updates, and onboarding steps.",
+            "Maintains complete records and reporting dashboards."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Academic and Student Support Teams",
+          "resp": [
+            "Conduct placement evaluation and support readiness checks.",
+            "Recommend EAL/SEN interventions and monitor entry transition.",
+            "Provide evidence-based input for acceptance and placement decisions."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Marketing and Communications Team",
+          "resp": [
+            "Produce accurate, ethical marketing and admissions content.",
+            "Ensure consent compliance for media and student stories.",
+            "Align campaigns with approved claims, data, and school identity."
+          ]
+        }
+      ]
+    }
+  ]
+}
