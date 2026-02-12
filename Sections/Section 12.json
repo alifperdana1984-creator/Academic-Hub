@@ -1,0 +1,501 @@
+{
+  "id": "12",
+  "title": "Staff Lifecycle: Recruitment, Induction, Appraisal, Professional Development, and Wellbeing",
+  "lastUpdated": "2025-01-15",
+  "subsections": [
+    {
+      "id": "12.1",
+      "title": "Introduction and Rationale",
+      "content": [
+        {
+          "type": "text",
+          "text": "The quality of student learning is strongly linked to staff quality. This section defines a full staff lifecycle system to attract, develop, support, evaluate, and retain high-performing personnel in alignment with school mission and compliance standards."
+        },
+        {
+          "type": "list",
+          "title": "Staff Lifecycle Objectives",
+          "items": [
+            "Recruit qualified and mission-aligned staff through fair processes.",
+            "Provide structured induction and early-career support.",
+            "Use appraisal and coaching to improve instructional practice.",
+            "Strengthen professional growth through continuous development.",
+            "Protect staff wellbeing and sustain retention."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.2",
+      "title": "Workforce Planning and Staffing Needs",
+      "content": [
+        {
+          "type": "text",
+          "text": "Strategic workforce planning ensures the school has the right people in the right roles at the right time, supporting continuity and educational quality."
+        },
+        {
+          "type": "numbered",
+          "title": "Annual Workforce Planning Cycle",
+          "items": [
+            "Review enrollment projections, program growth, and timetable requirements.",
+            "Analyze current staffing profile, qualifications, and role coverage gaps.",
+            "Forecast vacancies from contract end dates, attrition risk, and leave patterns.",
+            "Set recruitment priorities and budget requirements for the next cycle.",
+            "Approve staffing plan through Principal, GM, and governance process."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Planning Inputs",
+          "headers": [
+            "Input",
+            "Purpose"
+          ],
+          "rows": [
+            [
+              "Enrollment forecast",
+              "Determine teacher demand by year and subject"
+            ],
+            [
+              "Curriculum requirements",
+              "Map specialist roles and program needs"
+            ],
+            [
+              "Teacher load analysis",
+              "Balance contact hours and planning time"
+            ],
+            [
+              "Attrition and performance data",
+              "Predict replacement and succession needs"
+            ],
+            [
+              "Budget envelope",
+              "Confirm affordability and hiring sequencing"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.3",
+      "title": "Recruitment and Selection",
+      "content": [
+        {
+          "type": "text",
+          "text": "Recruitment combines international and local channels to secure qualified educators and support staff while maintaining safer recruitment standards."
+        },
+        {
+          "type": "list",
+          "title": "Recruitment Sources",
+          "items": [
+            "International platforms and professional networks for Cambridge subject teachers.",
+            "Indonesian universities, teacher associations, and national job portals.",
+            "Eduversal internal mobility and referral pathways across partner schools.",
+            "School-branded careers page and targeted talent outreach."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Selection Process",
+          "items": [
+            "Role-based screening of CV, qualifications, and employment history.",
+            "Structured interviews (including safeguarding and pedagogy scenarios).",
+            "Teaching demonstration or competency task where applicable.",
+            "Reference checks and background/safeguarding verification.",
+            "Final decision with documented rationale and approval trail."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.4",
+      "title": "Employment Contracts and Onboarding",
+      "content": [
+        {
+          "type": "text",
+          "text": "Contracting and onboarding must comply with Indonesian labor law while ensuring clarity of duties, rights, performance expectations, and school standards."
+        },
+        {
+          "type": "table",
+          "title": "Common Contract Models",
+          "headers": [
+            "Type",
+            "Use Case",
+            "Key Notes"
+          ],
+          "rows": [
+            [
+              "PKWT (Fixed-Term)",
+              "New hires, temporary coverage, project roles",
+              "Defined duration and renewal constraints under labor law"
+            ],
+            [
+              "PKWTT (Permanent)",
+              "Long-term staff after successful probation cycle",
+              "Indefinite term with due-process termination requirements"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Onboarding Essentials",
+          "items": [
+            "Contract briefing and policy acknowledgment (including safeguarding and conduct).",
+            "Systems setup: payroll, benefits, IT access, HR records.",
+            "Role orientation: curriculum expectations, reporting lines, and duty schedule.",
+            "Assignment of mentor and induction timeline."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.5",
+      "title": "Induction Program for New Teachers",
+      "content": [
+        {
+          "type": "text",
+          "text": "All new teachers complete a structured one-year induction to support instructional quality, professional confidence, and integration into school culture."
+        },
+        {
+          "type": "numbered",
+          "title": "Induction Components",
+          "items": [
+            "Orientation to school mission, values, policies, and operational systems.",
+            "Curriculum and assessment alignment, including Cambridge and Indonesian requirements.",
+            "Classroom management and student support expectations.",
+            "Mentoring and scheduled coaching observations.",
+            "Termly check-ins and evidence-based progress review."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Expected Outcomes",
+          "items": [
+            "Secure classroom routines and lesson quality.",
+            "Accurate assessment and reporting practice.",
+            "Strong collaboration with colleagues and families.",
+            "Readiness for full appraisal cycle participation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.6",
+      "title": "Professional Development Opportunities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Professional development is delivered through network, school-based, and external pathways to improve teaching proficiency and leadership capacity."
+        },
+        {
+          "type": "list",
+          "title": "Core PD Pathways",
+          "items": [
+            "DTP (Development of Teaching Proficiency) and Educamp modules.",
+            "Cambridge International PD and subject-specific training.",
+            "In-school PLCs, lesson study, and peer observation cycles.",
+            "External conferences and specialist workshops."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "PD Planning Expectations",
+          "headers": [
+            "Requirement",
+            "Expectation"
+          ],
+          "rows": [
+            [
+              "Annual PD plan",
+              "Aligned to appraisal goals and school priorities"
+            ],
+            [
+              "Participation evidence",
+              "Attendance logs and certificates"
+            ],
+            [
+              "Classroom transfer",
+              "Documented application of learning"
+            ],
+            [
+              "Review",
+              "Impact discussed in coaching/appraisal meetings"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.7",
+      "title": "Annual Appraisal Cycle",
+      "content": [
+        {
+          "type": "text",
+          "text": "The appraisal cycle combines administrative standards, classroom practice evidence, and work inspection to support accountability and growth."
+        },
+        {
+          "type": "table",
+          "title": "Appraisal Components",
+          "headers": [
+            "Domain",
+            "Weight",
+            "Examples"
+          ],
+          "rows": [
+            [
+              "Administrative",
+              "20%",
+              "Attendance, punctuality, professionalism, compliance"
+            ],
+            [
+              "Classroom Observation",
+              "60%",
+              "Planning, management, instruction, assessment"
+            ],
+            [
+              "Work Inspection",
+              "20%",
+              "Lesson plans, student work, records, communication"
+            ]
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Cycle Stages",
+          "items": [
+            "Orientation and rubric briefing (Term 1).",
+            "Goal setting with appraiser (Term 1).",
+            "Mid-year review and evidence check (Term 2).",
+            "Formal observations and feedback (Terms 2-3).",
+            "Final appraisal meeting and next-cycle planning (Term 3)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Rating Scale",
+          "items": [
+            "Distinguished (4)",
+            "Proficient (3)",
+            "Basic (2)",
+            "Unsatisfactory (1)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.8",
+      "title": "Goal Setting and Growth Plans",
+      "content": [
+        {
+          "type": "text",
+          "text": "Goals must follow SMART criteria and be aligned to student outcomes, school priorities, and professional growth needs."
+        },
+        {
+          "type": "numbered",
+          "title": "Goal Structure",
+          "items": [
+            "1-2 professional practice goals each year.",
+            "1 student learning goal with measurable evidence.",
+            "Action steps, milestones, and required resources.",
+            "Progress evidence logged in appraisal documentation system."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Growth Plan Evidence",
+          "items": [
+            "Observation feedback and coaching notes.",
+            "Student data (pre/post assessments, EASE, class evidence).",
+            "PD completion and implementation artifacts.",
+            "Reflective self-assessment and revised targets."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.9",
+      "title": "Coaching and Mentoring",
+      "content": [
+        {
+          "type": "text",
+          "text": "Mentoring and coaching provide sustained, practice-focused support for new, experienced, and aspiring leaders."
+        },
+        {
+          "type": "list",
+          "items": [
+            "New teacher mentoring throughout first-year induction.",
+            "Peer coaching cycles for targeted instructional refinement.",
+            "Leadership coaching for subject leaders and principals.",
+            "Coaching culture grounded in trust, reflection, and actionable feedback."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.10",
+      "title": "Staff Wellbeing and Work-Life Balance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Staff wellbeing is a strategic quality priority. Schools must proactively manage workload, psychological safety, and sustainable professional expectations."
+        },
+        {
+          "type": "numbered",
+          "title": "Wellbeing Commitments",
+          "items": [
+            "Reasonable teaching loads and protected planning time.",
+            "Balanced duty allocation and reduction of unnecessary meetings.",
+            "Access to wellbeing support and counseling pathways.",
+            "Annual workload and communication audit based on staff feedback.",
+            "Leadership modeling of healthy professional boundaries."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.11",
+      "title": "Performance Concerns and Improvement Plans",
+      "content": [
+        {
+          "type": "text",
+          "text": "Performance concerns are addressed through staged support, evidence-based expectations, and fair procedural management."
+        },
+        {
+          "type": "numbered",
+          "title": "Response Pathway",
+          "items": [
+            "Identify concern indicators from appraisal, student outcomes, conduct, or policy compliance.",
+            "Hold informal improvement conversation and diagnose root causes.",
+            "Provide targeted support (mentoring, PD, adjusted duties) where appropriate.",
+            "Escalate to formal Performance Improvement Plan (PIP) if concerns persist.",
+            "Review outcomes against timeline and determine next decision (close, extend, or formal HR action)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "PIP Minimum Elements",
+          "items": [
+            "Specific performance gaps and expected standards.",
+            "Timeline, checkpoints, and evidence requirements.",
+            "Assigned support mechanisms and responsible supervisors.",
+            "Clear consequence pathway if improvement is not achieved."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.12",
+      "title": "Staff Retention and Exit Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Retention strategy focuses on compensation fairness, culture, leadership quality, and career growth. Exit management ensures knowledge continuity and policy compliance."
+        },
+        {
+          "type": "list",
+          "title": "Retention Priorities",
+          "items": [
+            "Competitive and benchmarked compensation and benefits.",
+            "Recognition systems and supportive leadership practices.",
+            "Career pathways and leadership opportunities.",
+            "Collaborative culture and transparent communication."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Exit Management Steps",
+          "items": [
+            "Receive formal resignation/contract-end confirmation.",
+            "Conduct handover, records transfer, and class continuity planning.",
+            "Complete exit interview and retention insight capture.",
+            "Finalize clearance, payroll, and compliance documentation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.13",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "list",
+          "title": "Recruitment and Employment Evidence",
+          "items": [
+            "Workforce plans and approved staffing budgets.",
+            "Job postings, interview records, and selection rationale.",
+            "Background checks, references, contracts, and onboarding records."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Development and Performance Evidence",
+          "items": [
+            "Induction schedules, mentor logs, and completion records.",
+            "Appraisal forms, observation notes, ratings, and growth plans.",
+            "PD attendance, certificates, and transfer-to-practice evidence.",
+            "PIP records, support plans, and outcome documentation."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Wellbeing, Retention, and Exit Evidence",
+          "items": [
+            "Staff wellbeing survey results and workload audit reports.",
+            "Retention metrics and turnover analysis.",
+            "Exit interview summaries and handover/clearance records."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.14",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "roles",
+          "title": "Principal",
+          "resp": [
+            "Holds overall accountability for staff quality, culture, and compliance.",
+            "Approves workforce planning, hiring decisions, and appraisal implementation.",
+            "Leads performance management, retention strategy, and staff wellbeing oversight."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "General Manager / Yayasan",
+          "resp": [
+            "Approves staffing budgets and strategic workforce priorities.",
+            "Ensures legal compliance and governance assurance across lifecycle processes.",
+            "Supports leadership appointments and risk escalations."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "HR / People Operations",
+          "resp": [
+            "Administers contracts, records, benefits, and legal documentation.",
+            "Coordinates recruitment logistics and onboarding compliance.",
+            "Maintains data dashboards for staffing, appraisal, and retention metrics."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Subject Leaders and Appraisers",
+          "resp": [
+            "Conduct observations, coaching, and performance feedback cycles.",
+            "Co-design goals and monitor evidence-based progress.",
+            "Identify support needs and escalate concerns early."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Teachers and Staff",
+          "resp": [
+            "Engage actively in induction, PD, appraisal, and coaching activities.",
+            "Meet professional standards, policy expectations, and student-centered practice.",
+            "Contribute to a respectful, collaborative, and wellbeing-supportive culture."
+          ]
+        }
+      ]
+    }
+  ]
+}
