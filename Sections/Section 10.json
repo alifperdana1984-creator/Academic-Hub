@@ -1,0 +1,895 @@
+{
+  "id": "10",
+  "title": "Cambridge Examinations Management",
+  "lastUpdated": "2025-01-15",
+  "subsections": [
+    {
+      "id": "10.1",
+      "title": "Introduction and Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "Cambridge examinations are a core measure of academic credibility for Eduversal Partner Schools. This section defines the systems required to maintain integrity, security, fairness, and full compliance across all examination series."
+        },
+        {
+          "type": "list",
+          "title": "Primary Objectives",
+          "items": [
+            "Protect assessment integrity through secure and standardized procedures.",
+            "Ensure candidates have fair access and consistent examination conditions.",
+            "Maintain full compliance with Cambridge Centre regulations and timelines.",
+            "Use examination outcomes for quality assurance and school improvement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.2",
+      "title": "Examinations Governance Structure",
+      "content": [
+        {
+          "type": "text",
+          "text": "Strong governance prevents operational gaps and ensures clear accountability from board level to exam room implementation."
+        }
+      ]
+    },
+    {
+      "id": "10.2.1",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "roles",
+          "title": "Principal (Head of Centre)",
+          "resp": [
+            "Holds ultimate accountability for Cambridge examination compliance.",
+            "Approves entries, key decisions, and annual declaration submissions.",
+            "Leads formal response for serious incidents and malpractice."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Exams Officer",
+          "resp": [
+            "Manages the end-to-end examination cycle: entries, timetables, rooms, dispatch, and records.",
+            "Maintains secure materials logs and key-time compliance controls.",
+            "Coordinates post-results services, certificate handling, and reporting."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Quality Nominee and Academic Leaders",
+          "resp": [
+            "Monitor quality of assessment implementation and policy alignment.",
+            "Review results data and drive post-series improvement actions.",
+            "Ensure training completion and procedural consistency across departments."
+          ]
+        },
+        {
+          "type": "roles",
+          "title": "Invigilators and Support Staff",
+          "resp": [
+            "Run examinations exactly to approved scripts and instructions.",
+            "Maintain supervision, candidate identity checks, and incident reporting.",
+            "Protect exam-room integrity from opening to script collection."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.2.2",
+      "title": "Governance Oversight",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Board receives an annual examinations report covering outcomes, compliance status, incidents, and budget performance."
+        },
+        {
+          "type": "list",
+          "title": "Minimum Annual Report Content",
+          "items": [
+            "Participation rates, pass rates, grade trends, and benchmark movement.",
+            "Cambridge compliance and inspection/notification summary.",
+            "Malpractice and maladministration incident review.",
+            "Budget versus actual expenditure and improvement recommendations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.3",
+      "title": "Secure Materials Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination materials must be protected against unauthorized access, tampering, loss, or environmental damage from receipt to dispatch."
+        }
+      ]
+    },
+    {
+      "id": "10.3.1",
+      "title": "Secure Storage Requirements",
+      "content": [
+        {
+          "type": "list",
+          "title": "Physical Security Controls",
+          "items": [
+            "Dedicated secure room/cabinet with robust construction and dual-lock controls.",
+            "Restricted key access and documented entry logs.",
+            "Appropriate environmental controls (temperature, humidity, and fire risk mitigation).",
+            "No unauthorized personnel access at any time."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Minimum Secure Storage Evidence",
+          "headers": [
+            "Control",
+            "Evidence"
+          ],
+          "rows": [
+            [
+              "Access control",
+              "Named key holders and signed access log"
+            ],
+            [
+              "Storage condition",
+              "Inspection checklist and maintenance records"
+            ],
+            [
+              "Material traceability",
+              "Receipt and dispatch registers"
+            ],
+            [
+              "Security assurance",
+              "Incident-free audits or corrective action records"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.3.2",
+      "title": "Key Times and Materials Handling",
+      "content": [
+        {
+          "type": "text",
+          "text": "Cambridge key times are mandatory. Material handling must follow chain-of-custody procedures at every step."
+        },
+        {
+          "type": "numbered",
+          "title": "Materials Receipt Process",
+          "items": [
+            "Verify courier identity and delivery documentation.",
+            "Check package integrity and reconcile against packing list.",
+            "Log date/time/condition in secure storage register.",
+            "Store immediately without premature opening."
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Materials Dispatch Process",
+          "items": [
+            "Pack scripts in approved envelopes/containers.",
+            "Complete dispatch manifests and required forms.",
+            "Use tracked courier service with signature confirmation.",
+            "Retain proof-of-dispatch documentation for audits."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.4",
+      "title": "Examination Day Procedures",
+      "content": [
+        {
+          "type": "text",
+          "text": "Standardized exam-day protocols ensure fairness, security, and consistency across all rooms and sessions."
+        }
+      ]
+    },
+    {
+      "id": "10.4.1",
+      "title": "Pre-Examination Setup (Day Before)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Confirm room bookings, signage, and seating plans.",
+            "Set desk spacing to Cambridge requirements and verify visible synchronized clocks.",
+            "Prepare candidate instruction notices and invigilator packs.",
+            "For e-assessments, test devices, software, network controls, and backup capacity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.4.2",
+      "title": "During the Examination",
+      "content": [
+        {
+          "type": "numbered",
+          "title": "Opening Protocol (Before Start)",
+          "items": [
+            "Invigilators collect materials and verify session documentation.",
+            "Admit candidates and verify identity against seating plan.",
+            "Remove prohibited items and apply approved storage controls.",
+            "Read standard candidate instructions and start exam on synchronized time."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Core Invigilation Controls",
+          "items": [
+            "Continuous room supervision and movement checks.",
+            "Accurate attendance and late-arrival handling.",
+            "Prompt incident documentation and escalation.",
+            "Secure script collection and count reconciliation at close."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.4.3",
+      "title": "Managing Timetable Clashes",
+      "content": [
+        {
+          "type": "text",
+          "text": "Candidates with timetable clashes follow approved clash-management pathways under strict supervision to preserve integrity."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Different start times with supervised secure rest break.",
+            "Alternative supervised sequence where permitted by Cambridge regulations.",
+            "No candidate contact or information-sharing during clash control periods.",
+            "Documented principal approval and full invigilation records."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.4.4",
+      "title": "Examination Incidents and Emergencies",
+      "content": [
+        {
+          "type": "text",
+          "text": "All incidents are managed through a predefined response protocol to protect candidate welfare and examination validity."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            "Secure immediate safety and exam integrity.",
+            "Record facts and collect evidence within 24 hours.",
+            "Notify leadership and Cambridge where required.",
+            "Implement follow-up actions and candidate support."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.5",
+      "title": "Malpractice and Maladministration",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must distinguish candidate malpractice from centre maladministration and manage both through transparent, evidence-based processes."
+        }
+      ]
+    },
+    {
+      "id": "10.5.1",
+      "title": "Definitions",
+      "content": [
+        {
+          "type": "table",
+          "headers": [
+            "Term",
+            "Definition",
+            "Examples"
+          ],
+          "rows": [
+            [
+              "Malpractice",
+              "Candidate behavior that creates unfair advantage or compromises integrity",
+              "Unauthorized materials, collusion, impersonation"
+            ],
+            [
+              "Maladministration",
+              "Centre/staff process failure affecting fairness or security",
+              "Procedure breach, timing error, insecure handling"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.5.2",
+      "title": "Investigation Process",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Initial incident report and evidence collection (0-24 hours).",
+            "Preliminary review by Principal and Exams Officer (1-3 days).",
+            "Candidate/parent meeting and recorded response (3-5 days).",
+            "Decision, sanctions (if any), and Cambridge report submission (5-7 days).",
+            "Case closure record with appeals route communication."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.6",
+      "title": "Access Arrangements and Special Consideration",
+      "content": [
+        {
+          "type": "text",
+          "text": "Procedures ensure equitable candidate access without compromising standards or examination validity."
+        }
+      ]
+    },
+    {
+      "id": "10.6.1",
+      "title": "Access Arrangements",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Pre-approved adjustments for documented needs (e.g., extra time, reader, scribe, separate room).",
+            "Applications supported by professional evidence and submitted by deadline.",
+            "Arrangements practiced in normal classroom assessment to demonstrate usual way of working.",
+            "Implementation logs maintained for each affected exam."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.6.2",
+      "title": "Special Consideration",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Post-exam adjustment requests for temporary adverse circumstances.",
+            "Evidence may include medical notes, incident records, or bereavement documentation.",
+            "Applications must meet Cambridge criteria and submission timelines.",
+            "Candidate and family are informed of scope and limitations of outcomes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.7",
+      "title": "Post-Examination Processes",
+      "content": [
+        {
+          "type": "text",
+          "text": "Post-series processes include results analysis, service requests, certificate controls, and records assurance."
+        }
+      ]
+    },
+    {
+      "id": "10.7.1",
+      "title": "Results Analysis and Reporting",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Download and verify official results data.",
+            "Analyze pass rates, grade distributions, and component-level performance.",
+            "Compare outcomes with predictions, prior cohorts, and benchmarks.",
+            "Present findings to leadership, board, and academic teams.",
+            "Define intervention actions for resits and curriculum improvement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.7.2",
+      "title": "Post-Results Services",
+      "content": [
+        {
+          "type": "table",
+          "title": "Common Post-Results Services",
+          "headers": [
+            "Service",
+            "Purpose",
+            "Typical Timeline"
+          ],
+          "rows": [
+            [
+              "Clerical re-check",
+              "Verify marks transfer and totaling",
+              "Within Cambridge window"
+            ],
+            [
+              "Review of marking",
+              "Request script re-mark review",
+              "Within Cambridge window"
+            ],
+            [
+              "Access to scripts",
+              "Support teaching feedback and candidate review",
+              "After results release"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "All requests require candidate consent and documented acknowledgement of fee and outcome conditions."
+        }
+      ]
+    },
+    {
+      "id": "10.7.3",
+      "title": "Certificate Distribution and Record Keeping",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Register receipt of certificates and verify against candidate list.",
+            "Distribute through controlled collection process with signature records.",
+            "Store uncollected certificates securely and track reissue requests.",
+            "Maintain archive logs for verification, transcript, and audit needs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.8",
+      "title": "Risk Management and Contingency Planning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examinations require proactive risk planning and continuity arrangements for operational disruptions."
+        }
+      ]
+    },
+    {
+      "id": "10.8.1",
+      "title": "Examination Risks and Mitigation",
+      "content": [
+        {
+          "type": "table",
+          "headers": [
+            "Risk",
+            "Impact",
+            "Mitigation"
+          ],
+          "rows": [
+            [
+              "Material security breach",
+              "Invalidation risk",
+              "Dual-control storage, access logs, rapid escalation"
+            ],
+            [
+              "Staffing shortfall",
+              "Invigilation gaps",
+              "Reserve invigilator pool and cross-training"
+            ],
+            [
+              "Technology failure",
+              "Disrupted e-assessment",
+              "Device/network pre-checks and backup devices"
+            ],
+            [
+              "Late or missing dispatch",
+              "Marking delays",
+              "Courier tracking controls and dispatch deadlines"
+            ],
+            [
+              "Candidate wellbeing crisis",
+              "Performance/safety risk",
+              "Counselor and special consideration pathway"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.8.2",
+      "title": "Business Continuity for Examinations",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Activate examination continuity plan during major disruption.",
+            "Define command structure and communication cascade.",
+            "Coordinate with Cambridge on timetable, venue, or access adjustments.",
+            "Protect candidate wellbeing and fairness during contingency measures.",
+            "Document all continuity decisions for post-series review."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.9",
+      "title": "Continuous Improvement and Quality Assurance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination quality is strengthened through annual review cycles, evidence analysis, and inspection readiness."
+        }
+      ]
+    },
+    {
+      "id": "10.9.1",
+      "title": "Annual Review of Examination Procedures",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Conduct post-series review after each major exam series.",
+            "Analyze incidents, complaints, results quality, and process delays.",
+            "Gather feedback from candidates, invigilators, and subject leaders.",
+            "Update procedures, templates, and training plans.",
+            "Track implementation of corrective actions before next series."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.9.2",
+      "title": "Cambridge Centre Inspections",
+      "content": [
+        {
+          "type": "list",
+          "title": "Inspection Readiness Essentials",
+          "items": [
+            "Current secure storage logs and invigilator training records.",
+            "Access arrangement evidence linked to candidates.",
+            "Archived room plans, scripts documentation, and incident files.",
+            "Annual declaration records and Cambridge correspondence.",
+            "Prompt, transparent evidence sharing during inspection visits."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.10",
+      "title": "Communication and Stakeholder Engagement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Clear communication reduces candidate anxiety, improves preparedness, and supports procedural compliance."
+        }
+      ]
+    },
+    {
+      "id": "10.10.1",
+      "title": "Communication to Candidates and Parents",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Publish exam timelines, entry confirmation windows, and candidate instructions.",
+            "Use bilingual communication (English and Bahasa Indonesia) for critical notices.",
+            "Provide plain-language guidance on exam rules, prohibited items, and support routes.",
+            "Issue results and post-results instructions through controlled official channels."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.10.2",
+      "title": "Internal Communication (Staff)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Share entry lists with subject teams for eligibility verification.",
+            "Provide monthly progress and risk updates to senior leadership.",
+            "Coordinate predicted grades and post-results analysis workflows.",
+            "Communicate incident lessons and procedural updates before each series."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.11",
+      "title": "Financial Management and Budgeting",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination finance must be transparent, forecast-driven, and aligned with school budgeting and fee policies."
+        }
+      ]
+    },
+    {
+      "id": "10.11.1",
+      "title": "Examination Fee Structure",
+      "content": [
+        {
+          "type": "table",
+          "title": "Typical Fee Ranges (2025-26)",
+          "headers": [
+            "Qualification / Service",
+            "Indicative Range"
+          ],
+          "rows": [
+            [
+              "Cambridge Checkpoint",
+              "$30-50 per subject"
+            ],
+            [
+              "IGCSE",
+              "$100-150 per subject"
+            ],
+            [
+              "AS Level",
+              "$120-180 per subject"
+            ],
+            [
+              "A Level",
+              "$150-220 per subject"
+            ],
+            [
+              "Late entry surcharge",
+              "+30% subject fee"
+            ],
+            [
+              "Post-results services",
+              "$30-150 per component"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Fee Responsibility",
+          "items": [
+            "Standard entries may be covered within tuition by school policy.",
+            "Late entries, resits, and optional additional subjects are generally parent-funded.",
+            "Post-results fees are typically parent-funded and may be refundable if outcome changes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.11.2",
+      "title": "Annual Examination Budget",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Prepare budget forecast based on projected entries and subject blocks.",
+            "Include contingencies for late entries, invigilation, and logistics.",
+            "Submit draft to Principal for integration into annual school budget.",
+            "Monitor budget versus actual throughout the year and report variances."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.12",
+      "title": "Templates and Resources",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Entry verification checklist and deadline tracker",
+            "Secure storage register and chain-of-custody log",
+            "Exam-day invigilation script and attendance templates",
+            "Incident/malpractice report forms",
+            "Post-series review and board reporting templates",
+            "Continuity plan and risk assessment templates"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.13",
+      "title": "Professional Development for Examination Personnel",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination personnel require recurrent professional development to maintain regulatory accuracy and operational quality."
+        }
+      ]
+    },
+    {
+      "id": "10.13.1",
+      "title": "Exams Officer Training",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Cambridge Exams Officer training within six months of appointment.",
+            "At least two annual Cambridge refresher updates/webinars.",
+            "Eduversal cross-school practice-sharing sessions.",
+            "Professional development logs and certificate evidence in EduNav."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.13.2",
+      "title": "Invigilator Training Program",
+      "content": [
+        {
+          "type": "table",
+          "title": "Standard Annual Invigilator Program",
+          "headers": [
+            "Module",
+            "Focus",
+            "Duration"
+          ],
+          "rows": [
+            [
+              "Orientation",
+              "Role, integrity, legal duties",
+              "15 minutes"
+            ],
+            [
+              "Cambridge procedures",
+              "Rules, materials, key-time controls",
+              "45 minutes"
+            ],
+            [
+              "Scenario practice",
+              "Late arrivals, malpractice, emergencies, tech failure",
+              "60 minutes"
+            ],
+            [
+              "Documentation",
+              "Registers, incident forms, handover records",
+              "30 minutes"
+            ],
+            [
+              "Competency check",
+              "Knowledge check and sign-off",
+              "30 minutes"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.14",
+      "title": "Integration with School Systems",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination operations are integrated with school data, assessment, quality assurance, and communication systems."
+        }
+      ]
+    },
+    {
+      "id": "10.14.1",
+      "title": "EduNav Dashboard Integration",
+      "content": [
+        {
+          "type": "list",
+          "title": "Dashboard Use Cases",
+          "items": [
+            "Exams Officer dashboard: entries, deadlines, secure storage, and budget tracking.",
+            "Principal dashboard: results trends, compliance status, and risk indicators.",
+            "HoD dashboard: subject-component performance and intervention tracking.",
+            "Candidate/parent portal: timetables, results notifications, and service status."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.14.2",
+      "title": "Assessment Policy Alignment",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Examination procedures align with Section 6 assessment integrity principles.",
+            "Post-results data feeds curriculum and teaching improvement cycles.",
+            "Access arrangements and special consideration align with inclusive assessment controls.",
+            "Academic integrity expectations are consistent across classroom and external assessment."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.15",
+      "title": "Key Performance Indicators (KPIs)",
+      "content": [
+        {
+          "type": "table",
+          "headers": [
+            "KPI",
+            "Target",
+            "Reporting Frequency"
+          ],
+          "rows": [
+            [
+              "On-time entry submission",
+              "100% before deadline",
+              "Per series"
+            ],
+            [
+              "Key-time compliance",
+              "100%",
+              "Per series"
+            ],
+            [
+              "Invigilator training completion",
+              "100% before exams",
+              "Per series"
+            ],
+            [
+              "Incident report completion",
+              "Within 24 hours",
+              "Per incident"
+            ],
+            [
+              "Script dispatch timeliness",
+              "Within required timeline",
+              "Per exam"
+            ],
+            [
+              "Post-series review completion",
+              "Completed and approved",
+              "Twice yearly"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.16",
+      "title": "Compliance and Accreditation Alignment",
+      "content": [
+        {
+          "type": "compliance",
+          "categories": [
+            {
+              "title": "Cambridge Requirements",
+              "items": [
+                "Centre Handbook compliance for entries, key times, security, malpractice, and post-results services.",
+                "Annual declaration accuracy and inspection readiness evidence.",
+                "Fair candidate access through approved arrangements and formal records."
+              ]
+            },
+            {
+              "title": "CIS and WASC",
+              "items": [
+                "Assessment integrity, validity, and reliability standards.",
+                "Operational systems quality, risk management, and documented controls.",
+                "Student support standards for wellbeing and equitable access."
+              ]
+            },
+            {
+              "title": "Indonesian Regulatory Context",
+              "items": [
+                "School operational compliance, record handling, and student protection obligations.",
+                "Transparent financial and governance reporting for examination operations."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.17",
+      "title": "Review and Continuous Improvement Cycle",
+      "content": [
+        {
+          "type": "numbered",
+          "items": [
+            "Use post-series report as the evidence baseline.",
+            "Incorporate stakeholder feedback from students, parents, and staff.",
+            "Integrate updated Cambridge guidance and regulatory changes.",
+            "Revise procedures, templates, and training actions.",
+            "Approve updates through leadership and board governance cycle.",
+            "Publish and communicate updates before next exam series."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.18",
+      "title": "Conclusion",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective Cambridge examination management reflects institutional rigor. By sustaining secure systems, trained personnel, transparent governance, and continuous review, Eduversal Partner Schools protect candidate trust and uphold international academic standards."
+        }
+      ]
+    }
+  ]
+}
