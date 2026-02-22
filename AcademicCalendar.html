@@ -319,7 +319,7 @@
       <div class="nav-actions">
         <a href="AcademicCalendar.html" class="nav-btn active">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>Takvim</span>
+          <span>Calendar</span>
         </a>
         <a href="announcements.html" class="nav-btn" id="navAnnBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/></svg>
@@ -381,8 +381,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Dashboard
       </a>
-      <h1>📅 Akademik Takvim</h1>
-      <p class="subtitle">2025/26 Yıllık Faaliyet Takvimi · Temmuz 2025 – Mayıs 2026</p>
+      <h1>📅 Academic Calendar</h1>
+      <p class="subtitle">2025/26 Annual Activity Timeline · July 2025 – May 2026</p>
     </div>
 
     <main>
@@ -390,35 +390,35 @@
       <div class="stats-bar">
         <div class="stat-card">
           <div class="stat-icon" style="background:rgba(102,126,234,.18);">📊</div>
-          <div class="stat-text"><div class="stat-value" id="statTotal">—</div><div class="stat-label">Toplam Aktivite</div></div>
+          <div class="stat-text"><div class="stat-value" id="statTotal">—</div><div class="stat-label">Total Activities</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background:rgba(16,185,129,.18);">✅</div>
-          <div class="stat-text"><div class="stat-value" id="statCompleted">—</div><div class="stat-label">Tamamlanan</div></div>
+          <div class="stat-text"><div class="stat-value" id="statCompleted">—</div><div class="stat-label">Completed</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background:rgba(79,172,254,.18);">📅</div>
-          <div class="stat-text"><div class="stat-value" id="statThisMonth">—</div><div class="stat-label">Bu Ay Aktivite</div></div>
+          <div class="stat-text"><div class="stat-value" id="statThisMonth">—</div><div class="stat-label">This Month</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background:rgba(245,158,11,.18);">⏳</div>
-          <div class="stat-text"><div class="stat-value" id="statUpcoming">—</div><div class="stat-label">Yaklaşan (30 gün)</div></div>
+          <div class="stat-text"><div class="stat-value" id="statUpcoming">—</div><div class="stat-label">Upcoming (30 days)</div></div>
         </div>
       </div>
 
       <!-- ══ FILTER BAR ══ -->
       <div class="filter-bar">
         <div class="filter-cats" id="filterCats">
-          <button class="filter-btn active" data-cat="all" style="border-color:rgba(108,92,231,.4); background:rgba(108,92,231,.18); color:#fff;">🔍 Tümü</button>
-          <button class="filter-btn" data-cat="assessment">📊 Değerlendirme</button>
-          <button class="filter-btn" data-cat="training">🎓 Eğitim &amp; PD</button>
-          <button class="filter-btn" data-cat="visit">🏫 Okul Ziyareti</button>
-          <button class="filter-btn" data-cat="report">📋 Raporlama</button>
-          <button class="filter-btn" data-cat="event">🎉 Etkinlik</button>
-          <button class="filter-btn" data-cat="parent">👨‍👩‍👧 Veli &amp; Öğrenci</button>
+          <button class="filter-btn active" data-cat="all" style="border-color:rgba(108,92,231,.4); background:rgba(108,92,231,.18); color:#fff;">🔍 All</button>
+          <button class="filter-btn" data-cat="assessment">📊 Assessment</button>
+          <button class="filter-btn" data-cat="training">🎓 Training &amp; PD</button>
+          <button class="filter-btn" data-cat="visit">🏫 School Visit</button>
+          <button class="filter-btn" data-cat="report">📋 Reporting</button>
+          <button class="filter-btn" data-cat="event">🎉 Events</button>
+          <button class="filter-btn" data-cat="parent">👨‍👩‍👧 Parent &amp; Student</button>
         </div>
         <div class="filter-right">
-          <input type="text" class="search-input" id="searchInput" placeholder="🔎 Aktivite ara...">
+          <input type="text" class="search-input" id="searchInput" placeholder="🔎 Search activities...">
           <button class="add-btn" id="addActBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Aktivite Ekle
@@ -440,7 +440,7 @@
     <!-- Scroll to today -->
     <button class="today-btn" id="todayBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
-      Bugüne Git
+      Go to Today
     </button>
 
     <!-- ══ ACTIVITY DETAIL MODAL ══ -->
@@ -455,40 +455,40 @@
         </div>
         <div class="modal-body">
           <div class="modal-info-grid">
-            <div class="modal-info-item"><div class="modal-info-label">📅 Tarih Aralığı</div><div class="modal-info-value" id="detailDate"></div></div>
-            <div class="modal-info-item"><div class="modal-info-label">🏫 Okullar</div><div class="modal-info-value" id="detailSchools"></div></div>
-            <div class="modal-info-item"><div class="modal-info-label">⏱ Süre</div><div class="modal-info-value" id="detailDuration"></div></div>
-            <div class="modal-info-item"><div class="modal-info-label">👤 Ekleyen</div><div class="modal-info-value" id="detailCreatedBy"></div></div>
+            <div class="modal-info-item"><div class="modal-info-label">📅 Date Range</div><div class="modal-info-value" id="detailDate"></div></div>
+            <div class="modal-info-item"><div class="modal-info-label">🏫 Schools</div><div class="modal-info-value" id="detailSchools"></div></div>
+            <div class="modal-info-item"><div class="modal-info-label">⏱ Duration</div><div class="modal-info-value" id="detailDuration"></div></div>
+            <div class="modal-info-item"><div class="modal-info-label">👤 Added By</div><div class="modal-info-value" id="detailCreatedBy"></div></div>
           </div>
           <div>
-            <div class="modal-section-title">Açıklama</div>
+            <div class="modal-section-title">Description</div>
             <div class="modal-description" id="detailDesc">—</div>
           </div>
           <div id="detailDocsSection">
-            <div class="modal-section-title">📎 Dökümanlar &amp; Kaynaklar</div>
+            <div class="modal-section-title">📎 Documents &amp; Resources</div>
             <div class="doc-list" id="detailDocs"></div>
           </div>
           <div id="detailCompletionSection">
-            <div class="modal-section-title">✅ Tamamlanma Durumu</div>
+            <div class="modal-section-title">✅ Completion Status</div>
             <div class="completion-bar-wrap">
-              <div class="completion-bar-label"><span id="compBarLabel">0/15 okul tamamladı</span><span id="compBarPct">0%</span></div>
+              <div class="completion-bar-label"><span id="compBarLabel">0/15 schools completed</span><span id="compBarPct">0%</span></div>
               <div class="completion-bar-track"><div class="completion-bar-fill" id="compBarFill" style="width:0%"></div></div>
             </div>
             <div class="school-completions" id="schoolCompList"></div>
           </div>
           <div id="detailMyComp">
-            <div class="modal-section-title">📝 Okulum İçin</div>
+            <div class="modal-section-title">📝 My School</div>
             <div class="my-completion">
               <div class="my-comp-top">
-                <span class="my-comp-label">Tamamlandı mı?</span>
+                <span class="my-comp-label">Mark as Completed?</span>
                 <button class="toggle-btn pending" id="myCompToggle">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span id="myCompLabel">Tamamlandı Olarak İşaretle</span>
+                  <span id="myCompLabel">Mark as Completed</span>
                 </button>
               </div>
-              <textarea class="notes-area" id="myCompNotes" placeholder="Notlar veya yorumlar... (opsiyonel)"></textarea>
+              <textarea class="notes-area" id="myCompNotes" placeholder="Notes or comments... (optional)"></textarea>
               <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-                <button class="btn btn-success" id="saveCompBtn">💾 Kaydet</button>
+                <button class="btn btn-success" id="saveCompBtn">💾 Save</button>
               </div>
             </div>
           </div>
@@ -500,9 +500,9 @@
           </button>
           <button class="btn btn-ghost" id="detailEditBtn" style="display:none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Düzenle
+            Edit
           </button>
-          <button class="btn btn-ghost" onclick="document.getElementById('detailModal').classList.remove('open')">Kapat</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('detailModal').classList.remove('open')">Close</button>
         </div>
       </div>
     </div>
@@ -520,80 +520,80 @@
           <input type="hidden" id="editId">
           <div class="form-grid">
             <div class="form-group full">
-              <label class="form-label">Aktivite Başlığı *</label>
-              <input type="text" class="form-input" id="editTitle" placeholder="Örn: EASE-I Primary Değerlendirmesi">
+              <label class="form-label">Activity Title *</label>
+              <input type="text" class="form-input" id="editTitle" placeholder="E.g.: EASE-I Primary Assessment">
             </div>
             <div class="form-group">
-              <label class="form-label">Kategori *</label>
+              <label class="form-label">Category *</label>
               <select class="form-select" id="editCategory">
-                <option value="assessment">📊 Değerlendirme / Assessment</option>
-                <option value="training">🎓 Eğitim &amp; PD</option>
+                <option value="assessment">📊 Assessment</option>
+                <option value="training">🎓 Training &amp; PD</option>
                 <option value="visit">🏫 Okul Ziyareti</option>
                 <option value="report">📋 Raporlama</option>
                 <option value="event">🎉 Etkinlik</option>
-                <option value="parent">👨‍👩‍👧 Veli &amp; Öğrenci</option>
+                <option value="parent">👨‍👩‍👧 Parent &amp; Student</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Öncelik</label>
+              <label class="form-label">Priority</label>
               <select class="form-select" id="editPriority">
-                <option value="high">🔴 Yüksek</option>
-                <option value="medium" selected>🟡 Orta</option>
-                <option value="low">🟢 Düşük</option>
+                <option value="high">🔴 High</option>
+                <option value="medium" selected>🟡 Medium</option>
+                <option value="low">🟢 Low</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Başlangıç Ayı *</label>
+              <label class="form-label">Start Month *</label>
               <select class="form-select" id="editMonthStart"></select>
             </div>
             <div class="form-group">
-              <label class="form-label">Başlangıç Haftası *</label>
+              <label class="form-label">Start Week *</label>
               <select class="form-select" id="editWeekStart">
-                <option value="1">Hafta 1</option><option value="2">Hafta 2</option>
-                <option value="3">Hafta 3</option><option value="4">Hafta 4</option>
+                <option value="1">Week 1</option><option value="2">Week 2</option>
+                <option value="3">Week 3</option><option value="4">Week 4</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Bitiş Ayı *</label>
+              <label class="form-label">End Month *</label>
               <select class="form-select" id="editMonthEnd"></select>
             </div>
             <div class="form-group">
-              <label class="form-label">Bitiş Haftası *</label>
+              <label class="form-label">End Week *</label>
               <select class="form-select" id="editWeekEnd">
-                <option value="1">Hafta 1</option><option value="2">Hafta 2</option>
-                <option value="3">Hafta 3</option><option value="4">Hafta 4</option>
+                <option value="1">Week 1</option><option value="2">Week 2</option>
+                <option value="3">Week 3</option><option value="4">Week 4</option>
               </select>
             </div>
             <div class="form-group full">
-              <label class="form-label">Açıklama</label>
-              <textarea class="form-textarea" id="editDesc" placeholder="Aktivite hakkında açıklama, gereklilikler, sorumlu kişiler..."></textarea>
+              <label class="form-label">Description</label>
+              <textarea class="form-textarea" id="editDesc" placeholder="Activity description, requirements, responsible parties..."></textarea>
             </div>
             <div class="form-group full">
-              <label class="form-label">Uygulanacak Okullar</label>
+              <label class="form-label">Applicable Schools</label>
               <div class="schools-select-wrap">
                 <div class="schools-toggle">
-                  <button type="button" class="schools-toggle-btn active" id="schoolsAllBtn">Tüm Okullar</button>
-                  <button type="button" class="schools-toggle-btn" id="schoolsSelectBtn">Belirli Okullar</button>
+                  <button type="button" class="schools-toggle-btn active" id="schoolsAllBtn">All Schools</button>
+                  <button type="button" class="schools-toggle-btn" id="schoolsSelectBtn">Specific Schools</button>
                 </div>
                 <div id="schoolsMultiWrap" style="display:none;">
                   <select class="form-select" id="editSchools" multiple style="height:120px;">
                   </select>
-                  <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;">Ctrl/Cmd ile birden fazla seçin</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;">Hold Ctrl/Cmd to select multiple</div>
                 </div>
               </div>
             </div>
             <div class="form-group full">
-              <label class="form-label">📎 Dökümanlar &amp; Linkler</label>
+              <label class="form-label">📎 Documents &amp; Links</label>
               <div class="doc-list-form" id="docListForm"></div>
               <button type="button" class="add-doc-btn" id="addDocBtn" style="margin-top:8px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Döküman / Link Ekle
+                Add Document / Link
               </button>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-ghost" id="editCancelBtn">İptal</button>
+          <button class="btn btn-ghost" id="editCancelBtn">Cancel</button>
           <button class="btn btn-primary" id="editSaveBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
             Kaydet
@@ -605,7 +605,7 @@
     <!-- ══ LOADING ══ -->
     <div class="loading-overlay" id="loadingOverlay">
       <div class="spinner"></div>
-      <div class="loading-text">Yükleniyor...</div>
+      <div class="loading-text">Loading...</div>
     </div>
 
     <!-- ══ ENV ══ -->
@@ -651,39 +651,39 @@
       ];
 
       const CATS = {
-        assessment:{ label:'Değerlendirme', en:'Assessment',      color:'#667eea', bg:'rgba(102,126,234,.18)', border:'rgba(102,126,234,.55)', icon:'📊' },
-        training:  { label:'Eğitim & PD',   en:'Training & PD',   color:'#11998e', bg:'rgba(17,153,142,.18)',  border:'rgba(17,153,142,.55)',  icon:'🎓' },
-        visit:     { label:'Okul Ziyareti', en:'School Visit',    color:'#f5576c', bg:'rgba(245,87,108,.18)', border:'rgba(245,87,108,.55)', icon:'🏫' },
-        report:    { label:'Raporlama',     en:'Reporting',       color:'#f7971e', bg:'rgba(247,151,30,.18)',  border:'rgba(247,151,30,.55)',  icon:'📋' },
-        event:     { label:'Etkinlik',      en:'Events',          color:'#4facfe', bg:'rgba(79,172,254,.18)', border:'rgba(79,172,254,.55)', icon:'🎉' },
-        parent:    { label:'Veli & Öğrenci',en:'Parent & Student',color:'#a855f7', bg:'rgba(168,85,247,.18)', border:'rgba(168,85,247,.55)', icon:'👨‍👩‍👧' },
+        assessment:{ label:'Assessment', en:'Assessment',      color:'#667eea', bg:'rgba(102,126,234,.18)', border:'rgba(102,126,234,.55)', icon:'📊' },
+        training:  { label:'Training & PD',   en:'Training & PD',   color:'#11998e', bg:'rgba(17,153,142,.18)',  border:'rgba(17,153,142,.55)',  icon:'🎓' },
+        visit:     { label:'School Visit', en:'School Visit',    color:'#f5576c', bg:'rgba(245,87,108,.18)', border:'rgba(245,87,108,.55)', icon:'🏫' },
+        report:    { label:'Reporting',     en:'Reporting',       color:'#f7971e', bg:'rgba(247,151,30,.18)',  border:'rgba(247,151,30,.55)',  icon:'📋' },
+        event:     { label:'Events',      en:'Events',          color:'#4facfe', bg:'rgba(79,172,254,.18)', border:'rgba(79,172,254,.55)', icon:'🎉' },
+        parent:    { label:'Parent & Student',en:'Parent & Student',color:'#a855f7', bg:'rgba(168,85,247,.18)', border:'rgba(168,85,247,.55)', icon:'👨‍👩‍👧' },
       };
 
-      const PRIORITY = { high:{label:'Yüksek',color:'#ef4444'}, medium:{label:'Orta',color:'#f59e0b'}, low:{label:'Düşük',color:'#10b981'} };
+      const PRIORITY = { high:{label:'High',color:'#ef4444'}, medium:{label:'Medium',color:'#f59e0b'}, low:{label:'Low',color:'#10b981'} };
 
       const SCHOOLS = ['Al-Azhar BSD','Al-Azhar Rawamangun','Al-Azhar Kelapa Gading','SDIT Nurul Fikri','SDIT Al-Fath','SMPIT Ummul Quro','SMP IT Al-Kausar','SMA IT Al-Irsyad','SD Islam Al-Azhar 43','SMP Al-Irsyad','SD IT Bina Insan','SMP IT Bina Insan','SD Islam Terpadu','SMP Islam Terpadu','SMA Islam Terpadu'];
 
       const DEMO = [
-        { title:'Teacher Orientation Week', category:'training', priority:'high', monthStart:0, weekStart:1, monthEnd:0, weekEnd:2, description:'Yeni akademik yıl öncesinde tüm öğretmenler için oryantasyon ve hazırlık haftası. Cambridge metodolojisi, okul politikaları ve yıllık hedefler paylaşılır.', schools:'all', documents:[{title:'Oryantasyon Programı',url:'#',type:'pdf'},{title:'Cambridge Guidelines 2025',url:'#',type:'pdf'}] },
-        { title:'New Student Orientation', category:'event', priority:'medium', monthStart:0, weekStart:4, monthEnd:0, weekEnd:4, description:'Yeni kayıt yaptıran öğrenciler ve aileleri için okul tanıtım etkinliği.', schools:'all', documents:[{title:'Orientation Schedule',url:'#',type:'pdf'}] },
-        { title:'Professional Development Day', category:'training', priority:'high', monthStart:1, weekStart:1, monthEnd:1, weekEnd:1, description:'Cambridge International eğitimi odaklı mesleki gelişim günü. Konuk eğitimciler ve workshop oturumları.', schools:'all', documents:[{title:'PD Day Agenda',url:'#',type:'pdf'},{title:'Workshop Materials',url:'#',type:'folder'}] },
-        { title:'School Appraisal Round 1', category:'visit', priority:'high', monthStart:1, weekStart:3, monthEnd:2, weekEnd:1, description:'Eduversal ekibinin partner okullara yaptığı ilk dönem denetim ve değerlendirme ziyaretleri. Her okul yaklaşık 2 günlük ziyaret alır.', schools:'all', documents:[{title:'Appraisal Framework',url:'#',type:'pdf'},{title:'Observation Form',url:'#',type:'docx'},{title:'Self-Evaluation Template',url:'#',type:'docx'}] },
-        { title:'EASE-I Primary Assessment', category:'assessment', priority:'high', monthStart:2, weekStart:2, monthEnd:2, weekEnd:3, description:'Birinci dönem EASE-I Primary (SD/Sınıf 1-6) standardize değerlendirme sınavları. Matematik, Bahasa Indonesia, English ve Sains branşları.', schools:'all', documents:[{title:'EASE-I Primary Guidelines',url:'#',type:'pdf'},{title:'Score Sheet Template',url:'#',type:'xlsx'},{title:'Admin Manual',url:'#',type:'pdf'}] },
-        { title:'EASE-I Lower Secondary', category:'assessment', priority:'high', monthStart:2, weekStart:2, monthEnd:2, weekEnd:3, description:'Birinci dönem EASE-I Lower Secondary (SMP/Sınıf 7-9) değerlendirme sınavları.', schools:'all', documents:[{title:'EASE-I Secondary Guidelines',url:'#',type:'pdf'},{title:'Score Sheet',url:'#',type:'xlsx'}] },
-        { title:'Cambridge Mid-Year Checkpoint', category:'assessment', priority:'medium', monthStart:3, weekStart:1, monthEnd:3, weekEnd:2, description:'Cambridge Primary & Lower Secondary Checkpoint sınavları. Ara dönem değerlendirmesi.', schools:'all', documents:[{title:'Checkpoint Schedule',url:'#',type:'pdf'},{title:'Result Submission Form',url:'#',type:'xlsx'}] },
-        { title:'Parent-Teacher Conference (PTC)', category:'parent', priority:'high', monthStart:4, weekStart:2, monthEnd:4, weekEnd:2, description:'Tüm okullarda eş zamanlı olarak düzenlenen Veli-Öğretmen Toplantısı. Birinci dönem akademik ilerleme raporu paylaşımı.', schools:'all', documents:[{title:'PTC Guide for Schools',url:'#',type:'pdf'}] },
-        { title:'Science & Arts Exhibition', category:'event', priority:'medium', monthStart:4, weekStart:4, monthEnd:4, weekEnd:4, description:'Öğrencilerin fen bilimleri projeleri ve sanat çalışmalarını sergilediği yıllık etkinlik.', schools:'all', documents:[] },
-        { title:'Student Satisfaction Survey', category:'parent', priority:'medium', monthStart:4, weekStart:3, monthEnd:4, weekEnd:4, description:'Öğrencilerin okul memnuniyeti anket dönemi. Online platform üzerinden yürütülür.', schools:'all', documents:[{title:'Survey Link & Instructions',url:'#',type:'link'}] },
-        { title:'Staff Satisfaction Survey', category:'parent', priority:'medium', monthStart:5, weekStart:1, monthEnd:5, weekEnd:1, description:'Öğretmen ve okul personeli memnuniyeti anket dönemi.', schools:'all', documents:[{title:'Staff Survey Form',url:'#',type:'link'}] },
-        { title:'Semester 1 Report Submission', category:'report', priority:'high', monthStart:5, weekStart:3, monthEnd:5, weekEnd:3, description:'Tüm partner okulların birinci dönem akademik raporlarını Eduversal portalına yüklemesi gereken son tarih.', schools:'all', documents:[{title:'Report Template',url:'#',type:'docx'},{title:'Submission Guidelines',url:'#',type:'pdf'}] },
-        { title:'School Improvement Planning Day', category:'training', priority:'medium', monthStart:6, weekStart:2, monthEnd:6, weekEnd:2, description:'İkinci dönem planlaması ve okul gelişim hedeflerinin güncellenmesi için workshop günü.', schools:'all', documents:[{title:'SIP Template 2026',url:'#',type:'docx'}] },
-        { title:'EASE-II Assessment', category:'assessment', priority:'high', monthStart:7, weekStart:2, monthEnd:7, weekEnd:3, description:'İkinci dönem EASE-II değerlendirme sınavları. Primary ve Lower Secondary tüm seviyeleri kapsar.', schools:'all', documents:[{title:'EASE-II Guidelines',url:'#',type:'pdf'},{title:'EASE-II Score Sheet',url:'#',type:'xlsx'}] },
-        { title:'Parent Satisfaction Survey Q2', category:'parent', priority:'medium', monthStart:7, weekStart:4, monthEnd:8, weekEnd:1, description:'İkinci dönem veli memnuniyeti anketi dönemi.', schools:'all', documents:[{title:'Parent Survey Form',url:'#',type:'link'}] },
-        { title:'Cambridge Exam Prep Workshop', category:'training', priority:'high', monthStart:8, weekStart:1, monthEnd:8, weekEnd:2, description:'Cambridge IGCSE ve A-Level sınavlarına hazırlık için öğretmen workshop programı.', schools:'all', documents:[{title:'Cambridge Exam Calendar',url:'#',type:'pdf'},{title:'Past Papers Package',url:'#',type:'folder'}] },
-        { title:'School Appraisal Round 2', category:'visit', priority:'high', monthStart:8, weekStart:3, monthEnd:9, weekEnd:1, description:'Eduversal ekibinin ikinci dönem denetim ziyaretleri. Okul gelişim planı ilerleme değerlendirmesi.', schools:'all', documents:[{title:'Appraisal Round 2 Framework',url:'#',type:'pdf'},{title:'Observation Form R2',url:'#',type:'docx'}] },
-        { title:'Cambridge Exams (IGCSE & A-Level)', category:'assessment', priority:'high', monthStart:10, weekStart:1, monthEnd:10, weekEnd:2, description:'Cambridge International IGCSE ve A-Level resmi sınavları. Tüm partner okullar için kritik değerlendirme dönemi.', schools:'all', documents:[{title:'Cambridge Exam Timetable',url:'#',type:'pdf'},{title:'Invigilation Guidelines',url:'#',type:'pdf'},{title:'Cambridge Centre Admin Guide',url:'#',type:'pdf'}] },
-        { title:'Semester 2 Report Submission', category:'report', priority:'high', monthStart:10, weekStart:3, monthEnd:10, weekEnd:3, description:'Tüm partner okulların yıl sonu akademik raporlarını ve Cambridge sonuç analizlerini yüklemesi gereken son tarih.', schools:'all', documents:[{title:'Year-End Report Template',url:'#',type:'docx'},{title:'Annual Review Form',url:'#',type:'docx'}] },
-        { title:'End-of-Year Ceremony & Graduation', category:'event', priority:'high', monthStart:10, weekStart:4, monthEnd:10, weekEnd:4, description:'Yıl sonu mezuniyet töreni ve okul kapanış etkinliği. Eduversal ödül töreni dahil.', schools:'all', documents:[] },
+        { title:'Teacher Orientation Week', category:'training', priority:'high', monthStart:0, weekStart:1, monthEnd:0, weekEnd:2, description:'Pre-academic year orientation and preparation week for all teachers. Cambridge methodology, school policies and annual goals are shared.', schools:'all', documents:[{title:'Orientation Programme',url:'#',type:'pdf'},{title:'Cambridge Guidelines 2025',url:'#',type:'pdf'}] },
+        { title:'New Student Orientation', category:'event', priority:'medium', monthStart:0, weekStart:4, monthEnd:0, weekEnd:4, description:'School orientation event for newly enrolled students and their families.', schools:'all', documents:[{title:'Orientation Schedule',url:'#',type:'pdf'}] },
+        { title:'Professional Development Day', category:'training', priority:'high', monthStart:1, weekStart:1, monthEnd:1, weekEnd:1, description:'Professional development day focused on Cambridge International education. Guest trainers and workshop sessions.', schools:'all', documents:[{title:'PD Day Agenda',url:'#',type:'pdf'},{title:'Workshop Materials',url:'#',type:'folder'}] },
+        { title:'School Appraisal Round 1', category:'visit', priority:'high', monthStart:1, weekStart:3, monthEnd:2, weekEnd:1, description:'First semester inspection and evaluation visits by the Eduversal team to partner schools. Each school receives approximately 2 days of visits.', schools:'all', documents:[{title:'Appraisal Framework',url:'#',type:'pdf'},{title:'Observation Form',url:'#',type:'docx'},{title:'Self-Evaluation Template',url:'#',type:'docx'}] },
+        { title:'EASE-I Primary Assessment', category:'assessment', priority:'high', monthStart:2, weekStart:2, monthEnd:2, weekEnd:3, description:'Semester 1 EASE-I Primary (SD/Grade 1-6) standardised assessment exams. Mathematics, Bahasa Indonesia, English and Science subjects.', schools:'all', documents:[{title:'EASE-I Primary Guidelines',url:'#',type:'pdf'},{title:'Score Sheet Template',url:'#',type:'xlsx'},{title:'Admin Manual',url:'#',type:'pdf'}] },
+        { title:'EASE-I Lower Secondary', category:'assessment', priority:'high', monthStart:2, weekStart:2, monthEnd:2, weekEnd:3, description:'Semester 1 EASE-I Lower Secondary (SMP/Grade 7-9) assessment exams.', schools:'all', documents:[{title:'EASE-I Secondary Guidelines',url:'#',type:'pdf'},{title:'Score Sheet',url:'#',type:'xlsx'}] },
+        { title:'Cambridge Mid-Year Checkpoint', category:'assessment', priority:'medium', monthStart:3, weekStart:1, monthEnd:3, weekEnd:2, description:'Cambridge Primary & Lower Secondary Checkpoint exams. Mid-term evaluation within the Cambridge programme framework.', schools:'all', documents:[{title:'Checkpoint Schedule',url:'#',type:'pdf'},{title:'Result Submission Form',url:'#',type:'xlsx'}] },
+        { title:'Parent-Teacher Conference (PTC)', category:'parent', priority:'high', monthStart:4, weekStart:2, monthEnd:4, weekEnd:2, description:'Parent-Teacher Conference held simultaneously across all schools. Semester 1 academic progress reports shared.', schools:'all', documents:[{title:'PTC Guide for Schools',url:'#',type:'pdf'}] },
+        { title:'Science & Arts Exhibition', category:'event', priority:'medium', monthStart:4, weekStart:4, monthEnd:4, weekEnd:4, description:'Annual exhibition where students showcase their science projects and artwork.', schools:'all', documents:[] },
+        { title:'Student Satisfaction Survey', category:'parent', priority:'medium', monthStart:4, weekStart:3, monthEnd:4, weekEnd:4, description:'Student school satisfaction survey period. Conducted via online platform.', schools:'all', documents:[{title:'Survey Link & Instructions',url:'#',type:'link'}] },
+        { title:'Staff Satisfaction Survey', category:'parent', priority:'medium', monthStart:5, weekStart:1, monthEnd:5, weekEnd:1, description:'Teacher and school staff satisfaction survey period.', schools:'all', documents:[{title:'Staff Survey Form',url:'#',type:'link'}] },
+        { title:'Semester 1 Report Submission', category:'report', priority:'high', monthStart:5, weekStart:3, monthEnd:5, weekEnd:3, description:'Deadline for all partner schools to upload Semester 1 academic reports to the Eduversal portal.', schools:'all', documents:[{title:'Report Template',url:'#',type:'docx'},{title:'Submission Guidelines',url:'#',type:'pdf'}] },
+        { title:'School Improvement Planning Day', category:'training', priority:'medium', monthStart:6, weekStart:2, monthEnd:6, weekEnd:2, description:'Workshop day for Semester 2 planning and updating school improvement goals.', schools:'all', documents:[{title:'SIP Template 2026',url:'#',type:'docx'}] },
+        { title:'EASE-II Assessment', category:'assessment', priority:'high', monthStart:7, weekStart:2, monthEnd:7, weekEnd:3, description:'Semester 2 EASE-II assessment exams. Covers all Primary and Lower Secondary levels.', schools:'all', documents:[{title:'EASE-II Guidelines',url:'#',type:'pdf'},{title:'EASE-II Score Sheet',url:'#',type:'xlsx'}] },
+        { title:'Parent Satisfaction Survey Q2', category:'parent', priority:'medium', monthStart:7, weekStart:4, monthEnd:8, weekEnd:1, description:'Semester 2 parent satisfaction survey period.', schools:'all', documents:[{title:'Parent Survey Form',url:'#',type:'link'}] },
+        { title:'Cambridge Exam Prep Workshop', category:'training', priority:'high', monthStart:8, weekStart:1, monthEnd:8, weekEnd:2, description:'Teacher workshop programme in preparation for Cambridge IGCSE and A-Level exams.', schools:'all', documents:[{title:'Cambridge Exam Calendar',url:'#',type:'pdf'},{title:'Past Papers Package',url:'#',type:'folder'}] },
+        { title:'School Appraisal Round 2', category:'visit', priority:'high', monthStart:8, weekStart:3, monthEnd:9, weekEnd:1, description:'Second semester inspection visits by the Eduversal team. School improvement plan progress evaluation.', schools:'all', documents:[{title:'Appraisal Round 2 Framework',url:'#',type:'pdf'},{title:'Observation Form R2',url:'#',type:'docx'}] },
+        { title:'Cambridge Exams (IGCSE & A-Level)', category:'assessment', priority:'high', monthStart:10, weekStart:1, monthEnd:10, weekEnd:2, description:'Official Cambridge International IGCSE and A-Level examinations. Critical assessment period for all partner schools.', schools:'all', documents:[{title:'Cambridge Exam Timetable',url:'#',type:'pdf'},{title:'Invigilation Guidelines',url:'#',type:'pdf'},{title:'Cambridge Centre Admin Guide',url:'#',type:'pdf'}] },
+        { title:'Semester 2 Report Submission', category:'report', priority:'high', monthStart:10, weekStart:3, monthEnd:10, weekEnd:3, description:'Deadline for all partner schools to upload year-end academic reports and Cambridge results analyses.', schools:'all', documents:[{title:'Year-End Report Template',url:'#',type:'docx'},{title:'Annual Review Form',url:'#',type:'docx'}] },
+        { title:'End-of-Year Ceremony & Graduation', category:'event', priority:'high', monthStart:10, weekStart:4, monthEnd:10, weekEnd:4, description:'Year-end graduation ceremony and school closing event. Includes the Eduversal awards ceremony.', schools:'all', documents:[] },
       ];
 
       // ── State ─────────────────────────────────────────────────────
@@ -704,8 +704,8 @@
       function monthLabel(idx) { return `${MONTHS[idx].short} ${MONTHS[idx].year}`; }
       function formatDateRange(a) {
         const s = MONTHS[a.monthStart]; const e = MONTHS[a.monthEnd];
-        if (a.monthStart === a.monthEnd) return `${s.name} ${s.year} · H${a.weekStart}${a.weekStart !== a.weekEnd ? '–H'+a.weekEnd : ''}`;
-        return `${s.name} H${a.weekStart} – ${e.name} H${a.weekEnd} ${e.year}`;
+        if (a.monthStart === a.monthEnd) return `${s.name} ${s.year} · W${a.weekStart}${a.weekStart !== a.weekEnd ? '–W'+a.weekEnd : ''}`;
+        return `${s.name} W${a.weekStart} – ${e.name} W${a.weekEnd} ${e.year}`;
       }
       function docTypeIcon(t) { return {pdf:'📄',xlsx:'📊',docx:'📝',link:'🔗',folder:'📁'}[t] || '📎'; }
       function docIconClass(t){ return `doc-icon-${t||'pdf'}`; }
@@ -810,7 +810,7 @@
         mRow.className = 'tl-month-row';
         const corner = document.createElement('div');
         corner.className = 'tl-corner';
-        corner.textContent = 'Kategori';
+        corner.textContent = 'Category';
         mRow.appendChild(corner);
         const todayMi = (() => { const d=new Date(); return MONTHS.findIndex(x=>x.num===d.getMonth()+1&&x.year===d.getFullYear()); })();
         MONTHS.forEach((m,mi) => {
@@ -836,7 +836,7 @@
             const cell = document.createElement('div');
             cell.className = 'tl-week-cell' + (wi===todayWi?' current-week':'');
             cell.style.width = WEEK_W+'px';
-            cell.textContent = `H${w}`;
+            cell.textContent = `W${w}`;
             wRow.appendChild(cell);
           }
         });
@@ -859,8 +859,8 @@
           label.className = 'tl-label';
           label.innerHTML = `
             <div class="tl-label-icon">${catDef.icon}</div>
-            <div class="tl-label-text">${catDef.label}</div>
-            <div class="tl-label-sub">${catDef.en}</div>
+            <div class="tl-label-text">${catDef.en}</div>
+            
             <div class="tl-label-count" style="background:${catDef.color}33;color:${catDef.color};border:1px solid ${catDef.border};">${catActs.length}</div>`;
           label.addEventListener('click', () => {
             activeFilter = activeFilter===catKey ? 'all' : catKey;
@@ -901,7 +901,7 @@
           if (catActs.length===0) {
             const emp = document.createElement('div');
             emp.className = 'empty-lane';
-            emp.textContent = 'Bu kategoride aktivite yok';
+            emp.textContent = 'No activities in this category';
             barArea.appendChild(emp);
           }
 
@@ -922,7 +922,7 @@
             bar.innerHTML = `
               <div class="act-bar-priority" style="background:${pColor};box-shadow:0 0 6px ${pColor}88;"></div>
               <div class="act-bar-title">${act.title}</div>
-              ${width>160?`<div class="act-bar-weeks">${totalWeeks(act)}h</div>`:''}`;
+              ${width>160?`<div class="act-bar-weeks">${totalWeeks(act)}w</div>`:''}`;
             bar.addEventListener('click', () => openDetailModal(act.id));
             bar.title = act.title;
             barArea.appendChild(bar);
@@ -975,12 +975,12 @@
           const pc = PRIORITY[p];
           const li = document.createElement('div');
           li.className='legend-item';
-          li.innerHTML=`<div class="legend-dot" style="background:${pc.color}; border-radius:50%;"></div>${pc.label} Öncelik`;
+          li.innerHTML=`<div class="legend-dot" style="background:${pc.color}; border-radius:50%;"></div>${pc.label} Priority`;
           lg.appendChild(li);
         });
         const tli = document.createElement('div');
         tli.className='legend-item';
-        tli.innerHTML=`<div class="legend-dot" style="background:#ff6b6b;border-radius:50%;"></div>Bugün`;
+        tli.innerHTML=`<div class="legend-dot" style="background:#ff6b6b;border-radius:50%;"></div>Today`;
         lg.appendChild(tli);
       }
 
@@ -994,16 +994,16 @@
 
         document.getElementById('detailTitle').textContent = act.title;
         document.getElementById('detailDate').textContent  = formatDateRange(act);
-        document.getElementById('detailDuration').textContent = `${totalWeeks(act)} hafta`;
-        document.getElementById('detailSchools').textContent  = act.schools==='all' ? 'Tüm Partner Okullar' : (act.schools||[]).join(', ');
+        document.getElementById('detailDuration').textContent = `${totalWeeks(act)} week(s)`;
+        document.getElementById('detailSchools').textContent  = act.schools==='all' ? 'All Partner Schools' : (act.schools||[]).join(', ');
         document.getElementById('detailDesc').textContent     = act.description || '—';
-        document.getElementById('detailCreatedBy').textContent= act.createdBy==='system'?'Eduversal (Demo)':'Eduversal Yönetimi';
+        document.getElementById('detailCreatedBy').textContent= act.createdBy==='system'?'Eduversal (Demo)':'Eduversal Management';
 
         // Badges
         const badges = document.getElementById('detailBadges');
         badges.innerHTML = `
           <span class="badge" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.border};">${cat.icon} ${cat.label}</span>
-          <span class="badge badge-priority-${act.priority}">${pri.label} Öncelik</span>`;
+          <span class="badge badge-priority-${act.priority}">${pri.label} Priority</span>`;
 
         // Documents
         const docs = act.documents||[];
@@ -1027,7 +1027,7 @@
         const toggle = document.getElementById('myCompToggle');
         const compLabel = document.getElementById('myCompLabel');
         toggle.className = myComp?.completed ? 'toggle-btn completed' : 'toggle-btn pending';
-        compLabel.textContent = myComp?.completed ? 'Tamamlandı ✓' : 'Tamamlandı Olarak İşaretle';
+        compLabel.textContent = myComp?.completed ? 'Completed ✓' : 'Mark as Completed';
         document.getElementById('myCompNotes').value = myComp?.notes || '';
 
         // Admin buttons
@@ -1046,7 +1046,7 @@
           const done = Object.values(comps).filter(c=>c.completed).length;
           const total = SCHOOLS.length;
           const pct = Math.round(done/total*100);
-          document.getElementById('compBarLabel').textContent = `${done}/${total} okul tamamladı`;
+          document.getElementById('compBarLabel').textContent = `${done}/${total} schools completed`;
           document.getElementById('compBarPct').textContent   = pct+'%';
           document.getElementById('compBarFill').style.width  = pct+'%';
           const list = document.getElementById('schoolCompList');
@@ -1067,7 +1067,7 @@
         const lbl = document.getElementById('myCompLabel');
         const isDone = btn.classList.contains('completed');
         btn.className = isDone ? 'toggle-btn pending' : 'toggle-btn completed';
-        lbl.textContent = isDone ? 'Tamamlandı Olarak İşaretle' : 'Tamamlandı ✓';
+        lbl.textContent = isDone ? 'Mark as Completed' : 'Completed ✓';
       });
 
       document.getElementById('saveCompBtn').addEventListener('click', async () => {
@@ -1093,14 +1093,14 @@
 
       // Delete
       document.getElementById('detailDeleteBtn').addEventListener('click', async () => {
-        if (!confirm('Bu aktiviteyi silmek istediğinize emin misiniz?')) return;
+        if (!confirm('Are you sure you want to delete this activity?')) return;
         await deleteDoc(doc(db,'timeline_activities',currentDetailId));
         document.getElementById('detailModal').classList.remove('open');
       });
 
       // ── Edit/Add Modal ─────────────────────────────────────────────
       function openEditModal(act=null) {
-        document.getElementById('editModalTitle').textContent = act ? 'Aktiviteyi Düzenle' : 'Yeni Aktivite Ekle';
+        document.getElementById('editModalTitle').textContent = act ? 'Edit Activity' : 'Add New Activity';
         document.getElementById('editId').value        = act?.id || '';
         document.getElementById('editTitle').value     = act?.title || '';
         document.getElementById('editDesc').value      = act?.description || '';
@@ -1137,8 +1137,8 @@
           const row = document.createElement('div');
           row.className = 'doc-form-row';
           row.innerHTML = `
-            <input type="text" class="form-input" placeholder="Döküman başlığı" value="${d.title||''}" data-fi="${i}" data-field="title">
-            <input type="text" class="form-input" placeholder="URL veya link" value="${d.url||''}" data-fi="${i}" data-field="url" style="min-width:160px;">
+            <input type="text" class="form-input" placeholder="Document title" value="${d.title||''}" data-fi="${i}" data-field="title">
+            <input type="text" class="form-input" placeholder="URL or link" value="${d.url||''}" data-fi="${i}" data-field="url" style="min-width:160px;">
             <select class="form-select" data-fi="${i}" data-field="type">
               ${['pdf','xlsx','docx','link','folder'].map(t=>`<option value="${t}" ${d.type===t?'selected':''}>${t}</option>`).join('')}
             </select>
@@ -1174,7 +1174,7 @@
 
       document.getElementById('editSaveBtn').addEventListener('click', async () => {
         const title = document.getElementById('editTitle').value.trim();
-        if (!title) { alert('Lütfen bir başlık girin.'); return; }
+        if (!title) { alert('Please enter a title.'); return; }
         const isAllSchools = document.getElementById('schoolsAllBtn').classList.contains('active');
         let schools = 'all';
         if (!isAllSchools) { schools = Array.from(document.getElementById('editSchools').selectedOptions).map(o=>o.value); }
@@ -1189,14 +1189,14 @@
           schools, documents: docFormItems.filter(d=>d.title),
         };
         const id = document.getElementById('editId').value;
-        document.getElementById('editSaveBtn').textContent = 'Kaydediliyor...';
+        document.getElementById('editSaveBtn').textContent = 'Saving...';
         document.getElementById('editSaveBtn').disabled = true;
         try {
           if (id) { await updateDoc(doc(db,'timeline_activities',id),{...data,updatedAt:serverTimestamp(),updatedBy:currentUser.uid}); }
           else    { await addDoc(collection(db,'timeline_activities'),{...data,createdAt:serverTimestamp(),createdBy:currentUser.uid}); }
           document.getElementById('editModal').classList.remove('open');
-        } catch(e) { alert('Kayıt hatası: '+e.message); }
-        document.getElementById('editSaveBtn').textContent = 'Kaydet';
+        } catch(e) { alert('Save error: '+e.message); }
+        document.getElementById('editSaveBtn').textContent = 'Save';
         document.getElementById('editSaveBtn').disabled = false;
       });
 
@@ -1273,7 +1273,7 @@
         document.getElementById('ddSavePhone').addEventListener('click', async () => {
           const phone = document.getElementById('ddPhone').value.trim();
           const status = document.getElementById('ddPhoneStatus');
-          try { await updateDoc(doc(db,'users',currentUser.uid),{phone}); status.textContent='✓ Kaydedildi'; setTimeout(()=>status.textContent='',2000); }
+          try { await updateDoc(doc(db,'users',currentUser.uid),{phone}); status.textContent='✓ Saved'; setTimeout(()=>status.textContent='',2000); }
           catch(e){ status.style.color='#ef4444'; status.textContent='Hata: '+e.message; }
         });
 
@@ -1290,15 +1290,15 @@
           const nw  = document.getElementById('ddNewPw').value;
           const cf  = document.getElementById('ddConfirmPw').value;
           const st  = document.getElementById('ddPwStatus');
-          if (nw!==cf){ st.style.color='#ef4444'; st.textContent='Şifreler eşleşmiyor.'; return; }
-          if (nw.length<6){ st.style.color='#ef4444'; st.textContent='En az 6 karakter.'; return; }
+          if (nw!==cf){ st.style.color='#ef4444'; st.textContent='Passwords do not match.'; return; }
+          if (nw.length<6){ st.style.color='#ef4444'; st.textContent='Minimum 6 characters.'; return; }
           try {
             const cred = EmailAuthProvider.credential(currentUser.email, cur);
             await reauthenticateWithCredential(currentUser, cred);
             await updatePassword(currentUser, nw);
-            st.style.color='#10b981'; st.textContent='✓ Şifre güncellendi.';
+            st.style.color='#10b981'; st.textContent='✓ Password updated.';
             ['ddCurrentPw','ddNewPw','ddConfirmPw'].forEach(id => document.getElementById(id).value='');
-          } catch(e){ st.style.color='#ef4444'; st.textContent='Hata: '+e.message; }
+          } catch(e){ st.style.color='#ef4444'; st.textContent='Error: '+e.message; }
         });
 
         document.getElementById('ddSignOut').addEventListener('click', async () => {
