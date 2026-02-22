@@ -37,6 +37,9 @@ if (!fs.existsSync("dist")) {
 // List of HTML files to process
 const htmlFiles = [
   "index.html",
+  "announcements.html",
+  "library.html",
+  "messageboard.html",
   "AcademicStandards.html",
   "CambridgeExamsDashboard.html",
   "CambridgePathwaySimulator.html",

@@ -1,0 +1,103 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ────────────────────────────────────────────────
+    // True if the request is from a signed-in user
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // True if the signed-in user is a site admin
+    // Admins are flagged via users/{uid}.isAdmin == true
+    function isAdmin() {
+      return isAuth() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // True if the signed-in user owns the document (authorId field)
+    function isOwner(authorId) {
+      return isAuth() && request.auth.uid == authorId;
+    }
+
+    // ── users ───────────────────────────────────────────────────
+    // Each user can read and write only their own profile document.
+    // Admins can read any user doc (needed for isAdmin() helper above).
+    match /users/{userId} {
+      allow read:   if isAuth() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuth() && request.auth.uid == userId;
+      allow update: if isAuth() && request.auth.uid == userId
+                       && !('isAdmin' in request.resource.data);  // cannot self-elevate
+      allow delete: if false; // never delete user docs from client
+    }
+
+    // ── announcements ───────────────────────────────────────────
+    // All authenticated users can read announcements.
+    // Only admins can create, update (pin/unpin), or delete.
+    match /announcements/{annId} {
+      allow read:   if isAuth();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+
+      // comments sub-collection
+      match /comments/{commentId} {
+        allow read:   if isAuth();
+        allow create: if isAuth()
+                         && request.resource.data.authorId == request.auth.uid;
+        allow delete: if isAdmin()
+                         || isOwner(resource.data.authorId);
+        allow update: if false; // comments are immutable
+      }
+    }
+
+    // ── topics (Message Board) ──────────────────────────────────
+    // All authenticated users can read and create topics.
+    // Only admins or the original author can delete a topic.
+    // Topics cannot be edited from the client (content is immutable).
+    match /topics/{topicId} {
+      allow read:   if isAuth();
+      allow create: if isAuth()
+                       && request.resource.data.authorId == request.auth.uid;
+      allow delete: if isAdmin()
+                       || isOwner(resource.data.authorId);
+      allow update: if isAdmin(); // admins can pin/close, etc.
+
+      // replies sub-collection
+      match /replies/{replyId} {
+        allow read:   if isAuth();
+        allow create: if isAuth()
+                         && request.resource.data.authorId == request.auth.uid;
+        allow delete: if isAdmin()
+                         || isOwner(resource.data.authorId);
+        allow update: if false; // replies are immutable
+      }
+    }
+
+    // ── library ─────────────────────────────────────────────────
+    // All authenticated users can read and add resources.
+    // Only admins or the uploader can delete.
+    match /library/{resourceId} {
+      allow read:   if isAuth();
+      allow create: if isAuth()
+                       && request.resource.data.authorId == request.auth.uid;
+      allow delete: if isAdmin()
+                       || isOwner(resource.data.authorId);
+      allow update: if isAdmin();
+    }
+
+    // ── feedbacks ───────────────────────────────────────────────
+    // Any authenticated user can submit feedback.
+    // Only admins can read the feedback collection.
+    match /feedbacks/{feedbackId} {
+      allow create: if isAuth()
+                       && request.resource.data.userId == request.auth.uid;
+      allow read:   if isAdmin();
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+  }
+}
