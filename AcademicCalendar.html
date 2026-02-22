@@ -771,7 +771,8 @@
       // ── Load activities ───────────────────────────────────────────
       function loadActivities() {
         const ref = collection(db,'timeline_activities');
-        const q   = query(ref, orderBy('monthStart'), orderBy('weekStart'));
+        // No compound orderBy → no composite index needed; we sort client-side in assignLanes()
+        const q   = query(ref);
         if (unsubActivities) unsubActivities();
         unsubActivities = onSnapshot(q, snap => {
           allActivities = snap.docs.map(d => ({id:d.id, ...d.data()}));
@@ -779,8 +780,9 @@
           else { renderTimeline(); renderStats(); }
           document.getElementById('loadingOverlay').style.display='none';
         }, err => {
-          console.warn(err);
-          document.getElementById('loadingOverlay').style.display='none';
+          console.error('Firestore load error:', err);
+          document.getElementById('loadingOverlay').innerHTML =
+            '<div style="color:#ef4444;text-align:center;padding:2rem;">⚠️ Could not load activities.<br><small>'+err.message+'</small></div>';
         });
       }
 
