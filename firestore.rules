@@ -54,24 +54,28 @@ service cloud.firestore {
     }
 
     // ── topics (Message Board) ──────────────────────────────────
-    // All authenticated users can read and create topics.
-    // Only admins or the original author can delete a topic.
-    // Topics cannot be edited from the client (content is immutable).
+    // messageboard.html stores the author UID in the "uid" field (not "authorId").
+    // Posting a reply also increments topics.replyCount via updateDoc,
+    // so any authenticated user must be able to update that one field.
     match /topics/{topicId} {
       allow read:   if isAuth();
       allow create: if isAuth()
-                       && request.resource.data.authorId == request.auth.uid;
+                       && request.resource.data.uid == request.auth.uid;
       allow delete: if isAdmin()
-                       || isOwner(resource.data.authorId);
-      allow update: if isAdmin(); // admins can pin/close, etc.
+                       || isOwner(resource.data.uid);
+      // Admins can do anything; authenticated users may only touch replyCount
+      allow update: if isAdmin()
+                       || (isAuth()
+                           && request.resource.data.diff(resource.data)
+                                     .affectedKeys().hasOnly(['replyCount']));
 
-      // replies sub-collection
+      // replies sub-collection — also uses "uid" field
       match /replies/{replyId} {
         allow read:   if isAuth();
         allow create: if isAuth()
-                         && request.resource.data.authorId == request.auth.uid;
+                         && request.resource.data.uid == request.auth.uid;
         allow delete: if isAdmin()
-                         || isOwner(resource.data.authorId);
+                         || isOwner(resource.data.uid);
         allow update: if false; // replies are immutable
       }
     }
