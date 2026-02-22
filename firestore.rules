@@ -103,5 +103,35 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // ── Helper: isModerator ─────────────────────────────────────
+    // Moderators can add/edit (but not delete) timeline activities.
+    function isModerator() {
+      return isAuth() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isModerator == true
+         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true);
+    }
+
+    // ── timeline_activities ─────────────────────────────────────
+    // All authenticated users can read.
+    // Admins and moderators can create/update.
+    // Only admins can delete.
+    match /timeline_activities/{actId} {
+      allow read:   if isAuth();
+      allow create: if isModerator();
+      allow update: if isModerator();
+      allow delete: if isAdmin();
+    }
+
+    // ── timeline_completions ────────────────────────────────────
+    // Users can read/write their own completion records.
+    // Admins can read all completion records.
+    match /timeline_completions/{compId} {
+      allow read:   if isAuth() && (isAdmin() || request.auth.uid == resource.data.userId);
+      allow create: if isAuth() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuth() && resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+
   }
 }

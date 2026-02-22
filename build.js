@@ -52,6 +52,7 @@ const htmlFiles = [
   "EASE-I-AssessmentResults.html",
   "EASE-II-AssessmentResults.html",
   "A-EASE-I-AssessmentResults.html",
+  "AcademicCalendar.html",
 ];
 
 // Process each HTML file
