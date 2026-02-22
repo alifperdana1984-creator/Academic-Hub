@@ -156,9 +156,9 @@
         }
       }
 
-      /* Header */
+      /* Header — offset for fixed nav bar (62px) */
       header {
-        padding: 3rem 2rem;
+        padding: 5.5rem 2rem 3rem;
         text-align: center;
         position: relative;
         z-index: 10;
@@ -1877,6 +1877,355 @@
         .login-orb-1, .login-orb-2 { width: 250px; height: 250px; }
         .login-orb-3 { width: 180px; height: 180px; }
       }
+
+      /* ══════════════════════════════════════════════════════════
+         TOP NAVIGATION BAR
+      ══════════════════════════════════════════════════════════ */
+      .top-nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        height: 62px;
+        background: rgba(5, 5, 16, 0.80);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        gap: 16px;
+        transition: background 0.3s ease, padding 0.3s ease, height 0.3s ease;
+      }
+      .top-nav.scrolled {
+        background: rgba(5, 5, 16, 0.95);
+        height: 54px;
+      }
+
+      /* Left: brand */
+      .nav-brand {
+        display: flex; align-items: center; gap: 10px;
+        text-decoration: none; flex-shrink: 0;
+      }
+      .nav-brand-icon {
+        width: 32px; height: 32px; flex-shrink: 0;
+      }
+      .nav-brand-icon svg { width: 32px; height: 32px; fill: #6c5ce7; }
+      .nav-brand-name {
+        font-family: "Playfair Display", serif;
+        font-size: 15px; font-weight: 700;
+        color: #fff; white-space: nowrap;
+      }
+
+      /* Center: stat counters */
+      .nav-stats {
+        display: flex; align-items: center; gap: 28px;
+        flex-shrink: 0;
+      }
+      .nav-stat {
+        display: flex; flex-direction: column; align-items: center;
+        line-height: 1;
+      }
+      .nav-stat-value {
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px; font-weight: 700; color: #fff;
+      }
+      .nav-stat-label {
+        font-family: "DM Sans", sans-serif;
+        font-size: 10px; font-weight: 500;
+        color: rgba(255,255,255,0.45);
+        text-transform: uppercase; letter-spacing: 0.04em;
+        margin-top: 2px;
+      }
+      .nav-stat-divider {
+        width: 1px; height: 28px;
+        background: rgba(255,255,255,0.1);
+      }
+
+      /* Right: action buttons */
+      .nav-actions {
+        display: flex; align-items: center; gap: 8px;
+        flex-shrink: 0;
+      }
+
+      /* Shared button style */
+      .nav-btn {
+        display: flex; align-items: center; gap: 7px;
+        padding: 9px 18px; border-radius: 10px;
+        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+        border: 1px solid rgba(108,92,231,0.45);
+        color: rgba(255,255,255,0.85);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px; font-weight: 500;
+        cursor: pointer; text-decoration: none;
+        transition: all 0.22s ease;
+        position: relative; white-space: nowrap;
+      }
+      .nav-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+      .nav-btn:hover {
+        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+        border-color: rgba(108,92,231,0.7);
+        color: #fff;
+        box-shadow: 0 0 16px rgba(108,92,231,0.40);
+        transform: translateY(-1px);
+      }
+
+      /* Notification badge */
+      .nav-badge {
+        position: absolute;
+        top: 5px; right: 5px;
+        min-width: 17px; height: 17px;
+        padding: 0 4px;
+        background: #e74c3c;
+        border-radius: 50%;
+        font-size: 10px; font-weight: 700;
+        color: #fff; line-height: 17px;
+        text-align: center;
+        display: none;
+        animation: badgePop 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+      }
+      .nav-badge.visible { display: flex; align-items: center; justify-content: center; }
+      @keyframes badgePop {
+        from { transform: scale(0); }
+        to   { transform: scale(1); }
+      }
+
+      /* Profile button */
+      .profile-wrap { position: relative; }
+      .profile-btn {
+        display: flex; align-items: center; gap: 8px;
+        padding: 6px 12px 6px 6px;
+        border-radius: 100px;
+        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+        border: 1px solid rgba(108,92,231,0.45);
+        color: rgba(255,255,255,0.85);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px; font-weight: 500;
+        cursor: pointer;
+        transition: all 0.22s ease;
+        max-width: 170px;
+      }
+      .profile-btn:hover {
+        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+        border-color: rgba(108,92,231,0.7);
+        color: #fff;
+        box-shadow: 0 0 16px rgba(108,92,231,0.40);
+      }
+      .profile-avatar {
+        width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700; color: #fff;
+        flex-shrink: 0; overflow: hidden;
+        font-family: "DM Sans", sans-serif;
+      }
+      .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .profile-first-name {
+        max-width: 90px;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .profile-chevron {
+        width: 14px; height: 14px; flex-shrink: 0;
+        transition: transform 0.25s ease;
+      }
+      .profile-wrap.open .profile-chevron { transform: rotate(180deg); }
+
+      /* Profile dropdown */
+      .profile-dropdown {
+        position: absolute;
+        top: calc(100% + 10px); right: 0;
+        width: 290px;
+        background: rgba(10, 10, 26, 0.97);
+        border: 1px solid rgba(108,92,231,0.3);
+        border-radius: 18px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 0;
+        overflow: hidden;
+        display: none;
+        transform-origin: top right;
+        animation: dropdownOpen 0.22s cubic-bezier(0.34,1.2,0.64,1) both;
+      }
+      .profile-wrap.open .profile-dropdown { display: block; }
+      @keyframes dropdownOpen {
+        from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      /* Dropdown header */
+      .dd-header {
+        padding: 20px;
+        display: flex; align-items: center; gap: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .dd-avatar {
+        width: 46px; height: 46px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
+        overflow: hidden;
+      }
+      .dd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .dd-name {
+        font-size: 14px; font-weight: 700; color: #fff;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .dd-email {
+        font-size: 11.5px; color: rgba(255,255,255,0.45);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        margin-top: 2px;
+      }
+
+      /* Dropdown sections */
+      .dd-section { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .dd-section:last-child { border-bottom: none; }
+      .dd-section-label {
+        font-size: 10px; font-weight: 600;
+        color: rgba(255,255,255,0.3);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        margin-bottom: 8px;
+      }
+
+      /* Phone row */
+      .dd-phone-row { display: flex; gap: 8px; }
+      .dd-input {
+        flex: 1; padding: 8px 10px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 9px; color: #fff;
+        font-size: 12.5px; font-family: "DM Sans", sans-serif;
+        outline: none; transition: border-color 0.18s;
+      }
+      .dd-input:focus { border-color: rgba(108,92,231,0.7); }
+      .dd-input::placeholder { color: rgba(255,255,255,0.3); }
+      .dd-save-btn {
+        padding: 8px 14px; border-radius: 9px; border: none;
+        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
+        color: #fff; font-size: 12px; font-weight: 600;
+        font-family: "DM Sans", sans-serif; cursor: pointer;
+        white-space: nowrap; transition: opacity 0.18s;
+      }
+      .dd-save-btn:hover { opacity: 0.85; }
+      .dd-save-btn:disabled { opacity: 0.5; cursor: default; }
+      .dd-status { font-size: 11.5px; margin-top: 6px; display: none; }
+      .dd-status.ok  { color: #00b894; display: block; }
+      .dd-status.err { color: #e74c3c; display: block; }
+
+      /* Change password */
+      .dd-pw-toggle {
+        display: flex; align-items: center; justify-content: space-between;
+        cursor: pointer; padding: 0;
+        background: none; border: none; width: 100%;
+        color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+      }
+      .dd-pw-toggle svg { width: 14px; height: 14px; transition: transform 0.2s; }
+      .dd-pw-open .dd-pw-toggle svg { transform: rotate(180deg); }
+      .dd-pw-fields { display: none; flex-direction: column; gap: 7px; margin-top: 10px; }
+      .dd-pw-open .dd-pw-fields { display: flex; }
+      .dd-pw-btn {
+        width: 100%; padding: 9px; border-radius: 9px; border: none;
+        background: rgba(108,92,231,0.25);
+        border: 1px solid rgba(108,92,231,0.45);
+        color: #fff; font-size: 12.5px; font-weight: 600;
+        font-family: "DM Sans", sans-serif; cursor: pointer;
+        margin-top: 4px; transition: all 0.18s;
+      }
+      .dd-pw-btn:hover { background: rgba(108,92,231,0.45); }
+      .dd-pw-btn:disabled { opacity: 0.5; cursor: default; }
+
+      /* Sign out */
+      .dd-signout-btn {
+        display: flex; align-items: center; gap: 9px;
+        width: 100%; padding: 9px 14px; border-radius: 9px; border: none;
+        background: rgba(231,76,60,0.10);
+        color: rgba(231,76,60,0.9);
+        font-size: 13px; font-weight: 500;
+        font-family: "DM Sans", sans-serif; cursor: pointer;
+        transition: all 0.18s;
+      }
+      .dd-signout-btn:hover { background: rgba(231,76,60,0.22); color: #e74c3c; }
+      .dd-signout-btn svg { width: 15px; height: 15px; }
+
+      /* ── Feedback Modal ────────────────────────────── */
+      .feedback-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.65);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 2000;
+        display: none; align-items: center; justify-content: center;
+        padding: 20px;
+      }
+      .feedback-overlay.open { display: flex; }
+      .feedback-modal {
+        background: rgba(10,10,26,0.97);
+        border: 1px solid rgba(108,92,231,0.35);
+        border-radius: 20px;
+        width: 100%; max-width: 480px;
+        padding: 28px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        display: flex; flex-direction: column; gap: 16px;
+      }
+      .feedback-modal-header {
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .feedback-modal-title {
+        font-size: 16px; font-weight: 700; color: #fff;
+        font-family: "DM Sans", sans-serif;
+      }
+      .feedback-close-btn {
+        width: 32px; height: 32px; border-radius: 8px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.6); font-size: 18px;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: all 0.18s;
+      }
+      .feedback-close-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+      .feedback-field { display: flex; flex-direction: column; gap: 6px; }
+      .feedback-label {
+        font-size: 12px; font-weight: 600;
+        color: rgba(255,255,255,0.45);
+        text-transform: uppercase; letter-spacing: 0.05em;
+        font-family: "DM Sans", sans-serif;
+      }
+      .feedback-select, .feedback-textarea {
+        width: 100%; padding: 10px 12px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 10px; color: #fff;
+        font-size: 13.5px; font-family: "DM Sans", sans-serif;
+        outline: none; transition: border-color 0.18s;
+      }
+      .feedback-select { cursor: pointer; }
+      .feedback-select option { background: #0a0a1a; }
+      .feedback-select:focus, .feedback-textarea:focus { border-color: rgba(108,92,231,0.7); }
+      .feedback-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+      .feedback-textarea::placeholder { color: rgba(255,255,255,0.25); }
+      .feedback-submit-btn {
+        width: 100%; padding: 11px;
+        border-radius: 10px; border: none;
+        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
+        color: #fff; font-size: 14px; font-weight: 600;
+        font-family: "DM Sans", sans-serif; cursor: pointer;
+        transition: opacity 0.18s;
+      }
+      .feedback-submit-btn:hover { opacity: 0.85; }
+      .feedback-submit-btn:disabled { opacity: 0.5; cursor: default; }
+      .feedback-status { font-size: 12.5px; text-align: center; display: none; }
+      .feedback-status.ok  { color: #00b894; display: block; }
+      .feedback-status.err { color: #e74c3c; display: block; }
+
+      /* ── Responsive ── */
+      @media (max-width: 768px) {
+        .nav-stats { display: none; }
+        .nav-brand-name { display: none; }
+        .top-nav { padding: 0 16px; }
+        .nav-btn span { display: none; }
+        .nav-btn { padding: 9px; border-radius: 10px; }
+        .profile-first-name { display: none; }
+        .profile-btn { padding: 5px; }
+      }
     </style>
     <script>
       // Environment variables - replaced at build time by Netlify/Vercel
@@ -2000,6 +2349,123 @@
 
     <!-- YENİ: Main Content Wrapper -->
     <div id="mainContent">
+
+      <!-- ══ TOP NAVIGATION BAR ══ -->
+      <nav class="top-nav" id="topNav">
+        <!-- Left: Brand -->
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+            </svg>
+          </div>
+          <span class="nav-brand-name">Eduversal Indonesia</span>
+        </a>
+
+        <!-- Center: Stats -->
+        <div class="nav-stats">
+          <div class="nav-stat">
+            <span class="nav-stat-value">15</span>
+            <span class="nav-stat-label">Partner Schools</span>
+          </div>
+          <div class="nav-stat-divider"></div>
+          <div class="nav-stat">
+            <span class="nav-stat-value">2025/26</span>
+            <span class="nav-stat-label">Academic Year</span>
+          </div>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="nav-actions">
+          <!-- Announcements -->
+          <a href="announcements.html" class="nav-btn" id="navAnnBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
+            </svg>
+            <span>Announcements</span>
+            <span class="nav-badge" id="annBadge"></span>
+          </a>
+
+          <!-- Message Board -->
+          <a href="messageboard.html" class="nav-btn" id="navMsgBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span>Message Board</span>
+            <span class="nav-badge" id="msgBadge"></span>
+          </a>
+
+          <!-- Feedback -->
+          <button class="nav-btn" id="navFeedbackBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+            </svg>
+            <span>Feedback</span>
+          </button>
+
+          <!-- Profile (shown only when authenticated) -->
+          <div class="profile-wrap" id="profileWrap" style="display:none;">
+            <button class="profile-btn" id="profileBtn">
+              <div class="profile-avatar" id="navAvatar"></div>
+              <span class="profile-first-name" id="navFirstName"></span>
+              <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div class="profile-dropdown" id="profileDropdown">
+              <!-- Header -->
+              <div class="dd-header">
+                <div class="dd-avatar" id="ddAvatar"></div>
+                <div>
+                  <div class="dd-name" id="ddFullName"></div>
+                  <div class="dd-email" id="ddEmail"></div>
+                </div>
+              </div>
+
+              <!-- Phone Number -->
+              <div class="dd-section">
+                <div class="dd-section-label">Phone Number</div>
+                <div class="dd-phone-row">
+                  <input type="tel" class="dd-input" id="ddPhone" placeholder="+62 xxx-xxxx-xxxx">
+                  <button class="dd-save-btn" id="ddSavePhone">Save</button>
+                </div>
+                <div class="dd-status" id="ddPhoneStatus"></div>
+              </div>
+
+              <!-- Change Password (email/password users only) -->
+              <div class="dd-section" id="ddPwSection" style="display:none;">
+                <button class="dd-pw-toggle" id="ddPwToggle">
+                  Change Password
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div class="dd-pw-fields" id="ddPwFields">
+                  <input type="password" class="dd-input" id="ddCurrentPw" placeholder="Current password">
+                  <input type="password" class="dd-input" id="ddNewPw" placeholder="New password (min 6 chars)">
+                  <input type="password" class="dd-input" id="ddConfirmPw" placeholder="Confirm new password">
+                  <button class="dd-pw-btn" id="ddUpdatePwBtn">Update Password</button>
+                  <div class="dd-status" id="ddPwStatus"></div>
+                </div>
+              </div>
+
+              <!-- Sign Out -->
+              <div class="dd-section">
+                <button class="dd-signout-btn" id="ddSignOut">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+                  </svg>
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!-- ══ /TOP NAVIGATION BAR ══ -->
+
       <div class="bg-animation"></div>
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
@@ -3118,6 +3584,34 @@
       </footer>
     </div>
 
+    <!-- ══ FEEDBACK MODAL ══ -->
+    <div class="feedback-overlay" id="feedbackOverlay">
+      <div class="feedback-modal" id="feedbackModal">
+        <div class="feedback-modal-header">
+          <span class="feedback-modal-title">Send Feedback</span>
+          <button class="feedback-close-btn" id="feedbackCloseBtn">&times;</button>
+        </div>
+        <div class="feedback-field">
+          <label class="feedback-label" for="feedbackSubject">Subject</label>
+          <select class="feedback-select" id="feedbackSubject">
+            <option value="">Select a category…</option>
+            <option value="bug">Bug Report</option>
+            <option value="feature">Feature Request</option>
+            <option value="content">Content / Data Issue</option>
+            <option value="general">General Feedback</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="feedback-field">
+          <label class="feedback-label" for="feedbackMessage">Message</label>
+          <textarea class="feedback-textarea" id="feedbackMessage" placeholder="Describe your feedback…"></textarea>
+        </div>
+        <button class="feedback-submit-btn" id="feedbackSubmitBtn">Send Feedback</button>
+        <div class="feedback-status" id="feedbackStatus"></div>
+      </div>
+    </div>
+    <!-- ══ /FEEDBACK MODAL ══ -->
+
     <script>
       // Smooth scroll animation on card hover
       document
@@ -3151,9 +3645,25 @@
         signInWithEmailAndPassword,
         signInWithPopup,
         GoogleAuthProvider,
+        EmailAuthProvider,
+        reauthenticateWithCredential,
+        updatePassword,
         onAuthStateChanged,
         signOut,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        addDoc,
+        getDoc,
+        setDoc,
+        query,
+        where,
+        onSnapshot,
+        serverTimestamp,
+        Timestamp,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: window.ENV.FIREBASE_API_KEY,
@@ -3164,28 +3674,40 @@
         appId: window.ENV.FIREBASE_APP_ID,
       };
 
-      const app = initializeApp(firebaseConfig);
+      const app  = initializeApp(firebaseConfig);
       const auth = getAuth(app);
+      const db   = getFirestore(app);
+
       const loginForm = document.getElementById("loginForm");
-      const errorMsg = document.getElementById("errorMsg");
+      const errorMsg  = document.getElementById("errorMsg");
 
       const allowedDomains = [
-        "scr.sch.id",
-        "eibos.sch.id",
-        "fatih.sch.id",
-        "gcb.sch.id",
-        "kesatuanbangsa.sch.id",
-        "kbs.sch.id",
-        "mega.sch.id",
-        "pakarbelia.sch.id",
-        "prestigeschool.sch.id",
-        "pribadibandung.sch.id",
-        "pribadidepok.sch.id",
-        "pribadipremiere.sch.id",
-        "semesta.sch.id",
-        "tnafatih.sch.id",
-        "eduversal.org",
+        "scr.sch.id", "eibos.sch.id", "fatih.sch.id", "gcb.sch.id",
+        "kesatuanbangsa.sch.id", "kbs.sch.id", "mega.sch.id", "pakarbelia.sch.id",
+        "prestigeschool.sch.id", "pribadibandung.sch.id", "pribadidepok.sch.id",
+        "pribadipremiere.sch.id", "semesta.sch.id", "tnafatih.sch.id", "eduversal.org",
       ];
+
+      // ── Helpers ────────────────────────────────────────────────
+      const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+      function avatarColor(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+        return PALETTE[Math.abs(h) % PALETTE.length];
+      }
+      function getInitials(name) {
+        return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+      }
+      function fillAvatar(el, user) {
+        if (user.photoURL) {
+          el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+          el.style.background = 'transparent';
+        } else {
+          const n = user.displayName || user.email.split('@')[0];
+          el.style.background = avatarColor(n);
+          el.textContent = getInitials(n);
+        }
+      }
 
       function showError(message) {
         errorMsg.textContent = message;
@@ -3193,6 +3715,206 @@
         setTimeout(() => (errorMsg.style.display = "none"), 4000);
       }
 
+      // ── Navbar: scroll shrink ───────────────────────────────────
+      window.addEventListener('scroll', () => {
+        document.getElementById('topNav').classList.toggle('scrolled', window.scrollY > 10);
+      }, { passive: true });
+
+      // ── Navbar: profile dropdown ────────────────────────────────
+      let annUnsubscribe = null;
+
+      function populateNav(user) {
+        const profileWrap = document.getElementById('profileWrap');
+        profileWrap.style.display = 'flex';
+
+        const name = user.displayName || user.email.split('@')[0];
+        const firstName = name.split(' ')[0];
+
+        // Small avatar in button
+        const navAvatar = document.getElementById('navAvatar');
+        fillAvatar(navAvatar, user);
+        document.getElementById('navFirstName').textContent = firstName;
+
+        // Large avatar in dropdown header
+        const ddAvatar = document.getElementById('ddAvatar');
+        fillAvatar(ddAvatar, user);
+        document.getElementById('ddFullName').textContent = name;
+        document.getElementById('ddEmail').textContent = user.email;
+
+        // Show change-password section only for email/password users
+        const isPasswordUser = user.providerData.some(p => p.providerId === 'password');
+        document.getElementById('ddPwSection').style.display = isPasswordUser ? 'block' : 'none';
+
+        // Load saved phone number from Firestore
+        getDoc(doc(db, 'users', user.uid)).then(snap => {
+          if (snap.exists() && snap.data().phone) {
+            document.getElementById('ddPhone').value = snap.data().phone;
+          }
+        }).catch(() => {});
+      }
+
+      function clearNav() {
+        document.getElementById('profileWrap').style.display = 'none';
+        if (annUnsubscribe) { annUnsubscribe(); annUnsubscribe = null; }
+      }
+
+      // Dropdown toggle
+      document.getElementById('profileBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('profileWrap').classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        const wrap = document.getElementById('profileWrap');
+        if (!wrap.contains(e.target)) wrap.classList.remove('open');
+      });
+
+      // Password toggle
+      document.getElementById('ddPwToggle').addEventListener('click', () => {
+        document.getElementById('ddPwToggle').closest('.dd-section').classList.toggle('dd-pw-open');
+      });
+
+      // Save phone number
+      document.getElementById('ddSavePhone').addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const phone = document.getElementById('ddPhone').value.trim();
+        const statusEl = document.getElementById('ddPhoneStatus');
+        const btn = document.getElementById('ddSavePhone');
+        btn.disabled = true;
+        try {
+          await setDoc(doc(db, 'users', user.uid), { phone }, { merge: true });
+          statusEl.textContent = 'Saved!';
+          statusEl.className = 'dd-status ok';
+        } catch {
+          statusEl.textContent = 'Failed to save.';
+          statusEl.className = 'dd-status err';
+        } finally {
+          btn.disabled = false;
+          setTimeout(() => { statusEl.className = 'dd-status'; }, 3000);
+        }
+      });
+
+      // Update password
+      document.getElementById('ddUpdatePwBtn').addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const current = document.getElementById('ddCurrentPw').value;
+        const newPw   = document.getElementById('ddNewPw').value;
+        const confirm = document.getElementById('ddConfirmPw').value;
+        const statusEl = document.getElementById('ddPwStatus');
+        const btn = document.getElementById('ddUpdatePwBtn');
+
+        if (newPw !== confirm) {
+          statusEl.textContent = 'Passwords do not match.';
+          statusEl.className = 'dd-status err';
+          return;
+        }
+        if (newPw.length < 6) {
+          statusEl.textContent = 'Password must be at least 6 characters.';
+          statusEl.className = 'dd-status err';
+          return;
+        }
+        btn.disabled = true;
+        try {
+          const credential = EmailAuthProvider.credential(user.email, current);
+          await reauthenticateWithCredential(user, credential);
+          await updatePassword(user, newPw);
+          statusEl.textContent = 'Password updated!';
+          statusEl.className = 'dd-status ok';
+          document.getElementById('ddCurrentPw').value = '';
+          document.getElementById('ddNewPw').value = '';
+          document.getElementById('ddConfirmPw').value = '';
+        } catch (err) {
+          const msg = err.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Update failed. Try again.';
+          statusEl.textContent = msg;
+          statusEl.className = 'dd-status err';
+        } finally {
+          btn.disabled = false;
+          setTimeout(() => { statusEl.className = 'dd-status'; }, 4000);
+        }
+      });
+
+      // Dropdown sign out
+      document.getElementById('ddSignOut').addEventListener('click', () => signOut(auth));
+
+      // ── Announcements badge ─────────────────────────────────────
+      function listenAnnBadge(user) {
+        const badge = document.getElementById('annBadge');
+        const lastSeenKey = `ann_lastSeen_${user.uid}`;
+        const lastSeen = parseInt(localStorage.getItem(lastSeenKey) || '0', 10);
+        const cutoff = Timestamp.fromMillis(lastSeen);
+
+        const q = query(
+          collection(db, 'announcements'),
+          where('timestamp', '>', cutoff)
+        );
+        annUnsubscribe = onSnapshot(q, (snap) => {
+          const count = snap.size;
+          if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.classList.add('visible');
+          } else {
+            badge.classList.remove('visible');
+          }
+        }, () => {});
+
+        // When user visits announcements, mark as seen
+        document.getElementById('navAnnBtn').addEventListener('click', () => {
+          localStorage.setItem(lastSeenKey, Date.now().toString());
+        }, { once: true });
+      }
+
+      // ── Feedback modal ──────────────────────────────────────────
+      let currentUser = null;
+
+      document.getElementById('navFeedbackBtn').addEventListener('click', () => {
+        document.getElementById('feedbackOverlay').classList.add('open');
+      });
+      document.getElementById('feedbackCloseBtn').addEventListener('click', closeFeedback);
+      document.getElementById('feedbackOverlay').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('feedbackOverlay')) closeFeedback();
+      });
+      function closeFeedback() {
+        document.getElementById('feedbackOverlay').classList.remove('open');
+        document.getElementById('feedbackStatus').className = 'feedback-status';
+        document.getElementById('feedbackMessage').value = '';
+        document.getElementById('feedbackSubject').value = '';
+      }
+
+      document.getElementById('feedbackSubmitBtn').addEventListener('click', async () => {
+        const subject = document.getElementById('feedbackSubject').value;
+        const message = document.getElementById('feedbackMessage').value.trim();
+        const statusEl = document.getElementById('feedbackStatus');
+        const btn = document.getElementById('feedbackSubmitBtn');
+
+        if (!subject || !message) {
+          statusEl.textContent = 'Please fill in all fields.';
+          statusEl.className = 'feedback-status err';
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        try {
+          await addDoc(collection(db, 'feedbacks'), {
+            subject,
+            message,
+            userId:    currentUser?.uid || null,
+            userEmail: currentUser?.email || null,
+            timestamp: serverTimestamp(),
+          });
+          statusEl.textContent = 'Feedback sent — thank you!';
+          statusEl.className = 'feedback-status ok';
+          setTimeout(closeFeedback, 2000);
+        } catch {
+          statusEl.textContent = 'Failed to send. Please try again.';
+          statusEl.className = 'feedback-status err';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send Feedback';
+        }
+      });
+
+      // ── Auth State ──────────────────────────────────────────────
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const domain = user.email.split("@")[1];
@@ -3202,37 +3924,37 @@
             showError("Access denied. Only authorized school emails are allowed.");
             return;
           }
+          currentUser = user;
           document.getElementById("loadingScreen").style.display = "none";
           document.getElementById("loginScreen").style.display = "none";
           document.getElementById("mainContent").style.display = "block";
-          document.getElementById("logoutBtn").style.display = "block";
+          document.getElementById("logoutBtn").style.display = "none"; // replaced by dropdown
+          populateNav(user);
+          listenAnnBadge(user);
         } else {
+          currentUser = null;
           document.getElementById("loadingScreen").style.display = "none";
           document.getElementById("loginScreen").style.display = "flex";
           document.getElementById("mainContent").style.display = "none";
           document.getElementById("logoutBtn").style.display = "none";
+          clearNav();
         }
       });
 
+      // ── Login form ──────────────────────────────────────────────
       loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = document.getElementById("emailInput").value.trim();
+        const email    = document.getElementById("emailInput").value.trim();
         const password = document.getElementById("passwordInput").value;
         const loginBtn = document.getElementById("loginBtn");
-
-        // Disable button during login
         loginBtn.disabled = true;
         loginBtn.innerHTML = "<span>Signing in...</span>";
-
         try {
           await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
           let message = "Invalid email or password";
-          if (error.code === "auth/too-many-requests") {
-            message = "Too many attempts. Please try again later.";
-          } else if (error.code === "auth/network-request-failed") {
-            message = "Network error. Check your connection.";
-          }
+          if (error.code === "auth/too-many-requests") message = "Too many attempts. Please try again later.";
+          else if (error.code === "auth/network-request-failed") message = "Network error. Check your connection.";
           showError(message);
         } finally {
           loginBtn.disabled = false;
@@ -3240,46 +3962,29 @@
         }
       });
 
-      document
-        .getElementById("logoutBtn")
-        .addEventListener("click", () => signOut(auth));
+      document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
 
-      // Google Sign-In
+      // ── Google Sign-In ──────────────────────────────────────────
       const googleProvider = new GoogleAuthProvider();
-
-      document
-        .getElementById("googleLoginBtn")
-        .addEventListener("click", async () => {
-          const googleBtn = document.getElementById("googleLoginBtn");
-          googleBtn.disabled = true;
-          googleBtn.textContent = "Signing in...";
-
-          try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const email = result.user.email;
-            const domain = email.split("@")[1];
-
-            if (!allowedDomains.includes(domain)) {
-              await signOut(auth);
-              showError("Access denied. Only authorized school emails are allowed.");
-            }
-          } catch (error) {
-            if (error.code !== "auth/popup-closed-by-user") {
-              showError(error.message || "Google sign-in failed");
-            }
-          } finally {
-            googleBtn.disabled = false;
-            googleBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Sign in with Google
-          `;
+      document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+        const googleBtn = document.getElementById("googleLoginBtn");
+        googleBtn.disabled = true;
+        googleBtn.textContent = "Signing in...";
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          if (!allowedDomains.includes(result.user.email.split("@")[1])) {
+            await signOut(auth);
+            showError("Access denied. Only authorized school emails are allowed.");
           }
-        });
+        } catch (error) {
+          if (error.code !== "auth/popup-closed-by-user") {
+            showError(error.message || "Google sign-in failed");
+          }
+        } finally {
+          googleBtn.disabled = false;
+          googleBtn.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Sign in with Google`;
+        }
+      });
     </script>
   </body>
 </html>
