@@ -214,6 +214,22 @@ body {
 .ann-admin-btn:hover { background: var(--paper-2); color: var(--ink); }
 .ann-admin-btn.pin-active { background: var(--accent-2); border-color: var(--accent); color: var(--accent); }
 .ann-admin-btn.del:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+.ann-admin-btn.edit:hover { background: #e0e7ff; border-color: #a5b4fc; color: #4f46e5; }
+.ann-edited-tag { font-size: 11px; color: var(--ink-3); font-style: italic; }
+
+/* Links in card */
+.ann-links { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 20px 14px; }
+.ann-link-item a { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; background: var(--accent-2); border: 1px solid var(--accent); border-radius: 20px; color: var(--accent); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: all .15s; }
+.ann-link-item a:hover { background: var(--accent); color: #fff; }
+
+/* Link form rows inside modal */
+.link-form-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+.link-form-row { display: grid; grid-template-columns: 1fr 1fr 28px; gap: 6px; align-items: center; }
+.link-form-input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--ink); outline: none; background: var(--paper); transition: border-color .15s; width: 100%; }
+.link-form-input:focus { border-color: var(--accent); background: var(--white); }
+.link-remove-btn { width: 28px; height: 28px; border-radius: 7px; border: 1px solid #fca5a5; background: #fee2e2; color: #dc2626; font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.add-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 8px; border: 1px dashed var(--border); background: transparent; color: var(--ink-3); font-size: 12.5px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .15s; }
+.add-link-btn:hover { background: var(--paper-2); border-color: var(--accent); color: var(--accent); }
 
 .ann-preview {
   padding: 0 20px 14px;
@@ -456,10 +472,11 @@ body {
   </div>
 </div>
 
-<!-- New Announcement Modal -->
+<!-- New / Edit Announcement Modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
-    <h3>📢 New Announcement</h3>
+    <h3 id="modalHeading">📢 New Announcement</h3>
+    <input type="hidden" id="editingId">
     <div class="modal-field">
       <label class="modal-label" for="annTitle">Title</label>
       <input type="text" class="modal-input" id="annTitle" placeholder="e.g. IGCSE Mock Exam — March 2026" maxlength="120">
@@ -467,6 +484,11 @@ body {
     <div class="modal-field">
       <label class="modal-label" for="annBody">Body</label>
       <textarea class="modal-textarea" id="annBody" placeholder="Write your announcement here…"></textarea>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">🔗 Attach Links <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <div class="link-form-rows" id="annLinksContainer"></div>
+      <button type="button" class="add-link-btn" id="addLinkBtn">+ Add Link</button>
     </div>
     <label class="modal-pin-row">
       <input type="checkbox" id="annPin">
@@ -736,14 +758,22 @@ body {
   }
 
   function cardInnerHTML(id, d) {
-    const adminBtns = isAdmin ? `
+    const canEdit   = currentUser && (d.authorId === currentUser.uid || isAdmin);
+    const actionBtns = canEdit ? `
       <div class="ann-admin-btns">
-        <button class="ann-admin-btn ${d.pinned ? 'pin-active' : ''}" data-action="pin" title="${d.pinned ? 'Unpin' : 'Pin'}">📌</button>
-        <button class="ann-admin-btn del" data-action="delete" title="Delete">🗑️</button>
+        ${isAdmin ? `<button class="ann-admin-btn ${d.pinned ? 'pin-active' : ''}" data-action="pin" title="${d.pinned ? 'Unpin' : 'Pin'}">📌</button>` : ''}
+        <button class="ann-admin-btn edit" data-action="edit" title="Edit">✏️</button>
+        ${isAdmin ? `<button class="ann-admin-btn del" data-action="delete" title="Delete">🗑️</button>` : ''}
       </div>` : '';
 
     const preview = (d.body || '').slice(0, 200) + ((d.body || '').length > 200 ? '…' : '');
     const commentCount = d.commentCount || 0;
+
+    const linksArr = d.links || [];
+    const linksHtml = linksArr.length ? `
+      <div class="ann-links">
+        ${linksArr.map(l => `<span class="ann-link-item"><a href="${escHtml(l.url)}" target="_blank" rel="noopener noreferrer">🔗 ${escHtml(l.text || l.url)}</a></span>`).join('')}
+      </div>` : '';
 
     return `
       <div class="ann-card-header" data-action="toggle">
@@ -754,13 +784,15 @@ body {
             <span>${escHtml(d.authorName || 'Admin')}</span>
             <span class="ann-meta-sep">·</span>
             <span>${relativeTime(d.timestamp)}</span>
+            ${d.editedAt ? `<span class="ann-edited-tag">(edited)</span>` : ''}
             <span class="ann-comment-chip">💬 ${commentCount}</span>
           </div>
         </div>
-        ${adminBtns}
+        ${actionBtns}
       </div>
       <div class="ann-preview">${escHtml(preview)}</div>
       <div class="ann-full-body">${escHtml(d.body || '')}</div>
+      ${linksHtml}
       <div class="ann-expand-row" data-action="toggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         <span class="expand-label">Show more</span>
@@ -787,6 +819,15 @@ body {
         if (!wasExpanded) loadComments(card, id);
       });
     });
+
+    // Author / Admin: edit
+    const editBtn = card.querySelector('[data-action="edit"]');
+    if (editBtn) {
+      editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openAnnModal('edit', id, d);
+      });
+    }
 
     // Admin: pin
     const pinBtn = card.querySelector('[data-action="pin"]');
@@ -912,44 +953,91 @@ body {
     btn.disabled = false;
   }
 
-  // ── New Announcement Modal ───────────────────────────────────
+  // ── Announcement Modal (New + Edit) ──────────────────────────
   const modalOverlay = document.getElementById('modalOverlay');
-  document.getElementById('newAnnBtn').addEventListener('click', () => {
-    document.getElementById('annTitle').value = '';
-    document.getElementById('annBody').value = '';
-    document.getElementById('annPin').checked = false;
+  let modalLinks = [];
+
+  function renderModalLinks() {
+    const container = document.getElementById('annLinksContainer');
+    container.innerHTML = '';
+    modalLinks.forEach((link, i) => {
+      const row = document.createElement('div');
+      row.className = 'link-form-row';
+      row.innerHTML = `
+        <input type="text" class="link-form-input" placeholder="Label (e.g. View Document)" value="${escHtml(link.text)}" data-li="${i}" data-field="text">
+        <input type="text" class="link-form-input" placeholder="https://…" value="${escHtml(link.url)}" data-li="${i}" data-field="url">
+        <button type="button" class="link-remove-btn" data-ri="${i}" title="Remove">×</button>`;
+      row.querySelectorAll('.link-form-input').forEach(inp => {
+        inp.addEventListener('input', e => { modalLinks[+e.target.dataset.li][e.target.dataset.field] = e.target.value; });
+      });
+      row.querySelector('.link-remove-btn').addEventListener('click', e => {
+        modalLinks.splice(+e.currentTarget.dataset.ri, 1);
+        renderModalLinks();
+      });
+      container.appendChild(row);
+    });
+  }
+
+  function openAnnModal(mode, id, d) {
+    document.getElementById('editingId').value  = mode === 'edit' ? id : '';
+    document.getElementById('annTitle').value   = mode === 'edit' ? (d.title || '') : '';
+    document.getElementById('annBody').value    = mode === 'edit' ? (d.body  || '') : '';
+    document.getElementById('annPin').checked   = mode === 'edit' ? (d.pinned || false) : false;
     document.getElementById('modalErr').textContent = '';
+    document.getElementById('modalHeading').textContent = mode === 'edit' ? '✏️ Edit Announcement' : '📢 New Announcement';
+    document.getElementById('modalPublish').textContent = mode === 'edit' ? 'Save Changes' : 'Publish';
+    modalLinks = mode === 'edit' ? [...(d.links || [])] : [];
+    renderModalLinks();
     modalOverlay.classList.add('open');
-  });
+  }
+
+  document.getElementById('newAnnBtn').addEventListener('click', () => openAnnModal('new', null, null));
   document.getElementById('modalCancel').addEventListener('click', () => modalOverlay.classList.remove('open'));
   modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('open'); });
 
+  document.getElementById('addLinkBtn').addEventListener('click', () => {
+    modalLinks.push({ text: '', url: '' });
+    renderModalLinks();
+  });
+
   document.getElementById('modalPublish').addEventListener('click', async () => {
-    if (!isAdmin || !currentUser) return;
-    const title = document.getElementById('annTitle').value.trim();
-    const body = document.getElementById('annBody').value.trim();
+    if (!currentUser) return;
+    const editId = document.getElementById('editingId').value;
+    if (!editId && !isAdmin) return; // only admin can create
+
+    const title  = document.getElementById('annTitle').value.trim();
+    const body   = document.getElementById('annBody').value.trim();
     const pinned = document.getElementById('annPin').checked;
-    const errEl = document.getElementById('modalErr');
-    const btn = document.getElementById('modalPublish');
+    const errEl  = document.getElementById('modalErr');
+    const btn    = document.getElementById('modalPublish');
+    const links  = modalLinks.filter(l => l.url.trim());
 
     if (!title) { errEl.textContent = 'Please enter a title.'; return; }
     if (!body)  { errEl.textContent = 'Please enter a body text.'; return; }
 
-    btn.disabled = true; btn.textContent = 'Publishing…';
+    const origText = btn.textContent;
+    btn.disabled = true; btn.textContent = editId ? 'Saving…' : 'Publishing…';
     try {
-      await addDoc(collection(db, 'announcements'), {
-        title, body, pinned,
-        authorName: currentUser.displayName || currentUser.email.split('@')[0],
-        authorId: currentUser.uid,
-        commentCount: 0,
-        timestamp: serverTimestamp(),
-      });
+      if (editId) {
+        await updateDoc(doc(db, 'announcements', editId), {
+          title, body, pinned, links,
+          editedAt: serverTimestamp(),
+        });
+      } else {
+        await addDoc(collection(db, 'announcements'), {
+          title, body, pinned, links,
+          authorName: currentUser.displayName || currentUser.email.split('@')[0],
+          authorId: currentUser.uid,
+          commentCount: 0,
+          timestamp: serverTimestamp(),
+        });
+      }
       modalOverlay.classList.remove('open');
     } catch (err) {
-      errEl.textContent = 'Failed to publish. Try again.';
+      errEl.textContent = 'Failed to save. Try again.';
       console.error(err);
     }
-    btn.disabled = false; btn.textContent = 'Publish';
+    btn.disabled = false; btn.textContent = origText;
   });
 
   // ── Confirm Dialog ───────────────────────────────────────────
