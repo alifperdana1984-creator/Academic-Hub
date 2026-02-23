@@ -319,6 +319,17 @@
       .admin-action-delete { background:rgba(239,68,68,.10); color:#ef4444; border:1px solid rgba(239,68,68,.25); }
       .admin-action-delete:hover { background:rgba(239,68,68,.22); transform:translateY(-1px); }
       .admin-empty-row td { text-align:center; padding:2.5rem; color:rgba(255,255,255,.3); font-size:13px; font-style:italic; }
+      .admin-rownum-th { width:38px; text-align:right !important; padding-right:8px !important; cursor:default !important; }
+      .admin-rownum-th:hover { color:rgba(255,255,255,.42) !important; }
+      .admin-rownum-cell { font-size:11px; color:rgba(255,255,255,.28); text-align:right; padding-right:8px !important; font-variant-numeric:tabular-nums; white-space:nowrap; }
+      .admin-pagination { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-top:1px solid rgba(255,255,255,.07); flex-wrap:wrap; gap:10px; }
+      .admin-pag-info { font-size:12px; color:rgba(255,255,255,.38); }
+      .admin-pag-btns { display:flex; gap:5px; align-items:center; }
+      .admin-pag-btn { display:flex; align-items:center; justify-content:center; min-width:32px; height:32px; padding:0 6px; border-radius:8px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10); color:rgba(255,255,255,.65); font-size:12px; font-family:"DM Sans",sans-serif; cursor:pointer; transition:all .18s; }
+      .admin-pag-btn:hover:not([disabled]) { background:rgba(108,92,231,.22); border-color:rgba(108,92,231,.45); color:#fff; }
+      .admin-pag-btn[disabled] { opacity:.28; cursor:default; pointer-events:none; }
+      .admin-pag-btn.active { background:rgba(108,92,231,.35); border-color:rgba(108,92,231,.6); color:#fff; font-weight:700; }
+      .admin-pag-ellipsis { font-size:13px; color:rgba(255,255,255,.25); padding:0 2px; line-height:32px; }
 
       /* Scrollbar */
       .timeline-outer::-webkit-scrollbar { height:6px; }
@@ -459,7 +470,7 @@
           <input type="text" class="search-input" id="searchInput" placeholder="🔎 Search activities...">
           <button class="add-btn" id="addActBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add Activity
+            Add New Activity
           </button>
         </div>
       </div>
@@ -502,6 +513,7 @@
           <table class="admin-table">
             <thead>
               <tr>
+                <th class="admin-rownum-th">#</th>
                 <th data-sort="title">Title <i class="sort-icon">↕</i></th>
                 <th data-sort="category">Category <i class="sort-icon">↕</i></th>
                 <th data-sort="priority">Priority <i class="sort-icon">↕</i></th>
@@ -513,6 +525,10 @@
             </thead>
             <tbody id="adminTableBody"></tbody>
           </table>
+          <div class="admin-pagination" id="adminPagination" style="display:none;">
+            <span class="admin-pag-info" id="adminPagInfo"></span>
+            <div class="admin-pag-btns" id="adminPagBtns"></div>
+          </div>
         </div>
       </div>
     </main>
@@ -1288,8 +1304,10 @@
       document.getElementById('detailClose').addEventListener('click', () => document.getElementById('detailModal').classList.remove('open'));
 
       // ── Admin Activity List ────────────────────────────────────────
-      let adminSortMode = 'date-asc';
-      let adminSearchTerm = '';
+      const ADMIN_PAGE_SIZE = 20;
+      let adminSortMode    = 'date-asc';
+      let adminSearchTerm  = '';
+      let adminCurrentPage = 1;
 
       function renderAdminList() {
         document.getElementById('adminListSection').classList.add('visible');
@@ -1297,7 +1315,7 @@
 
         let acts = [...allActivities];
 
-        // Apply search filter
+        // Search filter
         if (adminSearchTerm) {
           const q = adminSearchTerm.toLowerCase();
           acts = acts.filter(a => a.title.toLowerCase().includes(q) || (a.description||'').toLowerCase().includes(q) || (CATS[a.category]?.label||'').toLowerCase().includes(q));
@@ -1305,92 +1323,151 @@
 
         // Sort
         const po = { high:0, medium:1, low:2 };
-        if (adminSortMode === 'date-asc')    acts.sort((a,b) => weekIdx(a.monthStart,a.weekStart) - weekIdx(b.monthStart,b.weekStart));
-        else if (adminSortMode === 'date-desc') acts.sort((a,b) => weekIdx(b.monthStart,b.weekStart) - weekIdx(a.monthStart,a.weekStart));
+        if (adminSortMode === 'date-asc')       acts.sort((a,b) => weekIdx(a.monthStart,a.weekStart) - weekIdx(b.monthStart,b.weekStart));
+        else if (adminSortMode === 'date-desc')  acts.sort((a,b) => weekIdx(b.monthStart,b.weekStart) - weekIdx(a.monthStart,a.weekStart));
         else if (adminSortMode === 'title-asc')  acts.sort((a,b) => a.title.localeCompare(b.title));
         else if (adminSortMode === 'title-desc') acts.sort((a,b) => b.title.localeCompare(a.title));
         else if (adminSortMode === 'category')   acts.sort((a,b) => a.category.localeCompare(b.category));
         else if (adminSortMode === 'priority')   acts.sort((a,b) => (po[a.priority]||1) - (po[b.priority]||1));
 
-        document.getElementById('adminRowCount').textContent = `${acts.length} of ${allActivities.length} activities`;
+        const totalFiltered = acts.length;
+        const totalPages    = Math.max(1, Math.ceil(totalFiltered / ADMIN_PAGE_SIZE));
+        if (adminCurrentPage > totalPages) adminCurrentPage = totalPages;
 
+        const startIdx  = (adminCurrentPage - 1) * ADMIN_PAGE_SIZE;
+        const pageActs  = acts.slice(startIdx, startIdx + ADMIN_PAGE_SIZE);
+        const endIdx    = startIdx + pageActs.length;
+
+        document.getElementById('adminRowCount').textContent =
+          `${totalFiltered} of ${allActivities.length} activities`;
+
+        // ── Table body ──
         const tbody = document.getElementById('adminTableBody');
         tbody.innerHTML = '';
 
-        if (acts.length === 0) {
+        if (totalFiltered === 0) {
           const tr = document.createElement('tr');
           tr.className = 'admin-empty-row';
-          tr.innerHTML = `<td colspan="7">No activities found.</td>`;
+          tr.innerHTML = `<td colspan="8">No activities found.</td>`;
           tbody.appendChild(tr);
-          return;
+        } else {
+          pageActs.forEach((act, i) => {
+            const rowNum = startIdx + i + 1;
+            const cat    = CATS[act.category] || CATS.assessment;
+            const pri    = PRIORITY[act.priority] || PRIORITY.medium;
+            const schoolsLabel = act.schools === 'all' ? 'All Schools'
+              : Array.isArray(act.schools) ? act.schools.join(', ')
+              : (act.schools || 'All Schools');
+            const tw = totalWeeks(act);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="admin-rownum-cell">${rowNum}</td>
+              <td class="admin-title-cell" title="${act.title}">${act.title}</td>
+              <td><span class="admin-cat-badge" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.border};">${cat.icon} ${cat.label}</span></td>
+              <td><span class="admin-priority-cell" style="color:${pri.color};"><span class="admin-priority-dot" style="background:${pri.color};box-shadow:0 0 5px ${pri.color}88;"></span>${pri.label}</span></td>
+              <td class="admin-date-cell">${formatDateRange(act)}</td>
+              <td class="admin-date-cell">${tw} wk${tw!==1?'s':''}</td>
+              <td class="admin-schools-cell" title="${schoolsLabel}">${schoolsLabel}</td>
+              <td>
+                ${isModerator ? `<div class="admin-actions">
+                  <button class="admin-action-btn admin-action-edit" data-id="${act.id}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Edit
+                  </button>
+                  ${isAdmin ? `<button class="admin-action-btn admin-action-delete" data-id="${act.id}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                    Delete
+                  </button>` : ''}
+                </div>` : '<span style="font-size:11px;color:rgba(255,255,255,.25);">View only</span>'}
+              </td>`;
+
+            if (isModerator) {
+              tr.querySelector('.admin-action-edit').addEventListener('click', () => {
+                const found = allActivities.find(a => a.id === act.id);
+                if (found) openEditModal(found);
+              });
+            }
+            if (isAdmin) {
+              tr.querySelector('.admin-action-delete').addEventListener('click', async () => {
+                if (!confirm(`Delete "${act.title}"?\n\nThis action cannot be undone.`)) return;
+                try { await deleteDoc(doc(db, 'timeline_activities', act.id)); }
+                catch(e) { alert('Delete error: ' + e.message); }
+              });
+            }
+            tbody.appendChild(tr);
+          });
         }
 
-        acts.forEach(act => {
-          const cat = CATS[act.category] || CATS.assessment;
-          const pri = PRIORITY[act.priority] || PRIORITY.medium;
-          const schoolsLabel = act.schools === 'all' ? 'All Schools' : Array.isArray(act.schools) ? act.schools.join(', ') : (act.schools || 'All Schools');
-          const tw = totalWeeks(act);
+        // ── Pagination ──
+        const pagEl   = document.getElementById('adminPagination');
+        const infoEl  = document.getElementById('adminPagInfo');
+        const btnsEl  = document.getElementById('adminPagBtns');
 
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="admin-title-cell" title="${act.title}">${act.title}</td>
-            <td><span class="admin-cat-badge" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.border};">${cat.icon} ${cat.label}</span></td>
-            <td><span class="admin-priority-cell" style="color:${pri.color};"><span class="admin-priority-dot" style="background:${pri.color};box-shadow:0 0 5px ${pri.color}88;"></span>${pri.label}</span></td>
-            <td class="admin-date-cell">${formatDateRange(act)}</td>
-            <td class="admin-date-cell">${tw} wk${tw!==1?'s':''}</td>
-            <td class="admin-schools-cell" title="${schoolsLabel}">${schoolsLabel}</td>
-            <td>
-              ${isModerator ? `<div class="admin-actions">
-                <button class="admin-action-btn admin-action-edit" data-id="${act.id}">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  Edit
-                </button>
-                ${isAdmin ? `<button class="admin-action-btn admin-action-delete" data-id="${act.id}">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-                  Delete
-                </button>` : ''}
-              </div>` : '<span style="font-size:11px;color:rgba(255,255,255,.25);">View only</span>'}
-            </td>`;
+        if (totalPages <= 1) {
+          pagEl.style.display = 'none';
+        } else {
+          pagEl.style.display = 'flex';
+          infoEl.textContent  = `Showing ${startIdx + 1}–${endIdx} of ${totalFiltered}`;
+          btnsEl.innerHTML    = '';
 
-          if (isModerator) {
-            tr.querySelector('.admin-action-edit').addEventListener('click', () => {
-              const found = allActivities.find(a => a.id === act.id);
-              if (found) openEditModal(found);
-            });
-          }
+          const addBtn = (label, page, isActive, disabled) => {
+            const btn = document.createElement('button');
+            btn.className = 'admin-pag-btn' + (isActive ? ' active' : '');
+            btn.textContent = label;
+            if (disabled) btn.setAttribute('disabled', '');
+            else btn.addEventListener('click', () => { adminCurrentPage = page; renderAdminList(); });
+            btnsEl.appendChild(btn);
+          };
+          const addEllipsis = () => {
+            const sp = document.createElement('span');
+            sp.className = 'admin-pag-ellipsis';
+            sp.textContent = '…';
+            btnsEl.appendChild(sp);
+          };
 
-          if (isAdmin) {
-            tr.querySelector('.admin-action-delete').addEventListener('click', async () => {
-              if (!confirm(`Delete "${act.title}"?\n\nThis action cannot be undone.`)) return;
-              try {
-                await deleteDoc(doc(db, 'timeline_activities', act.id));
-              } catch(e) { alert('Delete error: ' + e.message); }
-            });
-          }
+          // Prev
+          addBtn('‹', adminCurrentPage - 1, false, adminCurrentPage === 1);
 
-          tbody.appendChild(tr);
-        });
+          // Page numbers: always show first, last, current ±1
+          const pages = new Set([1, totalPages, adminCurrentPage, adminCurrentPage - 1, adminCurrentPage + 1].filter(p => p >= 1 && p <= totalPages));
+          const sorted = [...pages].sort((a,b) => a - b);
+          let prev = 0;
+          sorted.forEach(p => {
+            if (prev && p - prev > 1) addEllipsis();
+            addBtn(p, p, p === adminCurrentPage, false);
+            prev = p;
+          });
 
-        // Update column sort icon highlighting
+          // Next
+          addBtn('›', adminCurrentPage + 1, false, adminCurrentPage === totalPages);
+        }
+
+        // ── Sort icon highlight ──
         document.querySelectorAll('.admin-table th[data-sort]').forEach(th => {
           const icon = th.querySelector('.sort-icon');
           if (!icon) return;
           const s = th.dataset.sort;
-          if (adminSortMode === s || (s === 'title-asc' && adminSortMode === 'title-asc') || (s === 'date-asc' && adminSortMode === 'date-asc')) {
-            icon.textContent = '↑'; icon.style.opacity = '1';
-          } else { icon.textContent = '↕'; icon.style.opacity = '.4'; }
+          const active = (s === 'date-asc' && (adminSortMode === 'date-asc' || adminSortMode === 'date-desc'))
+                      || (s === 'title'    && (adminSortMode === 'title-asc' || adminSortMode === 'title-desc'))
+                      || s === adminSortMode;
+          if (active) {
+            icon.textContent = (adminSortMode.endsWith('-desc')) ? '↓' : '↑';
+            icon.style.opacity = '1';
+          } else {
+            icon.textContent = '↕';
+            icon.style.opacity = '.4';
+          }
         });
       }
 
       // Toolbar events
       document.getElementById('adminSortSelect').addEventListener('change', e => {
-        adminSortMode = e.target.value;
-        renderAdminList();
+        adminSortMode = e.target.value; adminCurrentPage = 1; renderAdminList();
       });
 
       document.getElementById('adminSearchInput').addEventListener('input', e => {
-        adminSearchTerm = e.target.value.trim();
-        renderAdminList();
+        adminSearchTerm = e.target.value.trim(); adminCurrentPage = 1; renderAdminList();
       });
 
       document.getElementById('addActBtnList').addEventListener('click', () => openEditModal(null));
@@ -1399,12 +1476,12 @@
       document.querySelectorAll('.admin-table th[data-sort]').forEach(th => {
         th.addEventListener('click', () => {
           const s = th.dataset.sort;
-          const mapping = { 'title': 'title-asc', 'category': 'category', 'priority': 'priority', 'date-asc': 'date-asc' };
-          const newSort = mapping[s] || s;
-          // Toggle asc/desc for title and date
-          if (newSort === 'title-asc' && adminSortMode === 'title-asc') adminSortMode = 'title-desc';
+          const map = { 'title':'title-asc', 'category':'category', 'priority':'priority', 'date-asc':'date-asc' };
+          const newSort = map[s] || s;
+          if (newSort === 'title-asc' && adminSortMode === 'title-asc')   adminSortMode = 'title-desc';
           else if (newSort === 'date-asc' && adminSortMode === 'date-asc') adminSortMode = 'date-desc';
           else adminSortMode = newSort;
+          adminCurrentPage = 1;
           document.getElementById('adminSortSelect').value = adminSortMode;
           renderAdminList();
         });
