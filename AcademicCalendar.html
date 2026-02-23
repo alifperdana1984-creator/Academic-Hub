@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Eduversal Indonesia Academic Calendar – interactive yearly activity timeline for partner schools" />
+    <meta name="description" content="Eduversal Indonesia Event Calendar – interactive yearly activity timeline for partner schools" />
     <meta name="theme-color" content="#667eea" />
-    <title>Academic Calendar | Eduversal Indonesia</title>
+    <title>Event Calendar | Eduversal Indonesia</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -282,6 +282,44 @@
       /* ── Empty state ── */
       .empty-lane { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:12px; color:rgba(255,255,255,.18); font-style:italic; }
 
+      /* ── Admin Activity List ── */
+      .admin-list-section { display:none; margin-top:2.5rem; }
+      .admin-list-section.visible { display:block; }
+      .admin-list-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:12px; }
+      .admin-list-title { font-family:"Playfair Display",serif; font-size:1.35rem; font-weight:700; color:#fff; }
+      .admin-list-subtitle { font-size:13px; color:rgba(255,255,255,.45); margin-top:3px; }
+      .admin-list-toolbar { display:flex; align-items:center; gap:10px; margin-bottom:1rem; flex-wrap:wrap; }
+      .admin-sort-select { padding:7px 12px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#fff; font-family:"DM Sans",sans-serif; font-size:12px; outline:none; cursor:pointer; }
+      .admin-sort-select option { background:#1a1a35; }
+      .admin-search-input { padding:7px 14px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#fff; font-family:"DM Sans",sans-serif; font-size:13px; outline:none; width:200px; }
+      .admin-search-input::placeholder { color:rgba(255,255,255,.3); }
+      .admin-search-input:focus { border-color:rgba(108,92,231,.6); }
+      .admin-row-count { font-size:12px; color:rgba(255,255,255,.38); margin-left:auto; }
+      .admin-table-wrap { overflow-x:auto; border-radius:16px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.25); }
+      .admin-table { width:100%; border-collapse:collapse; min-width:860px; }
+      .admin-table thead tr { background:rgba(0,0,0,.3); }
+      .admin-table th { padding:11px 16px; text-align:left; font-size:11px; font-weight:600; color:rgba(255,255,255,.42); text-transform:uppercase; letter-spacing:.06em; border-bottom:1px solid rgba(255,255,255,.08); white-space:nowrap; cursor:pointer; user-select:none; transition:color .18s; }
+      .admin-table th:hover { color:rgba(255,255,255,.8); }
+      .sort-icon { margin-left:4px; opacity:.45; font-style:normal; }
+      .admin-table td { padding:11px 16px; border-bottom:1px solid rgba(255,255,255,.05); vertical-align:middle; }
+      .admin-table tr:last-child td { border-bottom:none; }
+      .admin-table tbody tr { transition:background .15s; }
+      .admin-table tbody tr:hover td { background:rgba(255,255,255,.03); }
+      .admin-cat-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+      .admin-priority-cell { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; white-space:nowrap; }
+      .admin-priority-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+      .admin-title-cell { font-size:13px; font-weight:600; color:#fff; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .admin-date-cell { font-size:12px; color:rgba(255,255,255,.6); white-space:nowrap; }
+      .admin-schools-cell { font-size:12px; color:rgba(255,255,255,.5); max-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .admin-actions { display:flex; gap:6px; }
+      .admin-action-btn { display:inline-flex; align-items:center; gap:5px; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:all .18s; white-space:nowrap; }
+      .admin-action-btn svg { width:13px; height:13px; flex-shrink:0; }
+      .admin-action-edit { background:rgba(102,126,234,.14); color:#667eea; border:1px solid rgba(102,126,234,.3); }
+      .admin-action-edit:hover { background:rgba(102,126,234,.28); transform:translateY(-1px); }
+      .admin-action-delete { background:rgba(239,68,68,.10); color:#ef4444; border:1px solid rgba(239,68,68,.25); }
+      .admin-action-delete:hover { background:rgba(239,68,68,.22); transform:translateY(-1px); }
+      .admin-empty-row td { text-align:center; padding:2.5rem; color:rgba(255,255,255,.3); font-size:13px; font-style:italic; }
+
       /* Scrollbar */
       .timeline-outer::-webkit-scrollbar { height:6px; }
       .timeline-outer::-webkit-scrollbar-track { background:rgba(255,255,255,.04); border-radius:3px; }
@@ -319,7 +357,7 @@
       <div class="nav-actions">
         <a href="AcademicCalendar.html" class="nav-btn active">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>Calendar</span>
+          <span>Event Calendar</span>
         </a>
         <a href="announcements.html" class="nav-btn" id="navAnnBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/></svg>
@@ -381,7 +419,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Dashboard
       </a>
-      <h1>📅 Academic Calendar</h1>
+      <h1>📅 Event Calendar</h1>
       <p class="subtitle">2025/26 Annual Activity Timeline · July 2025 – May 2026</p>
     </div>
 
@@ -421,7 +459,7 @@
           <input type="text" class="search-input" id="searchInput" placeholder="🔎 Search activities...">
           <button class="add-btn" id="addActBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Aktivite Ekle
+            Add Activity
           </button>
         </div>
       </div>
@@ -435,6 +473,48 @@
 
       <!-- ══ LEGEND ══ -->
       <div class="legend" id="legend"></div>
+
+      <!-- ══ ADMIN ACTIVITY LIST ══ -->
+      <div class="admin-list-section" id="adminListSection">
+        <div class="admin-list-header">
+          <div>
+            <div class="admin-list-title">📋 All Activities</div>
+            <div class="admin-list-subtitle">Full list of scheduled events and activities for the academic year</div>
+          </div>
+          <button class="add-btn" id="addActBtnList" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add New Activity
+          </button>
+        </div>
+        <div class="admin-list-toolbar">
+          <select class="admin-sort-select" id="adminSortSelect">
+            <option value="date-asc">Sort by Date (Earliest first)</option>
+            <option value="date-desc">Sort by Date (Latest first)</option>
+            <option value="title-asc">Sort by Title A–Z</option>
+            <option value="title-desc">Sort by Title Z–A</option>
+            <option value="category">Sort by Category</option>
+            <option value="priority">Sort by Priority</option>
+          </select>
+          <input type="text" class="admin-search-input" id="adminSearchInput" placeholder="🔎 Filter activities...">
+          <span class="admin-row-count" id="adminRowCount"></span>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-sort="title">Title <i class="sort-icon">↕</i></th>
+                <th data-sort="category">Category <i class="sort-icon">↕</i></th>
+                <th data-sort="priority">Priority <i class="sort-icon">↕</i></th>
+                <th data-sort="date-asc">Date Range <i class="sort-icon">↕</i></th>
+                <th>Duration</th>
+                <th>Schools</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+          </table>
+        </div>
+      </div>
     </main>
 
     <!-- Scroll to today -->
@@ -496,7 +576,7 @@
         <div class="modal-footer" id="detailFooter">
           <button class="btn btn-danger" id="detailDeleteBtn" style="display:none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-            Sil
+            Delete
           </button>
           <button class="btn btn-ghost" id="detailEditBtn" style="display:none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -512,7 +592,7 @@
       <div class="modal-box">
         <div class="modal-header">
           <div class="modal-header-top">
-            <div class="modal-title" id="editModalTitle">Yeni Aktivite Ekle</div>
+            <div class="modal-title" id="editModalTitle">Add New Activity</div>
             <button class="modal-close" id="editClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
           </div>
         </div>
@@ -528,9 +608,9 @@
               <select class="form-select" id="editCategory">
                 <option value="assessment">📊 Assessment</option>
                 <option value="training">🎓 Training &amp; PD</option>
-                <option value="visit">🏫 Okul Ziyareti</option>
-                <option value="report">📋 Raporlama</option>
-                <option value="event">🎉 Etkinlik</option>
+                <option value="visit">🏫 School Visit</option>
+                <option value="report">📋 Reporting</option>
+                <option value="event">🎉 Events</option>
                 <option value="parent">👨‍👩‍👧 Parent &amp; Student</option>
               </select>
             </div>
@@ -596,7 +676,7 @@
           <button class="btn btn-ghost" id="editCancelBtn">Cancel</button>
           <button class="btn btn-primary" id="editSaveBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Kaydet
+            Save
           </button>
         </div>
       </div>
@@ -777,7 +857,7 @@
         unsubActivities = onSnapshot(q, snap => {
           allActivities = snap.docs.map(d => ({id:d.id, ...d.data()}));
           if (allActivities.length === 0) seedDemo();
-          else { renderTimeline(); renderStats(); }
+          else { renderTimeline(); renderStats(); renderAdminList(); }
           document.getElementById('loadingOverlay').style.display='none';
         }, err => {
           console.error('Firestore load error:', err);
@@ -1206,6 +1286,129 @@
       document.getElementById('editClose').addEventListener('click',  () => document.getElementById('editModal').classList.remove('open'));
       document.getElementById('editCancelBtn').addEventListener('click', () => document.getElementById('editModal').classList.remove('open'));
       document.getElementById('detailClose').addEventListener('click', () => document.getElementById('detailModal').classList.remove('open'));
+
+      // ── Admin Activity List ────────────────────────────────────────
+      let adminSortMode = 'date-asc';
+      let adminSearchTerm = '';
+
+      function renderAdminList() {
+        document.getElementById('adminListSection').classList.add('visible');
+        if (isModerator) document.getElementById('addActBtnList').style.display = 'flex';
+
+        let acts = [...allActivities];
+
+        // Apply search filter
+        if (adminSearchTerm) {
+          const q = adminSearchTerm.toLowerCase();
+          acts = acts.filter(a => a.title.toLowerCase().includes(q) || (a.description||'').toLowerCase().includes(q) || (CATS[a.category]?.label||'').toLowerCase().includes(q));
+        }
+
+        // Sort
+        const po = { high:0, medium:1, low:2 };
+        if (adminSortMode === 'date-asc')    acts.sort((a,b) => weekIdx(a.monthStart,a.weekStart) - weekIdx(b.monthStart,b.weekStart));
+        else if (adminSortMode === 'date-desc') acts.sort((a,b) => weekIdx(b.monthStart,b.weekStart) - weekIdx(a.monthStart,a.weekStart));
+        else if (adminSortMode === 'title-asc')  acts.sort((a,b) => a.title.localeCompare(b.title));
+        else if (adminSortMode === 'title-desc') acts.sort((a,b) => b.title.localeCompare(a.title));
+        else if (adminSortMode === 'category')   acts.sort((a,b) => a.category.localeCompare(b.category));
+        else if (adminSortMode === 'priority')   acts.sort((a,b) => (po[a.priority]||1) - (po[b.priority]||1));
+
+        document.getElementById('adminRowCount').textContent = `${acts.length} of ${allActivities.length} activities`;
+
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '';
+
+        if (acts.length === 0) {
+          const tr = document.createElement('tr');
+          tr.className = 'admin-empty-row';
+          tr.innerHTML = `<td colspan="7">No activities found.</td>`;
+          tbody.appendChild(tr);
+          return;
+        }
+
+        acts.forEach(act => {
+          const cat = CATS[act.category] || CATS.assessment;
+          const pri = PRIORITY[act.priority] || PRIORITY.medium;
+          const schoolsLabel = act.schools === 'all' ? 'All Schools' : Array.isArray(act.schools) ? act.schools.join(', ') : (act.schools || 'All Schools');
+          const tw = totalWeeks(act);
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="admin-title-cell" title="${act.title}">${act.title}</td>
+            <td><span class="admin-cat-badge" style="background:${cat.bg};color:${cat.color};border:1px solid ${cat.border};">${cat.icon} ${cat.label}</span></td>
+            <td><span class="admin-priority-cell" style="color:${pri.color};"><span class="admin-priority-dot" style="background:${pri.color};box-shadow:0 0 5px ${pri.color}88;"></span>${pri.label}</span></td>
+            <td class="admin-date-cell">${formatDateRange(act)}</td>
+            <td class="admin-date-cell">${tw} wk${tw!==1?'s':''}</td>
+            <td class="admin-schools-cell" title="${schoolsLabel}">${schoolsLabel}</td>
+            <td>
+              ${isModerator ? `<div class="admin-actions">
+                <button class="admin-action-btn admin-action-edit" data-id="${act.id}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Edit
+                </button>
+                ${isAdmin ? `<button class="admin-action-btn admin-action-delete" data-id="${act.id}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                  Delete
+                </button>` : ''}
+              </div>` : '<span style="font-size:11px;color:rgba(255,255,255,.25);">View only</span>'}
+            </td>`;
+
+          if (isModerator) {
+            tr.querySelector('.admin-action-edit').addEventListener('click', () => {
+              const found = allActivities.find(a => a.id === act.id);
+              if (found) openEditModal(found);
+            });
+          }
+
+          if (isAdmin) {
+            tr.querySelector('.admin-action-delete').addEventListener('click', async () => {
+              if (!confirm(`Delete "${act.title}"?\n\nThis action cannot be undone.`)) return;
+              try {
+                await deleteDoc(doc(db, 'timeline_activities', act.id));
+              } catch(e) { alert('Delete error: ' + e.message); }
+            });
+          }
+
+          tbody.appendChild(tr);
+        });
+
+        // Update column sort icon highlighting
+        document.querySelectorAll('.admin-table th[data-sort]').forEach(th => {
+          const icon = th.querySelector('.sort-icon');
+          if (!icon) return;
+          const s = th.dataset.sort;
+          if (adminSortMode === s || (s === 'title-asc' && adminSortMode === 'title-asc') || (s === 'date-asc' && adminSortMode === 'date-asc')) {
+            icon.textContent = '↑'; icon.style.opacity = '1';
+          } else { icon.textContent = '↕'; icon.style.opacity = '.4'; }
+        });
+      }
+
+      // Toolbar events
+      document.getElementById('adminSortSelect').addEventListener('change', e => {
+        adminSortMode = e.target.value;
+        renderAdminList();
+      });
+
+      document.getElementById('adminSearchInput').addEventListener('input', e => {
+        adminSearchTerm = e.target.value.trim();
+        renderAdminList();
+      });
+
+      document.getElementById('addActBtnList').addEventListener('click', () => openEditModal(null));
+
+      // Column header sort click
+      document.querySelectorAll('.admin-table th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const s = th.dataset.sort;
+          const mapping = { 'title': 'title-asc', 'category': 'category', 'priority': 'priority', 'date-asc': 'date-asc' };
+          const newSort = mapping[s] || s;
+          // Toggle asc/desc for title and date
+          if (newSort === 'title-asc' && adminSortMode === 'title-asc') adminSortMode = 'title-desc';
+          else if (newSort === 'date-asc' && adminSortMode === 'date-asc') adminSortMode = 'date-desc';
+          else adminSortMode = newSort;
+          document.getElementById('adminSortSelect').value = adminSortMode;
+          renderAdminList();
+        });
+      });
 
       // Close on overlay click
       ['detailModal','editModal'].forEach(id => {
