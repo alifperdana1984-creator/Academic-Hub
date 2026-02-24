@@ -6,7 +6,6 @@ function copyDirRecursive(srcDir, destDir) {
   if (!fs.existsSync(destDir)) {
     fs.mkdirSync(destDir, { recursive: true });
   }
-
   fs.readdirSync(srcDir, { withFileTypes: true }).forEach((entry) => {
     const srcPath = path.join(srcDir, entry.name);
     const destPath = path.join(destDir, entry.name);
@@ -18,23 +17,65 @@ function copyDirRecursive(srcDir, destDir) {
   });
 }
 
-// Replace placeholders with environment variables
+// ── Firebase placeholder replacements ───────────────────────────
 const replacements = {
-  __FIREBASE_API_KEY__: process.env.FIREBASE_API_KEY || "",
-  __FIREBASE_AUTH_DOMAIN__: process.env.FIREBASE_AUTH_DOMAIN || "",
-  __FIREBASE_PROJECT_ID__: process.env.FIREBASE_PROJECT_ID || "",
-  __FIREBASE_STORAGE_BUCKET__: process.env.FIREBASE_STORAGE_BUCKET || "",
-  __FIREBASE_MESSAGING_SENDER_ID__:
-    process.env.FIREBASE_MESSAGING_SENDER_ID || "",
-  __FIREBASE_APP_ID__: process.env.FIREBASE_APP_ID || "",
+  __FIREBASE_API_KEY__:            process.env.FIREBASE_API_KEY            || "",
+  __FIREBASE_AUTH_DOMAIN__:        process.env.FIREBASE_AUTH_DOMAIN        || "",
+  __FIREBASE_PROJECT_ID__:         process.env.FIREBASE_PROJECT_ID         || "",
+  __FIREBASE_STORAGE_BUCKET__:     process.env.FIREBASE_STORAGE_BUCKET     || "",
+  __FIREBASE_MESSAGING_SENDER_ID__:process.env.FIREBASE_MESSAGING_SENDER_ID|| "",
+  __FIREBASE_APP_ID__:             process.env.FIREBASE_APP_ID             || "",
 };
 
-// Create dist directory
+// ── Clean URL mapping: filename → slug ──────────────────────────
+// slug "" means root (/), all others become /slug
+const cleanUrls = {
+  "index.html":                      "",
+  "announcements.html":              "announcements",
+  "library.html":                    "library",
+  "documents.html":                  "documents",
+  "messageboard.html":               "message-board",
+  "AcademicCalendar.html":           "academic-calendar",
+  "AcademicStandards.html":          "academic-standards",
+  "CambridgeExamsDashboard.html":    "cambridge-exams",
+  "CambridgePathwaySimulator.html":  "cambridge-pathway",
+  "IslamicSchoolsPerformance.html":  "islamic-schools",
+  "PartnerSchoolsPerformance.html":  "partner-schools",
+  "SchoolAppraisalsDashboard.html":  "school-appraisals",
+  "StaffSatisfactionSurvey.html":    "staff-survey",
+  "StudentSatisfactionSurvey.html":  "student-survey",
+  "ParentSatisfactionSurvey.html":   "parent-survey",
+  "EASE-I-AssessmentResults.html":   "ease-1",
+  "EASE-II-AssessmentResults.html":  "ease-2",
+  "A-EASE-I-AssessmentResults.html": "a-ease-1",
+};
+
+// Rewrite all internal .html links to clean URLs inside a built file
+function rewriteLinks(content) {
+  let result = content;
+  for (const [filename, slug] of Object.entries(cleanUrls)) {
+    const escaped = filename.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const target  = slug === "" ? "/" : `/${slug}`;
+    // href="filename.html" and href="./filename.html"
+    result = result.replace(
+      new RegExp(`(href=")(\\./)?(${escaped})(")`, "g"),
+      `$1${target}$4`
+    );
+    // window.location.href = "filename.html"  (auth-guard.js)
+    result = result.replace(
+      new RegExp(`(window\\.location\\.href\\s*=\\s*")(\\./)?(${escaped})(")`, "g"),
+      `$1${target}$4`
+    );
+  }
+  return result;
+}
+
+// ── Create dist directory ────────────────────────────────────────
 if (!fs.existsSync("dist")) {
   fs.mkdirSync("dist");
 }
 
-// List of HTML files to process
+// ── HTML files to process ────────────────────────────────────────
 const htmlFiles = [
   "index.html",
   "announcements.html",
@@ -56,42 +97,58 @@ const htmlFiles = [
   "AcademicCalendar.html",
 ];
 
-// Process each HTML file
 htmlFiles.forEach((file) => {
-  if (fs.existsSync(file)) {
-    let html = fs.readFileSync(file, "utf8");
+  if (!fs.existsSync(file)) return;
+  let html = fs.readFileSync(file, "utf8");
 
-    for (const [placeholder, value] of Object.entries(replacements)) {
-      html = html.replace(new RegExp(placeholder, "g"), value);
-    }
-
-    fs.writeFileSync(path.join("dist", file), html);
-    console.log(`Processed: ${file}`);
+  // 1. Replace Firebase placeholders
+  for (const [placeholder, value] of Object.entries(replacements)) {
+    html = html.replace(new RegExp(placeholder, "g"), value);
   }
+
+  // 2. Rewrite internal links to clean URLs
+  html = rewriteLinks(html);
+
+  // 3. Write to dist (same filename — routing handled by platform)
+  fs.writeFileSync(path.join("dist", file), html);
+  console.log(`Processed: ${file}`);
 });
 
-// Copy auth-guard.js
+// ── auth-guard.js — process link rewrites too ────────────────────
 if (fs.existsSync("auth-guard.js")) {
-  fs.copyFileSync("auth-guard.js", "dist/auth-guard.js");
-  console.log("Copied: auth-guard.js");
+  let js = fs.readFileSync("auth-guard.js", "utf8");
+  js = rewriteLinks(js);
+  fs.writeFileSync("dist/auth-guard.js", js);
+  console.log("Processed: auth-guard.js");
 }
 
-// Copy images folder if it exists
-const imagesDir = "images";
-if (fs.existsSync(imagesDir)) {
-  const destImagesDir = "dist/images";
-  copyDirRecursive(imagesDir, destImagesDir);
-  console.log("Copied: images folder");
+// ── Copy static assets ───────────────────────────────────────────
+if (fs.existsSync("images")) {
+  copyDirRecursive("images", "dist/images");
+  console.log("Copied: images/");
+}
+if (fs.existsSync("Sections")) {
+  copyDirRecursive("Sections", "dist/Sections");
+  console.log("Copied: Sections/");
 }
 
-// Copy sections folder if it exists (JSON/PDF content for AcademicStandards page)
-const sectionsDir = "Sections";
-if (fs.existsSync(sectionsDir)) {
-  const destSectionsDir = "dist/Sections";
-  copyDirRecursive(sectionsDir, destSectionsDir);
-  console.log("Copied: Sections folder");
+// ── Generate Netlify _redirects ──────────────────────────────────
+// Serves clean URLs (200 rewrite) and redirects .html → clean (301)
+let redirects = "# ── Clean URL routing (generated by build.js) ──\n\n";
+redirects    += "# Serve clean URLs\n";
+for (const [filename, slug] of Object.entries(cleanUrls)) {
+  if (slug === "") continue;
+  redirects += `/${slug}  /${filename}  200\n`;
 }
+redirects += "\n# Redirect .html to clean URLs\n";
+for (const [filename, slug] of Object.entries(cleanUrls)) {
+  if (slug === "") continue;
+  redirects += `/${filename}  /${slug}  301\n`;
+}
+fs.writeFileSync(path.join("dist", "_redirects"), redirects);
+console.log("Generated: _redirects");
 
+// ── Summary ──────────────────────────────────────────────────────
 console.log("\nBuild completed successfully!");
 console.log("Environment variables:");
 Object.keys(replacements).forEach((key) => {
