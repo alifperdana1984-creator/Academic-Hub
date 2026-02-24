@@ -48,6 +48,7 @@ const cleanUrls = {
   "EASE-I-AssessmentResults.html":   "ease-1",
   "EASE-II-AssessmentResults.html":  "ease-2",
   "A-EASE-I-AssessmentResults.html": "a-ease-1",
+  "EASE-Archive.html":               "ease-archive",
 };
 
 // Rewrite all internal .html links to clean URLs inside a built file
@@ -91,6 +92,7 @@ const htmlFiles = [
   "StaffSatisfactionSurvey.html",
   "StudentSatisfactionSurvey.html",
   "ParentSatisfactionSurvey.html",
+  "EASE-Archive.html",
   "EASE-I-AssessmentResults.html",
   "EASE-II-AssessmentResults.html",
   "A-EASE-I-AssessmentResults.html",

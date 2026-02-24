@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EASE Archive — Academic Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+
+  <script>
+  window.ENV = {
+    FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
+  };
+  </script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ── Reset & Tokens ── */
+    :root {
+      --bg:         #070d17;
+      --bg2:        #0e1724;
+      --card:       #111d2c;
+      --card2:      #172134;
+      --border:     #1c2d3e;
+      --border2:    #243649;
+      --text:       #e2eaf6;
+      --text2:      #7a9ab8;
+      --text3:      #3f5569;
+      --teal:       #14b8a6;
+      --teal-dim:   rgba(20,184,166,0.15);
+      --teal-glow:  rgba(20,184,166,0.25);
+      --blue:       #3b82f6;
+      --indigo:     #818cf8;
+      --green:      #22c55e;
+      --amber:      #f59e0b;
+      --red:        #ef4444;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated Background ── */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.10;
+      animation: float 22s ease-in-out infinite;
+    }
+    .orb-1 { width: 600px; height: 600px; background: #14b8a6; top: -250px; right: -150px; }
+    .orb-2 { width: 500px; height: 500px; background: #6366f1; bottom: -200px; left: -120px; animation-delay: -11s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(25px, -35px) scale(1.04); }
+      66%  { transform: translate(-20px, 20px) scale(0.96); }
+    }
+
+    /* ── Layout ── */
+    .dashboard {
+      position: relative; z-index: 1;
+      max-width: 1720px; margin: 0 auto;
+      padding: 2rem 2rem 6rem;
+    }
+
+    /* ── Header ── */
+    .header {
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-top {
+      display: flex; align-items: center; gap: 0.9rem;
+      margin-bottom: 0.8rem; flex-wrap: wrap;
+    }
+    .badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+      background: var(--teal); color: #030e0c;
+      padding: 0.26rem 0.65rem; border-radius: 4px;
+    }
+    .back-link {
+      font-size: 0.8rem; color: var(--text2); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: color 0.18s;
+    }
+    .back-link:hover { color: var(--teal); }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; color: var(--green);
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2);
+      padding: 0.22rem 0.6rem; border-radius: 20px; margin-left: auto;
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .header-title {
+      font-size: clamp(1.6rem, 3.2vw, 2.3rem); font-weight: 700; line-height: 1.15;
+      background: linear-gradient(130deg, #e2eaf6 20%, #14b8a6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 0.4rem;
+    }
+    .header-sub { font-size: 0.875rem; color: var(--text2); }
+
+    /* ── Filter Bar ── */
+    .filter-bar {
+      display: flex; gap: 1rem; align-items: flex-end;
+      flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .fg { display: flex; flex-direction: column; gap: 5px; }
+    .fg label {
+      font-size: 0.68rem; font-weight: 700; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .fselect {
+      background: var(--card); border: 1px solid var(--border2);
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
+      padding: 0.48rem 0.8rem; border-radius: 8px; cursor: pointer;
+      outline: none; transition: border-color 0.15s; min-width: 155px;
+    }
+    .fselect:focus { border-color: var(--teal); }
+    .fselect option { background: var(--bg2); }
+    .group-btns { display: flex; gap: 4px; }
+    .group-btn {
+      padding: 0.46rem 0.95rem; border-radius: 8px; font-size: 0.83rem; font-weight: 600;
+      border: 1px solid var(--border2); background: var(--card); color: var(--text2);
+      cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+    }
+    .group-btn:hover { border-color: var(--teal); color: var(--text); }
+    .group-btn.active { background: var(--teal); color: #030e0c; border-color: var(--teal); }
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap input {
+      width: 100%; background: var(--card); border: 1px solid var(--border2);
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
+      padding: 0.48rem 0.8rem 0.48rem 2.25rem; border-radius: 8px;
+      outline: none; transition: border-color 0.15s;
+    }
+    .search-wrap input::placeholder { color: var(--text3); }
+    .search-wrap input:focus { border-color: var(--teal); }
+    .search-ico {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      color: var(--text3); pointer-events: none;
+    }
+
+    /* ── Stats Row ── */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.1rem 1.3rem;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .stat-card:hover { border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal-dim); }
+    .stat-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.65rem; font-weight: 700; color: var(--teal);
+      line-height: 1.1; margin-bottom: 0.35rem;
+    }
+    .stat-lbl { font-size: 0.76rem; color: var(--text2); font-weight: 500; }
+
+    /* ── Main Layout ── */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 370px 1fr;
+      gap: 1.25rem; align-items: start;
+    }
+
+    /* ── Exam Panel ── */
+    .exam-panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column;
+      max-height: calc(100vh - 300px); min-height: 450px;
+      position: sticky; top: 1rem;
+    }
+    .panel-hd {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .panel-title { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .count-badge {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
+      background: var(--teal-dim); color: var(--teal);
+      border: 1px solid rgba(20,184,166,0.25);
+      padding: 0.18rem 0.55rem; border-radius: 20px;
+    }
+    .panel-filters {
+      padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 7px; flex-shrink: 0;
+    }
+    .subject-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .stab {
+      padding: 0.28rem 0.6rem; border-radius: 20px; font-size: 0.74rem; font-weight: 600;
+      border: 1px solid var(--border2); background: transparent; color: var(--text2);
+      cursor: pointer; transition: all 0.14s; font-family: 'DM Sans', sans-serif;
+    }
+    .stab:hover { color: var(--text); border-color: var(--teal); }
+    .stab.active { background: var(--teal); color: #030e0c; border-color: var(--teal); }
+    .grade-row { display: flex; gap: 4px; flex-wrap: wrap; }
+    .gbtn {
+      padding: 0.24rem 0.52rem; border-radius: 6px; font-size: 0.71rem; font-weight: 600;
+      border: 1px solid var(--border2); background: transparent; color: var(--text2);
+      cursor: pointer; transition: all 0.14s; font-family: 'DM Sans', sans-serif;
+    }
+    .gbtn:hover { color: var(--text); border-color: var(--blue); }
+    .gbtn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .exam-list { overflow-y: auto; flex: 1; padding: 0.45rem; }
+    .exam-list::-webkit-scrollbar { width: 3px; }
+    .exam-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+    /* Exam Card */
+    .exam-card {
+      padding: 0.9rem 1rem; border-radius: 10px;
+      border: 1px solid transparent; background: var(--card2);
+      margin-bottom: 5px; cursor: pointer; transition: all 0.16s;
+    }
+    .exam-card:hover { border-color: rgba(20,184,166,0.4); background: rgba(20,184,166,0.04); }
+    .exam-card.active {
+      border-color: var(--teal); background: var(--teal-dim);
+      box-shadow: 0 0 0 1px var(--teal-glow);
+    }
+    .ec-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 8px; margin-bottom: 0.5rem;
+    }
+    .ec-name { font-size: 0.875rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .g-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.63rem; font-weight: 700;
+      background: rgba(129,140,248,0.15); color: #818cf8;
+      border: 1px solid rgba(129,140,248,0.2);
+      padding: 0.17rem 0.48rem; border-radius: 4px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .ec-meta { display: flex; gap: 0.9rem; flex-wrap: wrap; align-items: center; }
+    .ec-mi { font-size: 0.71rem; color: var(--text2); display: flex; align-items: center; gap: 3px; }
+    .spill {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
+      padding: 0.16rem 0.48rem; border-radius: 4px; margin-left: auto;
+    }
+    .s-hi  { background: rgba(34,197,94,0.15);  color: #22c55e; }
+    .s-mid { background: rgba(245,158,11,0.15);  color: #f59e0b; }
+    .s-low { background: rgba(239,68,68,0.15);   color: #ef4444; }
+    .s-nil { background: rgba(100,116,139,0.12); color: #64748b; }
+
+    /* States */
+    .state-msg {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.7rem; padding: 2.5rem 1rem; text-align: center;
+      color: var(--text2); font-size: 0.875rem;
+    }
+    .spinner {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2.5px solid var(--border2); border-top-color: var(--teal);
+      animation: spin 0.75s linear infinite; flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Analysis Panel ── */
+    .analysis-panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; min-height: 500px;
+    }
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 500px; gap: 1rem; color: var(--text2); text-align: center; padding: 2rem;
+    }
+    .empty-ico { font-size: 3.5rem; opacity: 0.3; }
+    .empty-ttl { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .empty-sub { font-size: 0.875rem; color: var(--text2); max-width: 280px; line-height: 1.6; }
+
+    /* Detail Sections */
+    .det-hd {
+      padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .det-hd-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; margin-bottom: 0.6rem;
+    }
+    .det-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .det-code {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--text2);
+      background: var(--card2); padding: 0.24rem 0.6rem; border-radius: 4px;
+      display: inline-block;
+    }
+    .det-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .det-mi { font-size: 0.8rem; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+
+    .school-bar {
+      padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .school-bar-lbl { font-size: 0.8rem; font-weight: 600; color: var(--text2); white-space: nowrap; }
+
+    .det-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .ds-card {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.9rem 1rem;
+    }
+    .ds-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.45rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.3rem;
+    }
+    .ds-lbl { font-size: 0.71rem; color: var(--text2); font-weight: 500; }
+    .c-teal  { color: var(--teal); }
+    .c-green { color: var(--green); }
+    .c-amber { color: var(--amber); }
+    .c-red   { color: var(--red); }
+    .c-blue  { color: var(--blue); }
+
+    /* Charts */
+    .sect {
+      padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .sect-title {
+      font-size: 0.76rem; font-weight: 700; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sect-title-name { color: var(--text2); font-weight: 500; text-transform: none; letter-spacing: 0; }
+    .chart-card {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+    }
+    .cc-title { font-size: 0.78rem; font-weight: 600; color: var(--text2); margin-bottom: 0.75rem; }
+    .charts-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Compare loading */
+    .cmp-loading {
+      display: flex; align-items: center; gap: 0.75rem;
+      color: var(--text2); font-size: 0.8rem; padding: 0.75rem 0;
+    }
+    .cmp-loading .spinner { width: 16px; height: 16px; border-width: 2px; }
+    .cmp-info {
+      display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 0.9rem;
+    }
+    .cmp-info span { font-size: 0.8rem; color: var(--text2); }
+    .mono { font-family: 'Space Mono', monospace; font-weight: 700; }
+
+    /* Tables */
+    .tables-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.25rem 1.5rem; }
+    .tbl-card { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .tbl-hd {
+      padding: 0.7rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.77rem; font-weight: 700; color: var(--text2);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .tbl-body { max-height: 260px; overflow-y: auto; }
+    .tbl-body::-webkit-scrollbar { width: 3px; }
+    .tbl-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 0.48rem 0.8rem; font-size: 0.67rem; font-weight: 700; color: var(--text3);
+      text-align: left; text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--card2); position: sticky; top: 0; z-index: 1;
+    }
+    tbody tr { border-top: 1px solid var(--border); transition: background 0.13s; }
+    tbody tr:hover { background: rgba(255,255,255,0.022); }
+    tbody td { padding: 0.52rem 0.8rem; font-size: 0.8rem; color: var(--text); }
+    .rk { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--text3); width: 32px; }
+    .nm { max-width: 155px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sc-pill {
+      font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700;
+      padding: 0.16rem 0.48rem; border-radius: 4px; display: inline-block;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .main-layout { grid-template-columns: 320px 1fr; }
+    }
+    @media (max-width: 880px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .exam-panel { position: static; max-height: 380px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .det-stats { grid-template-columns: repeat(2, 1fr); }
+      .charts-2 { grid-template-columns: 1fr; }
+      .tables-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .dashboard { padding: 1rem 0.9rem 5.5rem; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── FAB ── */
+    .fab-container {
+      position: fixed; bottom: 24px; right: 24px;
+      display: flex; flex-direction: column; align-items: flex-end;
+      gap: 10px; z-index: 999;
+    }
+    .fab-items { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .fab-item {
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(12px) scale(0.85);
+      transition: opacity 0.22s cubic-bezier(0.16,1,0.3,1), transform 0.22s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fab-item:nth-child(2) { transition-delay: 0.04s; }
+    .fab-container.open .fab-item { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    .fab-container.open .fab-item:nth-child(1) { transition-delay: 0.04s; }
+    .fab-label {
+      background: rgba(10,10,25,0.93); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+      padding: 5px 11px; border-radius: 8px; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif; backdrop-filter: blur(12px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3); user-select: none; pointer-events: none;
+    }
+    .fab-action-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(18,18,40,0.92);
+      color: rgba(255,255,255,0.82);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
+      backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.4); flex-shrink: 0;
+    }
+    .fab-action-btn:hover { transform: scale(1.1); }
+    .fab-home:hover { background: #0d9488; border-color: #0d9488; box-shadow: 0 6px 22px rgba(13,148,136,0.55); color: #fff; }
+    .fab-feedback-btn { background: rgba(18,18,40,0.92); }
+    .fab-feedback-btn:hover { background: #6c5ce7; border-color: #6c5ce7; box-shadow: 0 6px 22px rgba(108,92,231,0.55); color: #fff; }
+    .fab-main {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(18,18,40,0.92); border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.88);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; cursor: pointer;
+      transition: all 0.28s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5); backdrop-filter: blur(12px);
+    }
+    .fab-main:hover { transform: scale(1.07); box-shadow: 0 8px 32px rgba(20,184,166,0.4); border-color: rgba(20,184,166,0.5); }
+    .fab-container.open .fab-main { background: linear-gradient(135deg, #14b8a6, #6366f1); border-color: transparent; box-shadow: 0 6px 32px rgba(20,184,166,0.5); }
+    .fab-ic { position: absolute; transition: opacity 0.22s, transform 0.28s cubic-bezier(0.16,1,0.3,1); }
+    .fab-ic-open  { opacity: 1; transform: rotate(0deg) scale(1); }
+    .fab-ic-close { opacity: 0; transform: rotate(-45deg) scale(0.7); }
+    .fab-container.open .fab-ic-open  { opacity: 0; transform: rotate(45deg) scale(0.7); }
+    .fab-container.open .fab-ic-close { opacity: 1; transform: rotate(0deg) scale(1); }
+    /* Feedback Modal */
+    .feedback-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .feedback-overlay.open { display: flex; }
+    .feedback-modal {
+      background: rgba(10,10,26,0.97); border: 1px solid rgba(108,92,231,0.35);
+      border-radius: 20px; width: 100%; max-width: 480px;
+      padding: 28px; box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .feedback-modal-header { display: flex; align-items: center; justify-content: space-between; }
+    .feedback-modal-title { font-size: 16px; font-weight: 700; color: #fff; font-family: 'DM Sans', sans-serif; }
+    .feedback-close-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6); font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+    }
+    .feedback-close-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+    .feedback-field { display: flex; flex-direction: column; gap: 6px; }
+    .feedback-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.05em; }
+    .feedback-select, .feedback-textarea {
+      width: 100%; padding: 10px 12px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; color: #fff; font-size: 13.5px;
+      font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.18s;
+    }
+    .feedback-select { cursor: pointer; }
+    .feedback-select option { background: #0a0a1a; }
+    .feedback-select:focus, .feedback-textarea:focus { border-color: rgba(20,184,166,0.7); }
+    .feedback-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+    .feedback-textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .feedback-submit-btn {
+      width: 100%; padding: 11px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, #14b8a6, #6366f1);
+      color: #fff; font-size: 14px; font-weight: 600;
+      font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.18s;
+    }
+    .feedback-submit-btn:hover { opacity: 0.88; }
+    .feedback-submit-btn:disabled { opacity: 0.5; cursor: default; }
+    .feedback-status { font-size: 12.5px; text-align: center; display: none; }
+    .feedback-status.ok  { color: #00b894; display: block; }
+    .feedback-status.err { color: #e74c3c; display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-layer">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<div class="dashboard">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <span class="badge">EASE ARCHIVE</span>
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Academic Hub
+      </a>
+      <span class="live-badge"><span class="live-dot"></span>Live API</span>
+    </div>
+    <h1 class="header-title">EASE Assessment Archive</h1>
+    <p class="header-sub">Real-time network data · All partner schools · Eduversal Indonesia</p>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="fg">
+      <label>Academic Year</label>
+      <select id="yearSelect" class="fselect">
+        <option value="2024/2025">2024 / 2025</option>
+        <option value="2023/2024">2023 / 2024</option>
+        <option value="2022/2023">2022 / 2023</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>EASE Group</label>
+      <div class="group-btns">
+        <button class="group-btn active" data-group="ease1">EASE I</button>
+        <button class="group-btn" data-group="ease2">EASE II</button>
+        <button class="group-btn" data-group="ease3">EASE III</button>
+      </div>
+    </div>
+    <div class="fg search-wrap">
+      <label>Search</label>
+      <svg class="search-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Subject or grade…">
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="sExams">—</div>
+      <div class="stat-lbl">Total Exams</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="sSchools">16</div>
+      <div class="stat-lbl">Partner Schools</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="sSubjects">—</div>
+      <div class="stat-lbl">Subjects</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="sGrades">—</div>
+      <div class="stat-lbl">Grade Levels</div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-layout">
+
+    <!-- Exam Browser -->
+    <div class="exam-panel">
+      <div class="panel-hd">
+        <span class="panel-title">Exam Browser</span>
+        <span class="count-badge" id="cntBadge">—</span>
+      </div>
+      <div class="panel-filters">
+        <div class="subject-tabs" id="subjectTabs">
+          <button class="stab active" data-sub="">All</button>
+        </div>
+        <div class="grade-row" id="gradeRow">
+          <button class="gbtn active" data-gr="">All Grades</button>
+        </div>
+      </div>
+      <div class="exam-list" id="examList">
+        <div class="state-msg"><div class="spinner"></div><span>Loading exams…</span></div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <div class="analysis-panel" id="analysisPanel">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-ico">📊</div>
+        <div class="empty-ttl">Select an Exam</div>
+        <div class="empty-sub">Choose any exam from the browser to view network-wide analysis and school-level drill-down.</div>
+      </div>
+      <div id="detailContent" style="display:none"></div>
+    </div>
+
+  </div>
+</div><!-- /dashboard -->
+
+<!-- FAB -->
+<div class="fab-container" id="fabContainer">
+  <div class="fab-items">
+    <div class="fab-item">
+      <span class="fab-label">Back to Hub</span>
+      <a href="index.html" class="fab-action-btn fab-home" title="Back to Hub" aria-label="Back to Hub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </a>
+    </div>
+    <div class="fab-item">
+      <span class="fab-label">Feedback</span>
+      <button class="fab-action-btn fab-feedback-btn" id="fabFeedbackBtn" aria-label="Send Feedback">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <button class="fab-main" id="fabMain" aria-label="Quick actions">
+    <svg class="fab-ic fab-ic-open" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="5" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>
+    <svg class="fab-ic fab-ic-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Feedback Modal -->
+<div class="feedback-overlay" id="fabFeedbackOverlay">
+  <div class="feedback-modal">
+    <div class="feedback-modal-header">
+      <span class="feedback-modal-title">Send Feedback</span>
+      <button class="feedback-close-btn" id="fabFeedbackCloseBtn">&times;</button>
+    </div>
+    <div class="feedback-field">
+      <label class="feedback-label" for="fabFeedbackSubject">Subject</label>
+      <select class="feedback-select" id="fabFeedbackSubject">
+        <option value="">— select —</option>
+        <option value="bug">Bug / Issue</option>
+        <option value="feature">Feature Request</option>
+        <option value="content">Content Update</option>
+        <option value="general">General Feedback</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="feedback-field">
+      <label class="feedback-label" for="fabFeedbackMessage">Message</label>
+      <textarea class="feedback-textarea" id="fabFeedbackMessage" placeholder="Describe your feedback…"></textarea>
+    </div>
+    <button class="feedback-submit-btn" id="fabFeedbackSubmitBtn">Send Feedback</button>
+    <div class="feedback-status" id="fabFeedbackStatus"></div>
+  </div>
+</div>
+
+<!-- Firebase (for feedback) -->
+<script type="module">
+  import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  });
+  const db = getFirestore(app);
+
+  // Expose for FAB feedback
+  window._fbSubmitFeedback = async (subject, message, user) => {
+    await addDoc(collection(db, 'feedbacks'), {
+      subject, message,
+      userId:    user?.uid   || null,
+      userEmail: user?.email || null,
+      page:      'ease-archive',
+      timestamp: serverTimestamp(),
+    });
+  };
+</script>
+
+<script>
+'use strict';
+
+/* ── API ─────────────────────────────────────────── */
+const API  = 'https://edunav.net/api/eduversal';
+const TK   = 'Kx9mP!vL8@F1*FVFS!zF5$uY3!bE6*tB10';
+
+async function apiFetch(endpoint, params = {}) {
+  const url = new URL(`${API}/${endpoint}`);
+  url.searchParams.set('token', TK);
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== '' && v !== null && v !== undefined) url.searchParams.set(k, String(v));
+  });
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+/* ── State ───────────────────────────────────────── */
+const S = {
+  schools:   [],
+  exams:     [],
+  filtered:  [],
+  exam:      null,
+  schoolId:  null,
+  scores:    null,
+  questions: null,
+  charts:    {},
+  filters:   { year:'2024/2025', group:'ease1', subject:'', grade:'', search:'' },
+};
+
+/* ── Helpers ─────────────────────────────────────── */
+const sub = name => (name || '').replace(/\s+\d+$/, '').trim();
+
+function scClass(v) {
+  if (v == null) return 's-nil';
+  if (v >= 80)   return 's-hi';
+  if (v >= 60)   return 's-mid';
+  return 's-low';
+}
+function scColor(v) {
+  if (v >= 80) return '#22c55e';
+  if (v >= 65) return '#f59e0b';
+  return '#ef4444';
+}
+function fDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function dChart(key) {
+  if (S.charts[key]) { S.charts[key].destroy(); delete S.charts[key]; }
+}
+function schoolName(id) {
+  return S.schools.find(s => s.id == id)?.name || `School ${id}`;
+}
+
+/* ── Load Schools ────────────────────────────────── */
+async function loadSchools() {
+  try {
+    const r = await apiFetch('schools');
+    S.schools = r.data || [];
+    document.getElementById('sSchools').textContent = S.schools.length;
+  } catch (e) { console.warn('Schools load failed:', e); }
+}
+
+/* ── Load Exams ──────────────────────────────────── */
+async function loadExams() {
+  document.getElementById('examList').innerHTML =
+    '<div class="state-msg"><div class="spinner"></div><span>Loading exams…</span></div>';
+  S.exam = null;
+  resetExamStats();
+  hideDetail();
+
+  try {
+    const r = await apiFetch('exams', { year: S.filters.year, group: S.filters.group });
+    S.exams = r.data || [];
+    buildSubjectFilter();
+    buildGradeFilter();
+    applyFilters();
+    updateTopStats();
+  } catch (e) {
+    document.getElementById('examList').innerHTML = `
+      <div class="state-msg">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="#ef4444"/></svg>
+        <span style="color:#ef4444;font-weight:600">Failed to load</span>
+        <span style="font-size:0.75rem;color:var(--text3)">${e.message}</span>
+        <span style="font-size:0.75rem;color:var(--text3);max-width:240px;text-align:center">Check network or API availability.</span>
+      </div>`;
+  }
+}
+
+function resetExamStats() {
+  ['sExams','sSubjects','sGrades'].forEach(id => document.getElementById(id).textContent = '—');
+  document.getElementById('cntBadge').textContent = '—';
+}
+function hideDetail() {
+  document.getElementById('emptyState').style.display = '';
+  document.getElementById('detailContent').style.display = 'none';
+}
+
+/* ── Build Filters ───────────────────────────────── */
+function buildSubjectFilter() {
+  const subs = [...new Set(S.exams.map(e => sub(e.name)))].sort();
+  const el = document.getElementById('subjectTabs');
+  el.innerHTML = '<button class="stab active" data-sub="">All</button>';
+  subs.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'stab'; btn.dataset.sub = s; btn.textContent = s;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); S.filters.subject = s; applyFilters();
+    });
+    el.appendChild(btn);
+  });
+  el.querySelector('[data-sub=""]').addEventListener('click', function() {
+    document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+    this.classList.add('active'); S.filters.subject = ''; applyFilters();
+  });
+}
+
+function buildGradeFilter() {
+  const grades = [...new Set(S.exams.map(e => e.grade))].sort((a,b) => a-b);
+  const el = document.getElementById('gradeRow');
+  el.innerHTML = '<button class="gbtn active" data-gr="">All</button>';
+  grades.forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'gbtn'; btn.dataset.gr = g; btn.textContent = `G${g}`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); S.filters.grade = String(g); applyFilters();
+    });
+    el.appendChild(btn);
+  });
+  el.querySelector('[data-gr=""]').addEventListener('click', function() {
+    document.querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active'); S.filters.grade = ''; applyFilters();
+  });
+}
+
+function applyFilters() {
+  const { subject, grade, search } = S.filters;
+  const q = search.toLowerCase();
+  S.filtered = S.exams.filter(ex => {
+    if (subject && sub(ex.name) !== subject) return false;
+    if (grade   && String(ex.grade) !== grade) return false;
+    if (q && !ex.name.toLowerCase().includes(q) && !sub(ex.name).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderExamList();
+  document.getElementById('cntBadge').textContent = S.filtered.length;
+}
+
+function updateTopStats() {
+  document.getElementById('sExams').textContent    = S.exams.length;
+  document.getElementById('sSubjects').textContent = new Set(S.exams.map(e => sub(e.name))).size;
+  document.getElementById('sGrades').textContent   = new Set(S.exams.map(e => e.grade)).size;
+}
+
+/* ── Render Exam List ────────────────────────────── */
+function renderExamList() {
+  const el = document.getElementById('examList');
+  if (!S.filtered.length) {
+    el.innerHTML = '<div class="state-msg"><span>No exams match this filter.</span></div>';
+    return;
+  }
+  el.innerHTML = S.filtered.map(ex => {
+    const avg = ex.average > 0 ? ex.average : null;
+    const isActive = S.exam && S.exam.id === ex.id;
+    return `<div class="exam-card${isActive ? ' active' : ''}" id="ec-${ex.id}" onclick="onExamClick(${ex.id})">
+      <div class="ec-top">
+        <div class="ec-name">${ex.name}</div>
+        <span class="g-tag">G${ex.grade}</span>
+      </div>
+      <div class="ec-meta">
+        <span class="ec-mi">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${fDate(ex.date)}
+        </span>
+        <span class="ec-mi">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          ${ex.total_question} Qs
+        </span>
+        <span class="ec-mi">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${ex.duration ? ex.duration + ' min' : '—'}
+        </span>
+        <span class="spill ${scClass(avg)}" style="margin-left:auto">${avg ? avg.toFixed(1) : 'N/A'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Exam Click ──────────────────────────────────── */
+window.onExamClick = function(id) {
+  const exam = S.exams.find(e => e.id === id);
+  if (!exam) return;
+  S.exam     = exam;
+  S.schoolId = null;
+  document.querySelectorAll('.exam-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`ec-${id}`)?.classList.add('active');
+  buildDetailShell(exam);
+  fetchNetworkComparison(exam);
+};
+
+/* ── Detail Shell ────────────────────────────────── */
+function buildDetailShell(exam) {
+  document.getElementById('emptyState').style.display  = 'none';
+  const dc = document.getElementById('detailContent');
+  dc.style.display = 'block';
+
+  const schoolOpts = S.schools.map(s =>
+    `<option value="${s.id}">${s.name}</option>`
+  ).join('');
+
+  dc.innerHTML = `
+  <!-- Exam Header -->
+  <div class="det-hd">
+    <div class="det-hd-row">
+      <div>
+        <div class="det-name">${exam.name}</div>
+        <span class="det-code">${exam.code}</span>
+      </div>
+      <span class="g-tag" style="padding:.35rem .75rem;font-size:.75rem">Grade ${exam.grade}</span>
+    </div>
+    <div class="det-meta">
+      <span class="det-mi">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        ${fDate(exam.date)}
+      </span>
+      <span class="det-mi">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        ${exam.duration || '—'} min
+      </span>
+      <span class="det-mi">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        ${exam.multiple_choice} MC + ${exam.essay} Essay (${exam.total_question} total)
+      </span>
+    </div>
+  </div>
+
+  <!-- School Selector -->
+  <div class="school-bar">
+    <span class="school-bar-lbl">Drill into a school:</span>
+    <select id="scSelect" class="fselect" style="min-width:210px">
+      <option value="">— Select School —</option>
+      ${schoolOpts}
+    </select>
+    <span id="scLoadInd" style="display:none;font-size:.8rem;color:var(--text2);display:none;align-items:center;gap:.5rem">
+      <span class="spinner" style="width:14px;height:14px;border-width:2px"></span> Loading…
+    </span>
+  </div>
+
+  <!-- Detail Stats -->
+  <div class="det-stats">
+    <div class="ds-card"><div class="ds-val c-teal"  id="dsp">—</div><div class="ds-lbl">Participants</div></div>
+    <div class="ds-card"><div class="ds-val c-amber" id="dsa">—</div><div class="ds-lbl">Average Score</div></div>
+    <div class="ds-card"><div class="ds-val c-green" id="dsh">—</div><div class="ds-lbl">Highest Score</div></div>
+    <div class="ds-card"><div class="ds-val c-red"   id="dsl">—</div><div class="ds-lbl">Lowest Score</div></div>
+  </div>
+
+  <!-- Network Comparison -->
+  <div class="sect" id="netSect">
+    <div class="sect-title">Network Comparison</div>
+    <div id="netContent">
+      <div class="cmp-loading"><div class="spinner"></div><span>Fetching data from all ${S.schools.length} schools…</span></div>
+    </div>
+  </div>
+
+  <!-- School Charts (hidden until school selected) -->
+  <div id="schoolCharts" style="display:none">
+    <div class="sect" style="border-top:1px solid var(--border)">
+      <div class="sect-title">School Analysis · <span class="sect-title-name" id="scName">—</span></div>
+      <div class="charts-2">
+        <div class="chart-card">
+          <div class="cc-title">Score Distribution</div>
+          <div style="position:relative;height:200px"><canvas id="distCvs"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="cc-title">Bloom's Taxonomy — Avg Correct Rate by Cognitive Level</div>
+          <div style="position:relative;height:200px"><canvas id="bloomsCvs"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="tables-2">
+      <div class="tbl-card">
+        <div class="tbl-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+          Top Students
+        </div>
+        <div class="tbl-body" id="topTbl"></div>
+      </div>
+      <div class="tbl-card">
+        <div class="tbl-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>
+          Weakest Questions
+        </div>
+        <div class="tbl-body" id="weakTbl"></div>
+      </div>
+    </div>
+  </div>`;
+
+  /* School select handler */
+  document.getElementById('scSelect').addEventListener('change', async function() {
+    const sid = parseInt(this.value);
+    if (!sid) return;
+    S.schoolId = sid;
+    await loadSchoolDetail(exam.id, sid);
+  });
+}
+
+/* ── Network Comparison ──────────────────────────── */
+async function fetchNetworkComparison(exam) {
+  const results = await Promise.allSettled(
+    S.schools.map(sc =>
+      apiFetch('scores', { exam_id: exam.id, web_id: sc.id })
+        .then(d => ({ sc, d }))
+    )
+  );
+
+  const valid = results
+    .filter(r => r.status === 'fulfilled')
+    .map(r => r.value)
+    .filter(({ d }) => d && (d.count > 0 || (d.data && d.data.length > 0)))
+    .map(({ sc, d }) => ({
+      name:  sc.name,
+      id:    sc.id,
+      avg:   parseFloat(d.average   ?? (d.data?.length ? d.data.reduce((s,x)=>s+parseFloat(x.score||x.total_score||0),0)/d.data.length : 0)),
+      count: d.count || d.data?.length || 0,
+      high:  parseFloat(d.highest ?? Math.max(...(d.data||[]).map(x=>parseFloat(x.score||x.total_score||0)))),
+      low:   parseFloat(d.lowest  ?? Math.min(...(d.data||[]).map(x=>parseFloat(x.score||x.total_score||0)))),
+    }))
+    .filter(x => x.count > 0 && x.avg > 0)
+    .sort((a, b) => b.avg - a.avg);
+
+  renderNetworkChart(valid);
+}
+
+function renderNetworkChart(data) {
+  const nc = document.getElementById('netContent');
+  if (!nc) return;
+
+  if (!data.length) {
+    nc.innerHTML = '<div class="state-msg" style="padding:1rem 0"><span style="color:var(--text3)">No participation data available for this exam yet.</span></div>';
+    return;
+  }
+
+  const netAvg     = data.reduce((s, d) => s + d.avg, 0) / data.length;
+  const totalParts = data.reduce((s, d) => s + d.count, 0);
+
+  nc.innerHTML = `
+    <div class="cmp-info">
+      <span><span class="mono" style="color:var(--teal)">${data.length}</span> schools participated</span>
+      <span>Network avg: <span class="mono" style="color:${scColor(netAvg)}">${netAvg.toFixed(1)}</span></span>
+      <span>Total participants: <span class="mono" style="color:var(--teal)">${totalParts}</span></span>
+    </div>
+    <div style="position:relative;height:${Math.max(200, data.length * 32)}px">
+      <canvas id="netCvs"></canvas>
+    </div>`;
+
+  dChart('net');
+  S.charts.net = new Chart(document.getElementById('netCvs'), {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.name),
+      datasets: [{
+        label: 'Average Score',
+        data:  data.map(d => +d.avg.toFixed(1)),
+        backgroundColor: data.map(d => scColor(d.avg) + '30'),
+        borderColor:     data.map(d => scColor(d.avg)),
+        borderWidth: 1.5, borderRadius: 4,
+      }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const d = data[ctx.dataIndex];
+              return [
+                ` Avg Score : ${d.avg.toFixed(1)}`,
+                ` Participants : ${d.count}`,
+                ` Highest : ${isFinite(d.high) ? d.high.toFixed(1) : '—'}  /  Lowest : ${isFinite(d.low) ? d.low.toFixed(1) : '—'}`,
+              ];
+            },
+          },
+        },
+        annotation: {
+          annotations: { line: { type:'line', xMin: netAvg, xMax: netAvg, borderColor:'rgba(255,255,255,0.2)', borderWidth:1, borderDash:[4,4] } }
+        },
+      },
+      scales: {
+        x: { min:0, max:100, grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ color:'#3f5569', font:{ size:11, family:'Space Mono' } } },
+        y: { grid:{ display:false }, ticks:{ color:'#7a9ab8', font:{ size:11 } } },
+      },
+    },
+  });
+}
+
+/* ── School Detail ───────────────────────────────── */
+async function loadSchoolDetail(examId, schoolId) {
+  const ind = document.getElementById('scLoadInd');
+  if (ind) { ind.style.display = 'inline-flex'; }
+
+  try {
+    const [sr, qr] = await Promise.all([
+      apiFetch('scores',    { exam_id: examId, web_id: schoolId }),
+      apiFetch('questions', { exam_id: examId, web_id: schoolId }),
+    ]);
+    S.scores    = sr;
+    S.questions = qr;
+
+    /* Stats */
+    const students = sr.data || [];
+    const avg    = sr.average   ?? (students.length ? students.reduce((s,x) => s + parseFloat(x.score||x.total_score||0), 0) / students.length : 0);
+    const high   = sr.highest   ?? Math.max(...students.map(x => parseFloat(x.score||x.total_score||0)));
+    const low    = sr.lowest    ?? Math.min(...students.map(x => parseFloat(x.score||x.total_score||0)));
+    const count  = sr.count     ?? students.length;
+
+    document.getElementById('dsp').textContent = count;
+    const avgEl = document.getElementById('dsa');
+    avgEl.textContent = avg ? avg.toFixed(1) : '—';
+    avgEl.style.color = avg ? scColor(avg) : 'var(--amber)';
+    document.getElementById('dsh').textContent = isFinite(high) && high > 0 ? high.toFixed(1) : '—';
+    document.getElementById('dsl').textContent = isFinite(low)  && low  > 0 ? low.toFixed(1)  : '—';
+
+    /* Show charts section */
+    document.getElementById('schoolCharts').style.display = '';
+    document.getElementById('scName').textContent = schoolName(schoolId);
+
+    renderDistChart(students);
+    renderBloomsChart(qr.data || []);
+    renderTopTable(students);
+    renderWeakTable(qr.data || []);
+
+  } catch (e) {
+    console.error('School detail failed:', e);
+    ['dsp','dsa','dsh','dsl'].forEach(id => document.getElementById(id).textContent = '—');
+  } finally {
+    if (ind) ind.style.display = 'none';
+  }
+}
+
+/* ── Score Distribution ──────────────────────────── */
+function renderDistChart(students) {
+  dChart('dist');
+  const scores = students.map(s => parseFloat(s.score || s.total_score || 0)).filter(v => v > 0);
+  if (!scores.length) return;
+
+  const bins = Array(10).fill(0);
+  scores.forEach(s => bins[Math.min(9, Math.floor(s / 10))]++);
+  const labels = ['0–10','10–20','20–30','30–40','40–50','50–60','60–70','70–80','80–90','90–100'];
+  const colors = [0,10,20,30,40,50,60,70,80,90].map(m => scColor(m + 5));
+
+  dChart('dist');
+  S.charts.dist = new Chart(document.getElementById('distCvs'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: bins, backgroundColor: colors.map(c => c+'44'), borderColor: colors, borderWidth:1.5, borderRadius:3 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{ display:false } },
+      scales: {
+        x: { grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#3f5569', font:{ size:9 } } },
+        y: { grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ color:'#3f5569', font:{ size:10, family:'Space Mono' }, stepSize:1 } },
+      },
+    },
+  });
+}
+
+/* ── Bloom's Chart ───────────────────────────────── */
+function renderBloomsChart(questions) {
+  dChart('blooms');
+  if (!questions.length) return;
+
+  const ORDER  = ['Remembering','Understanding','Applying','Analyzing','Evaluating','Creating'];
+  const COLORS = ['#818cf8','#3b82f6','#14b8a6','#22c55e','#f59e0b','#ef4444'];
+
+  const map = {};
+  questions.forEach(q => {
+    const t = q.type || 'Unknown';
+    if (!map[t]) map[t] = { correct:0, total:0, n:0 };
+    map[t].correct += q.correct || 0;
+    map[t].total   += q.total   || 0;
+    map[t].n++;
+  });
+
+  const labels = Object.keys(map).sort((a, b) => {
+    const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
+    if (ia < 0 && ib < 0) return a.localeCompare(b);
+    if (ia < 0) return 1; if (ib < 0) return -1;
+    return ia - ib;
+  });
+  const rates  = labels.map(l => map[l].total > 0 ? +(map[l].correct / map[l].total * 100).toFixed(1) : 0);
+  const colors = labels.map(l => { const i = ORDER.indexOf(l); return i >= 0 ? COLORS[i] : '#8ba3bc'; });
+
+  S.charts.blooms = new Chart(document.getElementById('bloomsCvs'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: rates, backgroundColor: colors.map(c=>c+'40'), borderColor: colors, borderWidth:1.5, borderRadius:4 }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw.toFixed(1)}% correct (${map[labels[ctx.dataIndex]].n} questions)` } },
+      },
+      scales: {
+        x: { min:0, max:100, grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ color:'#3f5569', font:{ size:10, family:'Space Mono' } } },
+        y: { grid:{ display:false }, ticks:{ color:'#7a9ab8', font:{ size:10 } } },
+      },
+    },
+  });
+}
+
+/* ── Top Students Table ──────────────────────────── */
+function renderTopTable(students) {
+  const el = document.getElementById('topTbl');
+  if (!students.length) { el.innerHTML = '<div class="state-msg"><span>No data.</span></div>'; return; }
+
+  const sorted = [...students]
+    .map(s => ({ ...s, _sc: parseFloat(s.score || s.total_score || 0) }))
+    .filter(s => s._sc > 0)
+    .sort((a, b) => b._sc - a._sc)
+    .slice(0, 20);
+
+  el.innerHTML = `<table>
+    <thead><tr><th>#</th><th>Name</th><th>Score</th></tr></thead>
+    <tbody>${sorted.map((s, i) =>
+      `<tr>
+        <td class="rk">${i + 1}</td>
+        <td class="nm" title="${s.name || ''}">${s.name || '—'}</td>
+        <td><span class="sc-pill ${scClass(s._sc)}">${s._sc.toFixed(1)}</span></td>
+      </tr>`
+    ).join('')}</tbody>
+  </table>`;
+}
+
+/* ── Weak Questions Table ────────────────────────── */
+function renderWeakTable(questions) {
+  const el = document.getElementById('weakTbl');
+  const mc = questions.filter(q => q.correct_rate !== undefined && q.correct_rate !== null);
+  if (!mc.length) { el.innerHTML = '<div class="state-msg"><span>No question data.</span></div>'; return; }
+
+  const sorted = [...mc].sort((a, b) => a.correct_rate - b.correct_rate).slice(0, 20);
+  const diffLbl   = d => d == 1 ? 'Easy' : d == 2 ? 'Medium' : d == 3 ? 'Hard' : '—';
+  const diffColor = d => d == 1 ? '#22c55e' : d == 2 ? '#f59e0b' : '#ef4444';
+
+  el.innerHTML = `<table>
+    <thead><tr><th>Q</th><th>Level</th><th>Difficulty</th><th>Correct</th></tr></thead>
+    <tbody>${sorted.map((q, i) => {
+      const r = parseFloat(q.correct_rate || 0);
+      return `<tr>
+        <td class="rk">${q.number || i+1}</td>
+        <td style="font-size:.74rem;color:var(--text2)">${q.type || '—'}</td>
+        <td><span style="font-size:.71rem;color:${diffColor(q.difficulty)}">${diffLbl(q.difficulty)}</span></td>
+        <td><span class="sc-pill ${scClass(r)}">${r.toFixed(1)}%</span></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+/* ── Event Listeners ─────────────────────────────── */
+document.getElementById('yearSelect').addEventListener('change', function() {
+  S.filters.year = this.value; loadExams();
+});
+document.querySelectorAll('.group-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    S.filters.group = this.dataset.group; loadExams();
+  });
+});
+document.getElementById('searchInput').addEventListener('input', function() {
+  S.filters.search = this.value; applyFilters();
+});
+
+/* ── FAB ─────────────────────────────────────────── */
+(function () {
+  const c = document.getElementById('fabContainer');
+  const m = document.getElementById('fabMain');
+  if (!c || !m) return;
+  m.addEventListener('click', e => { e.stopPropagation(); c.classList.toggle('open'); });
+  document.addEventListener('click', e => { if (!c.contains(e.target)) c.classList.remove('open'); });
+})();
+
+const fabOverlay = document.getElementById('fabFeedbackOverlay');
+document.getElementById('fabFeedbackBtn')?.addEventListener('click', () => {
+  document.getElementById('fabContainer').classList.remove('open');
+  fabOverlay.classList.add('open');
+});
+document.getElementById('fabFeedbackCloseBtn')?.addEventListener('click', closeFeedback);
+fabOverlay?.addEventListener('click', e => { if (e.target === fabOverlay) closeFeedback(); });
+function closeFeedback() {
+  fabOverlay?.classList.remove('open');
+  document.getElementById('fabFeedbackStatus').className = 'feedback-status';
+  document.getElementById('fabFeedbackMessage').value = '';
+  document.getElementById('fabFeedbackSubject').value = '';
+}
+document.getElementById('fabFeedbackSubmitBtn')?.addEventListener('click', async () => {
+  const subject = document.getElementById('fabFeedbackSubject').value;
+  const message = document.getElementById('fabFeedbackMessage').value.trim();
+  const statusEl = document.getElementById('fabFeedbackStatus');
+  const btn      = document.getElementById('fabFeedbackSubmitBtn');
+  if (!subject || !message) {
+    statusEl.textContent = 'Please fill in all fields.';
+    statusEl.className   = 'feedback-status err'; return;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const user = window._currentUser || null;
+    await window._fbSubmitFeedback?.(subject, message, user);
+    statusEl.textContent = 'Feedback sent — thank you!';
+    statusEl.className   = 'feedback-status ok';
+    setTimeout(closeFeedback, 2000);
+  } catch {
+    statusEl.textContent = 'Failed to send. Please try again.';
+    statusEl.className   = 'feedback-status err';
+  } finally { btn.disabled = false; btn.textContent = 'Send Feedback'; }
+});
+
+/* ── Init ────────────────────────────────────────── */
+(async function init() {
+  await loadSchools();
+  await loadExams();
+})();
+</script>
+</body>
+</html>
