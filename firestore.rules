@@ -95,12 +95,38 @@ service cloud.firestore {
     // ── documents ───────────────────────────────────────────────
     // Official policies, guides, handbooks, etc. managed by admins.
     // All authenticated users can read.
-    // Only admins can create, update, or delete.
+    // Only admins can create or delete.
+    // Admins can update anything; authenticated users can only update
+    // interaction counters (likeCount, ratingSum, ratingCount).
     match /documents/{docId} {
       allow read:   if isAuth();
       allow create: if isAdmin();
-      allow update: if isAdmin();
       allow delete: if isAdmin();
+      allow update: if isAdmin()
+                       || (isAuth()
+                           && request.resource.data.diff(resource.data)
+                                     .affectedKeys()
+                                     .hasOnly(['likeCount', 'ratingSum', 'ratingCount']));
+    }
+
+    // ── doc_likes ───────────────────────────────────────────────
+    // Tracks which users liked which documents.
+    // Users can only create/delete their own like records.
+    match /doc_likes/{likeId} {
+      allow read:   if isAuth();
+      allow create: if isAuth() && request.resource.data.userId == request.auth.uid;
+      allow delete: if isAuth() && resource.data.userId == request.auth.uid;
+      allow update: if false;
+    }
+
+    // ── doc_ratings ─────────────────────────────────────────────
+    // Tracks individual star ratings per user per document.
+    // Users can create, update, or delete their own rating records.
+    match /doc_ratings/{ratingId} {
+      allow read:   if isAuth();
+      allow create: if isAuth() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuth() && resource.data.userId == request.auth.uid;
+      allow delete: if isAuth() && resource.data.userId == request.auth.uid;
     }
 
     // ── feedbacks ───────────────────────────────────────────────
