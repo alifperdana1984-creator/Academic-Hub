@@ -29,7 +29,7 @@ service cloud.firestore {
       allow read:   if isAuth() && (request.auth.uid == userId || isAdmin());
       allow create: if isAuth() && request.auth.uid == userId;
       allow update: if isAuth() && request.auth.uid == userId
-                       && !('isAdmin' in request.resource.data);  // cannot self-elevate
+                       && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isAdmin', 'isModerator']);  // cannot self-elevate
       allow delete: if false; // never delete user docs from client
     }
 
