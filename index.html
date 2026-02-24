@@ -2216,6 +2216,28 @@
       .feedback-status.ok  { color: #00b894; display: block; }
       .feedback-status.err { color: #e74c3c; display: block; }
 
+      /* ── FAB (Feedback) ─────────────────────────── */
+      .fab-single {
+        position: fixed; bottom: 24px; right: 24px;
+        width: 54px; height: 54px; border-radius: 50%;
+        background: rgba(15,15,35,0.92);
+        border: 1px solid rgba(255,255,255,0.14);
+        color: rgba(255,255,255,0.85);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.28s cubic-bezier(0.16,1,0.3,1);
+        box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+        backdrop-filter: blur(12px);
+        z-index: 999;
+      }
+      .fab-single:hover {
+        transform: scale(1.07);
+        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
+        border-color: transparent;
+        box-shadow: 0 8px 32px rgba(108,92,231,0.5);
+        color: #fff;
+      }
+
       /* ── Responsive ── */
       @media (max-width: 768px) {
         .nav-stats { display: none; }
@@ -2472,14 +2494,6 @@
             <span>Documents</span>
           </a>
 
-          <!-- Feedback -->
-          <button class="nav-btn" id="navFeedbackBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
-            </svg>
-            <span>Feedback</span>
-          </button>
-
           <!-- Hamburger (mobile only) -->
           <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
             <span></span><span></span><span></span>
@@ -2572,11 +2586,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Documents
         </a>
-        <div class="mobile-nav-divider"></div>
-        <button class="mobile-nav-item" id="mobileFeedbackBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-          Feedback
-        </button>
       </div>
       <!-- ══ /MOBILE MENU ══ -->
 
@@ -3737,6 +3746,13 @@
       </footer>
     </div>
 
+    <!-- ══ FAB (Feedback) ══ -->
+    <button class="fab-single" id="fabFeedbackOpen" title="Send Feedback" aria-label="Send Feedback">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+    </button>
+
     <!-- ══ FEEDBACK MODAL ══ -->
     <div class="feedback-overlay" id="feedbackOverlay">
       <div class="feedback-modal" id="feedbackModal">
@@ -4020,7 +4036,7 @@
       // ── Feedback modal ──────────────────────────────────────────
       let currentUser = null;
 
-      document.getElementById('navFeedbackBtn').addEventListener('click', () => {
+      document.getElementById('fabFeedbackOpen').addEventListener('click', () => {
         document.getElementById('feedbackOverlay').classList.add('open');
       });
       document.getElementById('feedbackCloseBtn').addEventListener('click', closeFeedback);
@@ -4160,13 +4176,6 @@
             menu.classList.remove('open');
             btn.classList.remove('open');
           }
-        });
-
-        // Mobile Feedback button → trigger desktop button
-        document.getElementById('mobileFeedbackBtn')?.addEventListener('click', () => {
-          menu.classList.remove('open');
-          btn.classList.remove('open');
-          document.getElementById('navFeedbackBtn')?.click();
         });
 
         // Sync announcement & message badges to mobile menu
