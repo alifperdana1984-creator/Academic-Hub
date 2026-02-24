@@ -284,13 +284,14 @@ body {
 }
 .doc-open-btn:hover { background: #0e7490; }
 .doc-open-btn svg { width: 11px; height: 11px; }
-.doc-del-btn {
+.doc-del-btn, .doc-edit-btn {
   width: 30px; height: 30px; border-radius: 8px;
   background: transparent; border: 1px solid var(--border);
   color: var(--ink-3); font-size: 12px; cursor: pointer;
   display: flex; align-items: center; justify-content: center; transition: all .15s;
 }
-.doc-del-btn:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+.doc-del-btn:hover  { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+.doc-edit-btn:hover { background: var(--accent-2); border-color: var(--accent); color: var(--accent); }
 
 /* ─── PAGINATION ─────────────────────────────── */
 .pagination {
@@ -524,6 +525,55 @@ body {
   </div>
 </div>
 
+<!-- Edit Document Modal -->
+<div class="modal-overlay" id="editModalOverlay">
+  <div class="modal-box">
+    <h3>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit Document
+    </h3>
+    <div class="modal-field">
+      <label class="modal-label" for="editTitle">Title <span style="color:#dc2626">*</span></label>
+      <input type="text" class="modal-input" id="editTitle" maxlength="150">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="editUrl">URL <span style="color:#dc2626">*</span></label>
+      <input type="url" class="modal-input" id="editUrl" placeholder="https://…">
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label class="modal-label" for="editCategory">Category <span style="color:#dc2626">*</span></label>
+        <select class="modal-select" id="editCategory">
+          <option value="Policy">Policy</option>
+          <option value="Guideline">Guideline</option>
+          <option value="Handbook">Handbook</option>
+          <option value="Circular">Circular</option>
+          <option value="Report">Report</option>
+          <option value="Form">Form</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="editVersion">Version / Edition</label>
+        <input type="text" class="modal-input" id="editVersion" maxlength="30">
+      </div>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="editDate">Published / Issued Date</label>
+      <input type="month" class="modal-input" id="editDate">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="editDesc">Short Description</label>
+      <textarea class="modal-textarea" id="editDesc" maxlength="300"></textarea>
+    </div>
+    <div class="modal-err" id="editModalErr"></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" id="editModalCancel">Cancel</button>
+      <button class="modal-add" id="editModalSave">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- Confirm Delete Dialog -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -589,6 +639,7 @@ body {
   let activeCategory = 'All';
   let searchQuery    = '';
   let currentPage    = 1;
+  let editingDocId   = null;
   let unsubDocs      = null;
   const PER_PAGE     = 20;
 
@@ -768,10 +819,13 @@ body {
       const version    = d.version    ? `<span class="doc-version">${escHtml(d.version)}</span>` : '';
       const dateLabel  = d.publishedDate ? `<span class="doc-date">${formatMonth(d.publishedDate)}</span>` : '';
       const desc       = d.description ? `<div class="doc-desc">${escHtml(d.description)}</div>` : '';
-      const delBtn     = isAdmin
-        ? `<button class="doc-del-btn" data-del="${d.id}" title="Remove">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-           </button>` : '';
+      const adminBtns  = isAdmin ? `
+        <button class="doc-edit-btn" data-edit="${d.id}" title="Edit">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="doc-del-btn" data-del="${d.id}" title="Remove">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>` : '';
       return `
         <div class="doc-row" data-id="${d.id}" data-cat="${escHtml(d.category||'Other')}">
           <div class="doc-icon">📄</div>
@@ -797,7 +851,7 @@ body {
                 Open
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
               </a>
-              ${delBtn}
+              ${adminBtns}
             </div>
           </div>
         </div>`;
@@ -823,6 +877,14 @@ body {
     // Like buttons
     listEl.querySelectorAll('[data-like]').forEach(btn => {
       btn.addEventListener('click', () => likeDoc(btn.dataset.like));
+    });
+
+    // Edit buttons
+    listEl.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rec = allDocs.find(d => d.id === btn.dataset.edit);
+        if (rec) openEditModal(rec);
+      });
     });
 
     // Delete buttons
@@ -959,6 +1021,63 @@ body {
     activeCategory = pill.dataset.cat;
     currentPage = 1;
     renderList();
+  });
+
+  // ── Edit Modal ───────────────────────────────────────────────
+  function openEditModal(rec) {
+    editingDocId = rec.id;
+    document.getElementById('editTitle').value    = rec.title    || '';
+    document.getElementById('editUrl').value      = rec.url      || '';
+    document.getElementById('editCategory').value = rec.category || 'Policy';
+    document.getElementById('editVersion').value  = rec.version  || '';
+    document.getElementById('editDate').value     = rec.publishedDate || '';
+    document.getElementById('editDesc').value     = rec.description  || '';
+    document.getElementById('editModalErr').textContent = '';
+    document.getElementById('editModalOverlay').classList.add('open');
+    document.getElementById('editTitle').focus();
+  }
+
+  document.getElementById('editModalCancel').addEventListener('click', () => {
+    document.getElementById('editModalOverlay').classList.remove('open');
+    editingDocId = null;
+  });
+  document.getElementById('editModalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('editModalOverlay')) {
+      document.getElementById('editModalOverlay').classList.remove('open');
+      editingDocId = null;
+    }
+  });
+  document.getElementById('editModalSave').addEventListener('click', async () => {
+    if (!currentUser || !isAdmin || !editingDocId) return;
+    const title    = document.getElementById('editTitle').value.trim();
+    const url      = document.getElementById('editUrl').value.trim();
+    const category = document.getElementById('editCategory').value;
+    const version  = document.getElementById('editVersion').value.trim();
+    const date     = document.getElementById('editDate').value;
+    const desc     = document.getElementById('editDesc').value.trim();
+    const errEl    = document.getElementById('editModalErr');
+    const btn      = document.getElementById('editModalSave');
+
+    errEl.textContent = '';
+    if (!title) { errEl.textContent = 'Please enter a title.'; return; }
+    if (!url)   { errEl.textContent = 'Please enter a URL.'; return; }
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      errEl.textContent = 'URL must start with http:// or https://'; return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await updateDoc(doc(db, 'documents', editingDocId), {
+        title, url, category, description: desc,
+        version: version || null, publishedDate: date || null,
+      });
+      document.getElementById('editModalOverlay').classList.remove('open');
+      editingDocId = null;
+    } catch (err) {
+      errEl.textContent = 'Failed to save changes. Try again.';
+      console.error(err);
+    }
+    btn.disabled = false; btn.textContent = 'Save Changes';
   });
 
   // ── Add Modal ────────────────────────────────────────────────
