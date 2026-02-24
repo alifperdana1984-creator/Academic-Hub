@@ -92,6 +92,17 @@ service cloud.firestore {
       allow update: if isAdmin();
     }
 
+    // ── documents ───────────────────────────────────────────────
+    // Official policies, guides, handbooks, etc. managed by admins.
+    // All authenticated users can read.
+    // Only admins can create, update, or delete.
+    match /documents/{docId} {
+      allow read:   if isAuth();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
     // ── feedbacks ───────────────────────────────────────────────
     // Any authenticated user can submit feedback.
     // Only admins can read the feedback collection.

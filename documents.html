@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy & Documents — Academic Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c2e;
+  --ink-2: #44445a;
+  --ink-3: #8888a8;
+  --paper: #f7f6f3;
+  --paper-2: #efede8;
+  --white: #ffffff;
+  --border: #e0ddd6;
+  --accent: #0891b2;
+  --accent-2: #e0f2fe;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow: 0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--accent);
+  gap: 16px;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.75); font-size: 12.5px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  transition: all .18s ease;
+}
+.back-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+.topbar-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px; font-weight: 700; color: white;
+  display: flex; align-items: center; gap: 8px;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.add-btn {
+  display: none;
+  align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--accent); border: none;
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+.add-btn:hover { background: #0e7490; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(8,145,178,.4); }
+.add-btn svg { width: 14px; height: 14px; }
+.user-chip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 12px 5px 7px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px; color: rgba(255,255,255,.8); font-size: 12px; font-weight: 500;
+}
+.user-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: white; flex-shrink: 0;
+  overflow: hidden;
+}
+.user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* ─── LOADING / LOGIN ────────────────────────── */
+#loadingScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; flex-direction: column; gap: 14px;
+}
+.spinner {
+  width: 36px; height: 36px; border: 3px solid rgba(255,255,255,.15);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingScreen p { color: rgba(255,255,255,.5); font-size: 13px; }
+
+#loginScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; flex-direction: column; gap: 16px;
+}
+#loginScreen.visible { display: flex; }
+.login-box {
+  background: #26263e; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; padding: 36px 32px; width: 340px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.login-icon { font-size: 42px; margin-bottom: 12px; }
+.login-box h2 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.login-box p { color: rgba(255,255,255,.5); font-size: 13px; margin-bottom: 24px; }
+.login-google {
+  width: 100%; padding: 11px; border-radius: 9px;
+  background: white; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: #333;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .2s; font-family: 'DM Sans', sans-serif;
+}
+.login-google:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.login-or { color: rgba(255,255,255,.3); font-size: 12px; margin: 14px 0; }
+.login-email { display: flex; flex-direction: column; gap: 8px; }
+.login-email input {
+  width: 100%; padding: 9px 12px; border-radius: 8px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none;
+}
+.login-email input::placeholder { color: rgba(255,255,255,.3); }
+.login-email input:focus { border-color: var(--accent); }
+.login-email button {
+  padding: 10px; border-radius: 8px; background: var(--accent); border: none;
+  color: white; font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: background .2s;
+}
+.login-email button:hover { background: #0e7490; }
+.login-error { color: #fc8181; font-size: 12px; margin-top: 8px; display: none; }
+
+/* ─── MAIN CONTENT ────────────────────────────── */
+#mainContent { display: none; }
+
+/* ─── FILTER BAR ─────────────────────────────── */
+.filter-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: sticky; top: 60px; z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+}
+.search-wrap svg {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-3); pointer-events: none;
+  width: 15px; height: 15px;
+}
+.search-input {
+  width: 100%; padding: 7px 12px 7px 32px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); background: var(--paper); outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--accent); background: var(--white); }
+.search-input::placeholder { color: var(--ink-3); }
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  padding: 5px 13px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--paper);
+  font-size: 12.5px; font-weight: 500; color: var(--ink-2);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+.pill:hover { border-color: var(--accent); color: var(--accent); }
+.pill.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* ─── PAGE WRAP ──────────────────────────────── */
+.page-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 20px 100px;
+}
+.doc-count {
+  font-size: 12.5px; color: var(--ink-3); margin-bottom: 16px;
+  font-weight: 500;
+}
+
+/* ─── DOCUMENT LIST ──────────────────────────── */
+.doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.doc-empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--ink-3); font-size: 15px;
+}
+.doc-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+/* ─── DOCUMENT ROW ───────────────────────────── */
+.doc-row {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .18s, border-color .18s;
+}
+.doc-row:hover { box-shadow: var(--shadow); border-color: #d0cdc7; }
+
+.doc-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: #fef2f2;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+
+.doc-body { flex: 1; min-width: 0; }
+.doc-title-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 4px; flex-wrap: wrap;
+}
+.doc-title {
+  font-size: 14.5px; font-weight: 700; color: var(--ink);
+  line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.doc-version {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  background: var(--paper-2); border: 1px solid var(--border);
+  padding: 1px 7px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+}
+.doc-category {
+  font-size: 11.5px; font-weight: 600;
+  padding: 2px 9px; border-radius: 12px; white-space: nowrap; flex-shrink: 0;
+}
+
+/* Category colour palette */
+.cat-policy      { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.cat-guideline   { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.cat-handbook    { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.cat-circular    { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+.cat-report      { background: #faf5ff; color: #7c3aed; border: 1px solid #ddd6fe; }
+.cat-form        { background: #fefce8; color: #ca8a04; border: 1px solid #fde68a; }
+.cat-other       { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.doc-desc {
+  font-size: 12.5px; color: var(--ink-2); line-height: 1.5;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.doc-meta {
+  font-size: 11.5px; color: var(--ink-3); margin-top: 2px;
+}
+
+.doc-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.doc-open-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 8px;
+  background: var(--accent); border: none; color: white;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+  text-decoration: none; transition: all .15s;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap;
+}
+.doc-open-btn:hover { background: #0e7490; }
+.doc-open-btn svg { width: 12px; height: 12px; }
+.doc-del-btn {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--ink-3); font-size: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0;
+}
+.doc-del-btn:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+
+/* ─── ADD DOCUMENT MODAL ─────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+  z-index: 500; display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 16px;
+  width: 100%; max-width: 520px; padding: 28px;
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column; gap: 16px;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-box h3 { font-size: 17px; font-weight: 700; color: var(--ink); }
+.modal-field { display: flex; flex-direction: column; gap: 6px; }
+.modal-label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.modal-input, .modal-textarea, .modal-select {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 9px;
+  font-size: 13.5px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); outline: none; background: var(--paper);
+  transition: border-color .15s;
+}
+.modal-input:focus, .modal-textarea:focus, .modal-select:focus { border-color: var(--accent); background: var(--white); }
+.modal-textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-cancel {
+  padding: 9px 20px; border-radius: 9px; border: 1px solid var(--border);
+  background: transparent; color: var(--ink-2); font-size: 13px;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500;
+  transition: all .15s;
+}
+.modal-cancel:hover { background: var(--paper-2); }
+.modal-add {
+  padding: 9px 22px; border-radius: 9px; border: none;
+  background: var(--accent); color: white; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600;
+  transition: all .15s;
+}
+.modal-add:hover { background: #0e7490; }
+.modal-add:disabled { opacity: .6; cursor: default; }
+.modal-err { font-size: 12px; color: #dc2626; }
+
+/* ─── CONFIRM DIALOG ─────────────────────────── */
+.confirm-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(3px);
+  z-index: 600; display: none; align-items: center; justify-content: center;
+}
+.confirm-overlay.open { display: flex; }
+.confirm-box {
+  background: var(--white); border-radius: 13px;
+  padding: 24px 28px; max-width: 360px; width: 90%;
+  box-shadow: var(--shadow-lg); text-align: center;
+}
+.confirm-box h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.confirm-box p { font-size: 13px; color: var(--ink-2); margin-bottom: 20px; line-height: 1.5; }
+.confirm-btns { display: flex; gap: 10px; justify-content: center; }
+.confirm-cancel { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; }
+.confirm-delete { padding: 8px 20px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600; }
+
+/* ─── FLOATING HOME BUTTON ────────────────────── */
+.home-float {
+  position: fixed; bottom: 22px; left: 22px;
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--ink); border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5); text-decoration: none;
+  box-shadow: 0 4px 18px rgba(28,28,46,0.35);
+  transition: all 0.22s cubic-bezier(0.16,1,0.3,1); z-index: 150;
+}
+.home-float:hover {
+  color: white; background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(8,145,178,0.45); transform: translateY(-2px);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 640px) {
+  .topbar { padding: 0 16px; }
+  .filter-bar { padding: 12px 16px; }
+  .page-wrap { padding: 20px 12px 100px; }
+  .doc-row { padding: 14px 14px; gap: 12px; }
+  .doc-desc { display: none; }
+  .modal-row { grid-template-columns: 1fr; }
+  .search-wrap { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Loading…</p>
+</div>
+
+<!-- Login screen -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon">📋</div>
+    <h2>Policy & Documents</h2>
+    <p>Sign in to access school policies, guidelines, and handbooks</p>
+    <button class="login-google" id="googleLoginBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 002.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 01-7.18-2.54H1.83v2.07A8 8 0 008.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 010-3.04V5.41H1.83a8 8 0 000 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 001.83 5.4L4.5 7.49a4.77 4.77 0 014.48-3.3z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="login-or">— or —</div>
+    <form class="login-email" id="loginForm">
+      <input type="email" id="emailInput" placeholder="Email address" required autocomplete="email">
+      <input type="password" id="passwordInput" placeholder="Password" required autocomplete="current-password">
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="login-error" id="errorMsg"></div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div id="mainContent">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Hub
+      </a>
+      <div class="topbar-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Policy &amp; Documents
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="add-btn" id="addBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Document
+      </button>
+      <div class="user-chip" id="userChip" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span id="userNameShort">User</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search documents…">
+    </div>
+    <div class="filter-pills" id="categoryFilters">
+      <button class="pill active" data-cat="All">All</button>
+      <button class="pill" data-cat="Policy">Policy</button>
+      <button class="pill" data-cat="Guideline">Guideline</button>
+      <button class="pill" data-cat="Handbook">Handbook</button>
+      <button class="pill" data-cat="Circular">Circular</button>
+      <button class="pill" data-cat="Report">Report</button>
+      <button class="pill" data-cat="Form">Form</button>
+      <button class="pill" data-cat="Other">Other</button>
+    </div>
+  </div>
+
+  <!-- Document List -->
+  <div class="page-wrap">
+    <div class="doc-count" id="docCount"></div>
+    <div class="doc-list" id="docList">
+      <!-- rows injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- Add Document Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Add Document
+    </h3>
+    <div class="modal-field">
+      <label class="modal-label" for="docTitle">Title <span style="color:#dc2626">*</span></label>
+      <input type="text" class="modal-input" id="docTitle" placeholder="e.g. Student Conduct Policy" maxlength="150">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="docUrl">URL (Google Drive, OneDrive, or direct link) <span style="color:#dc2626">*</span></label>
+      <input type="url" class="modal-input" id="docUrl" placeholder="https://…">
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label class="modal-label" for="docCategory">Category <span style="color:#dc2626">*</span></label>
+        <select class="modal-select" id="docCategory">
+          <option value="Policy">Policy</option>
+          <option value="Guideline">Guideline</option>
+          <option value="Handbook">Handbook</option>
+          <option value="Circular">Circular</option>
+          <option value="Report">Report</option>
+          <option value="Form">Form</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="docVersion">Version / Edition</label>
+        <input type="text" class="modal-input" id="docVersion" placeholder="e.g. v2.1 or 2025" maxlength="30">
+      </div>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="docDate">Published / Issued Date</label>
+      <input type="month" class="modal-input" id="docDate">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="docDesc">Short Description</label>
+      <textarea class="modal-textarea" id="docDesc" placeholder="What does this document cover?" maxlength="300"></textarea>
+    </div>
+    <div class="modal-err" id="modalErr"></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-add" id="modalAdd">Add Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Dialog -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h4>Remove Document?</h4>
+    <p id="confirmMsg">This document will be permanently removed.</p>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-delete" id="confirmDelete">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Home Button -->
+<a href="index.html" class="home-float" title="Back to Hub">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+</a>
+
+<script>
+  window.ENV = {
+    FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:     "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID:"__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:             "__FIREBASE_APP_ID__",
+  };
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    doc,
+    addDoc,
+    deleteDoc,
+    getDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  };
+
+  const app      = initializeApp(firebaseConfig);
+  const auth     = getAuth(app);
+  const db       = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  let currentUser  = null;
+  let isAdmin      = false;
+  let allDocs      = [];
+  let activeCategory = 'All';
+  let searchQuery  = '';
+  let unsubDocs    = null;
+
+  const allowedDomains = [
+    "scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id",
+    "kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id",
+    "prestigeschool.sch.id","pribadibandung.sch.id","pribadidepok.sch.id",
+    "pribadipremiere.sch.id","semesta.sch.id","tnafatih.sch.id","eduversal.org",
+  ];
+
+  // ── Helpers ─────────────────────────────────────────────────
+  const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+  function avatarColor(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+    return PALETTE[Math.abs(h) % PALETTE.length];
+  }
+  function getInitials(name) {
+    return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+  }
+  function buildAvatarEl(el, user) {
+    if (user.photoURL) {
+      el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+      el.style.background = 'transparent';
+    } else {
+      const n = user.displayName || user.email.split('@')[0];
+      el.style.background = avatarColor(n);
+      el.textContent = getInitials(n);
+    }
+  }
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function catClass(cat) {
+    const map = {
+      Policy: 'cat-policy', Guideline: 'cat-guideline', Handbook: 'cat-handbook',
+      Circular: 'cat-circular', Report: 'cat-report', Form: 'cat-form', Other: 'cat-other',
+    };
+    return map[cat] || 'cat-other';
+  }
+  function formatMonth(dateStr) {
+    if (!dateStr) return '';
+    const [y, m] = dateStr.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[parseInt(m,10)-1]} ${y}`;
+  }
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 4000);
+  }
+
+  // ── Auth ─────────────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    if (user) {
+      const domain = user.email.split('@')[1];
+      const isPwUser = user.providerData.some(p => p.providerId === 'password');
+      if (!allowedDomains.includes(domain) && !isPwUser) {
+        await signOut(auth);
+        showError('Access denied. Only authorized school emails are allowed.');
+        return;
+      }
+
+      currentUser = user;
+
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        isAdmin = snap.exists() && snap.data().isAdmin === true;
+      } catch { isAdmin = false; }
+
+      const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+      document.getElementById('userNameShort').textContent = nameShort;
+      buildAvatarEl(document.getElementById('userAvatar'), user);
+      document.getElementById('userChip').style.display = 'flex';
+      if (isAdmin) document.getElementById('addBtn').style.display = 'flex';
+
+      document.getElementById('loginScreen').classList.remove('visible');
+      document.getElementById('mainContent').style.display = 'block';
+
+      initDocuments();
+    } else {
+      currentUser = null; isAdmin = false;
+      if (unsubDocs) { unsubDocs(); unsubDocs = null; }
+      document.getElementById('loginScreen').classList.add('visible');
+      document.getElementById('mainContent').style.display = 'none';
+    }
+  });
+
+  document.getElementById('googleLoginBtn').addEventListener('click', () => {
+    signInWithPopup(auth, provider).catch(e => showError(e.message));
+  });
+  document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value.trim();
+    const pw    = document.getElementById('passwordInput').value;
+    try { await signInWithEmailAndPassword(auth, email, pw); }
+    catch { showError('Invalid email or password'); }
+  });
+
+  // ── Documents ────────────────────────────────────────────────
+  function initDocuments() {
+    const q = query(collection(db, 'documents'), orderBy('timestamp', 'desc'));
+    unsubDocs = onSnapshot(q, (snap) => {
+      allDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderList();
+    }, err => console.error(err));
+  }
+
+  function renderList() {
+    const listEl  = document.getElementById('docList');
+    const countEl = document.getElementById('docCount');
+
+    const q = searchQuery.toLowerCase();
+    const filtered = allDocs.filter(d => {
+      const catOk = activeCategory === 'All' || d.category === activeCategory;
+      const searchOk = !q
+        || (d.title || '').toLowerCase().includes(q)
+        || (d.description || '').toLowerCase().includes(q)
+        || (d.category || '').toLowerCase().includes(q);
+      return catOk && searchOk;
+    });
+
+    countEl.textContent = `${filtered.length} document${filtered.length !== 1 ? 's' : ''}`;
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `
+        <div class="doc-empty">
+          <div class="doc-empty-icon">📂</div>
+          <p>${allDocs.length === 0 ? 'No documents yet.' : 'No documents match your search.'}</p>
+        </div>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(d => {
+      const catCls  = catClass(d.category);
+      const version = d.version ? `<span class="doc-version">${escHtml(d.version)}</span>` : '';
+      const dateLbl = d.publishedDate ? `<span style="font-size:11.5px;color:var(--ink-3);">${formatMonth(d.publishedDate)}</span>` : '';
+      const desc    = d.description
+        ? `<div class="doc-desc">${escHtml(d.description)}</div>` : '';
+      const delBtn  = isAdmin
+        ? `<button class="doc-del-btn" data-del="${d.id}" title="Remove">
+             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+           </button>` : '';
+      return `
+        <div class="doc-row" data-id="${d.id}">
+          <div class="doc-icon">📄</div>
+          <div class="doc-body">
+            <div class="doc-title-row">
+              <span class="doc-title">${escHtml(d.title)}</span>
+              <span class="doc-category ${catCls}">${escHtml(d.category)}</span>
+              ${version}
+              ${dateLbl}
+            </div>
+            ${desc}
+            <div class="doc-meta">Added by ${escHtml((d.addedBy || 'Admin').split(' ')[0])}</div>
+          </div>
+          <div class="doc-actions">
+            <a href="${escHtml(d.url)}" target="_blank" rel="noopener noreferrer" class="doc-open-btn">
+              Open
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            ${delBtn}
+          </div>
+        </div>`;
+    }).join('');
+
+    listEl.querySelectorAll('[data-del]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id  = btn.dataset.del;
+        const rec = allDocs.find(d => d.id === id);
+        showConfirm(`"${rec?.title || 'Document'}" will be permanently removed.`, async () => {
+          try { await deleteDoc(doc(db, 'documents', id)); }
+          catch (err) { console.error(err); }
+        });
+      });
+    });
+  }
+
+  // ── Search & Filter ──────────────────────────────────────────
+  document.getElementById('searchInput').addEventListener('input', e => {
+    searchQuery = e.target.value.trim();
+    renderList();
+  });
+
+  document.getElementById('categoryFilters').addEventListener('click', e => {
+    const pill = e.target.closest('.pill');
+    if (!pill) return;
+    document.querySelectorAll('#categoryFilters .pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeCategory = pill.dataset.cat;
+    renderList();
+  });
+
+  // ── Add Modal ────────────────────────────────────────────────
+  function openModal() {
+    document.getElementById('docTitle').value   = '';
+    document.getElementById('docUrl').value     = '';
+    document.getElementById('docCategory').value = 'Policy';
+    document.getElementById('docVersion').value = '';
+    document.getElementById('docDate').value    = '';
+    document.getElementById('docDesc').value    = '';
+    document.getElementById('modalErr').textContent = '';
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('docTitle').focus();
+  }
+
+  document.getElementById('addBtn').addEventListener('click', openModal);
+  document.getElementById('modalCancel').addEventListener('click', () =>
+    document.getElementById('modalOverlay').classList.remove('open'));
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay'))
+      document.getElementById('modalOverlay').classList.remove('open');
+  });
+
+  document.getElementById('modalAdd').addEventListener('click', async () => {
+    if (!currentUser || !isAdmin) return;
+    const title    = document.getElementById('docTitle').value.trim();
+    const url      = document.getElementById('docUrl').value.trim();
+    const category = document.getElementById('docCategory').value;
+    const version  = document.getElementById('docVersion').value.trim();
+    const date     = document.getElementById('docDate').value;
+    const desc     = document.getElementById('docDesc').value.trim();
+    const errEl    = document.getElementById('modalErr');
+    const btn      = document.getElementById('modalAdd');
+
+    errEl.textContent = '';
+    if (!title) { errEl.textContent = 'Please enter a title.'; return; }
+    if (!url)   { errEl.textContent = 'Please enter a URL.'; return; }
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      errEl.textContent = 'URL must start with http:// or https://'; return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Adding…';
+    try {
+      await addDoc(collection(db, 'documents'), {
+        title, url, category, description: desc,
+        version: version || null,
+        publishedDate: date || null,
+        addedBy: currentUser.displayName || currentUser.email.split('@')[0],
+        addedById: currentUser.uid,
+        timestamp: serverTimestamp(),
+      });
+      document.getElementById('modalOverlay').classList.remove('open');
+    } catch (err) {
+      errEl.textContent = 'Failed to add document. Try again.';
+      console.error(err);
+    }
+    btn.disabled = false; btn.textContent = 'Add Document';
+  });
+
+  // ── Confirm ──────────────────────────────────────────────────
+  let confirmCb = null;
+  function showConfirm(msg, cb) {
+    document.getElementById('confirmMsg').textContent = msg;
+    confirmCb = cb;
+    document.getElementById('confirmOverlay').classList.add('open');
+  }
+  document.getElementById('confirmCancel').addEventListener('click', () => {
+    document.getElementById('confirmOverlay').classList.remove('open');
+    confirmCb = null;
+  });
+  document.getElementById('confirmDelete').addEventListener('click', async () => {
+    document.getElementById('confirmOverlay').classList.remove('open');
+    if (confirmCb) await confirmCb();
+    confirmCb = null;
+  });
+</script>
+</body>
+</html>

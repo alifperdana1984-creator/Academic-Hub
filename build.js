@@ -39,6 +39,7 @@ const htmlFiles = [
   "index.html",
   "announcements.html",
   "library.html",
+  "documents.html",
   "messageboard.html",
   "AcademicStandards.html",
   "CambridgeExamsDashboard.html",
