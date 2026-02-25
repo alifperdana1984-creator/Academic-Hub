@@ -810,6 +810,7 @@ body {
 
   let currentUser = null;
   let isAdmin = false;
+  let currentUserDisplayName = null;
   let allResources = [];
   let activeType = 'All';
   let activeSubject = 'All';
@@ -905,6 +906,8 @@ body {
         } else { isAdmin = false; }
       } catch { isAdmin = false; }
 
+      currentUserDisplayName = firestoreName;
+
       // Show UI
       populateNav(user, firestoreName);
       document.getElementById('addFab').style.display = 'flex';
@@ -914,7 +917,7 @@ body {
 
       initLibrary();
     } else {
-      currentUser = null; isAdmin = false;
+      currentUser = null; isAdmin = false; currentUserDisplayName = null;
       if (unsubLib) { unsubLib(); unsubLib = null; }
       document.getElementById('loginScreen').classList.add('visible');
       document.getElementById('mainContent').style.display = 'none';
@@ -1057,7 +1060,7 @@ body {
     try {
       await addDoc(collection(db, 'library'), {
         title, url, description: desc, type, subject,
-        authorName: currentUser.displayName || currentUser.email.split('@')[0],
+        authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
         authorId: currentUser.uid,
         timestamp: serverTimestamp(),
       });

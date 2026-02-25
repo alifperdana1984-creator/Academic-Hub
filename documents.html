@@ -912,6 +912,7 @@ body {
   // ── State ────────────────────────────────────────────────────
   let currentUser    = null;
   let isAdmin        = false;
+  let currentUserDisplayName = null;
   let allDocs        = [];
   let userLikes      = new Set();   // Set of docIds liked by current user
   let userRatings    = new Map();   // Map<docId, score>
@@ -1021,6 +1022,8 @@ body {
         } else { isAdmin = false; }
       } catch { isAdmin = false; }
 
+      currentUserDisplayName = firestoreName;
+
       populateNav(user, firestoreName);
       if (isAdmin) document.getElementById('addBtn').style.display = 'flex';
 
@@ -1030,7 +1033,7 @@ body {
       await loadUserInteractions();
       initDocuments();
     } else {
-      currentUser = null; isAdmin = false;
+      currentUser = null; isAdmin = false; currentUserDisplayName = null;
       userLikes.clear(); userRatings.clear();
       if (unsubDocs) { unsubDocs(); unsubDocs = null; }
       document.getElementById('loginScreen').classList.add('visible');
@@ -1419,7 +1422,7 @@ body {
       await addDoc(collection(db, 'documents'), {
         title, url, category, description: desc,
         version: version || null, publishedDate: date || null,
-        addedBy: currentUser.displayName || currentUser.email.split('@')[0],
+        addedBy: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
         addedById: currentUser.uid,
         likeCount: 0, ratingSum: 0, ratingCount: 0,
         timestamp: serverTimestamp(),

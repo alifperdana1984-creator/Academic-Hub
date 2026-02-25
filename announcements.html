@@ -842,6 +842,7 @@ body {
 
   let currentUser = null;
   let isAdmin = false;
+  let currentUserDisplayName = null;
   let unsubAnn = null;
 
   const allowedDomains = [
@@ -940,6 +941,8 @@ body {
         } else { isAdmin = false; }
       } catch { isAdmin = false; }
 
+      currentUserDisplayName = firestoreName;
+
       // Update lastReadAnnouncements
       setDoc(doc(db, 'users', user.uid), { lastReadAnnouncements: serverTimestamp() }, { merge: true }).catch(() => {});
 
@@ -952,7 +955,7 @@ body {
 
       initAnnouncements();
     } else {
-      currentUser = null; isAdmin = false;
+      currentUser = null; isAdmin = false; currentUserDisplayName = null;
       if (unsubAnn) { unsubAnn(); unsubAnn = null; }
       document.getElementById('loginScreen').classList.add('visible');
       document.getElementById('mainContent').style.display = 'none';
@@ -1277,7 +1280,7 @@ body {
     try {
       await addDoc(collection(db, 'announcements', annId, 'comments'), {
         body,
-        authorName: currentUser.displayName || currentUser.email.split('@')[0],
+        authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
         authorId: currentUser.uid,
         authorPhotoURL: currentUser.photoURL || '',
         timestamp: serverTimestamp(),
@@ -1367,7 +1370,7 @@ body {
       } else {
         await addDoc(collection(db, 'announcements'), {
           title, body, pinned, links,
-          authorName: currentUser.displayName || currentUser.email.split('@')[0],
+          authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
           authorId: currentUser.uid,
           commentCount: 0,
           timestamp: serverTimestamp(),
