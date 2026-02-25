@@ -230,44 +230,114 @@
         .login-logo { width: 60px; height: 60px; font-size: 28px; }
       }
 
-      /* ── NAV BAR ──────────────────────────────────────────────────── */
-      .mb-nav {
+      /* ── TOP NAV ──────────────────────────────────────────────────── */
+      .top-nav {
         position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-        padding: 0 40px; height: 72px;
-        display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-        background: rgba(5, 5, 16, 0.85);
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 28px; height: 62px;
+        background: rgba(5, 5, 16, 0.90);
         backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--glass-border);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        gap: 16px;
       }
-
-      .mb-nav-left { display: flex; align-items: center; }
-      .mb-nav-center { text-align: center; }
-      .mb-nav-right { display: flex; justify-content: flex-end; align-items: center; }
-
-      .back-link {
-        display: inline-flex; align-items: center; gap: 6px;
-        color: var(--text-secondary); text-decoration: none;
-        font-size: 14px; font-weight: 500; transition: color 0.2s;
-        white-space: nowrap;
+      .nav-brand {
+        display: flex; align-items: center; gap: 10px;
+        text-decoration: none; flex-shrink: 0;
       }
-      .back-link:hover { color: var(--text-primary); }
-      .back-link svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-      .mb-nav-title {
-        font-family: "Outfit", sans-serif; font-size: 18px; font-weight: 700;
-        background: linear-gradient(135deg, #fff 40%, var(--primary));
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      .nav-brand-icon { width: 32px; height: 32px; flex-shrink: 0; }
+      .nav-brand-icon svg { width: 32px; height: 32px; fill: #6c5ce7; }
+      .nav-brand-name {
+        font-family: "Outfit", sans-serif;
+        font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap;
       }
-
-      .mb-user-name {
-        font-size: 13px; font-weight: 600; color: var(--text-secondary);
-        max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+      .nav-btn {
+        display: flex; align-items: center; gap: 7px;
+        padding: 9px 18px; border-radius: 10px;
+        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+        border: 1px solid rgba(108,92,231,0.45);
+        color: rgba(255,255,255,0.85);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px; font-weight: 500;
+        cursor: pointer; text-decoration: none;
+        transition: all 0.22s ease; position: relative; white-space: nowrap;
       }
+      .nav-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+      .nav-btn:hover {
+        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+        border-color: rgba(108,92,231,0.7); color: #fff;
+        box-shadow: 0 0 16px rgba(108,92,231,0.40); transform: translateY(-1px);
+      }
+      .nav-btn.active {
+        background: linear-gradient(135deg, rgba(108,92,231,0.50), rgba(0,217,255,0.30));
+        border-color: rgba(108,92,231,0.80); color: #fff;
+        box-shadow: 0 0 16px rgba(108,92,231,0.35);
+      }
+      .profile-wrap { position: relative; }
+      .profile-btn {
+        display: flex; align-items: center; gap: 8px;
+        padding: 6px 12px 6px 6px; border-radius: 100px;
+        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+        border: 1px solid rgba(108,92,231,0.45);
+        color: rgba(255,255,255,0.85); font-family: "DM Sans", sans-serif;
+        font-size: 13px; font-weight: 500; cursor: pointer;
+        transition: all 0.22s ease; max-width: 170px;
+      }
+      .profile-btn:hover {
+        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+        border-color: rgba(108,92,231,0.7); color: #fff;
+        box-shadow: 0 0 16px rgba(108,92,231,0.40);
+      }
+      .profile-avatar {
+        width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700; color: #fff;
+        flex-shrink: 0; overflow: hidden; font-family: "DM Sans", sans-serif;
+      }
+      .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .profile-first-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .profile-chevron { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.25s ease; }
+      .profile-wrap.open .profile-chevron { transform: rotate(180deg); }
+      .profile-dropdown {
+        position: absolute; top: calc(100% + 10px); right: 0;
+        width: 260px; background: rgba(10, 10, 26, 0.97);
+        border: 1px solid rgba(108,92,231,0.3); border-radius: 18px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        padding: 0; overflow: hidden; display: none; transform-origin: top right;
+        animation: ddOpen 0.22s cubic-bezier(0.34,1.2,0.64,1) both;
+      }
+      .profile-wrap.open .profile-dropdown { display: block; }
+      @keyframes ddOpen {
+        from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .dd-header {
+        padding: 18px 20px; display: flex; align-items: center; gap: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .dd-avatar {
+        width: 44px; height: 44px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden;
+      }
+      .dd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .dd-name { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .dd-email { font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .dd-signout-btn {
+        display: flex; align-items: center; gap: 9px;
+        width: 100%; padding: 12px 20px; border: none;
+        background: rgba(231,76,60,0.10); color: rgba(231,76,60,0.9);
+        font-size: 13px; font-weight: 500; font-family: "DM Sans", sans-serif;
+        cursor: pointer; transition: all 0.18s;
+      }
+      .dd-signout-btn:hover { background: rgba(231,76,60,0.22); color: #e74c3c; }
+      .dd-signout-btn svg { width: 15px; height: 15px; }
 
       /* ── MAIN WRAPPER ─────────────────────────────────────────────── */
       .mb-main {
         position: relative; z-index: 1;
-        padding-top: 72px; min-height: 100vh;
+        padding-top: 62px; min-height: 100vh;
       }
 
       .mb-page {
@@ -579,10 +649,13 @@
 
       /* ── RESPONSIVE ───────────────────────────────────────────────── */
       @media (max-width: 768px) {
-        .mb-nav { padding: 0 16px; }
+        .top-nav { padding: 0 16px; }
+        .nav-brand-name { display: none; }
+        .nav-btn span { display: none; }
+        .nav-btn { padding: 9px; border-radius: 10px; }
+        .profile-first-name { display: none; }
+        .profile-btn { padding: 5px; }
         .mb-page { padding: 28px 14px 100px; }
-        .mb-nav-title { font-size: 16px; }
-        .mb-user-name { max-width: 110px; }
         .post-header { flex-direction: column; gap: 12px; }
         .post-title { font-size: 20px; }
         .post-actions { align-self: flex-start; }
@@ -590,9 +663,8 @@
         .reply-meta { flex-wrap: wrap; }
       }
       @media (max-width: 480px) {
-        .mb-nav { height: 60px; }
-        .mb-main { padding-top: 60px; }
-        .back-link .back-link-text { display: none; }
+        .top-nav { height: 54px; }
+        .mb-main { padding-top: 54px; }
         .view-header { flex-direction: column; align-items: flex-start; gap: 12px; }
         .new-topic-btn { width: 100%; justify-content: center; }
         .modal-card { padding: 28px 20px; }
@@ -829,21 +901,65 @@
         <div class="grid-overlay"></div>
       </div>
 
-      <!-- Nav Bar -->
-      <nav class="mb-nav">
-        <div class="mb-nav-left">
-          <a href="index.html" class="back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
+      <!-- Top Nav -->
+      <nav class="top-nav" id="topNav">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
             </svg>
-            <span class="back-link-text">Back to Portal</span>
+          </div>
+          <span class="nav-brand-name">Eduversal Indonesia</span>
+        </a>
+
+        <div class="nav-actions">
+          <a href="announcements.html" class="nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
+            </svg>
+            <span>Announcements</span>
           </a>
-        </div>
-        <div class="mb-nav-center">
-          <span class="mb-nav-title">Message Board</span>
-        </div>
-        <div class="mb-nav-right">
-          <span class="mb-user-name" id="navUserName"></span>
+          <a href="messageboard.html" class="nav-btn active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span>Message Board</span>
+          </a>
+          <a href="library.html" class="nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+            <span>Library</span>
+          </a>
+          <a href="documents.html" class="nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Documents</span>
+          </a>
+
+          <div class="profile-wrap" id="profileWrap" style="display:none;">
+            <button class="profile-btn" id="profileBtn">
+              <div class="profile-avatar" id="navAvatar"></div>
+              <span class="profile-first-name" id="navFirstName"></span>
+              <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="dd-header">
+                <div class="dd-avatar" id="ddAvatar"></div>
+                <div style="min-width:0;">
+                  <div class="dd-name" id="ddFullName"></div>
+                  <div class="dd-email" id="ddEmail"></div>
+                </div>
+              </div>
+              <button class="dd-signout-btn" id="ddSignOut">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sign Out
+              </button>
+            </div>
+          </div>
         </div>
       </nav>
 
@@ -1036,9 +1152,54 @@
         }).format(date);
       }
 
+      let currentUserDisplayName = null;
+
       function getDisplayName(user) {
-        return user.displayName || user.email.split("@")[0];
+        return currentUserDisplayName || user.displayName || user.email.split("@")[0];
       }
+
+      // ── Navbar helpers ───────────────────────────────────────────────
+      const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+      function avatarColor(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+        return PALETTE[Math.abs(h) % PALETTE.length];
+      }
+      function getInitials(name) {
+        return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+      }
+      function fillNavAvatar(el, user, name) {
+        if (user.photoURL) {
+          el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+          el.style.background = 'transparent';
+        } else {
+          el.style.background = avatarColor(name);
+          el.textContent = getInitials(name);
+        }
+      }
+      function populateNav(user, firestoreName) {
+        const name = firestoreName || user.displayName || user.email.split('@')[0];
+        const firstName = name.split(' ')[0];
+        fillNavAvatar(document.getElementById('navAvatar'), user, name);
+        document.getElementById('navFirstName').textContent = firstName;
+        fillNavAvatar(document.getElementById('ddAvatar'), user, name);
+        document.getElementById('ddFullName').textContent = name;
+        document.getElementById('ddEmail').textContent = user.email;
+        document.getElementById('profileWrap').style.display = 'flex';
+      }
+
+      document.getElementById('profileBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('profileWrap').classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        document.getElementById('profileWrap').classList.remove('open');
+      });
+      document.getElementById('ddSignOut').addEventListener('click', () => signOut(auth));
+
+      window.addEventListener('scroll', () => {
+        document.getElementById('topNav').classList.toggle('scrolled', window.scrollY > 10);
+      }, { passive: true });
 
       function canModify(uid) {
         return currentUser && (currentUser.uid === uid || currentUserRole === "moderator");
@@ -1074,17 +1235,22 @@
 
           currentUser = user;
 
-          // Load role from users/{uid}
+          // Load role and display name from users/{uid}
           try {
             const userSnap = await getDoc(doc(db, "users", user.uid));
-            currentUserRole = userSnap.exists()
-              ? userSnap.data().role || null
-              : null;
+            if (userSnap.exists()) {
+              currentUserRole = userSnap.data().role || null;
+              currentUserDisplayName = userSnap.data().displayName || null;
+            } else {
+              currentUserRole = null;
+              currentUserDisplayName = null;
+            }
           } catch {
             currentUserRole = null;
+            currentUserDisplayName = null;
           }
 
-          document.getElementById("navUserName").textContent = getDisplayName(user);
+          populateNav(user, currentUserDisplayName);
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("logoutBtn").style.display = "block";
@@ -1096,11 +1262,13 @@
         } else {
           currentUser = null;
           currentUserRole = null;
+          currentUserDisplayName = null;
           if (unsubTopics) { unsubTopics(); unsubTopics = null; }
           if (unsubReplies) { unsubReplies(); unsubReplies = null; }
           document.getElementById("loginScreen").classList.add("visible");
           document.getElementById("mainContent").style.display = "none";
           document.getElementById("logoutBtn").style.display = "none";
+          document.getElementById("profileWrap").style.display = "none";
         }
       });
 
