@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eduversal Partner Schools – Accreditation Dashboard 2025</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; }
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.header-inner {
+  max-width: 1400px; margin: 0 auto; padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-badge {
+  background: linear-gradient(135deg, #e94560, #f5a623);
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 20px; color: white; flex-shrink: 0;
+}
+.header-title { font-size: 20px; font-weight: 700; }
+.header-subtitle { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.header-badges { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.header-badge {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600;
+}
+.header-badge.green { background: rgba(76,175,80,0.3); border-color: #4caf50; color: #a5d6a7; }
+
+/* STATS BAR */
+.stats-bar { background: white; border-bottom: 2px solid #e8e8e8; }
+.stats-inner {
+  max-width: 1400px; margin: 0 auto; padding: 0 24px;
+  display: flex; gap: 0; overflow-x: auto;
+}
+.stat-item {
+  padding: 16px 28px; text-align: center; border-right: 1px solid #f0f0f0;
+  min-width: 110px; flex-shrink: 0;
+}
+.stat-number { font-size: 30px; font-weight: 800; }
+.stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+/* CONTROLS */
+.controls {
+  max-width: 1400px; margin: 24px auto 0; padding: 0 24px;
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 8px 18px; border-radius: 20px; border: 2px solid #e0e0e0;
+  background: white; cursor: pointer; font-size: 13px; font-weight: 600;
+  color: #555; transition: all 0.2s;
+}
+.filter-btn:hover { border-color: #0f3460; color: #0f3460; }
+.filter-btn.active { background: #0f3460; color: white; border-color: #0f3460; }
+.search-box {
+  flex: 1; min-width: 200px; max-width: 300px;
+  padding: 9px 16px; border: 2px solid #e0e0e0; border-radius: 20px;
+  font-size: 13px; outline: none; transition: border-color 0.2s; margin-left: auto;
+}
+.search-box:focus { border-color: #0f3460; }
+
+/* MAIN */
+.main { max-width: 1400px; margin: 20px auto; padding: 0 24px 60px; }
+
+/* SCHOOL GRID */
+.schools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+.school-card {
+  background: white; border-radius: 16px; border: 2px solid #f0f0f0;
+  padding: 20px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
+}
+.school-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, #0f3460, #e94560);
+}
+.school-card:hover {
+  transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  border-color: #0f3460;
+}
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.level-badge {
+  padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px; color: white; margin-top: 2px;
+}
+.network-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; background: #e8f0fe; color: #1a73e8; margin-bottom: 5px;
+}
+.grade-badge {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 19px; color: white;
+  box-shadow: 0 4px 12px rgba(76,175,80,0.4); flex-shrink: 0;
+}
+.card-name { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; line-height: 1.3; }
+.card-fullname { font-size: 11px; color: #aaa; margin-bottom: 10px; }
+.card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+.card-meta-item { font-size: 12px; color: #777; display: flex; align-items: center; gap: 4px; }
+.card-footer {
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid #f5f5f5;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-validity { font-size: 11px; color: #aaa; }
+.card-view-btn {
+  background: #0f3460; color: white; border: none; padding: 7px 14px;
+  border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s;
+}
+.card-view-btn:hover { background: #e94560; }
+.no-results { text-align: center; padding: 60px 20px; color: #bbb; font-size: 16px; display: none; }
+
+/* DETAIL PANEL */
+.detail-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200;
+  display: none; align-items: flex-start; justify-content: flex-end;
+}
+.detail-overlay.open { display: flex; }
+.detail-panel {
+  width: min(780px, 100vw); height: 100vh; background: white; overflow-y: auto;
+  transform: translateX(100%); transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+  box-shadow: -8px 0 48px rgba(0,0,0,0.22);
+}
+.detail-overlay.open .detail-panel { transform: translateX(0); }
+.panel-header {
+  background: linear-gradient(135deg, #1a1a2e, #0f3460); color: white;
+  padding: 24px 28px; position: sticky; top: 0; z-index: 10;
+}
+.panel-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.15); border: none; color: white;
+  width: 38px; height: 38px; border-radius: 50%; font-size: 22px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.panel-close:hover { background: rgba(255,255,255,0.3); }
+.panel-school-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; padding-right: 48px; }
+.panel-school-fullname { font-size: 13px; opacity: 0.65; margin-bottom: 12px; }
+.panel-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.panel-badge {
+  padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.22);
+}
+.panel-badge.grade { background: rgba(76,175,80,0.4); border-color: #4caf50; }
+.panel-body { padding: 24px 28px; }
+
+/* INFO GRID */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.info-item { background: #f8f9fb; border-radius: 10px; padding: 12px 15px; }
+.info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #999; margin-bottom: 4px; }
+.info-value { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+
+/* CERT LINK */
+.cert-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #4caf50, #2e7d32); color: white;
+  text-decoration: none; padding: 9px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; margin-bottom: 22px; transition: opacity 0.2s;
+}
+.cert-link:hover { opacity: 0.85; }
+
+/* SECTION */
+.section { margin-bottom: 30px; }
+.section-title {
+  font-size: 15px; font-weight: 700; color: #1a1a2e;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  padding-bottom: 8px; border-bottom: 2px solid #f0f0f0;
+}
+
+/* COMPONENT TABS */
+.comp-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.comp-tab {
+  padding: 8px 16px; border-radius: 8px; border: 2px solid #e0e0e0;
+  background: white; cursor: pointer; font-size: 12px; font-weight: 600;
+  color: #555; transition: all 0.2s;
+}
+.comp-tab.active { background: #0f3460; color: white; border-color: #0f3460; }
+.comp-tab:hover:not(.active) { border-color: #0f3460; color: #0f3460; }
+.comp-panel { display: none; }
+.comp-panel.active { display: block; }
+.comp-desc { font-size: 12px; color: #777; font-style: italic; margin-bottom: 14px; line-height: 1.5; }
+.comp-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 580px) { .comp-columns { grid-template-columns: 1fr; } }
+.comp-box { border-radius: 12px; padding: 16px; }
+.comp-box.strengths { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.comp-box.improvements { background: #fffbeb; border: 1px solid #fde68a; }
+.comp-box-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.comp-box.strengths .comp-box-title { color: #16a34a; }
+.comp-box.improvements .comp-box-title { color: #d97706; }
+.comp-box-text { font-size: 13px; line-height: 1.75; color: #374151; }
+.lang-note { font-size: 11px; color: #bbb; font-style: italic; margin-top: 10px; }
+
+/* DOCS */
+.docs-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.docs-tab {
+  padding: 8px 16px; border-radius: 8px; border: 2px solid #e0e0e0;
+  background: white; cursor: pointer; font-size: 12px; font-weight: 600;
+  color: #555; transition: all 0.2s;
+}
+.docs-tab.active { background: #e94560; color: white; border-color: #e94560; }
+.docs-tab:hover:not(.active) { border-color: #e94560; color: #e94560; }
+.docs-panel { display: none; }
+.docs-panel.active { display: block; }
+.pdf-list { display: flex; flex-direction: column; gap: 7px; max-height: 400px; overflow-y: auto; padding-right: 4px; }
+.pdf-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+  background: #f8f9fb; border-radius: 8px; text-decoration: none;
+  color: #1a1a2e; border: 1px solid #e8e8e8; transition: all 0.2s; font-size: 12px;
+}
+.pdf-item:hover { background: #e3edf7; border-color: #0f3460; }
+.pdf-icon {
+  width: 30px; height: 30px; background: #e94560; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 9px; font-weight: 700; flex-shrink: 0;
+}
+.pdf-name { flex: 1; word-break: break-all; }
+.pdf-num {
+  background: #0f3460; color: white; border-radius: 4px;
+  padding: 2px 6px; font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.png-gallery {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  max-height: 420px; overflow-y: auto;
+}
+.png-wrap { cursor: pointer; }
+.png-thumb {
+  border-radius: 8px; overflow: hidden; border: 2px solid #e0e0e0;
+  transition: all 0.2s; aspect-ratio: 4/3; background: #f0f0f0;
+  display: flex; align-items: center; justify-content: center;
+}
+.png-thumb:hover { border-color: #0f3460; transform: scale(1.03); }
+.png-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.png-thumb-label { font-size: 10px; color: #888; padding: 4px 2px; text-align: center; }
+.png-note { font-size: 11px; color: #aaa; margin-top: 12px; font-style: italic; }
+.empty-docs { text-align: center; padding: 30px; color: #ccc; font-size: 13px; }
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 100%; max-height: 96vh; border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.lightbox-close {
+  position: fixed; top: 16px; right: 16px; background: white;
+  border: none; border-radius: 50%; width: 42px; height: 42px;
+  font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1001;
+}
+
+/* FOOTER */
+.footer {
+  background: #1a1a2e; color: rgba(255,255,255,0.45);
+  text-align: center; padding: 22px; font-size: 12px; line-height: 1.8;
+}
+.footer strong { color: rgba(255,255,255,0.7); }
+
+/* SCROLL */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+@media (max-width: 768px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .schools-grid { grid-template-columns: 1fr; }
+  .header-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-badge">EV</div>
+      <div>
+        <div class="header-title">Eduversal Partner Schools</div>
+        <div class="header-subtitle">BAN-PDM Accreditation Reference Dashboard &middot; Indonesia 2025</div>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="header-badge green">&#9733; All Schools Grade A</span>
+      <span class="header-badge">2025 Accreditation</span>
+      <span class="header-badge">Valid 2025&ndash;2030</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number" style="color:#0f3460">11</div>
+      <div class="stat-label">Total Schools</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#4caf50">A</div>
+      <div class="stat-label">Grade (All)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#ff9800">1</div>
+      <div class="stat-label">TK</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#2196f3">2</div>
+      <div class="stat-label">SD</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#f44336">4</div>
+      <div class="stat-label">SMP</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#9c27b0">4</div>
+      <div class="stat-label">SMA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="color:#607d8b">5</div>
+      <div class="stat-label">Years Valid</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="filter-tabs">
+    <button class="filter-btn active" onclick="filterLevel('all', this)">All Schools</button>
+    <button class="filter-btn" onclick="filterLevel('TK', this)" style="color:#ff9800;border-color:#ff9800">TK</button>
+    <button class="filter-btn" onclick="filterLevel('SD', this)" style="color:#2196f3;border-color:#2196f3">SD</button>
+    <button class="filter-btn" onclick="filterLevel('SMP', this)" style="color:#f44336;border-color:#f44336">SMP</button>
+    <button class="filter-btn" onclick="filterLevel('SMA', this)" style="color:#9c27b0;border-color:#9c27b0">SMA</button>
+  </div>
+  <input type="text" class="search-box" placeholder="&#128269; Search schools, location, NPSN..." id="search-input" oninput="applyFilters()">
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="schools-grid" id="schools-grid"></div>
+  <div class="no-results" id="no-results">No schools match your search.</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Eduversal Partner Schools</strong> &middot; BAN-PDM Accreditation 2025 &middot; Batch: Semester Accreditation<br>
+  This dashboard serves as a reference for the next accreditation cycle (2030). Original documents are preserved in Bahasa Indonesia.<br>
+  Assessor: BAN-PDM (Badan Akreditasi Nasional &ndash; Pendidikan Dasar dan Menengah) &middot; Platform: SisPena-PDM v3
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detail-overlay" onclick="handleOverlayClick(event)">
+  <div class="detail-panel" id="detail-panel">
+    <div class="panel-header">
+      <button class="panel-close" onclick="closePanel()">&times;</button>
+      <div class="panel-school-name" id="panel-name"></div>
+      <div class="panel-school-fullname" id="panel-fullname"></div>
+      <div class="panel-badges" id="panel-badges"></div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img id="lightbox-img" src="" alt="Platform Screenshot">
+</div>
+
+<script src="schools_compact.js"></script>
+<script>
+const LEVEL_COLORS = { TK: '#ff9800', SD: '#2196f3', SMP: '#f44336', SMA: '#9c27b0' };
+const LEVEL_LABELS = { TK: 'Early Childhood', SD: 'Elementary', SMP: 'Junior High', SMA: 'Senior High' };
+const COMP_LABELS = {
+  'Komponen B: Kinerja Satuan Pendidikan': {
+    short: 'Komponen B',
+    full: 'School Performance (Komponen B — Kinerja Satuan Pendidikan)'
+  },
+  'Komponen C: Wawasan Kebangsaan': {
+    short: 'Komponen C',
+    full: 'National Awareness & Citizenship (Komponen C — Wawasan Kebangsaan)'
+  },
+  'Komponen 1: Kinerja Pendidik dalam Mengelola Proses Pembelajaran yang berpusat pada peserta didik': {
+    short: 'Komponen 1',
+    full: 'Teacher Performance in Student-Centered Learning (Komponen 1)'
+  },
+  'Komponen 2: Kepemimpinan Kepala Satuan Pendidikan dalam Pengelolaan satuan pendidikan': {
+    short: 'Komponen 2',
+    full: 'Principal Leadership in School Management (Komponen 2)'
+  },
+  'Komponen 3: Iklim Lingkungan Belajar': {
+    short: 'Komponen 3',
+    full: 'Learning Environment Climate (Komponen 3)'
+  }
+};
+
+let currentFilter = 'all';
+
+function renderCards(schools) {
+  const grid = document.getElementById('schools-grid');
+  const noRes = document.getElementById('no-results');
+  grid.innerHTML = '';
+  if (!schools.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  schools.forEach(school => {
+    const total = school.documents.pdfs.length + school.documents.pngs.length;
+    const hasData = school.components.length > 0;
+    const col = LEVEL_COLORS[school.level] || '#607d8b';
+    const card = document.createElement('div');
+    card.className = 'school-card';
+    card.onclick = () => openPanel(school);
+    card.innerHTML =
+      '<div class="card-top">' +
+        '<div>' +
+          '<div class="network-tag">' + esc(school.network) + '</div>' +
+          '<span class="level-badge" style="background:' + col + '">' + school.level + '</span>' +
+        '</div>' +
+        '<div class="grade-badge">A</div>' +
+      '</div>' +
+      '<div class="card-name">' + esc(school.folder) + '</div>' +
+      '<div class="card-fullname">' + esc(school.fullName) + '</div>' +
+      '<div class="card-meta">' +
+        '<span class="card-meta-item">&#128205; ' + esc(school.location) + '</span>' +
+        '<span class="card-meta-item">&#128196; ' + total + ' files</span>' +
+        (hasData
+          ? '<span class="card-meta-item" style="color:#16a34a">&#10003; Assessment data</span>'
+          : '<span class="card-meta-item" style="color:#ccc">Documents only</span>') +
+      '</div>' +
+      '<div class="card-footer">' +
+        '<span class="card-validity">NPSN: ' + esc(school.npsn) + '</span>' +
+        '<button class="card-view-btn">View Details &rarr;</button>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function filterLevel(level, btn) {
+  currentFilter = level;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '';
+    b.style.color = b.dataset.origColor || '';
+  });
+  btn.classList.add('active');
+  btn.style.background = '#0f3460';
+  btn.style.color = 'white';
+  btn.style.borderColor = '#0f3460';
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  let list = SCHOOLS;
+  if (currentFilter !== 'all') list = list.filter(s => s.level === currentFilter);
+  if (q) list = list.filter(s =>
+    s.folder.toLowerCase().includes(q) ||
+    (s.fullName||'').toLowerCase().includes(q) ||
+    (s.location||'').toLowerCase().includes(q) ||
+    (s.network||'').toLowerCase().includes(q) ||
+    (s.npsn||'').includes(q)
+  );
+  renderCards(list);
+}
+
+function openPanel(school) {
+  document.getElementById('panel-name').textContent = school.folder;
+  document.getElementById('panel-fullname').textContent = school.fullName || '';
+
+  const col = LEVEL_COLORS[school.level] || '#607d8b';
+  document.getElementById('panel-badges').innerHTML =
+    '<span class="panel-badge grade">Grade A</span>' +
+    '<span class="panel-badge">' + (LEVEL_LABELS[school.level]||school.level) + ' (' + school.level + ')</span>' +
+    '<span class="panel-badge">' + (school.schoolType === 'SPK' ? 'International (SPK)' : 'National School') + '</span>' +
+    (school.npsn ? '<span class="panel-badge">NPSN: ' + esc(school.npsn) + '</span>' : '');
+
+  let html = '';
+
+  // INFO GRID
+  html += '<div class="info-grid">' +
+    '<div class="info-item"><div class="info-label">School Network</div><div class="info-value">' + esc(school.network) + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Location</div><div class="info-value">' + esc(school.location) + '</div></div>' +
+    '<div class="info-item" style="grid-column:1/-1"><div class="info-label">Address</div><div class="info-value">' + esc(school.address||'—') + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Accreditation Year</div><div class="info-value">2025</div></div>' +
+    '<div class="info-item"><div class="info-label">Validity Period</div><div class="info-value">' + esc(school.validityPeriod||'Dec 2025 – Dec 2030') + '</div></div>' +
+    '</div>';
+
+  if (school.certificateUrl) {
+    html += '<a class="cert-link" href="' + esc(school.certificateUrl) + '" target="_blank">&#8595; Download Accreditation Certificate (PDF)</a>';
+  }
+
+  // ASSESSMENT
+  if (school.components.length > 0) {
+    html += '<div class="section"><div class="section-title">&#128221; Assessor Notes &amp; Feedback</div>';
+    html += '<div class="comp-tabs" id="ct-' + school.id + '">';
+    school.components.forEach((c, i) => {
+      const lbl = COMP_LABELS[c.name] || { short: 'Component ' + (i+1) };
+      html += '<button class="comp-tab' + (i===0?' active':'') + '" onclick="showComp(\'' + school.id + '\',' + i + ',this)">' + esc(lbl.short) + '</button>';
+    });
+    html += '</div>';
+    school.components.forEach((c, i) => {
+      const lbl = COMP_LABELS[c.name] || { short: 'Component ' + (i+1), full: c.name };
+      html += '<div class="comp-panel' + (i===0?' active':'') + '" id="cp-' + school.id + '-' + i + '">' +
+        '<div class="comp-desc">' + esc(lbl.full) + '</div>' +
+        '<div class="comp-columns">' +
+          '<div class="comp-box strengths">' +
+            '<div class="comp-box-title">&#10003; Strengths<br><small style="font-weight:400;text-transform:none;letter-spacing:0">Area kinerja yang sudah baik</small></div>' +
+            '<div class="comp-box-text">' + (c.strengths || '<em style="color:#ccc">Not available</em>') + '</div>' +
+            '<div class="lang-note">&#127470;&#127465; Original language: Bahasa Indonesia</div>' +
+          '</div>' +
+          '<div class="comp-box improvements">' +
+            '<div class="comp-box-title">&#8635; Areas for Improvement<br><small style="font-weight:400;text-transform:none;letter-spacing:0">Area kinerja yang masih perlu ditingkatkan</small></div>' +
+            '<div class="comp-box-text">' + (c.improvements || '<em style="color:#ccc">Not available</em>') + '</div>' +
+            '<div class="lang-note">&#127470;&#127465; Original language: Bahasa Indonesia</div>' +
+          '</div>' +
+        '</div></div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="section"><div class="section-title">&#128221; Assessor Notes</div><div class="empty-docs">Assessment notes are not available for this school entry.<br><small>Supporting documents are available below.</small></div></div>';
+  }
+
+  // DOCUMENTS
+  const pdfCount = school.documents.pdfs.length;
+  const pngCount = school.documents.pngs.length;
+  html += '<div class="section"><div class="section-title">&#128196; Supporting Documents</div>';
+  html += '<div class="docs-tabs">' +
+    '<button class="docs-tab active" onclick="showDocs(\'' + school.id + '\',\'pdf\',this)">PDFs (' + pdfCount + ')</button>' +
+    '<button class="docs-tab" onclick="showDocs(\'' + school.id + '\',\'png\',this)">Screenshots (' + pngCount + ')</button>' +
+    '</div>';
+
+  // PDF tab
+  html += '<div class="docs-panel active" id="dp-pdf-' + school.id + '">';
+  if (pdfCount > 0) {
+    html += '<div class="pdf-list">';
+    school.documents.pdfs.forEach((pdf, idx) => {
+      const nm = pdf.name.match(/_(\d+)_/);
+      const n = nm ? nm[1] : String(idx+1);
+      html += '<a class="pdf-item" href="' + esc(pdf.path || (school.folder + '/' + pdf.name)) + '" target="_blank">' +
+        '<div class="pdf-icon">PDF</div>' +
+        '<div class="pdf-name">' + esc(pdf.name) + '</div>' +
+        (nm ? '<span class="pdf-num">#' + n + '</span>' : '') +
+        '</a>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="empty-docs">No PDF documents available.</div>';
+  }
+  html += '</div>';
+
+  // PNG tab
+  html += '<div class="docs-panel" id="dp-png-' + school.id + '">';
+  if (pngCount > 0) {
+    html += '<div class="png-gallery">';
+    school.documents.pngs.forEach((png, idx) => {
+      const imgSrc = esc(png.path || (school.folder + '/' + png.name));
+      const lightboxSrc = esc(png.viewUrl || png.path || (school.folder + '/' + png.name));
+      html += '<div class="png-wrap" onclick="openLightbox(\'' + lightboxSrc + '\')">' +
+        '<div class="png-thumb"><img src="' + imgSrc + '" alt="Screenshot ' + (idx+1) + '" loading="lazy" onerror="this.parentElement.innerHTML=\'<div style=&quot;color:#ccc;font-size:11px;padding:12px&quot;>Screenshot ' + (idx+1) + '</div>\'"></div>' +
+        '<div class="png-thumb-label">Screenshot ' + (idx+1) + '</div>' +
+        '</div>';
+    });
+    html += '</div><div class="png-note">Screenshots from SisPena-PDM assessment platform (apps.ban-pdm.id), captured October 2025. Click to enlarge.</div>';
+  } else {
+    html += '<div class="empty-docs">No platform screenshots available for this school.</div>';
+  }
+  html += '</div></div>';
+
+  document.getElementById('panel-body').innerHTML = html;
+  document.getElementById('detail-panel').scrollTop = 0;
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showComp(id, idx, btn) {
+  document.querySelectorAll('#ct-' + id + ' .comp-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('[id^="cp-' + id + '-"]').forEach(p => p.classList.remove('active'));
+  document.getElementById('cp-' + id + '-' + idx).classList.add('active');
+}
+
+function showDocs(id, type, btn) {
+  btn.closest('.section').querySelectorAll('.docs-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('dp-pdf-' + id).classList.remove('active');
+  document.getElementById('dp-png-' + id).classList.remove('active');
+  document.getElementById('dp-' + type + '-' + id).classList.add('active');
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('detail-overlay')) closePanel();
+}
+function closePanel() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePanel(); closeLightbox(); }
+});
+
+// Init
+renderCards(SCHOOLS);
+</script>
+</body>
+</html>
