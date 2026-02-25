@@ -263,6 +263,27 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1001;
 }
 
+.floating-home-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+.floating-home-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
 /* FOOTER */
 .footer {
   background: #1a1a2e; color: rgba(255,255,255,0.45);
@@ -381,6 +402,12 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   <img id="lightbox-img" src="" alt="Platform Screenshot">
 </div>
 
+<!-- Floating Home Button -->
+<a href="index.html" class="floating-home-btn" title="Ana Sayfa">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+</a>
 <script src="schools_compact.js"></script>
 <script>
 const LEVEL_COLORS = { TK: '#ff9800', SD: '#2196f3', SMP: '#f44336', SMA: '#9c27b0' };
@@ -628,3 +655,4 @@ renderCards(SCHOOLS);
 </script>
 </body>
 </html>
+
