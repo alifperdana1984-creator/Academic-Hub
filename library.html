@@ -502,19 +502,17 @@ body {
 .feedback-status.ok  { color: #00b894; display: block; }
 .feedback-status.err { color: #e74c3c; display: block; }
 
-/* ─── ADD FAB ────────────────────────────────── */
-.add-fab {
-  position: fixed; bottom: 22px; right: 22px;
-  display: flex; align-items: center; gap: 8px;
-  padding: 0 20px 0 16px; height: 48px; border-radius: 24px;
-  background: var(--accent); border: none; color: white;
-  font-size: 14px; font-weight: 700; cursor: pointer;
-  box-shadow: 0 4px 18px rgba(8,145,178,.5);
-  transition: all .22s cubic-bezier(0.16,1,0.3,1);
-  font-family: 'DM Sans', sans-serif; z-index: 150;
+/* ─── NAV ADD BTN ────────────────────────────── */
+.nav-add-btn {
+  display: none; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 10px;
+  background: var(--accent); border: none;
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease; font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
 }
-.add-fab:hover { background: #0e7490; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(8,145,178,.6); }
-.add-fab svg { width: 18px; height: 18px; }
+.nav-add-btn:hover { background: #0e7490; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(8,145,178,.4); }
+.nav-add-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -588,6 +586,11 @@ body {
         </svg>
         <span>Documents</span>
       </a>
+
+      <button class="nav-add-btn" id="addFab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add
+      </button>
 
       <div class="profile-wrap" id="profileWrap" style="display:none;">
         <button class="profile-btn" id="profileBtn">
@@ -765,11 +768,6 @@ body {
   </div>
 </div>
 
-<!-- Add FAB -->
-<button class="add-fab" id="addFab" style="display:none;">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-  Add Resource
-</button>
 
 <script>
   window.ENV = {
