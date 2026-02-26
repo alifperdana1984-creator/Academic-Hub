@@ -1,1817 +1,1870 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Message Board — Eduversal Indonesia</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --primary: #6c5ce7;
-        --primary-dark: #5f3dc4;
-        --accent: #00d9ff;
-        --accent-secondary: #ff6b9d;
-        --accent-tertiary: #ffd93d;
-        --dark: #0a0a1a;
-        --darker: #050510;
-        --glass: rgba(255, 255, 255, 0.05);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --text-primary: #ffffff;
-        --text-secondary: rgba(255, 255, 255, 0.7);
-        --glow-primary: 0 0 60px rgba(108, 92, 231, 0.5);
-        --glow-accent: 0 0 40px rgba(0, 217, 255, 0.4);
-      }
-
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-
-      body {
-        font-family: "Sora", sans-serif;
-        background: var(--darker);
-        color: var(--text-primary);
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-
-      /* ── LOADING SPINNER ─────────────────────────────────────────── */
-      @keyframes spin { to { transform: rotate(360deg); } }
-
-      /* ── ANIMATED BACKGROUND ─────────────────────────────────────── */
-      .bg-container {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
-
-      .bg-gradient {
-        position: absolute;
-        width: 200%; height: 200%;
-        top: -50%; left: -50%;
-        background:
-          radial-gradient(ellipse at 20% 20%, rgba(108, 92, 231, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 80%, rgba(0, 217, 255, 0.2) 0%, transparent 50%),
-          radial-gradient(ellipse at 60% 30%, rgba(255, 107, 157, 0.15) 0%, transparent 40%),
-          radial-gradient(ellipse at 30% 70%, rgba(255, 217, 61, 0.1) 0%, transparent 40%);
-        animation: bgFloat 30s ease-in-out infinite;
-      }
-
-      @keyframes bgFloat {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25%  { transform: translate(5%, 5%) rotate(2deg); }
-        50%  { transform: translate(-5%, 10%) rotate(-2deg); }
-        75%  { transform: translate(10%, -5%) rotate(1deg); }
-      }
-
-      .orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.6;
-        animation: orbFloat 20s ease-in-out infinite;
-      }
-      .orb-1 { width: 600px; height: 600px; background: linear-gradient(135deg, var(--primary), var(--accent)); top: -200px; right: -200px; animation-delay: 0s; }
-      .orb-2 { width: 400px; height: 400px; background: linear-gradient(135deg, var(--accent-secondary), var(--primary)); bottom: -100px; left: -100px; animation-delay: -7s; }
-      .orb-3 { width: 300px; height: 300px; background: linear-gradient(135deg, var(--accent), var(--accent-tertiary)); top: 40%; left: 60%; animation-delay: -14s; }
-
-      @keyframes orbFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(30px, -30px) scale(1.1); }
-        66% { transform: translate(-20px, 20px) scale(0.9); }
-      }
-
-      .grid-overlay {
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 80px 80px;
-        animation: gridMove 40s linear infinite;
-      }
-
-      @keyframes gridMove {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(80px, 80px); }
-      }
-
-      /* ── LOGIN SCREEN ─────────────────────────────────────────────── */
-      .login-screen {
-        position: fixed; inset: 0;
-        display: none; justify-content: center; align-items: center;
-        z-index: 99998; background: #0a0a1a; overflow: hidden;
-      }
-      .login-screen.visible { display: flex; }
-
-      .login-bg { position: absolute; inset: 0; overflow: hidden; }
-      .login-bg::before {
-        content: ''; position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
-        background:
-          radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.4) 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 20%, rgba(0, 217, 255, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at 40% 80%, rgba(255, 107, 157, 0.25) 0%, transparent 50%),
-          radial-gradient(ellipse at 70% 60%, rgba(255, 217, 61, 0.15) 0%, transparent 40%);
-        animation: loginBgMove 20s ease-in-out infinite;
-      }
-      @keyframes loginBgMove {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25%  { transform: translate(3%, -3%) rotate(1deg); }
-        50%  { transform: translate(-2%, 4%) rotate(-1deg); }
-        75%  { transform: translate(4%, 2%) rotate(0.5deg); }
-      }
-
-      .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: loginOrbFloat 15s ease-in-out infinite; }
-      .login-orb:nth-child(1) { width: 300px; height: 300px; background: rgba(108, 92, 231, 0.5); top: -10%; left: -5%; animation-duration: 18s; }
-      .login-orb:nth-child(2) { width: 250px; height: 250px; background: rgba(0, 217, 255, 0.4); top: 60%; right: -8%; animation-delay: -5s; animation-duration: 22s; }
-      .login-orb:nth-child(3) { width: 200px; height: 200px; background: rgba(255, 107, 157, 0.35); bottom: -5%; left: 30%; animation-delay: -10s; animation-duration: 20s; }
-      .login-orb:nth-child(4) { width: 180px; height: 180px; background: rgba(255, 217, 61, 0.25); top: 20%; right: 20%; animation-delay: -7s; animation-duration: 16s; }
-      @keyframes loginOrbFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        25%  { transform: translate(40px, -30px) scale(1.1); }
-        50%  { transform: translate(-20px, 50px) scale(0.9); }
-        75%  { transform: translate(30px, 20px) scale(1.05); }
-      }
-
-      .login-particles { position: absolute; inset: 0; overflow: hidden; }
-      .login-particle { position: absolute; background: rgba(255, 255, 255, 0.6); border-radius: 50%; animation: loginParticleRise linear infinite; }
-      @keyframes loginParticleRise {
-        0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-        10%  { opacity: 1; }
-        90%  { opacity: 1; }
-        100% { transform: translateY(-20vh) scale(1); opacity: 0; }
-      }
-
-      .login-grid {
-        position: absolute; inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 60px 60px;
-        animation: loginGridDrift 30s linear infinite;
-      }
-      @keyframes loginGridDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
-
-      .login-card {
-        position: relative; width: 90%; max-width: 440px;
-        padding: 48px 40px; border-radius: 28px;
-        background: rgba(255, 255, 255, 0.07);
-        backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 0 80px rgba(108, 92, 231, 0.15);
-        text-align: center;
-        animation: loginCardEnter 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-        z-index: 2;
-      }
-      .login-card::before {
-        content: ''; position: absolute; inset: -1px; border-radius: 29px; padding: 1px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05), rgba(108, 92, 231, 0.3));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
-      }
-      @keyframes loginCardEnter {
-        from { opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); }
-        to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-      }
-
-      .login-logo {
-        width: 72px; height: 72px; margin: 0 auto 24px; border-radius: 20px;
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 36px; box-shadow: 0 12px 40px rgba(108, 92, 231, 0.4);
-        animation: loginLogoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; position: relative;
-      }
-      .login-logo::after {
-        content: ''; position: absolute; inset: -3px; border-radius: 23px;
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff, #ff6b9d);
-        z-index: -1; opacity: 0.5; filter: blur(12px);
-        animation: loginLogoPulse 3s ease-in-out infinite;
-      }
-      @keyframes loginLogoEnter { from { opacity: 0; transform: translateY(30px) scale(0.5) rotate(-10deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
-      @keyframes loginLogoPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
-
-      .login-title { font-family: "Space Grotesk", sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
-      .login-title span { background: linear-gradient(135deg, #00d9ff, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .login-subtitle { font-family: "Sora", sans-serif; font-size: 14px; color: rgba(255, 255, 255, 0.45); margin-bottom: 36px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
-      @keyframes loginFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-      .login-error { display: none; background: rgba(255, 85, 85, 0.15); color: #ff6b6b; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-size: 13px; border: 1px solid rgba(255, 85, 85, 0.2); backdrop-filter: blur(10px); }
-
-      .login-form { animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
-      .login-input-group { position: relative; margin-bottom: 14px; }
-      .login-input-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.35); transition: color 0.3s; pointer-events: none; z-index: 1; display: flex; }
-      .login-input { width: 100%; padding: 16px 20px 16px 48px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; background: rgba(255, 255, 255, 0.06); color: #fff; outline: none; transition: all 0.3s ease; }
-      .login-input::placeholder { color: rgba(255, 255, 255, 0.3); }
-      .login-input:focus { border-color: rgba(108, 92, 231, 0.6); background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15), 0 0 30px rgba(108, 92, 231, 0.1); }
-      .login-input-group:focus-within .login-input-icon { color: #6c5ce7; }
-
-      .login-btn { width: 100%; padding: 16px; margin-top: 6px; background: linear-gradient(135deg, #6c5ce7 0%, #00d9ff 100%); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35); position: relative; overflow: hidden; }
-      .login-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: left 0.5s; }
-      .login-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(108, 92, 231, 0.5); }
-      .login-btn:hover::before { left: 100%; }
-
-      .login-divider { display: flex; align-items: center; margin: 24px 0; gap: 12px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
-      .login-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); }
-      .login-divider-text { color: rgba(255, 255, 255, 0.3); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
-
-      .login-google-btn { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
-      .login-google-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
-
-      .login-footer { margin-top: 28px; font-size: 11px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; }
-
-      @media (max-width: 480px) {
-        .login-card { padding: 36px 24px; margin: 16px; border-radius: 24px; }
-        .login-title { font-size: 26px; }
-        .login-logo { width: 60px; height: 60px; font-size: 28px; }
-      }
-
-      /* ── TOP NAV ──────────────────────────────────────────────────── */
-      .top-nav {
-        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 0 28px; height: 62px;
-        background: rgba(5, 5, 16, 0.90);
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        gap: 16px;
-      }
-      .nav-brand {
-        display: flex; align-items: center; gap: 10px;
-        text-decoration: none; flex-shrink: 0;
-      }
-      .nav-brand-icon { width: 32px; height: 32px; flex-shrink: 0; }
-      .nav-brand-icon svg { width: 32px; height: 32px; fill: #6c5ce7; }
-      .nav-brand-name {
-        font-family: "Outfit", sans-serif;
-        font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap;
-      }
-      .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-      .nav-btn {
-        display: flex; align-items: center; gap: 7px;
-        padding: 9px 18px; border-radius: 10px;
-        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
-        border: 1px solid rgba(108,92,231,0.45);
-        color: rgba(255,255,255,0.85);
-        font-family: "DM Sans", sans-serif;
-        font-size: 13px; font-weight: 500;
-        cursor: pointer; text-decoration: none;
-        transition: all 0.22s ease; position: relative; white-space: nowrap;
-      }
-      .nav-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-      .nav-btn:hover {
-        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
-        border-color: rgba(108,92,231,0.7); color: #fff;
-        box-shadow: 0 0 16px rgba(108,92,231,0.40); transform: translateY(-1px);
-      }
-      .nav-btn.active {
-        background: linear-gradient(135deg, rgba(108,92,231,0.50), rgba(0,217,255,0.30));
-        border-color: rgba(108,92,231,0.80); color: #fff;
-        box-shadow: 0 0 16px rgba(108,92,231,0.35);
-      }
-      .profile-wrap { position: relative; }
-      .profile-btn {
-        display: flex; align-items: center; gap: 8px;
-        padding: 6px 12px 6px 6px; border-radius: 100px;
-        background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
-        border: 1px solid rgba(108,92,231,0.45);
-        color: rgba(255,255,255,0.85); font-family: "DM Sans", sans-serif;
-        font-size: 13px; font-weight: 500; cursor: pointer;
-        transition: all 0.22s ease; max-width: 170px;
-      }
-      .profile-btn:hover {
-        background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
-        border-color: rgba(108,92,231,0.7); color: #fff;
-        box-shadow: 0 0 16px rgba(108,92,231,0.40);
-      }
-      .profile-avatar {
-        width: 30px; height: 30px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 11px; font-weight: 700; color: #fff;
-        flex-shrink: 0; overflow: hidden; font-family: "DM Sans", sans-serif;
-      }
-      .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-      .profile-first-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .profile-chevron { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.25s ease; }
-      .profile-wrap.open .profile-chevron { transform: rotate(180deg); }
-      .profile-dropdown {
-        position: absolute; top: calc(100% + 10px); right: 0;
-        width: 260px; background: rgba(10, 10, 26, 0.97);
-        border: 1px solid rgba(108,92,231,0.3); border-radius: 18px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        padding: 0; overflow: hidden; display: none; transform-origin: top right;
-        animation: ddOpen 0.22s cubic-bezier(0.34,1.2,0.64,1) both;
-      }
-      .profile-wrap.open .profile-dropdown { display: block; }
-      @keyframes ddOpen {
-        from { opacity: 0; transform: translateY(-10px) scale(0.96); }
-        to   { opacity: 1; transform: translateY(0) scale(1); }
-      }
-      .dd-header {
-        padding: 18px 20px; display: flex; align-items: center; gap: 12px;
-        border-bottom: 1px solid rgba(255,255,255,0.07);
-      }
-      .dd-avatar {
-        width: 44px; height: 44px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden;
-      }
-      .dd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-      .dd-name { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .dd-email { font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .dd-signout-btn {
-        display: flex; align-items: center; gap: 9px;
-        width: 100%; padding: 12px 20px; border: none;
-        background: rgba(231,76,60,0.10); color: rgba(231,76,60,0.9);
-        font-size: 13px; font-weight: 500; font-family: "DM Sans", sans-serif;
-        cursor: pointer; transition: all 0.18s;
-      }
-      .dd-signout-btn:hover { background: rgba(231,76,60,0.22); color: #e74c3c; }
-      .dd-signout-btn svg { width: 15px; height: 15px; }
-
-      /* ── MAIN WRAPPER ─────────────────────────────────────────────── */
-      .mb-main {
-        position: relative; z-index: 1;
-        padding-top: 62px; min-height: 100vh;
-      }
-
-      .mb-page {
-        max-width: 860px; margin: 0 auto;
-        padding: 40px 24px 100px;
-      }
-
-      /* ── TOPIC LIST VIEW ──────────────────────────────────────────── */
-      .view-header {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 28px;
-      }
-
-      .view-title {
-        font-family: "Outfit", sans-serif; font-size: 26px; font-weight: 800;
-      }
-
-      .new-topic-btn {
-        display: inline-flex; align-items: center; gap: 7px;
-        padding: 10px 20px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: white; border: none; border-radius: 12px;
-        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 600;
-        cursor: pointer; transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35);
-      }
-      .new-topic-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 92, 231, 0.5); }
-      .new-topic-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-      .topic-list { display: flex; flex-direction: column; gap: 10px; }
-
-      .topic-card {
-        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
-        border-radius: 16px; padding: 20px 24px; cursor: pointer;
-        transition: all 0.25s ease;
-      }
-      .topic-card:hover {
-        background: rgba(255, 255, 255, 0.07); border-color: rgba(108, 92, 231, 0.4);
-        transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      }
-
-      .topic-card-title {
-        font-family: "Outfit", sans-serif; font-size: 17px; font-weight: 700;
-        color: var(--text-primary); line-height: 1.3; margin-bottom: 10px;
-      }
-
-      .topic-card-meta {
-        display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
-        font-size: 13px; color: var(--text-secondary);
-      }
-
-      .topic-sep { opacity: 0.4; }
-
-      .topic-replies-badge {
-        margin-left: auto;
-        background: rgba(108, 92, 231, 0.18); border: 1px solid rgba(108, 92, 231, 0.3);
-        border-radius: 6px; padding: 2px 9px;
-        font-size: 12px; font-weight: 600; color: rgba(160, 140, 255, 0.95);
-        white-space: nowrap;
-      }
-
-      .empty-state {
-        text-align: center; padding: 60px 20px;
-        color: var(--text-secondary); font-size: 15px;
-      }
-
-      /* ── TOPIC DETAIL VIEW ────────────────────────────────────────── */
-      .back-btn {
-        display: inline-flex; align-items: center; gap: 6px;
-        background: none; border: none; color: var(--text-secondary);
-        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 500;
-        cursor: pointer; padding: 0; margin-bottom: 24px; transition: color 0.2s;
-      }
-      .back-btn:hover { color: var(--text-primary); }
-      .back-btn svg { width: 16px; height: 16px; }
-
-      .topic-post {
-        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
-        border-radius: 20px; padding: 28px; margin-bottom: 20px;
-      }
-
-      .post-header {
-        display: flex; justify-content: space-between; align-items: flex-start;
-        gap: 12px; margin-bottom: 16px;
-      }
-
-      .post-title {
-        font-family: "Outfit", sans-serif; font-size: 24px; font-weight: 800;
-        line-height: 1.3; flex: 1;
-      }
-
-      .post-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: flex-start; }
-
-      .post-body {
-        font-size: 15px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);
-        white-space: pre-wrap; word-break: break-word;
-      }
-
-      .post-meta {
-        margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
-        font-size: 13px; color: var(--text-secondary);
-      }
-
-      .edited-badge {
-        background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600;
-        color: rgba(255, 255, 255, 0.45);
-      }
-
-      /* ── ACTION BUTTONS ───────────────────────────────────────────── */
-      .action-btn {
-        padding: 6px 12px; border-radius: 8px; border: 1px solid;
-        font-family: "Sora", sans-serif; font-size: 12px; font-weight: 600;
-        cursor: pointer; transition: all 0.2s ease;
-        display: inline-flex; align-items: center; gap: 5px;
-        white-space: nowrap;
-      }
-      .action-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
-
-      .edit-btn {
-        background: rgba(108, 92, 231, 0.15); border-color: rgba(108, 92, 231, 0.35);
-        color: rgba(160, 140, 255, 0.95);
-      }
-      .edit-btn:hover {
-        background: rgba(108, 92, 231, 0.3); border-color: rgba(108, 92, 231, 0.6); color: #fff;
-      }
-
-      .delete-btn {
-        background: rgba(255, 85, 85, 0.12); border-color: rgba(255, 85, 85, 0.3);
-        color: rgba(255, 110, 110, 0.9);
-      }
-      .delete-btn:hover {
-        background: rgba(255, 85, 85, 0.25); border-color: rgba(255, 85, 85, 0.6); color: #fff;
-      }
-
-      /* ── INLINE EDIT ──────────────────────────────────────────────── */
-      .inline-edit-form { display: flex; flex-direction: column; gap: 12px; }
-
-      .inline-input, .inline-textarea {
-        width: 100%; background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(108, 92, 231, 0.4); border-radius: 12px;
-        color: #fff; font-family: "Sora", sans-serif; padding: 12px 16px;
-        outline: none; resize: vertical; transition: border-color 0.2s, box-shadow 0.2s;
-      }
-      .inline-input { font-size: 15px; font-weight: 600; resize: none; }
-      .inline-textarea { font-size: 14px; line-height: 1.7; min-height: 120px; }
-      .inline-input:focus, .inline-textarea:focus {
-        border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
-      }
-
-      .inline-edit-actions { display: flex; gap: 8px; }
-
-      .save-btn {
-        padding: 8px 20px; background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: white; border: none; border-radius: 10px;
-        font-family: "Sora", sans-serif; font-size: 13px; font-weight: 600;
-        cursor: pointer; transition: all 0.2s;
-      }
-      .save-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
-      .save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-
-      .cancel-btn {
-        padding: 8px 16px; background: rgba(255, 255, 255, 0.08);
-        color: var(--text-secondary); border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px; font-family: "Sora", sans-serif; font-size: 13px; font-weight: 500;
-        cursor: pointer; transition: all 0.2s;
-      }
-      .cancel-btn:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
-
-      /* ── REPLIES SECTION ──────────────────────────────────────────── */
-      .replies-section { margin-bottom: 16px; }
-
-      .replies-header {
-        font-family: "Outfit", sans-serif; font-size: 15px; font-weight: 700;
-        color: var(--text-secondary); margin-bottom: 14px;
-        padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      }
-
-      .reply-list { display: flex; flex-direction: column; gap: 8px; }
-
-      .reply-item {
-        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 14px; padding: 16px 18px;
-      }
-
-      .reply-body {
-        font-size: 14px; line-height: 1.75; color: rgba(255, 255, 255, 0.85);
-        white-space: pre-wrap; word-break: break-word; margin-bottom: 10px;
-      }
-
-      .reply-meta {
-        display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
-        font-size: 12px; color: var(--text-secondary);
-      }
-
-      .reply-actions { margin-left: auto; display: flex; gap: 6px; }
-
-      /* ── REPLY FORM ───────────────────────────────────────────────── */
-      .reply-form-section {
-        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
-        border-radius: 16px; padding: 20px;
-      }
-
-      .reply-form-label {
-        font-size: 11px; font-weight: 600; text-transform: uppercase;
-        letter-spacing: 0.09em; color: rgba(255, 255, 255, 0.4); margin-bottom: 10px;
-      }
-
-      .reply-textarea {
-        width: 100%; background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
-        color: #fff; font-family: "Sora", sans-serif; font-size: 14px;
-        padding: 14px 16px; outline: none; resize: vertical; min-height: 96px;
-        line-height: 1.65; transition: border-color 0.2s, box-shadow 0.2s;
-      }
-      .reply-textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
-      .reply-textarea:focus {
-        border-color: rgba(108, 92, 231, 0.5); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
-      }
-
-      .reply-form-footer { display: flex; justify-content: flex-end; margin-top: 12px; }
-
-      .reply-send-btn {
-        padding: 10px 22px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: white; border: none; border-radius: 10px;
-        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 600;
-        cursor: pointer; transition: all 0.2s;
-        display: inline-flex; align-items: center; gap: 7px;
-      }
-      .reply-send-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); }
-      .reply-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-      .reply-send-btn svg { width: 15px; height: 15px; }
-
-      /* ── NEW TOPIC MODAL ──────────────────────────────────────────── */
-      .modal-overlay {
-        position: fixed; inset: 0;
-        background: rgba(5, 5, 16, 0.82); backdrop-filter: blur(8px);
-        z-index: 10000; display: flex; align-items: center; justify-content: center;
-        opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-      }
-      .modal-overlay.open { opacity: 1; visibility: visible; }
-
-      .modal-card {
-        position: relative; width: 100%; max-width: 560px; margin: 20px;
-        background: linear-gradient(135deg, rgba(15, 15, 35, 0.97), rgba(10, 10, 25, 0.99));
-        border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 24px; padding: 36px;
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65), 0 0 45px rgba(108, 92, 231, 0.12);
-        transform: translateY(22px) scale(0.97);
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
-      .modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
-
-      .modal-header {
-        display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px;
-      }
-      .modal-title {
-        font-size: 20px; font-weight: 700;
-        background: linear-gradient(135deg, #fff 40%, rgba(108, 92, 231, 0.85));
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      }
-      .modal-close-btn {
-        width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-        background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 50%; color: var(--text-secondary); cursor: pointer; font-size: 20px;
-        line-height: 1; transition: all 0.2s;
-      }
-      .modal-close-btn:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
-
-      .modal-field { margin-bottom: 20px; }
-      .modal-label {
-        display: block; font-size: 11px; font-weight: 600; text-transform: uppercase;
-        letter-spacing: 0.09em; color: rgba(255, 255, 255, 0.5); margin-bottom: 8px;
-      }
-
-      .modal-input, .modal-textarea {
-        width: 100%; background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.11); border-radius: 12px;
-        color: #fff; font-family: "Sora", sans-serif; padding: 13px 16px;
-        outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-      }
-      .modal-input { font-size: 15px; }
-      .modal-textarea { font-size: 14px; min-height: 140px; resize: vertical; line-height: 1.7; }
-      .modal-input::placeholder, .modal-textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
-      .modal-input:focus, .modal-textarea:focus {
-        border-color: rgba(108, 92, 231, 0.55); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.13);
-      }
-
-      .modal-submit-btn {
-        width: 100%; padding: 14px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: white; border: none; border-radius: 14px;
-        font-family: "Sora", sans-serif; font-size: 15px; font-weight: 600;
-        cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 25px rgba(108, 92, 231, 0.35);
-      }
-      .modal-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(108, 92, 231, 0.5); }
-      .modal-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-
-      .modal-status { margin-top: 12px; font-size: 13px; text-align: center; min-height: 20px; }
-      .modal-status.error { color: #ff6b6b; }
-
-      /* ── SPINNER ──────────────────────────────────────────────────── */
-      .btn-spinner {
-        display: inline-block; width: 14px; height: 14px;
-        border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff;
-        border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle;
-      }
-
-      /* ── RESPONSIVE ───────────────────────────────────────────────── */
-      @media (max-width: 768px) {
-        .top-nav { padding: 0 16px; }
-        .nav-brand-name { display: none; }
-        .nav-btn span { display: none; }
-        .nav-btn { padding: 9px; border-radius: 10px; }
-        .profile-first-name { display: none; }
-        .profile-btn { padding: 5px; }
-        .mb-page { padding: 28px 14px 100px; }
-        .post-header { flex-direction: column; gap: 12px; }
-        .post-title { font-size: 20px; }
-        .post-actions { align-self: flex-start; }
-        .reply-actions { margin-left: 0; margin-top: 6px; }
-        .reply-meta { flex-wrap: wrap; }
-      }
-      @media (max-width: 480px) {
-        .top-nav { height: 54px; }
-        .mb-main { padding-top: 54px; }
-        .view-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-        .new-topic-btn { width: 100%; justify-content: center; }
-        .modal-card { padding: 28px 20px; }
-        .topic-card { padding: 16px 18px; }
-        .topic-replies-badge { margin-left: 0; }
-        .mb-user-name { max-width: 80px; }
-      }
-      /* ─── SPEED DIAL FAB ─────────────────────────── */
-      .fab-container {
-        position: fixed; bottom: 24px; right: 24px;
-        display: flex; flex-direction: column; align-items: flex-end;
-        gap: 10px; z-index: 999;
-      }
-      .fab-items { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-      .fab-item {
-        display: flex; align-items: center; gap: 10px;
-        opacity: 0; pointer-events: none;
-        transform: translateY(12px) scale(0.85);
-        transition: opacity 0.22s cubic-bezier(0.16,1,0.3,1),
-                    transform 0.22s cubic-bezier(0.16,1,0.3,1);
-      }
-      .fab-item:nth-child(2) { transition-delay: 0.04s; }
-      .fab-container.open .fab-item { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-      .fab-container.open .fab-item:nth-child(1) { transition-delay: 0.04s; }
-      .fab-label {
-        background: rgba(10,10,25,0.93); border: 1px solid rgba(255,255,255,0.1);
-        color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
-        padding: 5px 11px; border-radius: 8px; white-space: nowrap;
-        font-family: 'Sora','DM Sans',sans-serif; backdrop-filter: blur(12px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3); user-select: none; pointer-events: none;
-      }
-      .fab-action-btn {
-        width: 44px; height: 44px; border-radius: 50%;
-        border: 1px solid rgba(255,255,255,0.12); background: rgba(18,18,40,0.92);
-        color: rgba(255,255,255,0.82);
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer; text-decoration: none;
-        transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
-        backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,0.4); flex-shrink: 0;
-      }
-      .fab-action-btn:hover { transform: scale(1.1); }
-      .fab-home:hover {
-        background: #0891b2; border-color: #0891b2;
-        box-shadow: 0 6px 22px rgba(8,145,178,0.55); color: #fff;
-      }
-      .fab-feedback-btn { background: rgba(18,18,40,0.92); }
-      .fab-feedback-btn:hover {
-        background: #6c5ce7; border-color: #6c5ce7;
-        box-shadow: 0 6px 22px rgba(108,92,231,0.55); color: #fff;
-      }
-      .fab-main {
-        width: 54px; height: 54px; border-radius: 50%;
-        background: rgba(18,18,40,0.92); border: 1px solid rgba(255,255,255,0.14);
-        color: rgba(255,255,255,0.88);
-        display: flex; align-items: center; justify-content: center;
-        position: relative; cursor: pointer;
-        transition: all 0.28s cubic-bezier(0.16,1,0.3,1);
-        box-shadow: 0 4px 24px rgba(0,0,0,0.5); backdrop-filter: blur(12px);
-      }
-      .fab-main:hover {
-        transform: scale(1.07);
-        box-shadow: 0 8px 32px rgba(108,92,231,0.45); border-color: rgba(108,92,231,0.5);
-      }
-      .fab-container.open .fab-main {
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
-        border-color: transparent; box-shadow: 0 6px 32px rgba(108,92,231,0.6);
-      }
-      .fab-ic {
-        position: absolute;
-        transition: opacity 0.22s, transform 0.28s cubic-bezier(0.16,1,0.3,1);
-      }
-      .fab-ic-open  { opacity: 1; transform: rotate(0deg) scale(1); }
-      .fab-ic-close { opacity: 0; transform: rotate(-45deg) scale(0.7); }
-      .fab-container.open .fab-ic-open  { opacity: 0; transform: rotate(45deg) scale(0.7); }
-      .fab-container.open .fab-ic-close { opacity: 1; transform: rotate(0deg) scale(1); }
-      /* ── Feedback Modal ── */
-      .feedback-overlay {
-        position: fixed; inset: 0; background: rgba(0,0,0,0.65);
-        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-        z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px;
-      }
-      .feedback-overlay.open { display: flex; }
-      .feedback-modal {
-        background: rgba(10,10,26,0.97); border: 1px solid rgba(108,92,231,0.35);
-        border-radius: 20px; width: 100%; max-width: 480px;
-        padding: 28px; box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-        display: flex; flex-direction: column; gap: 16px;
-      }
-      .feedback-modal-header { display: flex; align-items: center; justify-content: space-between; }
-      .feedback-modal-title { font-size: 16px; font-weight: 700; color: #fff; font-family: 'Sora','DM Sans',sans-serif; }
-      .feedback-close-btn {
-        width: 32px; height: 32px; border-radius: 8px;
-        background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
-        color: rgba(255,255,255,0.6); font-size: 18px;
-        cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s;
-      }
-      .feedback-close-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
-      .feedback-field { display: flex; flex-direction: column; gap: 6px; }
-      .feedback-label {
-        font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.45);
-        text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Sora','DM Sans',sans-serif;
-      }
-      .feedback-select, .feedback-textarea {
-        width: 100%; padding: 10px 12px;
-        background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 10px; color: #fff; font-size: 13.5px;
-        font-family: 'Sora','DM Sans',sans-serif; outline: none; transition: border-color 0.18s;
-      }
-      .feedback-select { cursor: pointer; }
-      .feedback-select option { background: #0a0a1a; }
-      .feedback-select:focus, .feedback-textarea:focus { border-color: rgba(108,92,231,0.7); }
-      .feedback-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
-      .feedback-textarea::placeholder { color: rgba(255,255,255,0.25); }
-      .feedback-submit-btn {
-        width: 100%; padding: 11px; border-radius: 10px; border: none;
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
-        color: #fff; font-size: 14px; font-weight: 600;
-        font-family: 'Sora','DM Sans',sans-serif; cursor: pointer; transition: opacity 0.18s;
-      }
-      .feedback-submit-btn:hover { opacity: 0.85; }
-      .feedback-submit-btn:disabled { opacity: 0.5; cursor: default; }
-      .feedback-status { font-size: 12.5px; text-align: center; display: none; }
-      .feedback-status.ok  { color: #00b894; display: block; }
-      .feedback-status.err { color: #e74c3c; display: block; }
-    </style>
-    <script>
-      window.ENV = {
-        FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
-        FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
-        FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
-        FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
-        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-        FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
-      };
-    </script>
-  </head>
-  <body>
-    <!-- Loading Screen -->
-    <div
-      id="loadingScreen"
-      style="
-        position: fixed; inset: 0; background: #0a0a1a;
-        display: flex; justify-content: center; align-items: center; z-index: 99999;
-      "
-    >
-      <div
-        style="
-          width: 48px; height: 48px;
-          border: 3px solid rgba(255, 255, 255, 0.15);
-          border-top-color: #6c5ce7; border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        "
-      ></div>
-    </div>
-
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen">
-      <div class="login-bg">
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-      </div>
-      <div class="login-grid"></div>
-      <div class="login-particles" id="loginParticles"></div>
-
-      <div class="login-card">
-        <div class="login-logo">🎓</div>
-        <h1 class="login-title">Eduversal <span>Indonesia</span></h1>
-        <p class="login-subtitle">Message Board</p>
-
-        <div id="errorMsg" class="login-error"></div>
-
-        <form id="loginForm" class="login-form">
-          <div class="login-input-group">
-            <input id="emailInput" type="email" placeholder="Email address" required class="login-input" />
-            <span class="login-input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-            </span>
-          </div>
-          <div class="login-input-group">
-            <input id="passwordInput" type="password" placeholder="Password" required class="login-input" />
-            <span class="login-input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </span>
-          </div>
-          <button type="submit" class="login-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-            Sign In
-          </button>
-        </form>
-
-        <div class="login-divider">
-          <div class="login-divider-line"></div>
-          <span class="login-divider-text">or</span>
-          <div class="login-divider-line"></div>
-        </div>
-
-        <button id="googleLoginBtn" class="login-google-btn">
-          <svg width="18" height="18" viewBox="0 0 48 48">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          Sign in with Google
-        </button>
-
-        <p class="login-footer">Secure access for authorized educators only</p>
-      </div>
-    </div>
-
-    <!-- Sign Out Button -->
-    <button
-      id="logoutBtn"
-      style="
-        position: fixed; bottom: 20px; right: 20px; display: none;
-        padding: 10px 16px; background: #000; color: white;
-        border: none; border-radius: 8px; z-index: 9999; cursor: pointer;
-        font-family: 'Sora', sans-serif; font-size: 13px;
-      "
-    >
-      Sign Out
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Message Board — Eduversal Indonesia</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c2e;
+  --ink-2: #44445a;
+  --ink-3: #8888a8;
+  --paper: #f7f6f3;
+  --paper-2: #efede8;
+  --white: #ffffff;
+  --border: #e0ddd6;
+  --accent: #0891b2;
+  --accent-dark: #0e7490;
+  --accent-2: #e0f2fe;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow: 0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ─── TOP NAV ─────────────────────────────────── */
+.top-nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 62px;
+  background: rgba(5, 5, 16, 0.95);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 16px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.nav-brand-icon { width: 32px; height: 32px; flex-shrink: 0; }
+.nav-brand-icon svg { width: 32px; height: 32px; fill: #6c5ce7; }
+.nav-brand-name { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
+.nav-page-title {
+  font-size: 15px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  flex: 1; justify-content: center;
+}
+.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 10px;
+  background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+  border: 1px solid rgba(108,92,231,0.45);
+  color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: all 0.22s ease; position: relative; white-space: nowrap;
+}
+.nav-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.nav-btn:hover {
+  background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+  border-color: rgba(108,92,231,0.7); color: #fff;
+  box-shadow: 0 0 16px rgba(108,92,231,0.40); transform: translateY(-1px);
+}
+.nav-btn.active {
+  background: linear-gradient(135deg, rgba(108,92,231,0.50), rgba(0,217,255,0.30));
+  border-color: rgba(108,92,231,0.80); color: #fff;
+  box-shadow: 0 0 16px rgba(108,92,231,0.35);
+}
+.profile-wrap { position: relative; }
+.profile-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px 6px 6px; border-radius: 100px;
+  background: linear-gradient(135deg, rgba(108,92,231,0.20), rgba(0,217,255,0.10));
+  border: 1px solid rgba(108,92,231,0.45);
+  color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.22s ease; max-width: 170px;
+}
+.profile-btn:hover {
+  background: linear-gradient(135deg, rgba(108,92,231,0.45), rgba(0,217,255,0.25));
+  border-color: rgba(108,92,231,0.7); color: #fff;
+  box-shadow: 0 0 16px rgba(108,92,231,0.40);
+}
+.profile-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
+}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.profile-first-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-chevron { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.25s ease; }
+.profile-wrap.open .profile-chevron { transform: rotate(180deg); }
+.profile-dropdown {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  width: 260px; background: rgba(10, 10, 26, 0.97);
+  border: 1px solid rgba(108,92,231,0.3); border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  overflow: hidden; display: none; transform-origin: top right;
+  animation: ddOpen 0.22s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+.profile-wrap.open .profile-dropdown { display: block; }
+@keyframes ddOpen {
+  from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dd-header {
+  padding: 18px 20px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.dd-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden;
+}
+.dd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.dd-name { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-email { font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-signout-btn {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 12px 20px; border: none;
+  background: rgba(231,76,60,0.10); color: rgba(231,76,60,0.9);
+  font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all 0.18s;
+}
+.dd-signout-btn:hover { background: rgba(231,76,60,0.22); color: #e74c3c; }
+.dd-signout-btn svg { width: 15px; height: 15px; }
+@media (max-width: 768px) {
+  .top-nav { padding: 0 16px; }
+  .nav-brand-name { display: none; }
+  .nav-btn span { display: none; }
+  .nav-btn { padding: 9px; border-radius: 10px; }
+  .profile-first-name { display: none; }
+  .profile-btn { padding: 5px; }
+  .nav-page-title { font-size: 13px; }
+}
+
+/* ─── LOADING ─────────────────────────────────── */
+#loadingScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; flex-direction: column; gap: 14px;
+}
+.spinner {
+  width: 36px; height: 36px; border: 3px solid rgba(255,255,255,.15);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingScreen p { color: rgba(255,255,255,.5); font-size: 13px; }
+
+/* ─── LOGIN ──────────────────────────────────── */
+#loginScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; flex-direction: column; gap: 16px;
+}
+#loginScreen.visible { display: flex; }
+.login-box {
+  background: #26263e; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; padding: 36px 32px; width: 340px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.login-icon { font-size: 42px; margin-bottom: 12px; }
+.login-box h2 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.login-box p { color: rgba(255,255,255,.5); font-size: 13px; margin-bottom: 24px; }
+.login-google {
+  width: 100%; padding: 11px; border-radius: 9px;
+  background: white; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: #333;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .2s; font-family: 'DM Sans', sans-serif;
+}
+.login-google:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.login-or { color: rgba(255,255,255,.3); font-size: 12px; margin: 14px 0; }
+.login-email { display: flex; flex-direction: column; gap: 8px; }
+.login-email input {
+  width: 100%; padding: 9px 12px; border-radius: 8px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none;
+}
+.login-email input::placeholder { color: rgba(255,255,255,.3); }
+.login-email input:focus { border-color: var(--accent); }
+.login-email button {
+  padding: 10px; border-radius: 8px; background: var(--accent); border: none;
+  color: white; font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: background .2s;
+}
+.login-email button:hover { background: var(--accent-dark); }
+.login-error { color: #fc8181; font-size: 12px; margin-top: 8px; display: none; }
+
+/* ─── MAIN CONTENT ────────────────────────────── */
+#mainContent { display: none; }
+
+/* ─── FORUM LAYOUT ────────────────────────────── */
+.forum-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 100px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── SIDEBAR ─────────────────────────────────── */
+.forum-sidebar {
+  position: sticky;
+  top: 86px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sidebar-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.sidebar-card-title {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.09em; color: var(--ink-3);
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  background: var(--paper-2);
+}
+.stats-list {
+  padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stat-item {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px;
+}
+.stat-label { color: var(--ink-2); display: flex; align-items: center; gap: 7px; }
+.stat-label svg { width: 13px; height: 13px; color: var(--ink-3); }
+.stat-value { font-weight: 700; color: var(--ink); }
+.cat-nav-list { list-style: none; }
+.cat-nav-item button {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 9px 16px;
+  background: none; border: none; text-align: left;
+  color: var(--ink-2); font-size: 13px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  transition: background .15s, color .15s;
+  cursor: pointer;
+}
+.cat-nav-item button:hover { background: var(--paper); color: var(--ink); }
+.cat-nav-item button.active { background: var(--accent-2); color: var(--accent); font-weight: 600; }
+.cat-nav-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.cat-nav-name { flex: 1; }
+.cat-nav-count {
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  background: var(--paper-2); border-radius: 10px;
+  padding: 1px 7px; min-width: 22px; text-align: center;
+}
+.cat-nav-item button.active .cat-nav-count {
+  background: var(--accent-2); color: var(--accent);
+}
+
+/* ─── FORUM MAIN ──────────────────────────────── */
+.forum-main { min-width: 0; }
+
+/* ─── FORUM HEADER ────────────────────────────── */
+.forum-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.forum-title {
+  font-family: 'Lora', serif; font-size: 22px; font-weight: 600;
+  color: var(--ink); flex: 1; min-width: 140px;
+}
+.new-topic-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 9px;
+  background: var(--accent); border: none; color: white;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s; white-space: nowrap; flex-shrink: 0;
+}
+.new-topic-btn:hover {
+  background: var(--accent-dark); transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(8,145,178,.35);
+}
+.new-topic-btn svg { width: 14px; height: 14px; }
+
+/* ─── FILTER BAR ──────────────────────────────── */
+.filter-bar {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative; flex: 1; min-width: 150px; max-width: 260px;
+}
+.search-wrap svg {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-3); pointer-events: none; width: 14px; height: 14px;
+}
+.search-input {
+  width: 100%; padding: 7px 12px 7px 30px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); background: var(--white); outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--ink-3); }
+.sort-select {
+  padding: 7px 28px 7px 10px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--white);
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink-2); outline: none; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238888a8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  transition: border-color .15s;
+}
+.sort-select:focus { border-color: var(--accent); }
+.topic-count { font-size: 12px; color: var(--ink-3); font-weight: 500; margin-left: auto; white-space: nowrap; }
+
+/* ─── TOPIC LIST ──────────────────────────────── */
+.topic-list { display: flex; flex-direction: column; gap: 6px; }
+.empty-state {
+  text-align: center; padding: 56px 20px; color: var(--ink-3);
+  background: var(--white); border-radius: 12px;
+  border: 1px solid var(--border); font-size: 14px;
+}
+.empty-icon { font-size: 36px; margin-bottom: 10px; }
+
+/* ─── TOPIC ROW ───────────────────────────────── */
+.topic-row {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: 10px; padding: 13px 15px; cursor: pointer;
+  transition: box-shadow .18s, transform .15s;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.topic-row:hover { box-shadow: var(--shadow); transform: translateX(2px); }
+.topic-row.pinned { background: #fffcf0; }
+
+/* Category border colours */
+.topic-row[data-cat="general"]   { border-left-color: #0891b2; }
+.topic-row[data-cat="academic"]  { border-left-color: #7c3aed; }
+.topic-row[data-cat="resources"] { border-left-color: #16a34a; }
+.topic-row[data-cat="events"]    { border-left-color: #ea580c; }
+.topic-row[data-cat="technical"] { border-left-color: #475569; }
+
+.topic-row-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; background: var(--paper-2);
+}
+.topic-row-body { flex: 1; min-width: 0; }
+.topic-row-title-line {
+  display: flex; align-items: center; gap: 7px;
+  margin-bottom: 5px; flex-wrap: wrap;
+}
+.pinned-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: #92400e;
+  background: #fef3c7; border: 1px solid #fde68a;
+  padding: 1px 6px; border-radius: 5px; flex-shrink: 0;
+}
+.topic-row-title {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; flex: 1; min-width: 0;
+}
+.topic-row-meta {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--ink-3); flex-wrap: wrap;
+}
+.meta-sep { opacity: 0.4; }
+.topic-row-right {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 5px; flex-shrink: 0;
+}
+.replies-badge {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11.5px; font-weight: 600;
+  background: var(--paper-2); border: 1px solid var(--border);
+  color: var(--ink-2); padding: 3px 9px; border-radius: 10px;
+  white-space: nowrap;
+}
+.replies-badge svg { width: 11px; height: 11px; }
+.last-reply-meta { font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+
+/* Category badges */
+.cat-badge {
+  display: inline-flex; align-items: center;
+  font-size: 10.5px; font-weight: 700; padding: 2px 8px;
+  border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.cat-general   { background: #e0f2fe; color: #0891b2; border: 1px solid #bae6fd; }
+.cat-academic  { background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; }
+.cat-resources { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.cat-events    { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+.cat-technical { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+/* ─── TOPIC DETAIL ────────────────────────────── */
+.thread-breadcrumb {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; color: var(--ink-3); margin-bottom: 20px; flex-wrap: wrap;
+}
+.thread-breadcrumb button {
+  color: var(--accent); background: none; border: none;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; padding: 0; transition: opacity .15s;
+}
+.thread-breadcrumb button:hover { opacity: .7; }
+.thread-breadcrumb svg { width: 12px; height: 12px; flex-shrink: 0; color: var(--ink-3); }
+.thread-breadcrumb span { color: var(--ink-2); font-weight: 500; }
+
+.thread-post {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.thread-post-top {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.thread-post-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.thread-post-title {
+  font-family: 'Lora', serif; font-size: 21px; font-weight: 600;
+  color: var(--ink); line-height: 1.35; flex: 1;
+}
+.thread-post-body {
+  font-size: 14.5px; line-height: 1.85; color: var(--ink-2);
+  white-space: pre-wrap; word-break: break-word;
+}
+.thread-post-meta {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 12px; color: var(--ink-3);
+  margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.author-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.author-avatar {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
+}
+.author-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.edited-badge {
+  background: var(--paper-2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 1px 7px; font-size: 11px; color: var(--ink-3);
+}
+.post-action-row { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+.action-btn {
+  padding: 5px 11px; border-radius: 7px; border: 1px solid;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .18s;
+  display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+}
+.action-btn svg { width: 12px; height: 12px; }
+.edit-btn { background: var(--paper-2); border-color: var(--border); color: var(--ink-2); }
+.edit-btn:hover { background: var(--border); color: var(--ink); }
+.delete-btn { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+.delete-btn:hover { background: #fee2e2; border-color: #fca5a5; }
+.pin-btn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.pin-btn:hover { background: #fef3c7; border-color: #fcd34d; }
+.pin-btn.pinned-active { background: #fef3c7; border-color: #fcd34d; color: #78350f; }
+
+/* ─── INLINE EDIT ─────────────────────────────── */
+.inline-edit-form { display: flex; flex-direction: column; gap: 10px; }
+.inline-input, .inline-textarea {
+  width: 100%; background: var(--paper);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--ink); font-family: 'DM Sans', sans-serif;
+  padding: 10px 14px; outline: none; resize: vertical;
+  transition: border-color .2s;
+}
+.inline-input { font-size: 14px; font-weight: 600; resize: none; }
+.inline-textarea { font-size: 13.5px; line-height: 1.7; min-height: 110px; }
+.inline-input:focus, .inline-textarea:focus { border-color: var(--accent); }
+.inline-edit-actions { display: flex; gap: 8px; }
+.save-btn {
+  padding: 7px 18px; background: var(--accent); color: white;
+  border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .18s;
+}
+.save-btn:hover { background: var(--accent-dark); }
+.save-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cancel-btn {
+  padding: 7px 14px; background: var(--paper-2); color: var(--ink-2);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  cursor: pointer; transition: all .18s;
+}
+.cancel-btn:hover { background: var(--border); color: var(--ink); }
+
+/* ─── REPLIES SECTION ─────────────────────────── */
+.replies-section-header {
+  font-size: 13px; font-weight: 700; color: var(--ink-2);
+  margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.replies-count-badge {
+  background: var(--paper-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1px 8px;
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+}
+.reply-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.reply-item {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.reply-item-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
+}
+.reply-author-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.reply-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
+}
+.reply-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.reply-author-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.reply-time { font-size: 11.5px; color: var(--ink-3); }
+.reply-actions { display: flex; gap: 5px; }
+.reply-body {
+  font-size: 13.5px; line-height: 1.75; color: var(--ink-2);
+  white-space: pre-wrap; word-break: break-word;
+}
+.reply-edited { font-size: 11px; color: var(--ink-3); margin-top: 6px; }
+
+/* ─── REPLY FORM ──────────────────────────────── */
+.reply-form-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm);
+}
+.reply-form-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 10px;
+}
+.reply-textarea {
+  width: 100%; background: var(--paper);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--ink); font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px; padding: 12px 14px; outline: none;
+  resize: vertical; min-height: 90px; line-height: 1.65;
+  transition: border-color .2s;
+}
+.reply-textarea::placeholder { color: var(--ink-3); }
+.reply-textarea:focus { border-color: var(--accent); }
+.reply-form-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
+.reply-send-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 20px; background: var(--accent); color: white; border: none;
+  border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .18s;
+}
+.reply-send-btn:hover {
+  background: var(--accent-dark); transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(8,145,178,.3);
+}
+.reply-send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.reply-send-btn svg { width: 14px; height: 14px; }
+
+/* ─── NEW TOPIC MODAL ─────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(28,28,46,0.55); backdrop-filter: blur(4px);
+  z-index: 10000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+.modal-card {
+  width: 100%; max-width: 560px; margin: 20px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px; box-shadow: var(--shadow-lg);
+  transform: translateY(16px) scale(0.98);
+  transition: transform .3s cubic-bezier(.34,1.2,.64,1);
+}
+.modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px;
+}
+.modal-title { font-size: 17px; font-weight: 700; color: var(--ink); }
+.modal-close-btn {
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  background: var(--paper-2); border: 1px solid var(--border); border-radius: 50%;
+  color: var(--ink-3); cursor: pointer; font-size: 18px; line-height: 1;
+  transition: all .18s;
+}
+.modal-close-btn:hover { background: var(--border); color: var(--ink); }
+.modal-field { margin-bottom: 16px; }
+.modal-label {
+  display: block; font-size: 11.5px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 7px;
+}
+.modal-input, .modal-textarea, .modal-select {
+  width: 100%; background: var(--paper);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--ink); font-family: 'DM Sans', sans-serif;
+  padding: 10px 14px; outline: none; transition: border-color .2s; font-size: 14px;
+}
+.modal-textarea { min-height: 130px; resize: vertical; line-height: 1.7; }
+.modal-input::placeholder, .modal-textarea::placeholder { color: var(--ink-3); }
+.modal-input:focus, .modal-textarea:focus, .modal-select:focus { border-color: var(--accent); }
+.modal-submit-btn {
+  width: 100%; padding: 12px;
+  background: var(--accent); color: white; border: none; border-radius: 9px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.modal-submit-btn:hover {
+  background: var(--accent-dark); transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(8,145,178,.3);
+}
+.modal-submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.modal-status { margin-top: 10px; font-size: 12.5px; text-align: center; min-height: 18px; }
+.modal-status.error { color: #dc2626; }
+
+/* ─── SPINNER ─────────────────────────────────── */
+.btn-spinner {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+  border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle;
+}
+
+/* ─── FAB ─────────────────────────────────────── */
+.fab-container {
+  position: fixed; bottom: 24px; right: 24px;
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 10px; z-index: 999;
+}
+.fab-items { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.fab-item {
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(12px) scale(0.85);
+  transition: opacity .22s cubic-bezier(.16,1,.3,1), transform .22s cubic-bezier(.16,1,.3,1);
+}
+.fab-item:nth-child(2) { transition-delay: .04s; }
+.fab-container.open .fab-item { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+.fab-container.open .fab-item:nth-child(1) { transition-delay: .04s; }
+.fab-label {
+  background: rgba(28,28,46,.92); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.9); font-size: 12px; font-weight: 600;
+  padding: 5px 11px; border-radius: 8px; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif; backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3); pointer-events: none;
+}
+.fab-action-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(28,28,46,.92);
+  color: rgba(255,255,255,.82); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; text-decoration: none;
+  transition: all .22s cubic-bezier(.16,1,.3,1);
+  backdrop-filter: blur(12px); box-shadow: 0 4px 16px rgba(0,0,0,.3); flex-shrink: 0;
+}
+.fab-action-btn:hover { transform: scale(1.1); }
+.fab-home:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 22px rgba(8,145,178,.5); color: #fff; }
+.fab-feedback-btn:hover { background: #6c5ce7; border-color: #6c5ce7; box-shadow: 0 6px 22px rgba(108,92,231,.5); color: #fff; }
+.fab-main {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(28,28,46,.92); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.88); display: flex; align-items: center; justify-content: center;
+  position: relative; cursor: pointer;
+  transition: all .28s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 4px 24px rgba(0,0,0,.3); backdrop-filter: blur(12px);
+}
+.fab-main:hover { transform: scale(1.07); box-shadow: 0 8px 32px rgba(8,145,178,.4); }
+.fab-container.open .fab-main { background: var(--accent); border-color: transparent; box-shadow: 0 6px 32px rgba(8,145,178,.5); }
+.fab-ic { position: absolute; transition: opacity .22s, transform .28s cubic-bezier(.16,1,.3,1); }
+.fab-ic-open  { opacity: 1; transform: rotate(0deg) scale(1); }
+.fab-ic-close { opacity: 0; transform: rotate(-45deg) scale(.7); }
+.fab-container.open .fab-ic-open  { opacity: 0; transform: rotate(45deg) scale(.7); }
+.fab-container.open .fab-ic-close { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* ─── FEEDBACK MODAL ──────────────────────────── */
+.feedback-overlay {
+  position: fixed; inset: 0; background: rgba(28,28,46,.55);
+  backdrop-filter: blur(4px); z-index: 2000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.feedback-overlay.open { display: flex; }
+.feedback-modal {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 460px;
+  padding: 24px; box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.feedback-modal-header { display: flex; align-items: center; justify-content: space-between; }
+.feedback-modal-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+.feedback-close-btn {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--paper-2); border: 1px solid var(--border);
+  color: var(--ink-3); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all .18s;
+}
+.feedback-close-btn:hover { background: var(--border); color: var(--ink); }
+.feedback-field { display: flex; flex-direction: column; gap: 5px; }
+.feedback-label {
+  font-size: 11.5px; font-weight: 600; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.feedback-select, .feedback-textarea {
+  width: 100%; padding: 9px 12px;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--ink); font-size: 13px;
+  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .18s;
+}
+.feedback-select:focus, .feedback-textarea:focus { border-color: var(--accent); }
+.feedback-textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+.feedback-textarea::placeholder { color: var(--ink-3); }
+.feedback-submit-btn {
+  width: 100%; padding: 10px; border-radius: 8px; border: none;
+  background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .18s;
+}
+.feedback-submit-btn:hover { background: var(--accent-dark); }
+.feedback-submit-btn:disabled { opacity: .5; cursor: default; }
+.feedback-status { font-size: 12px; text-align: center; display: none; }
+.feedback-status.ok  { color: #16a34a; display: block; }
+.feedback-status.err { color: #dc2626; display: block; }
+
+/* ─── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 900px) {
+  .forum-wrap { grid-template-columns: 1fr; gap: 16px; }
+  .forum-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+  .forum-sidebar .sidebar-card { flex: 1; min-width: 180px; }
+}
+@media (max-width: 600px) {
+  .forum-wrap { padding: 14px 12px 80px; }
+  .forum-sidebar { flex-direction: column; }
+  .thread-post-header { flex-direction: column; }
+  .post-action-row { align-self: flex-start; }
+  .topic-row-right { display: none; }
+  .filter-bar { gap: 8px; }
+  .search-wrap { max-width: 100%; }
+}
+</style>
+<script>
+  window.ENV = {
+    FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
+  };
+</script>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Loading…</p>
+</div>
+
+<!-- Login Screen -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon">🎓</div>
+    <h2>Eduversal Indonesia</h2>
+    <p>Sign in to access the Message Board</p>
+    <button id="googleLoginBtn" class="login-google">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Sign in with Google
     </button>
+    <div class="login-or">or</div>
+    <form id="loginForm" class="login-email">
+      <input id="emailInput" type="email" placeholder="Email address" required>
+      <input id="passwordInput" type="password" placeholder="Password" required>
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="login-error" id="errorMsg"></div>
+  </div>
+</div>
+
+<!-- Legacy logout button (hidden, kept for JS compatibility) -->
+<button id="logoutBtn" style="display:none;"></button>
+
+<!-- Main Content -->
+<div id="mainContent">
+
+  <!-- Top Nav -->
+  <nav class="top-nav" id="topNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+        </svg>
+      </div>
+      <span class="nav-brand-name">Eduversal Indonesia</span>
+    </a>
+
+    <div class="nav-page-title">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+      Message Board
+    </div>
+
+    <div class="nav-actions">
+      <a href="announcements.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
+        </svg>
+        <span>Announcements</span>
+      </a>
+      <a href="messageboard.html" class="nav-btn active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        <span>Message Board</span>
+      </a>
+      <a href="library.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        </svg>
+        <span>Library</span>
+      </a>
+      <a href="documents.html" class="nav-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span>Documents</span>
+      </a>
+
+      <div class="profile-wrap" id="profileWrap" style="display:none;">
+        <button class="profile-btn" id="profileBtn">
+          <div class="profile-avatar" id="navAvatar"></div>
+          <span class="profile-first-name" id="navFirstName"></span>
+          <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="dd-header">
+            <div class="dd-avatar" id="ddAvatar"></div>
+            <div style="min-width:0;">
+              <div class="dd-name" id="ddFullName"></div>
+              <div class="dd-email" id="ddEmail"></div>
+            </div>
+          </div>
+          <button class="dd-signout-btn" id="ddSignOut">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Forum Layout -->
+  <div class="forum-wrap">
+
+    <!-- Sidebar -->
+    <aside class="forum-sidebar">
+
+      <!-- Stats Card -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Forum Stats</div>
+        <div class="stats-list">
+          <div class="stat-item">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Topics
+            </span>
+            <span class="stat-value" id="statTopics">—</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+              Replies
+            </span>
+            <span class="stat-value" id="statReplies">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Card -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Categories</div>
+        <ul class="cat-nav-list" id="categoryNav">
+          <li class="cat-nav-item">
+            <button class="active" data-cat="all" onclick="window.__mb_setCategory('all')">
+              <span class="cat-nav-dot" style="background:#8888a8"></span>
+              <span class="cat-nav-name">All Topics</span>
+              <span class="cat-nav-count" id="catCount-all">0</span>
+            </button>
+          </li>
+          <li class="cat-nav-item">
+            <button data-cat="general" onclick="window.__mb_setCategory('general')">
+              <span class="cat-nav-dot" style="background:#0891b2"></span>
+              <span class="cat-nav-name">General</span>
+              <span class="cat-nav-count" id="catCount-general">0</span>
+            </button>
+          </li>
+          <li class="cat-nav-item">
+            <button data-cat="academic" onclick="window.__mb_setCategory('academic')">
+              <span class="cat-nav-dot" style="background:#7c3aed"></span>
+              <span class="cat-nav-name">Academic</span>
+              <span class="cat-nav-count" id="catCount-academic">0</span>
+            </button>
+          </li>
+          <li class="cat-nav-item">
+            <button data-cat="resources" onclick="window.__mb_setCategory('resources')">
+              <span class="cat-nav-dot" style="background:#16a34a"></span>
+              <span class="cat-nav-name">Resources</span>
+              <span class="cat-nav-count" id="catCount-resources">0</span>
+            </button>
+          </li>
+          <li class="cat-nav-item">
+            <button data-cat="events" onclick="window.__mb_setCategory('events')">
+              <span class="cat-nav-dot" style="background:#ea580c"></span>
+              <span class="cat-nav-name">Events</span>
+              <span class="cat-nav-count" id="catCount-events">0</span>
+            </button>
+          </li>
+          <li class="cat-nav-item">
+            <button data-cat="technical" onclick="window.__mb_setCategory('technical')">
+              <span class="cat-nav-dot" style="background:#475569"></span>
+              <span class="cat-nav-name">Technical</span>
+              <span class="cat-nav-count" id="catCount-technical">0</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
 
     <!-- Main Content -->
-    <div id="mainContent" style="display: none;">
-      <!-- Animated Background -->
-      <div class="bg-container">
-        <div class="bg-gradient"></div>
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="grid-overlay"></div>
-      </div>
+    <main class="forum-main">
 
-      <!-- Top Nav -->
-      <nav class="top-nav" id="topNav">
-        <a href="index.html" class="nav-brand">
-          <div class="nav-brand-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+      <!-- Topic List View -->
+      <div id="topicListView">
+
+        <div class="forum-header">
+          <h1 class="forum-title">Discussions</h1>
+          <button class="new-topic-btn" id="newTopicBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-          </div>
-          <span class="nav-brand-name">Eduversal Indonesia</span>
-        </a>
-
-        <div class="nav-actions">
-          <a href="announcements.html" class="nav-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
-            </svg>
-            <span>Announcements</span>
-          </a>
-          <a href="messageboard.html" class="nav-btn active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-            </svg>
-            <span>Message Board</span>
-          </a>
-          <a href="library.html" class="nav-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
-            </svg>
-            <span>Library</span>
-          </a>
-          <a href="documents.html" class="nav-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-            </svg>
-            <span>Documents</span>
-          </a>
-
-          <div class="profile-wrap" id="profileWrap" style="display:none;">
-            <button class="profile-btn" id="profileBtn">
-              <div class="profile-avatar" id="navAvatar"></div>
-              <span class="profile-first-name" id="navFirstName"></span>
-              <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-            <div class="profile-dropdown" id="profileDropdown">
-              <div class="dd-header">
-                <div class="dd-avatar" id="ddAvatar"></div>
-                <div style="min-width:0;">
-                  <div class="dd-name" id="ddFullName"></div>
-                  <div class="dd-email" id="ddEmail"></div>
-                </div>
-              </div>
-              <button class="dd-signout-btn" id="ddSignOut">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Forum -->
-      <div class="mb-main">
-        <div class="mb-page">
-
-          <!-- Topic List View -->
-          <div id="topicListView">
-            <div class="view-header">
-              <h2 class="view-title">Topics</h2>
-              <button class="new-topic-btn" id="newTopicBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19"/>
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                New Topic
-              </button>
-            </div>
-            <div id="topicList" class="topic-list">
-              <div class="empty-state">Loading topics…</div>
-            </div>
-          </div>
-
-          <!-- Topic Detail View -->
-          <div id="topicDetailView" style="display: none;">
-            <button class="back-btn" id="backToListBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"/>
-              </svg>
-              All Topics
-            </button>
-            <div id="topicPost"></div>
-            <div id="repliesArea"></div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- New Topic Modal -->
-    <div class="modal-overlay" id="newTopicModal">
-      <div class="modal-card">
-        <div class="modal-header">
-          <span class="modal-title">New Topic</span>
-          <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
-        </div>
-        <form id="newTopicForm" novalidate>
-          <div class="modal-field">
-            <label class="modal-label" for="topicTitle">Title</label>
-            <input class="modal-input" id="topicTitle" type="text" placeholder="What do you want to discuss?" required />
-          </div>
-          <div class="modal-field">
-            <label class="modal-label" for="topicBody">Message</label>
-            <textarea class="modal-textarea" id="topicBody" placeholder="Share your thoughts, questions, or resources…" required></textarea>
-          </div>
-          <button type="submit" class="modal-submit-btn" id="topicSubmitBtn">Post Topic</button>
-          <div class="modal-status" id="topicStatus"></div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Login Particles -->
-    <script>
-      (function () {
-        const container = document.getElementById("loginParticles");
-        if (!container) return;
-        for (let i = 0; i < 30; i++) {
-          const p = document.createElement("div");
-          p.className = "login-particle";
-          p.style.left = Math.random() * 100 + "%";
-          p.style.animationDuration = (6 + Math.random() * 10) + "s";
-          p.style.animationDelay = (Math.random() * 10) + "s";
-          const size = (2 + Math.random() * 3) + "px";
-          p.style.width = size;
-          p.style.height = size;
-          p.style.opacity = (0.2 + Math.random() * 0.5).toString();
-          container.appendChild(p);
-        }
-      })();
-    </script>
-
-    <!-- Firebase Module Script -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getAuth,
-        signInWithPopup,
-        signInWithEmailAndPassword,
-        GoogleAuthProvider,
-        onAuthStateChanged,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-      import {
-        getFirestore,
-        collection,
-        doc,
-        addDoc,
-        updateDoc,
-        deleteDoc,
-        getDoc,
-        setDoc,
-        onSnapshot,
-        query,
-        orderBy,
-        serverTimestamp,
-        increment,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-      /*
-       * ── FIRESTORE SECURITY RULES (add in Firebase Console) ──────────
-       *
-       * rules_version = '2';
-       * service cloud.firestore {
-       *   match /databases/{database}/documents {
-       *     match /topics/{topicId} {
-       *       allow read: if request.auth != null;
-       *       allow create: if request.auth != null
-       *                     && request.resource.data.uid == request.auth.uid;
-       *       allow update, delete: if request.auth != null
-       *                     && (resource.data.uid == request.auth.uid
-       *                         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "moderator");
-       *       match /replies/{replyId} {
-       *         allow read: if request.auth != null;
-       *         allow create: if request.auth != null
-       *                       && request.resource.data.uid == request.auth.uid;
-       *         allow update, delete: if request.auth != null
-       *                       && (resource.data.uid == request.auth.uid
-       *                           || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "moderator");
-       *       }
-       *     }
-       *   }
-       * }
-       */
-
-      // ── Firebase Init ────────────────────────────────────────────────
-      const firebaseConfig = {
-        apiKey: window.ENV.FIREBASE_API_KEY,
-        authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
-        projectId: window.ENV.FIREBASE_PROJECT_ID,
-        storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-        appId: window.ENV.FIREBASE_APP_ID,
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
-      const provider = new GoogleAuthProvider();
-
-      // ── App State ────────────────────────────────────────────────────
-      let currentUser = null;
-      let currentUserRole = null;
-      let currentTopicId = null;
-      let currentTopicData = null;
-      let unsubTopics = null;
-      let unsubReplies = null;
-      let cachedReplyDocs = [];
-      // editingTarget: null | { type: 'topic' } | { type: 'reply', replyId: string }
-      let editingTarget = null;
-
-      const allowedDomains = [
-        "scr.sch.id", "eibos.sch.id", "fatih.sch.id", "gcb.sch.id",
-        "kesatuanbangsa.sch.id", "kbs.sch.id", "mega.sch.id",
-        "pakarbelia.sch.id", "prestigeschool.sch.id", "pribadibandung.sch.id",
-        "pribadidepok.sch.id", "pribadipremiere.sch.id", "semesta.sch.id",
-        "tnafatih.sch.id", "eduversal.org",
-      ];
-
-      // ── Utility Functions ────────────────────────────────────────────
-      function escHtml(str) {
-        if (!str) return "";
-        return String(str)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
-
-      function formatDate(ts) {
-        if (!ts) return "just now";
-        const date = ts.toDate ? ts.toDate() : new Date(ts);
-        const diff = (Date.now() - date.getTime()) / 1000;
-        if (diff < 60) return "just now";
-        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
-        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
-        if (diff < 604800) return Math.floor(diff / 86400) + "d ago";
-        return new Intl.DateTimeFormat("en-US", {
-          month: "short", day: "numeric", year: "numeric",
-        }).format(date);
-      }
-
-      let currentUserDisplayName = null;
-
-      function getDisplayName(user) {
-        return currentUserDisplayName || user.displayName || user.email.split("@")[0];
-      }
-
-      // ── Navbar helpers ───────────────────────────────────────────────
-      const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
-      function avatarColor(str) {
-        let h = 0;
-        for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
-        return PALETTE[Math.abs(h) % PALETTE.length];
-      }
-      function getInitials(name) {
-        return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
-      }
-      function fillNavAvatar(el, user, name) {
-        if (user.photoURL) {
-          el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
-          el.style.background = 'transparent';
-        } else {
-          el.style.background = avatarColor(name);
-          el.textContent = getInitials(name);
-        }
-      }
-      function populateNav(user, firestoreName) {
-        const name = firestoreName || user.displayName || user.email.split('@')[0];
-        const firstName = name.split(' ')[0];
-        fillNavAvatar(document.getElementById('navAvatar'), user, name);
-        document.getElementById('navFirstName').textContent = firstName;
-        fillNavAvatar(document.getElementById('ddAvatar'), user, name);
-        document.getElementById('ddFullName').textContent = name;
-        document.getElementById('ddEmail').textContent = user.email;
-        document.getElementById('profileWrap').style.display = 'flex';
-      }
-
-      document.getElementById('profileBtn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('profileWrap').classList.toggle('open');
-      });
-      document.addEventListener('click', () => {
-        document.getElementById('profileWrap').classList.remove('open');
-      });
-      document.getElementById('ddSignOut').addEventListener('click', () => signOut(auth));
-
-      window.addEventListener('scroll', () => {
-        document.getElementById('topNav').classList.toggle('scrolled', window.scrollY > 10);
-      }, { passive: true });
-
-      function canModify(uid) {
-        return currentUser && (currentUser.uid === uid || currentUserRole === "moderator");
-      }
-
-      // SVG snippets
-      const EDIT_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
-      const DELETE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
-      const SEND_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
-
-      // ── Auth Error Display ───────────────────────────────────────────
-      function showError(msg) {
-        const el = document.getElementById("errorMsg");
-        el.textContent = msg;
-        el.style.display = "block";
-        setTimeout(() => (el.style.display = "none"), 4000);
-      }
-
-      // ── Auth State ───────────────────────────────────────────────────
-      onAuthStateChanged(auth, async (user) => {
-        document.getElementById("loadingScreen").style.display = "none";
-
-        if (user) {
-          const domain = user.email.split("@")[1];
-          const isPasswordUser = user.providerData.some(
-            (p) => p.providerId === "password"
-          );
-          if (!allowedDomains.includes(domain) && !isPasswordUser) {
-            await signOut(auth);
-            showError("Access denied. Only authorized school emails are allowed.");
-            return;
-          }
-
-          currentUser = user;
-
-          // Load role and display name from users/{uid}
-          try {
-            const userSnap = await getDoc(doc(db, "users", user.uid));
-            if (userSnap.exists()) {
-              currentUserRole = userSnap.data().role || null;
-              currentUserDisplayName = userSnap.data().displayName || null;
-            } else {
-              currentUserRole = null;
-              currentUserDisplayName = null;
-            }
-          } catch {
-            currentUserRole = null;
-            currentUserDisplayName = null;
-          }
-
-          populateNav(user, currentUserDisplayName);
-          document.getElementById("loginScreen").classList.remove("visible");
-          document.getElementById("mainContent").style.display = "block";
-          document.getElementById("logoutBtn").style.display = "block";
-
-          // Mark messageboard as read (clears badge on index.html)
-          setDoc(doc(db, 'users', user.uid), { lastReadMessageboard: serverTimestamp() }, { merge: true }).catch(() => {});
-
-          initForum();
-        } else {
-          currentUser = null;
-          currentUserRole = null;
-          currentUserDisplayName = null;
-          if (unsubTopics) { unsubTopics(); unsubTopics = null; }
-          if (unsubReplies) { unsubReplies(); unsubReplies = null; }
-          document.getElementById("loginScreen").classList.add("visible");
-          document.getElementById("mainContent").style.display = "none";
-          document.getElementById("logoutBtn").style.display = "none";
-          document.getElementById("profileWrap").style.display = "none";
-        }
-      });
-
-      document.getElementById("googleLoginBtn").addEventListener("click", () => {
-        signInWithPopup(auth, provider)
-          .then((result) => {
-            const domain = result.user.email.split("@")[1];
-            if (!allowedDomains.includes(domain)) {
-              signOut(auth);
-              showError("Access denied. Only authorized school emails are allowed.");
-            }
-          })
-          .catch((err) => showError(err.message));
-      });
-
-      document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("emailInput").value.trim();
-        const password = document.getElementById("passwordInput").value;
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-        } catch {
-          showError("Invalid email or password");
-        }
-      });
-
-      document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
-
-      // ── Forum Init ───────────────────────────────────────────────────
-      function initForum() {
-        showTopicList();
-      }
-
-      // ── View: Topic List ─────────────────────────────────────────────
-      function showTopicList() {
-        editingTarget = null;
-        currentTopicId = null;
-        currentTopicData = null;
-        cachedReplyDocs = [];
-
-        if (unsubReplies) { unsubReplies(); unsubReplies = null; }
-
-        document.getElementById("topicListView").style.display = "block";
-        document.getElementById("topicDetailView").style.display = "none";
-
-        // Set up real-time listener once
-        if (!unsubTopics) {
-          const q = query(collection(db, "topics"), orderBy("timestamp", "desc"));
-          unsubTopics = onSnapshot(q, (snap) => renderTopicList(snap.docs));
-        }
-      }
-
-      function renderTopicList(docs) {
-        const container = document.getElementById("topicList");
-        if (!docs.length) {
-          container.innerHTML = '<div class="empty-state">No topics yet. Be the first to post!</div>';
-          return;
-        }
-        container.innerHTML = docs
-          .map((d) => {
-            const data = d.data();
-            const cnt = data.replyCount || 0;
-            return `
-              <div class="topic-card" onclick="window.__mb_openTopic('${d.id}')">
-                <div class="topic-card-title">${escHtml(data.title)}</div>
-                <div class="topic-card-meta">
-                  <span>${escHtml(data.displayName)}</span>
-                  <span class="topic-sep">·</span>
-                  <span>${formatDate(data.timestamp)}</span>
-                  <span class="topic-replies-badge">${cnt} ${cnt === 1 ? "reply" : "replies"}</span>
-                </div>
-              </div>`;
-          })
-          .join("");
-      }
-
-      // ── View: Topic Detail ───────────────────────────────────────────
-      async function openTopic(topicId) {
-        // Tear down topics listener; keep topic list hidden during transition
-        if (unsubTopics) { unsubTopics(); unsubTopics = null; }
-        if (unsubReplies) { unsubReplies(); unsubReplies = null; }
-
-        editingTarget = null;
-        cachedReplyDocs = [];
-        currentTopicId = topicId;
-
-        document.getElementById("topicListView").style.display = "none";
-        document.getElementById("topicDetailView").style.display = "block";
-        document.getElementById("topicPost").innerHTML =
-          '<div class="empty-state">Loading…</div>';
-        document.getElementById("repliesArea").innerHTML = "";
-
-        const topicSnap = await getDoc(doc(db, "topics", topicId));
-        if (!topicSnap.exists()) {
-          showTopicList();
-          return;
-        }
-        currentTopicData = { id: topicId, ...topicSnap.data() };
-        renderTopicPost();
-
-        // Real-time replies listener
-        const rQ = query(
-          collection(db, "topics", topicId, "replies"),
-          orderBy("timestamp", "asc")
-        );
-        unsubReplies = onSnapshot(rQ, (snap) => {
-          cachedReplyDocs = snap.docs;
-          if (editingTarget && editingTarget.type === "reply") return; // preserve inline edit
-          renderReplies(snap.docs);
-        });
-      }
-
-      // ── Render: Topic Post ───────────────────────────────────────────
-      function renderTopicPost() {
-        const el = document.getElementById("topicPost");
-        if (!el || !currentTopicData) return;
-        const d = currentTopicData;
-        const canEdit = canModify(d.uid);
-        const editedBadge = d.editedAt
-          ? `<span class="edited-badge">(edited) ${formatDate(d.editedAt)}</span>`
-          : "";
-
-        if (editingTarget && editingTarget.type === "topic") {
-          el.innerHTML = `
-            <div class="topic-post">
-              <div class="inline-edit-form">
-                <input
-                  class="inline-input"
-                  id="editTopicTitle"
-                  value="${escHtml(d.title)}"
-                  placeholder="Title"
-                />
-                <textarea
-                  class="inline-textarea"
-                  id="editTopicBody"
-                  placeholder="Body"
-                >${escHtml(d.body)}</textarea>
-                <div class="inline-edit-actions">
-                  <button class="save-btn" id="saveTopicEditBtn">Save</button>
-                  <button class="cancel-btn" id="cancelTopicEditBtn">Cancel</button>
-                </div>
-              </div>
-            </div>`;
-
-          document.getElementById("saveTopicEditBtn").addEventListener("click", saveTopicEdit);
-          document.getElementById("cancelTopicEditBtn").addEventListener("click", () => {
-            editingTarget = null;
-            renderTopicPost();
-          });
-        } else {
-          el.innerHTML = `
-            <div class="topic-post">
-              <div class="post-header">
-                <h2 class="post-title">${escHtml(d.title)}</h2>
-                ${canEdit
-                  ? `<div class="post-actions">
-                      <button class="action-btn edit-btn" id="editTopicBtn">${EDIT_ICON} Edit</button>
-                      <button class="action-btn delete-btn" id="deleteTopicBtn">${DELETE_ICON} Delete</button>
-                    </div>`
-                  : ""}
-              </div>
-              <div class="post-body">${escHtml(d.body)}</div>
-              <div class="post-meta">
-                <span>${escHtml(d.displayName)}</span>
-                <span class="topic-sep">·</span>
-                <span>${formatDate(d.timestamp)}</span>
-                ${editedBadge}
-              </div>
-            </div>`;
-
-          if (canEdit) {
-            document.getElementById("editTopicBtn").addEventListener("click", () => {
-              editingTarget = { type: "topic" };
-              renderTopicPost();
-            });
-            document.getElementById("deleteTopicBtn").addEventListener("click", deleteTopic);
-          }
-        }
-      }
-
-      // ── Render: Replies ──────────────────────────────────────────────
-      function renderReplies(docs) {
-        const area = document.getElementById("repliesArea");
-        if (!area) return;
-        cachedReplyDocs = docs;
-
-        const cnt = docs.length;
-        const repliesHtml = !cnt
-          ? '<div class="empty-state" style="padding: 32px 0;">No replies yet. Start the conversation!</div>'
-          : docs.map((d) => {
-              const data = d.data();
-              const canEdit = canModify(data.uid);
-              const editedBadge = data.editedAt
-                ? `<span class="edited-badge">(edited) ${formatDate(data.editedAt)}</span>`
-                : "";
-
-              if (editingTarget && editingTarget.type === "reply" && editingTarget.replyId === d.id) {
-                return `
-                  <div class="reply-item">
-                    <div class="inline-edit-form">
-                      <textarea
-                        class="inline-textarea"
-                        id="editReplyBody_${d.id}"
-                        placeholder="Reply"
-                      >${escHtml(data.body)}</textarea>
-                      <div class="inline-edit-actions">
-                        <button class="save-btn" data-replyid="${d.id}" data-action="saveReply">Save</button>
-                        <button class="cancel-btn" data-action="cancelReply">Cancel</button>
-                      </div>
-                    </div>
-                    <div class="reply-meta" style="margin-top: 10px;">
-                      <span>${escHtml(data.displayName)}</span>
-                      <span class="topic-sep">·</span>
-                      <span>${formatDate(data.timestamp)}</span>
-                      ${editedBadge}
-                    </div>
-                  </div>`;
-              }
-
-              return `
-                <div class="reply-item">
-                  <div class="reply-body">${escHtml(data.body)}</div>
-                  <div class="reply-meta">
-                    <span>${escHtml(data.displayName)}</span>
-                    <span class="topic-sep">·</span>
-                    <span>${formatDate(data.timestamp)}</span>
-                    ${editedBadge}
-                    ${canEdit
-                      ? `<div class="reply-actions">
-                          <button class="action-btn edit-btn" data-replyid="${d.id}" data-action="editReply">${EDIT_ICON} Edit</button>
-                          <button class="action-btn delete-btn" data-replyid="${d.id}" data-action="deleteReply">${DELETE_ICON} Delete</button>
-                        </div>`
-                      : ""}
-                  </div>
-                </div>`;
-            }).join("");
-
-        area.innerHTML = `
-          <div class="replies-section">
-            <div class="replies-header">${cnt} ${cnt === 1 ? "Reply" : "Replies"}</div>
-            <div class="reply-list">${repliesHtml}</div>
-          </div>
-          <div class="reply-form-section">
-            <div class="reply-form-label">Leave a Reply</div>
-            <textarea
-              class="reply-textarea"
-              id="replyTextarea"
-              placeholder="Write your reply…"
-            ></textarea>
-            <div class="reply-form-footer">
-              <button class="reply-send-btn" id="replySendBtn">
-                ${SEND_ICON} Send Reply
-              </button>
-            </div>
-          </div>`;
-
-        // Attach reply-area event listeners via delegation
-        area.addEventListener("click", handleReplyAreaClick, { once: true });
-        document.getElementById("replySendBtn").addEventListener("click", submitReply);
-      }
-
-      function handleReplyAreaClick(e) {
-        const btn = e.target.closest("[data-action]");
-        if (!btn) return;
-        const action = btn.dataset.action;
-        const replyId = btn.dataset.replyid;
-
-        if (action === "editReply") {
-          editingTarget = { type: "reply", replyId };
-          renderReplies(cachedReplyDocs);
-        } else if (action === "deleteReply") {
-          deleteReply(replyId);
-        } else if (action === "saveReply") {
-          saveReplyEdit(replyId);
-        } else if (action === "cancelReply") {
-          editingTarget = null;
-          renderReplies(cachedReplyDocs);
-        }
-      }
-
-      // ── Topic CRUD ───────────────────────────────────────────────────
-      async function saveTopicEdit() {
-        const titleEl = document.getElementById("editTopicTitle");
-        const bodyEl = document.getElementById("editTopicBody");
-        if (!titleEl || !bodyEl) return;
-
-        const title = titleEl.value.trim();
-        const body = bodyEl.value.trim();
-        if (!title || !body) return;
-
-        const saveBtn = document.getElementById("saveTopicEditBtn");
-        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Saving…"; }
-
-        try {
-          await updateDoc(doc(db, "topics", currentTopicId), {
-            title,
-            body,
-            editedAt: serverTimestamp(),
-          });
-          // Refetch to get server timestamp
-          const snap = await getDoc(doc(db, "topics", currentTopicId));
-          currentTopicData = { id: currentTopicId, ...snap.data() };
-          editingTarget = null;
-          renderTopicPost();
-        } catch (err) {
-          console.error("Topic edit error:", err);
-          if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "Save"; }
-        }
-      }
-
-      async function deleteTopic() {
-        if (!confirm("Delete this topic and all its replies? This cannot be undone.")) return;
-        try {
-          await deleteDoc(doc(db, "topics", currentTopicId));
-          showTopicList();
-        } catch (err) {
-          console.error("Topic delete error:", err);
-        }
-      }
-
-      // ── Reply CRUD ───────────────────────────────────────────────────
-      async function submitReply() {
-        const textarea = document.getElementById("replyTextarea");
-        if (!textarea) return;
-        const body = textarea.value.trim();
-        if (!body || !currentUser) return;
-
-        const btn = document.getElementById("replySendBtn");
-        btn.disabled = true;
-        btn.innerHTML = `<span class="btn-spinner"></span> Sending…`;
-
-        try {
-          await addDoc(collection(db, "topics", currentTopicId, "replies"), {
-            body,
-            uid: currentUser.uid,
-            displayName: getDisplayName(currentUser),
-            timestamp: serverTimestamp(),
-          });
-          await updateDoc(doc(db, "topics", currentTopicId), {
-            replyCount: increment(1),
-          });
-          textarea.value = "";
-        } catch (err) {
-          console.error("Reply submit error:", err);
-        } finally {
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = `${SEND_ICON} Send Reply`;
-          }
-        }
-      }
-
-      async function saveReplyEdit(replyId) {
-        const bodyEl = document.getElementById("editReplyBody_" + replyId);
-        if (!bodyEl) return;
-        const body = bodyEl.value.trim();
-        if (!body) return;
-
-        try {
-          await updateDoc(
-            doc(db, "topics", currentTopicId, "replies", replyId),
-            { body, editedAt: serverTimestamp() }
-          );
-          editingTarget = null;
-          // Snapshot listener will re-render with updated data
-        } catch (err) {
-          console.error("Reply edit error:", err);
-        }
-      }
-
-      async function deleteReply(replyId) {
-        if (!confirm("Delete this reply?")) return;
-        try {
-          await deleteDoc(doc(db, "topics", currentTopicId, "replies", replyId));
-          await updateDoc(doc(db, "topics", currentTopicId), {
-            replyCount: increment(-1),
-          });
-        } catch (err) {
-          console.error("Reply delete error:", err);
-        }
-      }
-
-      // ── New Topic Modal ──────────────────────────────────────────────
-      const modal = document.getElementById("newTopicModal");
-
-      function openModal() {
-        document.getElementById("newTopicForm").reset();
-        document.getElementById("topicStatus").textContent = "";
-        document.getElementById("topicStatus").className = "modal-status";
-        modal.classList.add("open");
-      }
-
-      function closeModal() {
-        modal.classList.remove("open");
-      }
-
-      document.getElementById("newTopicBtn").addEventListener("click", openModal);
-      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-      modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-
-      document.getElementById("newTopicForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!currentUser) return;
-
-        const title = document.getElementById("topicTitle").value.trim();
-        const body = document.getElementById("topicBody").value.trim();
-        if (!title || !body) return;
-
-        const btn = document.getElementById("topicSubmitBtn");
-        const statusEl = document.getElementById("topicStatus");
-        btn.disabled = true;
-        btn.textContent = "Posting…";
-        statusEl.className = "modal-status";
-        statusEl.textContent = "";
-
-        try {
-          const ref = await addDoc(collection(db, "topics"), {
-            title,
-            body,
-            uid: currentUser.uid,
-            displayName: getDisplayName(currentUser),
-            timestamp: serverTimestamp(),
-            replyCount: 0,
-          });
-          closeModal();
-          openTopic(ref.id);
-        } catch (err) {
-          console.error("Topic create error:", err);
-          statusEl.className = "modal-status error";
-          statusEl.textContent = "Failed to post. Please try again.";
-        } finally {
-          btn.disabled = false;
-          btn.textContent = "Post Topic";
-        }
-      });
-
-      // ── Back Button ──────────────────────────────────────────────────
-      document.getElementById("backToListBtn").addEventListener("click", showTopicList);
-
-      // ── Global bridge for inline onclick handlers ─────────────────────
-      window.__mb_openTopic = openTopic;
-
-      // ── Speed Dial FAB ────────────────────────────────────────────
-      (function(){
-        const c = document.getElementById('fabContainer');
-        const m = document.getElementById('fabMain');
-        if(!c||!m) return;
-        m.addEventListener('click', e => { e.stopPropagation(); c.classList.toggle('open'); });
-        document.addEventListener('click', e => { if(!c.contains(e.target)) c.classList.remove('open'); });
-      })();
-      // ── FAB Feedback ──────────────────────────────────────────────
-      const fabFbOverlay = document.getElementById('fabFeedbackOverlay');
-      document.getElementById('fabFeedbackBtn')?.addEventListener('click', () => {
-        document.getElementById('fabContainer').classList.remove('open');
-        fabFbOverlay.classList.add('open');
-      });
-      document.getElementById('fabFeedbackCloseBtn')?.addEventListener('click', closeFabFeedback);
-      fabFbOverlay?.addEventListener('click', e => { if(e.target===fabFbOverlay) closeFabFeedback(); });
-      function closeFabFeedback() {
-        fabFbOverlay?.classList.remove('open');
-        document.getElementById('fabFeedbackStatus').className = 'feedback-status';
-        document.getElementById('fabFeedbackMessage').value = '';
-        document.getElementById('fabFeedbackSubject').value = '';
-      }
-      document.getElementById('fabFeedbackSubmitBtn')?.addEventListener('click', async () => {
-        const subject = document.getElementById('fabFeedbackSubject').value;
-        const message = document.getElementById('fabFeedbackMessage').value.trim();
-        const statusEl = document.getElementById('fabFeedbackStatus');
-        const btn = document.getElementById('fabFeedbackSubmitBtn');
-        if(!subject||!message){
-          statusEl.textContent='Please fill in all fields.'; statusEl.className='feedback-status err'; return;
-        }
-        btn.disabled=true; btn.textContent='Sending…';
-        try {
-          await addDoc(collection(db,'feedbacks'),{
-            subject, message,
-            userId: currentUser?.uid||null,
-            userEmail: currentUser?.email||null,
-            timestamp: serverTimestamp(),
-          });
-          statusEl.textContent='Feedback sent — thank you!'; statusEl.className='feedback-status ok';
-          setTimeout(closeFabFeedback, 2000);
-        } catch {
-          statusEl.textContent='Failed to send. Please try again.'; statusEl.className='feedback-status err';
-        } finally { btn.disabled=false; btn.textContent='Send Feedback'; }
-      });
-    </script>
-
-    <!-- ══ SPEED DIAL FAB ══ -->
-    <div class="fab-container" id="fabContainer">
-      <div class="fab-items">
-        <div class="fab-item">
-          <span class="fab-label">Back to Hub</span>
-          <a href="index.html" class="fab-action-btn fab-home" title="Back to Hub" aria-label="Back to Hub">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </a>
-        </div>
-        <div class="fab-item">
-          <span class="fab-label">Feedback</span>
-          <button class="fab-action-btn fab-feedback-btn" id="fabFeedbackBtn" aria-label="Send Feedback">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-            </svg>
+            New Topic
           </button>
         </div>
+
+        <div class="filter-bar">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search topics…">
+          </div>
+          <select class="sort-select" id="sortSelect">
+            <option value="latest">Latest</option>
+            <option value="popular">Most Replies</option>
+            <option value="oldest">Oldest</option>
+          </select>
+          <span class="topic-count" id="topicCount"></span>
+        </div>
+
+        <div id="topicList" class="topic-list">
+          <div class="empty-state"><div class="empty-icon">💬</div>Loading topics…</div>
+        </div>
       </div>
-      <button class="fab-main" id="fabMain" aria-label="Quick actions">
-        <svg class="fab-ic fab-ic-open" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="5" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/>
+
+      <!-- Topic Detail View -->
+      <div id="topicDetailView" style="display: none;">
+        <div class="thread-breadcrumb" id="threadBreadcrumb">
+          <button id="backToListBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+          <span id="breadcrumbCat">Category</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+          <span id="breadcrumbTitle" style="max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+        </div>
+        <div id="topicPost"></div>
+        <div id="repliesArea"></div>
+      </div>
+
+    </main>
+  </div><!-- /.forum-wrap -->
+
+</div><!-- /#mainContent -->
+
+<!-- New Topic Modal -->
+<div class="modal-overlay" id="newTopicModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <span class="modal-title">Start a New Discussion</span>
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+    </div>
+    <form id="newTopicForm" novalidate>
+      <div class="modal-field">
+        <label class="modal-label" for="topicCategory">Category</label>
+        <select class="modal-select" id="topicCategory">
+          <option value="general">💬 General Discussion</option>
+          <option value="academic">📚 Academic &amp; Curriculum</option>
+          <option value="resources">📂 Resources &amp; Materials</option>
+          <option value="events">📅 Events &amp; Activities</option>
+          <option value="technical">⚙️ Technical Support</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="topicTitle">Title</label>
+        <input class="modal-input" id="topicTitle" type="text" placeholder="What do you want to discuss?" required>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="topicBody">Message</label>
+        <textarea class="modal-textarea" id="topicBody" placeholder="Share your thoughts, questions, or resources…" required></textarea>
+      </div>
+      <button type="submit" class="modal-submit-btn" id="topicSubmitBtn">Post Topic</button>
+      <div class="modal-status" id="topicStatus"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Speed Dial FAB -->
+<div class="fab-container" id="fabContainer">
+  <div class="fab-items">
+    <div class="fab-item">
+      <span class="fab-label">Back to Hub</span>
+      <a href="index.html" class="fab-action-btn fab-home" title="Back to Hub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
-        <svg class="fab-ic fab-ic-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </a>
+    </div>
+    <div class="fab-item">
+      <span class="fab-label">Feedback</span>
+      <button class="fab-action-btn fab-feedback-btn" id="fabFeedbackBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
         </svg>
       </button>
     </div>
-    <!-- ══ FEEDBACK MODAL ══ -->
-    <div class="feedback-overlay" id="fabFeedbackOverlay">
-      <div class="feedback-modal">
-        <div class="feedback-modal-header">
-          <span class="feedback-modal-title">Send Feedback</span>
-          <button class="feedback-close-btn" id="fabFeedbackCloseBtn">&times;</button>
-        </div>
-        <div class="feedback-field">
-          <label class="feedback-label" for="fabFeedbackSubject">Subject</label>
-          <select class="feedback-select" id="fabFeedbackSubject">
-            <option value="">— select —</option>
-            <option value="bug">Bug / Issue</option>
-            <option value="feature">Feature Request</option>
-            <option value="content">Content Update</option>
-            <option value="general">General Feedback</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="feedback-field">
-          <label class="feedback-label" for="fabFeedbackMessage">Message</label>
-          <textarea class="feedback-textarea" id="fabFeedbackMessage" placeholder="Describe your feedback…"></textarea>
-        </div>
-        <button class="feedback-submit-btn" id="fabFeedbackSubmitBtn">Send Feedback</button>
-        <div class="feedback-status" id="fabFeedbackStatus"></div>
-      </div>
+  </div>
+  <button class="fab-main" id="fabMain" aria-label="Quick actions">
+    <svg class="fab-ic fab-ic-open" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="5" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>
+    <svg class="fab-ic fab-ic-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Feedback Modal -->
+<div class="feedback-overlay" id="fabFeedbackOverlay">
+  <div class="feedback-modal">
+    <div class="feedback-modal-header">
+      <span class="feedback-modal-title">Send Feedback</span>
+      <button class="feedback-close-btn" id="fabFeedbackCloseBtn">&times;</button>
     </div>
-  </body>
+    <div class="feedback-field">
+      <label class="feedback-label" for="fabFeedbackSubject">Subject</label>
+      <select class="feedback-select" id="fabFeedbackSubject">
+        <option value="">— select —</option>
+        <option value="bug">Bug / Issue</option>
+        <option value="feature">Feature Request</option>
+        <option value="content">Content Update</option>
+        <option value="general">General Feedback</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="feedback-field">
+      <label class="feedback-label" for="fabFeedbackMessage">Message</label>
+      <textarea class="feedback-textarea" id="fabFeedbackMessage" placeholder="Describe your feedback…"></textarea>
+    </div>
+    <button class="feedback-submit-btn" id="fabFeedbackSubmitBtn">Send Feedback</button>
+    <div class="feedback-status" id="fabFeedbackStatus"></div>
+  </div>
+</div>
+
+<!-- Firebase Module Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth, signInWithPopup, signInWithEmailAndPassword,
+    GoogleAuthProvider, onAuthStateChanged, signOut,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, addDoc, updateDoc, deleteDoc,
+    getDoc, setDoc, onSnapshot, query, orderBy,
+    serverTimestamp, increment,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // ── Firebase Init ─────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  };
+  const app      = initializeApp(firebaseConfig);
+  const auth     = getAuth(app);
+  const db       = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  // ── Category Config ───────────────────────────────────────────
+  const CAT_CONFIG = {
+    general:   { label: 'General',   emoji: '💬', dot: '#0891b2' },
+    academic:  { label: 'Academic',  emoji: '📚', dot: '#7c3aed' },
+    resources: { label: 'Resources', emoji: '📂', dot: '#16a34a' },
+    events:    { label: 'Events',    emoji: '📅', dot: '#ea580c' },
+    technical: { label: 'Technical', emoji: '⚙️', dot: '#475569' },
+  };
+
+  // ── App State ─────────────────────────────────────────────────
+  let currentUser         = null;
+  let currentUserRole     = null;
+  let currentTopicId      = null;
+  let currentTopicData    = null;
+  let unsubTopics         = null;
+  let unsubReplies        = null;
+  let cachedReplyDocs     = [];
+  let allTopicDocs        = [];
+  let editingTarget       = null;
+  let currentCategory     = 'all';
+  let searchQuery         = '';
+  let currentUserDisplayName = null;
+
+  const allowedDomains = [
+    "scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id",
+    "kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id",
+    "pakarbelia.sch.id","prestigeschool.sch.id","pribadibandung.sch.id",
+    "pribadidepok.sch.id","pribadipremiere.sch.id","semesta.sch.id",
+    "tnafatih.sch.id","eduversal.org",
+  ];
+
+  // ── SVG Icons ─────────────────────────────────────────────────
+  const EDIT_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+  const DELETE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+  const SEND_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+  const PIN_ICON    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+  // ── Utility ───────────────────────────────────────────────────
+  function escHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function formatDate(ts) {
+    if (!ts) return "just now";
+    const date = ts.toDate ? ts.toDate() : new Date(ts);
+    const diff = (Date.now() - date.getTime()) / 1000;
+    if (diff < 60)    return "just now";
+    if (diff < 3600)  return Math.floor(diff / 60) + "m ago";
+    if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+    if (diff < 604800)return Math.floor(diff / 86400) + "d ago";
+    return new Intl.DateTimeFormat("en-US",{ month:"short", day:"numeric", year:"numeric" }).format(date);
+  }
+
+  function getDisplayName(user) {
+    return currentUserDisplayName || user.displayName || user.email.split("@")[0];
+  }
+
+  // ── Avatar helpers ────────────────────────────────────────────
+  const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+  function avatarColor(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+    return PALETTE[Math.abs(h) % PALETTE.length];
+  }
+  function getInitials(name) {
+    return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+  }
+  function makeAvatarEl(cls, user, name) {
+    const color = avatarColor(name);
+    const initials = getInitials(name);
+    if (user && user.photoURL) {
+      return `<div class="${cls}" style="background:transparent"><img src="${user.photoURL}" referrerpolicy="no-referrer" alt=""></div>`;
+    }
+    return `<div class="${cls}" style="background:${color}">${escHtml(initials)}</div>`;
+  }
+  function makeAvatarElFromName(cls, name) {
+    const color = avatarColor(name);
+    const initials = getInitials(name);
+    return `<div class="${cls}" style="background:${color}">${escHtml(initials)}</div>`;
+  }
+
+  function fillNavAvatar(el, user, name) {
+    if (user.photoURL) {
+      el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+      el.style.background = 'transparent';
+    } else {
+      el.style.background = avatarColor(name);
+      el.textContent = getInitials(name);
+    }
+  }
+
+  function populateNav(user, firestoreName) {
+    const name = firestoreName || user.displayName || user.email.split('@')[0];
+    const firstName = name.split(' ')[0];
+    fillNavAvatar(document.getElementById('navAvatar'), user, name);
+    document.getElementById('navFirstName').textContent = firstName;
+    fillNavAvatar(document.getElementById('ddAvatar'), user, name);
+    document.getElementById('ddFullName').textContent = name;
+    document.getElementById('ddEmail').textContent = user.email;
+    document.getElementById('profileWrap').style.display = 'flex';
+  }
+
+  document.getElementById('profileBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    document.getElementById('profileWrap').classList.toggle('open');
+  });
+  document.addEventListener('click', () => {
+    document.getElementById('profileWrap').classList.remove('open');
+  });
+  document.getElementById('ddSignOut').addEventListener('click', () => signOut(auth));
+
+  // ── Category helpers ──────────────────────────────────────────
+  function catBadgeHtml(cat) {
+    const c = CAT_CONFIG[cat] || CAT_CONFIG.general;
+    return `<span class="cat-badge cat-${escHtml(cat)}">${c.label}</span>`;
+  }
+
+  function canModify(uid) {
+    return currentUser && (currentUser.uid === uid || currentUserRole === "moderator");
+  }
+
+  // ── Auth error display ────────────────────────────────────────
+  function showError(msg) {
+    const el = document.getElementById("errorMsg");
+    el.textContent = msg; el.style.display = "block";
+    setTimeout(() => (el.style.display = "none"), 4000);
+  }
+
+  // ── Auth State ────────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    document.getElementById("loadingScreen").style.display = "none";
+    if (user) {
+      const domain = user.email.split("@")[1];
+      const isPasswordUser = user.providerData.some(p => p.providerId === "password");
+      if (!allowedDomains.includes(domain) && !isPasswordUser) {
+        await signOut(auth);
+        showError("Access denied. Only authorized school emails are allowed.");
+        return;
+      }
+      currentUser = user;
+      try {
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+        if (userSnap.exists()) {
+          currentUserRole = userSnap.data().role || null;
+          currentUserDisplayName = userSnap.data().displayName || null;
+        } else {
+          currentUserRole = null; currentUserDisplayName = null;
+        }
+      } catch { currentUserRole = null; currentUserDisplayName = null; }
+
+      populateNav(user, currentUserDisplayName);
+      document.getElementById("loginScreen").classList.remove("visible");
+      document.getElementById("mainContent").style.display = "block";
+      setDoc(doc(db,'users',user.uid),{ lastReadMessageboard: serverTimestamp() },{ merge: true }).catch(()=>{});
+      initForum();
+    } else {
+      currentUser = null; currentUserRole = null; currentUserDisplayName = null;
+      if (unsubTopics) { unsubTopics(); unsubTopics = null; }
+      if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+      document.getElementById("loginScreen").classList.add("visible");
+      document.getElementById("mainContent").style.display = "none";
+      document.getElementById("profileWrap").style.display = "none";
+    }
+  });
+
+  document.getElementById("googleLoginBtn").addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then(result => {
+        const domain = result.user.email.split("@")[1];
+        if (!allowedDomains.includes(domain)) {
+          signOut(auth);
+          showError("Access denied. Only authorized school emails are allowed.");
+        }
+      })
+      .catch(err => showError(err.message));
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const email    = document.getElementById("emailInput").value.trim();
+    const password = document.getElementById("passwordInput").value;
+    try { await signInWithEmailAndPassword(auth, email, password); }
+    catch { showError("Invalid email or password"); }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+
+  // ── Forum Init ────────────────────────────────────────────────
+  function initForum() {
+    // Wire up search and sort
+    document.getElementById('searchInput').addEventListener('input', e => {
+      searchQuery = e.target.value.trim();
+      filterAndRender();
+    });
+    document.getElementById('sortSelect').addEventListener('change', () => {
+      filterAndRender();
+    });
+    showTopicList();
+  }
+
+  // ── Category filter ───────────────────────────────────────────
+  window.__mb_setCategory = function(cat) {
+    currentCategory = cat;
+    // Update sidebar active state
+    document.querySelectorAll('#categoryNav button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.cat === cat);
+    });
+    filterAndRender();
+  };
+
+  function filterAndRender() {
+    if (document.getElementById('topicListView').style.display === 'none') return;
+    renderTopicList(allTopicDocs);
+  }
+
+  // ── Sidebar stats update ──────────────────────────────────────
+  function updateSidebarStats(docs) {
+    // Total topics
+    document.getElementById('statTopics').textContent = docs.length;
+    // Total replies (sum)
+    const totalReplies = docs.reduce((acc, d) => acc + (d.data().replyCount || 0), 0);
+    document.getElementById('statReplies').textContent = totalReplies;
+    // Category counts
+    const counts = { all: docs.length, general:0, academic:0, resources:0, events:0, technical:0 };
+    docs.forEach(d => {
+      const cat = d.data().category || 'general';
+      if (counts[cat] !== undefined) counts[cat]++;
+    });
+    Object.entries(counts).forEach(([cat, cnt]) => {
+      const el = document.getElementById('catCount-' + cat);
+      if (el) el.textContent = cnt;
+    });
+  }
+
+  // ── View: Topic List ──────────────────────────────────────────
+  function showTopicList() {
+    editingTarget = null; currentTopicId = null;
+    currentTopicData = null; cachedReplyDocs = [];
+    if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+    document.getElementById("topicListView").style.display = "block";
+    document.getElementById("topicDetailView").style.display = "none";
+
+    if (!unsubTopics) {
+      const q = query(collection(db,"topics"), orderBy("timestamp","desc"));
+      unsubTopics = onSnapshot(q, snap => {
+        allTopicDocs = snap.docs;
+        updateSidebarStats(snap.docs);
+        renderTopicList(snap.docs);
+      });
+    }
+  }
+
+  function renderTopicList(docs) {
+    let filtered = docs;
+
+    // Filter pinned to top
+    const pinned    = filtered.filter(d => d.data().pinned);
+    const unpinned  = filtered.filter(d => !d.data().pinned);
+
+    // Category filter
+    if (currentCategory !== 'all') {
+      filtered = [
+        ...pinned.filter(d => (d.data().category || 'general') === currentCategory),
+        ...unpinned.filter(d => (d.data().category || 'general') === currentCategory),
+      ];
+    } else {
+      filtered = [...pinned, ...unpinned];
+    }
+
+    // Search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(d => {
+        const data = d.data();
+        return (data.title || '').toLowerCase().includes(q)
+            || (data.body  || '').toLowerCase().includes(q)
+            || (data.displayName || '').toLowerCase().includes(q);
+      });
+    }
+
+    // Sort (pinned always stay on top within their group)
+    const sortVal = document.getElementById('sortSelect')?.value || 'latest';
+    if (sortVal === 'oldest') {
+      filtered = [
+        ...filtered.filter(d => d.data().pinned).reverse(),
+        ...filtered.filter(d => !d.data().pinned).reverse(),
+      ];
+    } else if (sortVal === 'popular') {
+      const p = filtered.filter(d => d.data().pinned);
+      const u = filtered.filter(d => !d.data().pinned)
+                        .sort((a,b) => (b.data().replyCount||0) - (a.data().replyCount||0));
+      filtered = [...p, ...u];
+    }
+
+    const container = document.getElementById("topicList");
+    const total = filtered.length;
+    document.getElementById('topicCount').textContent = total ? `${total} topic${total===1?'':'s'}` : '';
+
+    if (!total) {
+      const msg = searchQuery || currentCategory !== 'all'
+        ? 'No topics match your filter.'
+        : 'No topics yet. Be the first to post!';
+      container.innerHTML = `<div class="empty-state"><div class="empty-icon">💬</div>${msg}</div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(d => {
+      const data = d.data();
+      const cat  = data.category || 'general';
+      const cfg  = CAT_CONFIG[cat] || CAT_CONFIG.general;
+      const cnt  = data.replyCount || 0;
+      const isPinned = data.pinned || false;
+      return `
+        <div class="topic-row${isPinned?' pinned':''}" data-cat="${escHtml(cat)}"
+             onclick="window.__mb_openTopic('${d.id}')">
+          <div class="topic-row-icon">${cfg.emoji}</div>
+          <div class="topic-row-body">
+            <div class="topic-row-title-line">
+              ${isPinned ? '<span class="pinned-badge">📌 Pinned</span>' : ''}
+              ${catBadgeHtml(cat)}
+              <span class="topic-row-title">${escHtml(data.title)}</span>
+            </div>
+            <div class="topic-row-meta">
+              ${makeAvatarElFromName('author-avatar', data.displayName || '?')}
+              <span>${escHtml(data.displayName)}</span>
+              <span class="meta-sep">·</span>
+              <span>${formatDate(data.timestamp)}</span>
+            </div>
+          </div>
+          <div class="topic-row-right">
+            <div class="replies-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+              ${cnt}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── View: Topic Detail ────────────────────────────────────────
+  async function openTopic(topicId) {
+    if (unsubTopics) { unsubTopics(); unsubTopics = null; }
+    if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+    editingTarget = null; cachedReplyDocs = [];
+    currentTopicId = topicId;
+
+    document.getElementById("topicListView").style.display = "none";
+    document.getElementById("topicDetailView").style.display = "block";
+    document.getElementById("topicPost").innerHTML = '<div class="empty-state" style="padding:32px 0">Loading…</div>';
+    document.getElementById("repliesArea").innerHTML = "";
+
+    const topicSnap = await getDoc(doc(db,"topics",topicId));
+    if (!topicSnap.exists()) { showTopicList(); return; }
+    currentTopicData = { id: topicId, ...topicSnap.data() };
+
+    // Update breadcrumb
+    const cat = currentTopicData.category || 'general';
+    const cfg = CAT_CONFIG[cat] || CAT_CONFIG.general;
+    document.getElementById('breadcrumbCat').textContent = cfg.label;
+    document.getElementById('breadcrumbTitle').textContent = currentTopicData.title || '';
+
+    renderTopicPost();
+
+    const rQ = query(collection(db,"topics",topicId,"replies"), orderBy("timestamp","asc"));
+    unsubReplies = onSnapshot(rQ, snap => {
+      cachedReplyDocs = snap.docs;
+      if (editingTarget && editingTarget.type === "reply") return;
+      renderReplies(snap.docs);
+    });
+  }
+
+  // ── Render: Topic Post ────────────────────────────────────────
+  function renderTopicPost() {
+    const el = document.getElementById("topicPost");
+    if (!el || !currentTopicData) return;
+    const d = currentTopicData;
+    const canEdit = canModify(d.uid);
+    const cat = d.category || 'general';
+    const editedBadge = d.editedAt
+      ? `<span class="edited-badge">edited ${formatDate(d.editedAt)}</span>`
+      : "";
+
+    if (editingTarget && editingTarget.type === "topic") {
+      el.innerHTML = `
+        <div class="thread-post">
+          <div class="inline-edit-form">
+            <input class="inline-input" id="editTopicTitle" value="${escHtml(d.title)}" placeholder="Title">
+            <textarea class="inline-textarea" id="editTopicBody" placeholder="Body">${escHtml(d.body)}</textarea>
+            <div class="inline-edit-actions">
+              <button class="save-btn" id="saveTopicEditBtn">Save Changes</button>
+              <button class="cancel-btn" id="cancelTopicEditBtn">Cancel</button>
+            </div>
+          </div>
+        </div>`;
+      document.getElementById("saveTopicEditBtn").addEventListener("click", saveTopicEdit);
+      document.getElementById("cancelTopicEditBtn").addEventListener("click", () => {
+        editingTarget = null; renderTopicPost();
+      });
+      return;
+    }
+
+    const isMod = currentUserRole === "moderator";
+    const pinLabel = d.pinned ? 'Unpin' : 'Pin';
+    el.innerHTML = `
+      <div class="thread-post">
+        <div class="thread-post-top">
+          ${catBadgeHtml(cat)}
+          ${d.pinned ? '<span class="pinned-badge">📌 Pinned</span>' : ''}
+        </div>
+        <div class="thread-post-header">
+          <h2 class="thread-post-title">${escHtml(d.title)}</h2>
+          ${canEdit ? `
+            <div class="post-action-row">
+              ${isMod ? `<button class="action-btn pin-btn${d.pinned?' pinned-active':''}" id="pinTopicBtn">${PIN_ICON} ${pinLabel}</button>` : ''}
+              <button class="action-btn edit-btn" id="editTopicBtn">${EDIT_ICON} Edit</button>
+              <button class="action-btn delete-btn" id="deleteTopicBtn">${DELETE_ICON} Delete</button>
+            </div>` : ''}
+        </div>
+        <div class="thread-post-body">${escHtml(d.body)}</div>
+        <div class="thread-post-meta">
+          <div class="author-chip">
+            ${makeAvatarElFromName('author-avatar', d.displayName || '?')}
+            <strong>${escHtml(d.displayName)}</strong>
+          </div>
+          <span>·</span>
+          <span>${formatDate(d.timestamp)}</span>
+          ${editedBadge}
+        </div>
+      </div>`;
+
+    if (canEdit) {
+      document.getElementById("editTopicBtn").addEventListener("click", () => {
+        editingTarget = { type: "topic" }; renderTopicPost();
+      });
+      document.getElementById("deleteTopicBtn").addEventListener("click", deleteTopic);
+      if (isMod && document.getElementById("pinTopicBtn")) {
+        document.getElementById("pinTopicBtn").addEventListener("click", togglePin);
+      }
+    }
+  }
+
+  // ── Render: Replies ───────────────────────────────────────────
+  function renderReplies(docs) {
+    const area = document.getElementById("repliesArea");
+    if (!area) return;
+    cachedReplyDocs = docs;
+    const cnt = docs.length;
+
+    const repliesHtml = !cnt
+      ? '<div class="empty-state" style="padding:28px 0;border:none;background:transparent;">No replies yet — start the conversation!</div>'
+      : docs.map(d => {
+          const data   = d.data();
+          const canEdit= canModify(data.uid);
+          const editedBadge = data.editedAt
+            ? `<div class="reply-edited">edited ${formatDate(data.editedAt)}</div>` : '';
+
+          if (editingTarget && editingTarget.type === "reply" && editingTarget.replyId === d.id) {
+            return `
+              <div class="reply-item">
+                <div class="reply-item-header">
+                  <div class="reply-author-wrap">
+                    ${makeAvatarElFromName('reply-avatar', data.displayName||'?')}
+                    <span class="reply-author-name">${escHtml(data.displayName)}</span>
+                    <span class="reply-time">${formatDate(data.timestamp)}</span>
+                  </div>
+                </div>
+                <div class="inline-edit-form">
+                  <textarea class="inline-textarea" id="editReplyBody_${d.id}" placeholder="Reply">${escHtml(data.body)}</textarea>
+                  <div class="inline-edit-actions">
+                    <button class="save-btn" data-replyid="${d.id}" data-action="saveReply">Save</button>
+                    <button class="cancel-btn" data-action="cancelReply">Cancel</button>
+                  </div>
+                </div>
+              </div>`;
+          }
+
+          return `
+            <div class="reply-item">
+              <div class="reply-item-header">
+                <div class="reply-author-wrap">
+                  ${makeAvatarElFromName('reply-avatar', data.displayName||'?')}
+                  <span class="reply-author-name">${escHtml(data.displayName)}</span>
+                  <span class="reply-time">${formatDate(data.timestamp)}</span>
+                </div>
+                ${canEdit ? `
+                  <div class="reply-actions">
+                    <button class="action-btn edit-btn" data-replyid="${d.id}" data-action="editReply">${EDIT_ICON}</button>
+                    <button class="action-btn delete-btn" data-replyid="${d.id}" data-action="deleteReply">${DELETE_ICON}</button>
+                  </div>` : ''}
+              </div>
+              <div class="reply-body">${escHtml(data.body)}</div>
+              ${editedBadge}
+            </div>`;
+        }).join('');
+
+    area.innerHTML = `
+      <div style="margin-bottom:8px;">
+        <div class="replies-section-header">
+          Replies <span class="replies-count-badge">${cnt}</span>
+        </div>
+        <div class="reply-list">${repliesHtml}</div>
+      </div>
+      <div class="reply-form-card">
+        <div class="reply-form-label">Leave a Reply</div>
+        <textarea class="reply-textarea" id="replyTextarea" placeholder="Write your reply…"></textarea>
+        <div class="reply-form-footer">
+          <button class="reply-send-btn" id="replySendBtn">
+            ${SEND_ICON} Send Reply
+          </button>
+        </div>
+      </div>`;
+
+    area.addEventListener("click", handleReplyAreaClick, { once: true });
+    document.getElementById("replySendBtn").addEventListener("click", submitReply);
+  }
+
+  function handleReplyAreaClick(e) {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    const action  = btn.dataset.action;
+    const replyId = btn.dataset.replyid;
+    if (action === "editReply") {
+      editingTarget = { type:"reply", replyId };
+      renderReplies(cachedReplyDocs);
+    } else if (action === "deleteReply") {
+      deleteReply(replyId);
+    } else if (action === "saveReply") {
+      saveReplyEdit(replyId);
+    } else if (action === "cancelReply") {
+      editingTarget = null;
+      renderReplies(cachedReplyDocs);
+    }
+  }
+
+  // ── Topic CRUD ────────────────────────────────────────────────
+  async function saveTopicEdit() {
+    const titleEl = document.getElementById("editTopicTitle");
+    const bodyEl  = document.getElementById("editTopicBody");
+    if (!titleEl || !bodyEl) return;
+    const title = titleEl.value.trim();
+    const body  = bodyEl.value.trim();
+    if (!title || !body) return;
+    const saveBtn = document.getElementById("saveTopicEditBtn");
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Saving…"; }
+    try {
+      await updateDoc(doc(db,"topics",currentTopicId), { title, body, editedAt: serverTimestamp() });
+      const snap = await getDoc(doc(db,"topics",currentTopicId));
+      currentTopicData = { id: currentTopicId, ...snap.data() };
+      // Update breadcrumb title
+      document.getElementById('breadcrumbTitle').textContent = currentTopicData.title || '';
+      editingTarget = null; renderTopicPost();
+    } catch (err) {
+      console.error("Topic edit error:", err);
+      if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "Save Changes"; }
+    }
+  }
+
+  async function deleteTopic() {
+    if (!confirm("Delete this topic and all its replies? This cannot be undone.")) return;
+    try {
+      await deleteDoc(doc(db,"topics",currentTopicId));
+      showTopicList();
+    } catch (err) { console.error("Topic delete error:", err); }
+  }
+
+  async function togglePin() {
+    const isPinned = currentTopicData.pinned || false;
+    try {
+      await updateDoc(doc(db,"topics",currentTopicId), { pinned: !isPinned });
+      const snap = await getDoc(doc(db,"topics",currentTopicId));
+      currentTopicData = { id: currentTopicId, ...snap.data() };
+      renderTopicPost();
+    } catch (err) { console.error("Pin toggle error:", err); }
+  }
+
+  // ── Reply CRUD ────────────────────────────────────────────────
+  async function submitReply() {
+    const textarea = document.getElementById("replyTextarea");
+    if (!textarea) return;
+    const body = textarea.value.trim();
+    if (!body || !currentUser) return;
+    const btn = document.getElementById("replySendBtn");
+    btn.disabled = true;
+    btn.innerHTML = `<span class="btn-spinner"></span> Sending…`;
+    try {
+      await addDoc(collection(db,"topics",currentTopicId,"replies"), {
+        body, uid: currentUser.uid,
+        displayName: getDisplayName(currentUser),
+        timestamp: serverTimestamp(),
+      });
+      await updateDoc(doc(db,"topics",currentTopicId), { replyCount: increment(1) });
+      textarea.value = "";
+    } catch (err) { console.error("Reply submit error:", err); }
+    finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = `${SEND_ICON} Send Reply`; }
+    }
+  }
+
+  async function saveReplyEdit(replyId) {
+    const bodyEl = document.getElementById("editReplyBody_" + replyId);
+    if (!bodyEl) return;
+    const body = bodyEl.value.trim();
+    if (!body) return;
+    try {
+      await updateDoc(doc(db,"topics",currentTopicId,"replies",replyId),
+        { body, editedAt: serverTimestamp() });
+      editingTarget = null;
+    } catch (err) { console.error("Reply edit error:", err); }
+  }
+
+  async function deleteReply(replyId) {
+    if (!confirm("Delete this reply?")) return;
+    try {
+      await deleteDoc(doc(db,"topics",currentTopicId,"replies",replyId));
+      await updateDoc(doc(db,"topics",currentTopicId), { replyCount: increment(-1) });
+    } catch (err) { console.error("Reply delete error:", err); }
+  }
+
+  // ── New Topic Modal ───────────────────────────────────────────
+  const modal = document.getElementById("newTopicModal");
+  function openModal() {
+    document.getElementById("newTopicForm").reset();
+    document.getElementById("topicStatus").textContent = "";
+    document.getElementById("topicStatus").className = "modal-status";
+    modal.classList.add("open");
+  }
+  function closeModal() { modal.classList.remove("open"); }
+
+  document.getElementById("newTopicBtn").addEventListener("click", openModal);
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+  document.getElementById("newTopicForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!currentUser) return;
+    const category = document.getElementById("topicCategory").value;
+    const title    = document.getElementById("topicTitle").value.trim();
+    const body     = document.getElementById("topicBody").value.trim();
+    if (!title || !body) return;
+
+    const btn      = document.getElementById("topicSubmitBtn");
+    const statusEl = document.getElementById("topicStatus");
+    btn.disabled = true; btn.textContent = "Posting…";
+    statusEl.className = "modal-status"; statusEl.textContent = "";
+
+    try {
+      const ref = await addDoc(collection(db,"topics"), {
+        title, body, category,
+        uid: currentUser.uid,
+        displayName: getDisplayName(currentUser),
+        timestamp: serverTimestamp(),
+        replyCount: 0,
+        pinned: false,
+      });
+      closeModal();
+      openTopic(ref.id);
+    } catch (err) {
+      console.error("Topic create error:", err);
+      statusEl.className = "modal-status error";
+      statusEl.textContent = "Failed to post. Please try again.";
+    } finally {
+      btn.disabled = false; btn.textContent = "Post Topic";
+    }
+  });
+
+  // ── Back Button ───────────────────────────────────────────────
+  document.getElementById("backToListBtn").addEventListener("click", showTopicList);
+
+  // ── Global bridge ─────────────────────────────────────────────
+  window.__mb_openTopic = openTopic;
+
+  // ── Speed Dial FAB ────────────────────────────────────────────
+  (function(){
+    const c = document.getElementById('fabContainer');
+    const m = document.getElementById('fabMain');
+    if (!c || !m) return;
+    m.addEventListener('click', e => { e.stopPropagation(); c.classList.toggle('open'); });
+    document.addEventListener('click', e => { if (!c.contains(e.target)) c.classList.remove('open'); });
+  })();
+
+  // ── FAB Feedback ──────────────────────────────────────────────
+  const fabFbOverlay = document.getElementById('fabFeedbackOverlay');
+  document.getElementById('fabFeedbackBtn')?.addEventListener('click', () => {
+    document.getElementById('fabContainer').classList.remove('open');
+    fabFbOverlay.classList.add('open');
+  });
+  document.getElementById('fabFeedbackCloseBtn')?.addEventListener('click', closeFabFeedback);
+  fabFbOverlay?.addEventListener('click', e => { if (e.target === fabFbOverlay) closeFabFeedback(); });
+  function closeFabFeedback() {
+    fabFbOverlay?.classList.remove('open');
+    document.getElementById('fabFeedbackStatus').className = 'feedback-status';
+    document.getElementById('fabFeedbackMessage').value = '';
+    document.getElementById('fabFeedbackSubject').value = '';
+  }
+  document.getElementById('fabFeedbackSubmitBtn')?.addEventListener('click', async () => {
+    const subject  = document.getElementById('fabFeedbackSubject').value;
+    const message  = document.getElementById('fabFeedbackMessage').value.trim();
+    const statusEl = document.getElementById('fabFeedbackStatus');
+    const btn      = document.getElementById('fabFeedbackSubmitBtn');
+    if (!subject || !message) {
+      statusEl.textContent = 'Please fill in all fields.';
+      statusEl.className = 'feedback-status err'; return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      await addDoc(collection(db,'feedbacks'), {
+        subject, message,
+        userId: currentUser?.uid || null,
+        userEmail: currentUser?.email || null,
+        timestamp: serverTimestamp(),
+      });
+      statusEl.textContent = 'Feedback sent — thank you!';
+      statusEl.className = 'feedback-status ok';
+      setTimeout(closeFabFeedback, 2000);
+    } catch {
+      statusEl.textContent = 'Failed to send. Please try again.';
+      statusEl.className = 'feedback-status err';
+    } finally { btn.disabled = false; btn.textContent = 'Send Feedback'; }
+  });
+
+</script>
+</body>
 </html>
