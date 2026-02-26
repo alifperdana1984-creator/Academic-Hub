@@ -50,6 +50,7 @@ const cleanUrls = {
   "A-EASE-I-AssessmentResults.html": "a-ease-1",
   "EASE-Archive.html":               "ease-archive",
   "AccreditationDashboard.html":     "accreditation-dashboard",
+  "AIPrompts.html":                  "ai-prompts",
 };
 
 // Rewrite all internal .html links to clean URLs inside a built file
@@ -99,6 +100,7 @@ const htmlFiles = [
   "A-EASE-I-AssessmentResults.html",
   "AcademicCalendar.html",
   "AccreditationDashboard.html",
+  "AIPrompts.html",
 ];
 
 htmlFiles.forEach((file) => {
