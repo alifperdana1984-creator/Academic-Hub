@@ -1287,8 +1287,18 @@ body {
         if (userSnap.exists()) {
           currentUserRole = userSnap.data().role || null;
           currentUserDisplayName = userSnap.data().displayName || null;
+          // If Firestore has no displayName but Google Auth has one, persist it
+          if (!currentUserDisplayName && user.displayName) {
+            currentUserDisplayName = user.displayName;
+            setDoc(doc(db,'users',user.uid),{ displayName: user.displayName },{ merge: true }).catch(()=>{});
+          }
         } else {
-          currentUserRole = null; currentUserDisplayName = null;
+          currentUserRole = null;
+          // Auto-save Google display name on first login
+          currentUserDisplayName = user.displayName || null;
+          if (currentUserDisplayName) {
+            setDoc(doc(db,'users',user.uid),{ displayName: currentUserDisplayName },{ merge: true }).catch(()=>{});
+          }
         }
       } catch { currentUserRole = null; currentUserDisplayName = null; }
 
