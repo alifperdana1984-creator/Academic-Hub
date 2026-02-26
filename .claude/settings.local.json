@@ -21,7 +21,10 @@
       "Bash(git -C \"c:\\\\Users\\\\maliu\\\\Desktop\\\\Academic Hub\" status)",
       "Bash(git -C \"c:\\\\Users\\\\maliu\\\\Desktop\\\\Academic Hub\" push)",
       "Bash(grep:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(git pull:*)",
+      "Bash(ls:*)",
+      "Bash(node -e \":*)"
     ]
   }
 }

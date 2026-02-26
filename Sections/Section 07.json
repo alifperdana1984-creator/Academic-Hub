@@ -1,0 +1,219 @@
+{
+  "id": "07",
+  "title": "Teaching Quality and Practice",
+  "lastUpdated": "2025-01-16",
+  "subsections": [
+    {
+      "id": "7.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To define the standards of pedagogical excellence expected in all Eduversal Partner Schools, ensuring that instruction is student-centered, evidence-based, and aligned with Cambridge and national curriculum requirements."
+        }
+      ]
+    },
+    {
+      "id": "7.2",
+      "title": "Eduversal Teaching Standards (ETS)",
+      "content": [
+        {
+          "type": "text",
+          "text": "The ETS framework outlines the core competencies required of all teachers. It serves as the basis for recruitment, professional development, and appraisal."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            {
+              "title": "Standard 1: Professional Knowledge",
+              "points": [
+                "Demonstrates deep subject matter expertise.",
+                "Understands how students learn and develop.",
+                "Knows the curriculum frameworks (Cambridge & National) thoroughly."
+              ]
+            },
+            {
+              "title": "Standard 2: Instructional Planning",
+              "points": [
+                "Plans lessons that are clear, logical, and aligned to learning objectives.",
+                "Incorporates differentiation to meet diverse learner needs.",
+                "Uses data to inform planning."
+              ]
+            },
+            {
+              "title": "Standard 3: Instructional Delivery",
+              "points": [
+                "Uses a variety of active learning strategies.",
+                "Communicates clearly and effectively.",
+                "Engages students in higher-order thinking."
+              ]
+            },
+            {
+              "title": "Standard 4: Assessment for Learning",
+              "points": [
+                "Uses formative assessment to check understanding during lessons.",
+                "Provides timely and constructive feedback.",
+                "Adjusts instruction based on assessment results."
+              ]
+            },
+            {
+              "title": "Standard 5: Learning Environment",
+              "points": [
+                "Creates a safe, inclusive, and positive classroom culture.",
+                "Manages student behavior effectively and respectfully.",
+                "Promotes student agency and independence."
+              ]
+            },
+            {
+              "title": "Standard 6: Professionalism",
+              "points": [
+                "Collaborates with colleagues and parents.",
+                "Engages in continuous professional reflection and growth.",
+                "Upholds ethical standards and school policies."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.3",
+      "title": "Pedagogical Framework: Active Learning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal schools prioritize 'Active Learning' as defined by Cambridge International Education. Students are not passive recipients of knowledge but active participants in constructing meaning."
+        },
+        {
+          "type": "list",
+          "title": "Key Strategies",
+          "items": [
+            "Inquiry-Based Learning: Starting with questions, problems, or scenarios.",
+            "Collaborative Learning: Pair work, group projects, peer teaching.",
+            "Metacognition: Helping students think about their own thinking and learning processes.",
+            "Differentiation: Tailoring instruction to meet individual needs (see Section 5.9)."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Teachers should aim for a ratio where student talk/activity exceeds teacher talk time in the majority of lessons."
+        }
+      ]
+    },
+    {
+      "id": "7.4",
+      "title": "Lesson Planning Requirements",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective teaching begins with intentional planning. All teachers are required to maintain up-to-date lesson plans."
+        },
+        {
+          "type": "table",
+          "title": "Lesson Plan Components",
+          "headers": ["Component", "Description"],
+          "rows": [
+            ["Learning Objectives", "Specific, measurable goals derived from the curriculum (e.g., 'Students will be able to analyze...')."],
+            ["Success Criteria", "How students will know they have achieved the objective."],
+            ["Starter/Hook", "Activity to engage students and activate prior knowledge."],
+            ["Main Activities", "Sequence of learning tasks, including teacher modeling, guided practice, and independent practice."],
+            ["Plenary/Closure", "Review of learning and check for understanding."],
+            ["Differentiation", "Specific adaptations for EAL, SEN, or gifted students."],
+            ["Resources", "Materials and technology needed."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.5",
+      "title": "Classroom Environment and Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "A positive learning environment is a prerequisite for academic success."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Physical Environment: Classrooms should be clean, organized, and display student work and learning aids.",
+            "Emotional Safety: Students must feel safe to take risks, make mistakes, and express their ideas.",
+            "Routines and Procedures: Clear expectations for transitions, handing in work, and asking for help maximize learning time."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.6",
+      "title": "Professional Development (CPD)",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal is committed to the continuous growth of its teaching staff."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            {
+              "title": "Internal PD",
+              "points": [
+                "Weekly department meetings.",
+                "Peer observation and coaching.",
+                "School-wide INSET (In-Service Training) days."
+              ]
+            },
+            {
+              "title": "External PD",
+              "points": [
+                "Cambridge Professional Development Qualifications (PDQs).",
+                "Subject-specific workshops and webinars.",
+                "Eduversal Teacher Training Academy programs."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.7",
+      "title": "Monitoring and Quality Assurance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Teaching quality is monitored through a supportive and developmental process."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Lesson Observations: Formal (announced) and informal (walkthrough) observations by leadership.",
+            "Work Scrutiny: Regular review of student notebooks and assignments to check for feedback quality and marking.",
+            "Student Feedback: Surveys regarding teaching effectiveness and engagement."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Detailed appraisal procedures are outlined in Section 12 (Staff Lifecycle) and Section 17 (Quality Assurance)."
+        }
+      ]
+    },
+    {
+      "id": "7.8",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Cambridge Standards for the Teaching and Learning.",
+            "Indonesian National Standards (Standar Proses).",
+            "CIS Domain C: Teaching and Assessing for Learning.",
+            "WASC Category B: Curriculum, Instruction, and Assessment."
+          ]
+        }
+      ]
+    }
+  ]
+}

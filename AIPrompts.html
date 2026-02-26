@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Prompt Library — Academic Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c2e;
+  --ink-2: #44445a;
+  --ink-3: #8888a8;
+  --paper: #f7f6f3;
+  --paper-2: #efede8;
+  --white: #ffffff;
+  --border: #e0ddd6;
+  --accent: #0891b2;
+  --accent-dark: #0e7490;
+  --accent-2: #e0f2fe;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow: 0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius: 10px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ─── TOP NAV ────────────────────────────────────── */
+.top-nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 62px;
+  background: rgba(5,5,16,0.95);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 16px;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+.nav-brand-icon { width: 32px; height: 32px; flex-shrink: 0; }
+.nav-brand-icon svg { width: 32px; height: 32px; fill: #6c5ce7; }
+.nav-brand-name { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
+.nav-page-title {
+  font-size: 15px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  flex: 1; justify-content: center;
+}
+.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 10px;
+  background: linear-gradient(135deg,rgba(108,92,231,0.20),rgba(0,217,255,0.10));
+  border: 1px solid rgba(108,92,231,0.45);
+  color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: all 0.22s ease; position: relative; white-space: nowrap;
+}
+.nav-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.nav-btn:hover {
+  background: linear-gradient(135deg,rgba(108,92,231,0.45),rgba(0,217,255,0.25));
+  border-color: rgba(108,92,231,0.7); color: #fff;
+  box-shadow: 0 0 16px rgba(108,92,231,0.40); transform: translateY(-1px);
+}
+.profile-wrap { position: relative; }
+.profile-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px 6px 6px; border-radius: 100px;
+  background: linear-gradient(135deg,rgba(108,92,231,0.20),rgba(0,217,255,0.10));
+  border: 1px solid rgba(108,92,231,0.45);
+  color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.22s ease; max-width: 170px;
+}
+.profile-btn:hover {
+  background: linear-gradient(135deg,rgba(108,92,231,0.45),rgba(0,217,255,0.25));
+  border-color: rgba(108,92,231,0.7); color: #fff;
+  box-shadow: 0 0 16px rgba(108,92,231,0.40);
+}
+.profile-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
+}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.profile-first-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-chevron { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.25s ease; }
+.profile-wrap.open .profile-chevron { transform: rotate(180deg); }
+.profile-dropdown {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  width: 260px; background: rgba(10,10,26,0.97);
+  border: 1px solid rgba(108,92,231,0.3); border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  overflow: hidden; display: none; transform-origin: top right;
+  animation: ddOpen 0.22s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+.profile-wrap.open .profile-dropdown { display: block; }
+@keyframes ddOpen {
+  from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dd-header { padding: 18px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.dd-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
+.dd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.dd-name { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-email { font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-signout-btn {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 12px 20px; border: none;
+  background: rgba(231,76,60,0.10); color: rgba(231,76,60,0.9);
+  font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all 0.18s;
+}
+.dd-signout-btn:hover { background: rgba(231,76,60,0.22); color: #e74c3c; }
+.dd-signout-btn svg { width: 15px; height: 15px; }
+
+/* ─── LOADING / LOGIN ──────────────────────────── */
+#loadingScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; flex-direction: column; gap: 14px;
+}
+.spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,.15); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingScreen p { color: rgba(255,255,255,.5); font-size: 13px; }
+#loginScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; flex-direction: column; gap: 16px;
+}
+#loginScreen.visible { display: flex; }
+.login-box { background: #26263e; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 36px 32px; width: 340px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+.login-icon { font-size: 42px; margin-bottom: 12px; }
+.login-box h2 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.login-box p { color: rgba(255,255,255,.5); font-size: 13px; margin-bottom: 24px; }
+.login-google { width: 100%; padding: 11px; border-radius: 9px; background: white; border: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .2s; font-family: 'DM Sans', sans-serif; }
+.login-google:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.login-or { color: rgba(255,255,255,.3); font-size: 12px; margin: 14px 0; }
+.login-email { display: flex; flex-direction: column; gap: 8px; }
+.login-email input { width: 100%; padding: 9px 12px; border-radius: 8px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; }
+.login-email input::placeholder { color: rgba(255,255,255,.3); }
+.login-email input:focus { border-color: var(--accent); }
+.login-email button { padding: 10px; border-radius: 8px; background: var(--accent); border: none; color: white; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; }
+.login-email button:hover { background: #0e7490; }
+.login-error { color: #fc8181; font-size: 12px; margin-top: 8px; display: none; }
+
+/* ─── MAIN CONTENT ─────────────────────────────── */
+#mainContent { display: none; }
+
+/* ─── SEARCH BAR ───────────────────────────────── */
+.search-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  position: sticky; top: 62px; z-index: 100;
+  box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.search-input-wrap {
+  position: relative; flex: 1; min-width: 200px; max-width: 420px;
+}
+.search-input-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--ink-3); pointer-events: none; }
+.search-input {
+  width: 100%; padding: 9px 14px 9px 36px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--paper); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--ink); outline: none; transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--accent); background: var(--white); }
+.search-input::placeholder { color: var(--ink-3); }
+.sort-select {
+  padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--paper); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--ink-2); outline: none; cursor: pointer;
+  transition: border-color .2s;
+}
+.sort-select:focus { border-color: var(--accent); }
+.prompt-count { font-size: 12.5px; color: var(--ink-3); margin-left: auto; white-space: nowrap; }
+
+/* ─── PAGE LAYOUT ───────────────────────────────── */
+.page-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 28px 60px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── SIDEBAR ───────────────────────────────────── */
+.sidebar { position: sticky; top: 118px; }
+.sidebar-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.sidebar-card-title {
+  padding: 12px 16px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3);
+  border-bottom: 1px solid var(--border);
+}
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.stat-cell {
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.stat-cell:nth-child(2n) { border-right: none; }
+.stat-cell:nth-last-child(-n+2) { border-bottom: none; }
+.stat-num { font-size: 22px; font-weight: 700; color: var(--ink); line-height: 1; }
+.stat-label { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+.cat-list { padding: 6px 0; }
+.cat-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 16px; cursor: pointer;
+  transition: background .15s; border: none; width: 100%;
+  background: none; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--ink-2); text-align: left; gap: 8px;
+}
+.cat-item:hover { background: var(--paper); }
+.cat-item.active { background: var(--accent-2); color: var(--accent-dark); font-weight: 600; }
+.cat-item-left { display: flex; align-items: center; gap: 9px; }
+.cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cat-count { font-size: 11px; background: var(--paper-2); color: var(--ink-3); border-radius: 20px; padding: 2px 7px; font-weight: 500; }
+.cat-item.active .cat-count { background: rgba(8,145,178,0.15); color: var(--accent-dark); }
+
+/* ─── PROMPT GRID ───────────────────────────────── */
+.prompt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.empty-state {
+  grid-column: 1/-1; text-align: center;
+  padding: 64px 32px; color: var(--ink-3);
+}
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 14px; opacity: .4; }
+.empty-state p { font-size: 15px; font-weight: 500; color: var(--ink-2); margin-bottom: 6px; }
+.empty-state span { font-size: 13px; }
+
+/* ─── PROMPT CARD ───────────────────────────────── */
+.prompt-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.prompt-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.card-accent-bar { height: 3px; width: 100%; flex-shrink: 0; }
+.card-body { padding: 18px 18px 14px; flex: 1; }
+.card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.card-title-wrap { flex: 1; min-width: 0; }
+.card-title { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 3px; }
+.card-cat-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 20px;
+  font-size: 11px; font-weight: 500;
+}
+.card-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin-bottom: 12px; }
+.card-preview {
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 7px; padding: 10px 12px;
+  font-family: 'DM Mono', monospace; font-size: 11.5px;
+  color: var(--ink-3); line-height: 1.5;
+  max-height: 68px; overflow: hidden;
+  position: relative;
+}
+.card-preview::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 28px; background: linear-gradient(transparent, var(--paper));
+}
+.card-footer {
+  padding: 12px 18px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+}
+.card-uses { font-size: 11.5px; color: var(--ink-3); display: flex; align-items: center; gap: 4px; }
+.card-uses svg { width: 12px; height: 12px; }
+.card-actions { display: flex; gap: 6px; }
+.card-btn {
+  padding: 6px 12px; border-radius: 7px; font-size: 12.5px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--border); background: var(--paper);
+  color: var(--ink-2); font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; gap: 5px; transition: all .15s;
+  white-space: nowrap;
+}
+.card-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+.card-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+.card-btn.primary {
+  background: var(--accent); border-color: var(--accent); color: white;
+}
+.card-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+.card-btn.copied { background: #059669; border-color: #059669; color: white; }
+
+/* Admin controls on card */
+.card-admin-btns {
+  position: absolute; top: 10px; right: 10px;
+  display: none; gap: 4px;
+}
+.prompt-card:hover .card-admin-btns { display: flex; }
+.card-admin-btn {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); background: var(--white);
+  cursor: pointer; transition: all .15s; color: var(--ink-3);
+}
+.card-admin-btn.card-edit-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+.card-admin-btn.card-del-btn:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+.card-admin-btn svg { width: 13px; height: 13px; }
+
+/* ─── TEST DRAWER ───────────────────────────────── */
+.drawer-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(28,28,46,.35); backdrop-filter: blur(4px);
+  display: none; align-items: stretch;
+  justify-content: flex-end;
+}
+.drawer-overlay.open { display: flex; }
+.prompt-drawer {
+  width: 520px; max-width: 95vw;
+  background: var(--white); border-left: 1px solid var(--border);
+  box-shadow: -10px 0 60px rgba(28,28,46,.18);
+  display: flex; flex-direction: column;
+  animation: drawerIn .25s cubic-bezier(0.34,1.1,0.64,1);
+  overflow: hidden;
+}
+@keyframes drawerIn {
+  from { transform: translateX(60px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+.drawer-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--paper);
+}
+.drawer-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.drawer-title-wrap { flex: 1; min-width: 0; }
+.drawer-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 4px; }
+.drawer-cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+.drawer-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--ink-3); flex-shrink: 0; transition: all .15s;
+}
+.drawer-close:hover { border-color: var(--ink-2); color: var(--ink); }
+.drawer-close svg { width: 16px; height: 16px; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+.drawer-section-label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); margin-bottom: 6px; }
+.drawer-desc { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+.prompt-edit-area {
+  width: 100%; min-height: 220px; padding: 14px;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  font-family: 'DM Mono', monospace; font-size: 12.5px;
+  color: var(--ink); line-height: 1.6; resize: vertical;
+  background: var(--paper); outline: none; transition: border-color .2s;
+}
+.prompt-edit-area:focus { border-color: var(--accent); background: var(--white); }
+.placeholder-hint {
+  background: var(--accent-2); border: 1px solid rgba(8,145,178,.2);
+  border-radius: 7px; padding: 10px 14px;
+  font-size: 12px; color: var(--accent-dark); line-height: 1.5;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.placeholder-hint svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+.placeholder-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.placeholder-tag {
+  padding: 3px 10px; border-radius: 5px; font-family: 'DM Mono', monospace;
+  font-size: 11.5px; background: rgba(8,145,178,.12); color: var(--accent-dark);
+  cursor: pointer; border: 1px solid rgba(8,145,178,.2);
+  transition: all .15s;
+}
+.placeholder-tag:hover { background: rgba(8,145,178,.22); }
+.drawer-footer {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  background: var(--paper); display: flex; gap: 10px; flex-wrap: wrap;
+}
+.drawer-btn {
+  flex: 1; min-width: 130px; padding: 11px 16px; border-radius: 9px;
+  font-size: 13.5px; font-weight: 600; cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--white);
+  color: var(--ink-2); font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  transition: all .2s;
+}
+.drawer-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.drawer-btn:hover { border-color: var(--ink-2); color: var(--ink); }
+.drawer-btn.primary {
+  background: var(--accent); border-color: var(--accent); color: white;
+}
+.drawer-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+.drawer-btn.success { background: #059669; border-color: #059669; color: white; }
+.drawer-tip { width: 100%; font-size: 11.5px; color: var(--ink-3); text-align: center; padding-top: 4px; }
+
+/* ─── ADD/EDIT MODAL ─────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(28,28,46,.45); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 16px;
+  width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg); padding: 28px 28px 24px;
+  animation: modalIn .22s ease;
+}
+@keyframes modalIn { from { opacity:0; transform: scale(.96); } to { opacity:1; transform: scale(1); } }
+.modal-box h3 { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--ink); }
+.modal-field { margin-bottom: 16px; }
+.modal-label { display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.modal-input, .modal-textarea, .modal-select {
+  width: 100%; padding: 9px 12px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--paper);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink);
+  outline: none; transition: border-color .2s;
+}
+.modal-textarea { min-height: 130px; resize: vertical; font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.6; }
+.modal-input:focus, .modal-textarea:focus, .modal-select:focus { border-color: var(--accent); background: var(--white); }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-err { color: #dc2626; font-size: 12px; margin-bottom: 12px; display: none; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+.modal-cancel { padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: var(--paper); color: var(--ink-2); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; }
+.modal-cancel:hover { border-color: var(--ink-2); color: var(--ink); }
+.modal-save { padding: 10px 24px; border-radius: 8px; border: none; background: var(--accent); color: white; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s; }
+.modal-save:hover { background: var(--accent-dark); }
+
+/* ─── CONFIRM DELETE ─────────────────────────────── */
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 700;
+  background: rgba(28,28,46,.5); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+}
+.confirm-overlay.open { display: flex; }
+.confirm-box {
+  background: var(--white); border-radius: 14px;
+  padding: 28px; width: 360px; box-shadow: var(--shadow-lg);
+  animation: modalIn .2s ease;
+}
+.confirm-box h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+.confirm-box p { font-size: 13px; color: var(--ink-2); margin-bottom: 20px; line-height: 1.5; }
+.confirm-btns { display: flex; justify-content: flex-end; gap: 10px; }
+.confirm-cancel { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--paper); color: var(--ink-2); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.confirm-delete { padding: 9px 18px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.confirm-delete:hover { background: #b91c1c; }
+
+/* ─── FAB ────────────────────────────────────────── */
+.fab-container { position: fixed; right: 24px; bottom: 24px; z-index: 400; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.fab-items { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; opacity: 0; pointer-events: none; transform: translateY(10px); transition: all .25s ease; }
+.fab-container.open .fab-items { opacity: 1; pointer-events: all; transform: translateY(0); }
+.fab-item { display: flex; align-items: center; gap: 10px; }
+.fab-label { background: rgba(28,28,46,.85); color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; white-space: nowrap; backdrop-filter: blur(8px); }
+.fab-action-btn { width: 40px; height: 40px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.2); transition: all .2s; }
+.fab-home { background: #6c5ce7; color: white; text-decoration: none; }
+.fab-home:hover { background: #5a4bd1; transform: scale(1.08); }
+.fab-main {
+  width: 50px; height: 50px; border-radius: 50%; border: none;
+  background: var(--accent); color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 6px 20px rgba(8,145,178,.45);
+  transition: all .2s; position: relative;
+}
+.fab-main:hover { background: var(--accent-dark); transform: scale(1.08); }
+.fab-ic { position: absolute; transition: all .22s ease; }
+.fab-ic-close { opacity: 0; transform: rotate(-90deg); }
+.fab-container.open .fab-ic-open { opacity: 0; transform: rotate(90deg); }
+.fab-container.open .fab-ic-close { opacity: 1; transform: rotate(0); }
+
+/* ─── TOAST ──────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(28,28,46,.92); color: white;
+  padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 500;
+  z-index: 999; pointer-events: none; opacity: 0;
+  transition: all .3s cubic-bezier(.34,1.2,.64,1);
+  backdrop-filter: blur(10px); white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: rgba(5,150,105,.92); }
+.toast svg { width: 15px; height: 15px; }
+
+/* ─── ERROR MSG ──────────────────────────────────── */
+#errorMsg {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+  background: #dc2626; color: white; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; z-index: 9000; display: none;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .page-layout { grid-template-columns: 1fr; padding: 16px; }
+  .sidebar { position: static; display: none; }
+}
+@media (max-width: 768px) {
+  .top-nav { padding: 0 16px; }
+  .nav-brand-name { display: none; }
+  .nav-btn span { display: none; }
+  .nav-btn { padding: 9px; border-radius: 10px; }
+  .profile-first-name { display: none; }
+  .profile-btn { padding: 5px; }
+  .search-bar { padding: 12px 16px; }
+  .prompt-grid { grid-template-columns: 1fr; }
+  .prompt-drawer { width: 100vw; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Loading AI Prompt Library…</p>
+</div>
+
+<!-- Login -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon">✨</div>
+    <h2>AI Prompt Library</h2>
+    <p>Sign in with your school account to access curated prompts.</p>
+    <button class="login-google" id="googleLoginBtn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="login-or">or</div>
+    <form class="login-email" id="loginForm">
+      <input type="email" id="emailInput" placeholder="Email address" required>
+      <input type="password" id="passwordInput" placeholder="Password" required>
+      <button type="submit">Sign In</button>
+      <div class="login-error" id="loginErr"></div>
+    </form>
+  </div>
+</div>
+
+<div id="errorMsg"></div>
+<div class="toast" id="toast"></div>
+
+<!-- Main -->
+<div id="mainContent">
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <a class="nav-brand" href="index.html">
+      <div class="nav-brand-icon">
+        <svg viewBox="0 0 100 100"><polygon points="10,45 50,65 50,70 10,50"/><polygon points="90,45 50,65 50,70 90,50" opacity=".8"/><polygon points="50,25 90,45 50,65 10,45" opacity=".9"/></svg>
+      </div>
+      <span class="nav-brand-name">Academic Hub</span>
+    </a>
+
+    <div class="nav-page-title">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.7"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      AI Prompt Library
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-btn" id="addPromptBtn" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Add Prompt</span>
+      </button>
+      <div class="profile-wrap" id="profileWrap" style="display:none">
+        <button class="profile-btn" id="profileBtn">
+          <div class="profile-avatar" id="navAvatar"></div>
+          <span class="profile-first-name" id="navFirstName"></span>
+          <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="dd-header">
+            <div class="dd-avatar" id="ddAvatar"></div>
+            <div style="min-width:0">
+              <div class="dd-name" id="ddFullName"></div>
+              <div class="dd-email" id="ddEmail"></div>
+            </div>
+          </div>
+          <button class="dd-signout-btn" id="ddSignOut">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search prompts…">
+    </div>
+    <select class="sort-select" id="sortSelect">
+      <option value="newest">Newest First</option>
+      <option value="popular">Most Used</option>
+      <option value="az">A → Z</option>
+    </select>
+    <span class="prompt-count" id="promptCount"></span>
+  </div>
+
+  <!-- Page Layout -->
+  <div class="page-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Library Stats</div>
+        <div class="stats-grid">
+          <div class="stat-cell">
+            <div class="stat-num" id="statTotal">—</div>
+            <div class="stat-label">Total Prompts</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num" id="statCategories">8</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num" id="statUses">—</div>
+            <div class="stat-label">Total Uses</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num" id="statNew">—</div>
+            <div class="stat-label">This Week</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Categories</div>
+        <div class="cat-list" id="catList">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Prompt Grid -->
+    <main>
+      <div class="prompt-grid" id="promptGrid">
+        <!-- injected by JS -->
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Test Drawer -->
+<div class="drawer-overlay" id="drawerOverlay">
+  <div class="prompt-drawer" id="promptDrawer">
+    <div class="drawer-header">
+      <div class="drawer-icon" id="drawerIcon"></div>
+      <div class="drawer-title-wrap">
+        <div class="drawer-title" id="drawerTitle"></div>
+        <span class="drawer-cat-badge" id="drawerBadge"></span>
+      </div>
+      <button class="drawer-close" id="drawerClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div>
+        <div class="drawer-section-label">Description</div>
+        <div class="drawer-desc" id="drawerDesc"></div>
+      </div>
+      <div>
+        <div class="drawer-section-label">Prompt — Edit before using</div>
+        <textarea class="prompt-edit-area" id="drawerPromptText" spellcheck="false"></textarea>
+      </div>
+      <div id="placeholderSection" style="display:none">
+        <div class="placeholder-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          This prompt contains placeholders in <code style="font-family:'DM Mono',monospace">[brackets]</code>. Replace them before testing.
+        </div>
+        <div class="placeholder-tags" id="placeholderTags" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="drawer-btn" id="drawerCopyBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Prompt
+      </button>
+      <button class="drawer-btn primary" id="drawerTestBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Test in Claude
+      </button>
+      <div class="drawer-tip">Opens claude.ai · Free account works · Paste the copied prompt</div>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Prompt Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3 id="modalTitle">Add Prompt</h3>
+    <div class="modal-field">
+      <label class="modal-label" for="mTitle">Title</label>
+      <input class="modal-input" id="mTitle" type="text" placeholder="e.g. Differentiated Lesson Plan Generator" maxlength="100">
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label class="modal-label" for="mCategory">Category</label>
+        <select class="modal-select" id="mCategory">
+          <option value="lesson-planning">Lesson Planning</option>
+          <option value="assessment">Assessment & Grading</option>
+          <option value="parent-communication">Parent Communication</option>
+          <option value="student-support">Student Support</option>
+          <option value="academic-writing">Academic Writing</option>
+          <option value="administrative">Administrative Tasks</option>
+          <option value="curriculum">Curriculum Development</option>
+          <option value="staff-development">Staff Development</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="mIcon">Icon (emoji)</label>
+        <input class="modal-input" id="mIcon" type="text" placeholder="📝" maxlength="4">
+      </div>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="mDesc">Short Description</label>
+      <input class="modal-input" id="mDesc" type="text" placeholder="What this prompt helps you do…" maxlength="200">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="mPrompt">Full Prompt Text</label>
+      <textarea class="modal-textarea" id="mPrompt" placeholder="Write your prompt here. Use [brackets] for placeholders like [Student Name], [Subject], [Grade Level]…" style="min-height:180px"></textarea>
+    </div>
+    <div class="modal-err" id="modalErr"></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-save" id="modalSave">Save Prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h4>Delete Prompt?</h4>
+    <p>This will permanently remove the prompt from the library. This action cannot be undone.</p>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-delete" id="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAB -->
+<div class="fab-container" id="fabContainer">
+  <div class="fab-items">
+    <div class="fab-item">
+      <span class="fab-label">Back to Hub</span>
+      <a href="index.html" class="fab-action-btn fab-home" aria-label="Back to Hub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+    </div>
+  </div>
+  <button class="fab-main" id="fabMain" aria-label="Quick actions">
+    <svg class="fab-ic fab-ic-open" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg>
+    <svg class="fab-ic fab-ic-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
+<script>
+  window.ENV = {
+    FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:     "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID:"__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:             "__FIREBASE_APP_ID__",
+  };
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth, signInWithPopup, signInWithEmailAndPassword,
+  GoogleAuthProvider, onAuthStateChanged, signOut,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore, collection, doc, addDoc, updateDoc, deleteDoc,
+  getDoc, onSnapshot, query, orderBy, increment, serverTimestamp,
+  where, Timestamp,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const app  = initializeApp({ apiKey: window.ENV.FIREBASE_API_KEY, authDomain: window.ENV.FIREBASE_AUTH_DOMAIN, projectId: window.ENV.FIREBASE_PROJECT_ID, storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET, messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID, appId: window.ENV.FIREBASE_APP_ID });
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null, isAdmin = false;
+let allPrompts = [], filteredPrompts = [];
+let activeCategory = 'all';
+let searchTerm = '';
+let sortMode = 'newest';
+let unsubPrompts = null;
+let editingId = null, deleteId = null;
+
+const allowedDomains = [
+  "scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id",
+  "kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id",
+  "prestigeschool.sch.id","pribadibandung.sch.id","pribadidepok.sch.id",
+  "pribadipremiere.sch.id","semesta.sch.id","tnafatih.sch.id","eduversal.org",
+];
+
+// ── Category config ───────────────────────────────
+const CATEGORIES = {
+  'all':                 { label: 'All Prompts',           color: '#1c1c2e', bg: '#f0f0f5', icon: '✨' },
+  'lesson-planning':     { label: 'Lesson Planning',       color: '#0891b2', bg: '#e0f2fe', icon: '📋' },
+  'assessment':          { label: 'Assessment & Grading',  color: '#7c3aed', bg: '#ede9fe', icon: '📊' },
+  'parent-communication':{ label: 'Parent Communication',  color: '#059669', bg: '#d1fae5', icon: '📨' },
+  'student-support':     { label: 'Student Support',       color: '#dc2626', bg: '#fee2e2', icon: '🤝' },
+  'academic-writing':    { label: 'Academic Writing',      color: '#d97706', bg: '#fef3c7', icon: '✍️'  },
+  'administrative':      { label: 'Administrative Tasks',  color: '#64748b', bg: '#f1f5f9', icon: '🗂️'  },
+  'curriculum':          { label: 'Curriculum Development',color: '#0284c7', bg: '#dbeafe', icon: '📚' },
+  'staff-development':   { label: 'Staff Development',     color: '#db2777', bg: '#fce7f3', icon: '🌱' },
+};
+
+// ── Helpers ───────────────────────────────────────
+const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+function avatarColor(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+  return PALETTE[Math.abs(h) % PALETTE.length];
+}
+function getInitials(name) {
+  return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+}
+function buildAvatarEl(el, user) {
+  if (user.photoURL) {
+    el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+    el.style.background = 'transparent';
+  } else {
+    const n = user.displayName || user.email.split('@')[0];
+    el.style.background = avatarColor(n);
+    el.textContent = getInitials(n);
+  }
+}
+function populateNav(user, firestoreName) {
+  const name = firestoreName || user.displayName || user.email.split('@')[0];
+  const firstName = name.split(' ')[0];
+  buildAvatarEl(document.getElementById('navAvatar'), { ...user, displayName: name });
+  document.getElementById('navFirstName').textContent = firstName;
+  buildAvatarEl(document.getElementById('ddAvatar'), { ...user, displayName: name });
+  document.getElementById('ddFullName').textContent = name;
+  document.getElementById('ddEmail').textContent = user.email;
+  document.getElementById('profileWrap').style.display = 'flex';
+}
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 4000);
+}
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.innerHTML = type === 'success'
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>${escHtml(msg)}`
+    : escHtml(msg);
+  t.className = `toast ${type} show`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function extractPlaceholders(text) {
+  const matches = text.match(/\[[^\]]+\]/g);
+  return matches ? [...new Set(matches)] : [];
+}
+
+// ── Auth ──────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  document.getElementById('loadingScreen').style.display = 'none';
+  if (user) {
+    const domain = user.email.split('@')[1];
+    const isPwUser = user.providerData.some(p => p.providerId === 'password');
+    if (!allowedDomains.includes(domain) && !isPwUser) {
+      await signOut(auth);
+      showError('Access denied. Only authorized school emails are allowed.');
+      return;
+    }
+    currentUser = user;
+    let firestoreName = null;
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        isAdmin = snap.data().isAdmin === true;
+        firestoreName = snap.data().displayName || null;
+      }
+    } catch { isAdmin = false; }
+
+    populateNav(user, firestoreName);
+    document.getElementById('loginScreen').classList.remove('visible');
+    document.getElementById('mainContent').style.display = 'block';
+    if (isAdmin) document.getElementById('addPromptBtn').style.display = 'flex';
+
+    initPrompts();
+  } else {
+    currentUser = null; isAdmin = false;
+    if (unsubPrompts) { unsubPrompts(); unsubPrompts = null; }
+    document.getElementById('loginScreen').classList.add('visible');
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('profileWrap').style.display = 'none';
+  }
+});
+
+document.getElementById('googleLoginBtn').addEventListener('click', () =>
+  signInWithPopup(auth, provider).catch(e => showError(e.message)));
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value.trim();
+  const pw = document.getElementById('passwordInput').value;
+  try { await signInWithEmailAndPassword(auth, email, pw); }
+  catch { document.getElementById('loginErr').textContent = 'Invalid email or password'; document.getElementById('loginErr').style.display = 'block'; }
+});
+document.getElementById('ddSignOut').addEventListener('click', () => signOut(auth));
+document.getElementById('profileBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('profileWrap').classList.toggle('open');
+});
+document.addEventListener('click', () => document.getElementById('profileWrap').classList.remove('open'));
+
+// ── Prompts Listener ──────────────────────────────
+function initPrompts() {
+  const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'));
+  unsubPrompts = onSnapshot(q, snap => {
+    allPrompts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    updateStats();
+    renderCategoryList();
+    applyFilters();
+  });
+}
+
+// ── Stats ─────────────────────────────────────────
+function updateStats() {
+  document.getElementById('statTotal').textContent = allPrompts.length;
+  const totalUses = allPrompts.reduce((s, p) => s + (p.uses || 0), 0);
+  document.getElementById('statUses').textContent = totalUses > 999 ? Math.floor(totalUses/1000) + 'k' : totalUses;
+  const weekAgo = Date.now() - 7 * 86400000;
+  const newThisWeek = allPrompts.filter(p => p.createdAt && (p.createdAt.toDate ? p.createdAt.toDate().getTime() : p.createdAt) > weekAgo).length;
+  document.getElementById('statNew').textContent = newThisWeek;
+}
+
+// ── Category list ─────────────────────────────────
+function renderCategoryList() {
+  const counts = {};
+  allPrompts.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+  const list = document.getElementById('catList');
+  list.innerHTML = Object.entries(CATEGORIES).map(([key, c]) => {
+    const count = key === 'all' ? allPrompts.length : (counts[key] || 0);
+    return `<button class="cat-item${activeCategory === key ? ' active' : ''}" data-cat="${key}">
+      <div class="cat-item-left">
+        <div class="cat-dot" style="background:${c.color}"></div>
+        <span>${c.label}</span>
+      </div>
+      <span class="cat-count">${count}</span>
+    </button>`;
+  }).join('');
+  list.querySelectorAll('.cat-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.cat;
+      renderCategoryList();
+      applyFilters();
+    });
+  });
+}
+
+// ── Filters ───────────────────────────────────────
+function applyFilters() {
+  let arr = [...allPrompts];
+  if (activeCategory !== 'all') arr = arr.filter(p => p.category === activeCategory);
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    arr = arr.filter(p =>
+      (p.title || '').toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q) ||
+      (p.prompt || '').toLowerCase().includes(q)
+    );
+  }
+  if (sortMode === 'popular') arr.sort((a, b) => (b.uses || 0) - (a.uses || 0));
+  else if (sortMode === 'az') arr.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+  filteredPrompts = arr;
+  document.getElementById('promptCount').textContent = `${arr.length} prompt${arr.length !== 1 ? 's' : ''}`;
+  renderGrid();
+}
+
+// ── Grid ──────────────────────────────────────────
+function renderGrid() {
+  const grid = document.getElementById('promptGrid');
+  if (filteredPrompts.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <p>No prompts found</p>
+      <span>Try a different search or category</span>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = filteredPrompts.map(p => buildCard(p)).join('');
+  grid.querySelectorAll('.card-copy-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const p = allPrompts.find(x => x.id === btn.dataset.id);
+      if (p) quickCopy(p.prompt, btn);
+    });
+  });
+  grid.querySelectorAll('.card-test-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const p = allPrompts.find(x => x.id === btn.dataset.id);
+      if (p) openDrawer(p);
+    });
+  });
+  if (isAdmin) {
+    grid.querySelectorAll('.card-edit-btn').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); openEditModal(btn.dataset.id); });
+    });
+    grid.querySelectorAll('.card-del-btn').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); openConfirmDelete(btn.dataset.id); });
+    });
+  }
+}
+
+function buildCard(p) {
+  const cat = CATEGORIES[p.category] || CATEGORIES['lesson-planning'];
+  const icon = p.icon || cat.icon;
+  const preview = (p.prompt || '').replace(/\n/g, ' ').trim();
+  const uses = p.uses || 0;
+  return `<div class="prompt-card">
+    <div class="card-accent-bar" style="background:${cat.color}"></div>
+    ${isAdmin ? `
+    <div class="card-admin-btns">
+      <button class="card-admin-btn card-edit-btn" data-id="${p.id}" title="Edit" onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+      <button class="card-admin-btn card-del-btn" data-id="${p.id}" title="Delete" onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </button>
+    </div>` : ''}
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon" style="background:${cat.bg}">${escHtml(icon)}</div>
+        <div class="card-title-wrap">
+          <div class="card-title">${escHtml(p.title || 'Untitled Prompt')}</div>
+          <span class="card-cat-badge" style="background:${cat.bg};color:${cat.color}">${escHtml(cat.label)}</span>
+        </div>
+      </div>
+      <div class="card-desc">${escHtml(p.description || '')}</div>
+      <div class="card-preview">${escHtml(preview)}</div>
+    </div>
+    <div class="card-footer">
+      <div class="card-uses">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        ${uses} use${uses !== 1 ? 's' : ''}
+      </div>
+      <div class="card-actions">
+        <button class="card-btn card-copy-btn" data-id="${p.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+        <button class="card-btn primary card-test-btn" data-id="${p.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Test
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── Quick copy (card) ─────────────────────────────
+async function quickCopy(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const orig = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = orig; }, 2000);
+    showToast('Prompt copied to clipboard', 'success');
+  } catch { showToast('Could not copy — please select and copy manually'); }
+}
+
+// ── Drawer ────────────────────────────────────────
+function openDrawer(p) {
+  const cat = CATEGORIES[p.category] || CATEGORIES['lesson-planning'];
+  document.getElementById('drawerIcon').textContent = p.icon || cat.icon;
+  document.getElementById('drawerIcon').style.background = cat.bg;
+  document.getElementById('drawerTitle').textContent = p.title || '';
+  const badge = document.getElementById('drawerBadge');
+  badge.textContent = cat.label;
+  badge.style.background = cat.bg;
+  badge.style.color = cat.color;
+  document.getElementById('drawerDesc').textContent = p.description || '';
+  document.getElementById('drawerPromptText').value = p.prompt || '';
+
+  const placeholders = extractPlaceholders(p.prompt || '');
+  const pSection = document.getElementById('placeholderSection');
+  if (placeholders.length > 0) {
+    pSection.style.display = 'block';
+    document.getElementById('placeholderTags').innerHTML = placeholders.map(ph =>
+      `<span class="placeholder-tag" data-ph="${escHtml(ph)}">${escHtml(ph)}</span>`
+    ).join('');
+    document.getElementById('placeholderTags').querySelectorAll('.placeholder-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        const ta = document.getElementById('drawerPromptText');
+        const ph = tag.dataset.ph;
+        const replacement = prompt(`Replace ${ph} with:`, '');
+        if (replacement !== null) {
+          ta.value = ta.value.split(ph).join(replacement);
+          renderPlaceholders(ta.value);
+        }
+      });
+    });
+  } else {
+    pSection.style.display = 'none';
+  }
+
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('drawerPromptText').addEventListener('input', e => renderPlaceholders(e.target.value));
+
+  // Increment uses counter
+  updateDoc(doc(db, 'prompts', p.id), { uses: increment(1) }).catch(() => {});
+}
+function renderPlaceholders(text) {
+  const placeholders = extractPlaceholders(text);
+  const pSection = document.getElementById('placeholderSection');
+  if (placeholders.length > 0) {
+    pSection.style.display = 'block';
+    document.getElementById('placeholderTags').innerHTML = placeholders.map(ph =>
+      `<span class="placeholder-tag" data-ph="${escHtml(ph)}">${escHtml(ph)}</span>`
+    ).join('');
+  } else {
+    pSection.style.display = 'none';
+  }
+}
+document.getElementById('drawerClose').addEventListener('click', () =>
+  document.getElementById('drawerOverlay').classList.remove('open'));
+document.getElementById('drawerOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('drawerOverlay'))
+    document.getElementById('drawerOverlay').classList.remove('open');
+});
+document.getElementById('drawerCopyBtn').addEventListener('click', async () => {
+  const text = document.getElementById('drawerPromptText').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('drawerCopyBtn');
+    btn.classList.add('success');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    setTimeout(() => {
+      btn.classList.remove('success');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Prompt`;
+    }, 2200);
+  } catch { showToast('Could not copy automatically'); }
+});
+document.getElementById('drawerTestBtn').addEventListener('click', async () => {
+  const text = document.getElementById('drawerPromptText').value;
+  // Copy to clipboard and open claude.ai
+  try { await navigator.clipboard.writeText(text); } catch {}
+  window.open('https://claude.ai/new', '_blank', 'noopener,noreferrer');
+  showToast('Prompt copied! Paste it in Claude (Ctrl+V)', 'success');
+});
+
+// ── Search & Sort ──────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.trim();
+  applyFilters();
+});
+document.getElementById('sortSelect').addEventListener('change', e => {
+  sortMode = e.target.value;
+  applyFilters();
+});
+
+// ── Add / Edit Modal ──────────────────────────────
+document.getElementById('addPromptBtn').addEventListener('click', () => openAddModal());
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add Prompt';
+  document.getElementById('mTitle').value = '';
+  document.getElementById('mCategory').value = 'lesson-planning';
+  document.getElementById('mIcon').value = '';
+  document.getElementById('mDesc').value = '';
+  document.getElementById('mPrompt').value = '';
+  document.getElementById('modalErr').style.display = 'none';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function openEditModal(id) {
+  const p = allPrompts.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Prompt';
+  document.getElementById('mTitle').value = p.title || '';
+  document.getElementById('mCategory').value = p.category || 'lesson-planning';
+  document.getElementById('mIcon').value = p.icon || '';
+  document.getElementById('mDesc').value = p.description || '';
+  document.getElementById('mPrompt').value = p.prompt || '';
+  document.getElementById('modalErr').style.display = 'none';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+document.getElementById('modalCancel').addEventListener('click', () =>
+  document.getElementById('modalOverlay').classList.remove('open'));
+document.getElementById('modalSave').addEventListener('click', async () => {
+  const title = document.getElementById('mTitle').value.trim();
+  const category = document.getElementById('mCategory').value;
+  const icon = document.getElementById('mIcon').value.trim();
+  const description = document.getElementById('mDesc').value.trim();
+  const prompt = document.getElementById('mPrompt').value.trim();
+  const err = document.getElementById('modalErr');
+  if (!title || !description || !prompt) {
+    err.textContent = 'Please fill in Title, Description, and Prompt text.';
+    err.style.display = 'block'; return;
+  }
+  err.style.display = 'none';
+  const data = { title, category, description, prompt, ...(icon && { icon }) };
+  try {
+    if (editingId) {
+      await updateDoc(doc(db, 'prompts', editingId), data);
+      showToast('Prompt updated', 'success');
+    } else {
+      await addDoc(collection(db, 'prompts'), { ...data, uses: 0, createdAt: serverTimestamp(), createdBy: currentUser.uid });
+      showToast('Prompt added', 'success');
+    }
+    document.getElementById('modalOverlay').classList.remove('open');
+  } catch (e) { err.textContent = e.message; err.style.display = 'block'; }
+});
+
+// ── Delete ────────────────────────────────────────
+function openConfirmDelete(id) {
+  deleteId = id;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmCancel').addEventListener('click', () =>
+  document.getElementById('confirmOverlay').classList.remove('open'));
+document.getElementById('confirmDelete').addEventListener('click', async () => {
+  if (!deleteId) return;
+  try {
+    await deleteDoc(doc(db, 'prompts', deleteId));
+    showToast('Prompt deleted');
+    document.getElementById('confirmOverlay').classList.remove('open');
+    deleteId = null;
+  } catch (e) { showToast('Error: ' + e.message); }
+});
+
+// Wire up admin btn clicks via event delegation
+document.getElementById('promptGrid').addEventListener('click', e => {
+  if (!isAdmin) return;
+  const editBtn = e.target.closest('.card-edit-btn');
+  const delBtn  = e.target.closest('.card-del-btn');
+  if (editBtn) openEditModal(editBtn.dataset.id);
+  if (delBtn)  openConfirmDelete(delBtn.dataset.id);
+});
+
+// ── FAB ───────────────────────────────────────────
+document.getElementById('fabMain').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('fabContainer').classList.toggle('open');
+});
+document.addEventListener('click', () =>
+  document.getElementById('fabContainer').classList.remove('open'));
+
+// ── Seed default prompts (run once if collection empty) ──────
+async function seedDefaultPrompts() {
+  // Only seeds if Firestore has zero prompts
+  const defaults = [
+    // Lesson Planning
+    { category:'lesson-planning', icon:'📋', title:'Differentiated Lesson Plan Generator', description:'Create a complete lesson plan with three differentiation levels for diverse learners in your classroom.', prompt:`Create a differentiated lesson plan for [Subject] at [Grade Level] on the topic of [Topic/Unit].
+
+Include:
+1. Learning Objectives (3–4 measurable objectives using Bloom's Taxonomy)
+2. Three differentiation tiers:
+   - Tier 1 (Support): Scaffolded activities for students who need additional support
+   - Tier 2 (Core): Activities for students working at grade level
+   - Tier 3 (Extension): Enrichment activities for advanced learners
+3. Materials and resources needed
+4. Suggested timing (lesson is [Duration] minutes)
+5. Assessment strategy to check for understanding
+6. Possible misconceptions and how to address them
+
+School context: [School Name/Type], class size approximately [Class Size] students.` },
+
+    { category:'lesson-planning', icon:'🔍', title:'Inquiry-Based Learning Sequence', description:'Design a 5-stage inquiry learning sequence that builds critical thinking and student agency.', prompt:`Design an inquiry-based learning sequence for [Subject], [Grade Level], on the topic: [Topic].
+
+Use the 5E Inquiry Model:
+1. Engage – Hook activity to spark curiosity (10–15 min)
+2. Explore – Hands-on investigation or research task
+3. Explain – Structured opportunity to share findings
+4. Elaborate – Apply knowledge to a new, authentic scenario
+5. Evaluate – Assessment task aligned to learning objectives
+
+Also include:
+- Key inquiry questions to guide student thinking
+- Suggested grouping strategies
+- How to differentiate for mixed ability levels
+- Resources or websites to support research` },
+
+    // Assessment
+    { category:'assessment', icon:'📊', title:'Assessment Rubric Builder', description:'Generate a detailed, criterion-referenced rubric for any task or assignment.', prompt:`Create a detailed assessment rubric for the following task:
+
+Task/Assignment: [Assignment Name and Brief Description]
+Subject: [Subject]
+Grade Level: [Grade Level]
+Assessment Type: [Essay / Project / Presentation / Lab Report / Other]
+
+The rubric should have:
+- 4–5 assessment criteria relevant to this task
+- 4 performance levels: Excellent (4), Proficient (3), Developing (2), Beginning (1)
+- Clear, observable descriptors for each cell
+- A total score guide
+
+Format as a table. Make language accessible to students so they can use it for self-assessment.` },
+
+    { category:'assessment', icon:'📝', title:'Formative Assessment Toolkit', description:'Generate five varied formative assessment strategies tailored to your lesson topic.', prompt:`Suggest 5 varied formative assessment strategies for checking student understanding in a [Subject] lesson on [Topic] at [Grade Level].
+
+For each strategy, provide:
+1. Strategy name and brief description
+2. How to implement it (step-by-step, 3–5 minutes max)
+3. What to look/listen for (success indicators)
+4. How to use the data to adjust teaching immediately
+
+Include a mix of: written, verbal, visual, and digital methods.
+Class setting: [Class size, any specific considerations like EAL learners or mixed ability].` },
+
+    // Parent Communication
+    { category:'parent-communication', icon:'📨', title:'Progress Report Narrative Writer', description:'Write a professional, strengths-based student progress narrative for parent reports.', prompt:`Write a professional student progress narrative for a parent/guardian report card.
+
+Student information:
+- Name: [Student Name]
+- Subject: [Subject]
+- Grade Level: [Grade Level]
+- Current performance level: [Exceeding / Meeting / Approaching / Below grade level expectations]
+
+Key strengths to highlight: [List 2–3 strengths]
+Areas for growth: [List 1–2 specific areas]
+Recent notable achievement: [Describe one positive example]
+
+Tone: Warm, professional, and constructive. Length: 3–4 sentences.
+Avoid vague statements. Use specific, observable behaviours and examples.` },
+
+    { category:'parent-communication', icon:'📞', title:'Parent Meeting Agenda Creator', description:'Create a structured and productive parent-teacher meeting agenda.', prompt:`Create a structured agenda for a 20-minute parent-teacher meeting.
+
+Meeting purpose: [e.g., Regular progress review / Concern about behaviour / Academic support discussion]
+Student: [Student Name], [Grade Level]
+Key points to cover: [List your main discussion points]
+
+Include:
+1. Welcome and introductions (2 min)
+2. Section for sharing positives first
+3. Key discussion points with suggested time allocation
+4. Space for parent input and questions
+5. Action items and next steps section
+6. Follow-up plan
+
+Make the agenda feel collaborative, not one-sided.` },
+
+    { category:'parent-communication', icon:'✉️', title:'Concern Letter Drafter', description:'Draft a sensitive, professional letter to parents about a student concern.', prompt:`Draft a professional letter to parents/guardians regarding a concern about their child.
+
+Student: [Student Name], [Grade Level]
+Concern: [Describe the specific concern — academic, behavioural, attendance, wellbeing]
+Context: [Relevant background information]
+Actions already taken: [List steps taken so far]
+
+The letter should:
+- Begin with something positive about the student
+- Clearly describe the concern using objective language (no blame)
+- Explain why you are reaching out
+- Suggest specific next steps and invite collaboration
+- Offer a meeting or phone call
+- Use a warm, respectful and professional tone
+- Be no longer than one page` },
+
+    // Student Support
+    { category:'student-support', icon:'🤝', title:'Student Support Plan Builder', description:'Create an individualized learning support plan for a student with specific needs.', prompt:`Create an individualized student support plan for:
+
+Student: [Student Name], [Grade Level]
+Subject(s) affected: [Subject(s)]
+Identified challenge: [e.g., Reading comprehension, Math fluency, Executive functioning, Social-emotional, EAL/ESL]
+Current performance: [Brief description]
+Student strengths: [List known strengths]
+
+The support plan should include:
+1. SMART learning goals (2–3 goals for the next [Time Period])
+2. In-class accommodations and modifications
+3. Recommended instructional strategies
+4. Resources and interventions
+5. Progress monitoring method and frequency
+6. Roles and responsibilities (teacher, student, parents, support staff)` },
+
+    { category:'student-support', icon:'💡', title:'Re-Engagement Strategy Generator', description:'Get practical strategies for reconnecting with a disengaged or unmotivated student.', prompt:`Suggest practical re-engagement strategies for a student who appears disengaged.
+
+Student profile:
+- Grade Level: [Grade Level]
+- Subject: [Subject]
+- Observed behaviour: [e.g., Not completing work, distracted, withdrawn, disruptive]
+- Duration of issue: [How long this has been observed]
+- Known context: [Any relevant background — home situation, friendships, interests, learning differences]
+
+Please provide:
+1. 3 immediate classroom strategies (implementable today)
+2. 2 relationship-building approaches
+3. A suggested student conversation starter (script)
+4. One idea for involving parents/guardians constructively
+5. A self-reflection prompt to give the student` },
+
+    // Academic Writing
+    { category:'academic-writing', icon:'✍️', title:'Student Writing Feedback Generator', description:'Provide structured, growth-oriented feedback on a student's written work.', prompt:`Provide detailed academic feedback on the following student writing sample.
+
+Assignment context: [Assignment title and requirements]
+Grade Level: [Grade Level]
+Subject: [Subject]
+Student writing:
+---
+[PASTE STUDENT WRITING HERE]
+---
+
+Your feedback should include:
+1. What the student did well (2–3 specific strengths with examples from the text)
+2. Main areas for improvement (2–3 specific, actionable suggestions)
+3. One focused revision task the student should do
+4. A grade or level indication: [Exceeding / Meeting / Approaching / Beginning] with brief justification
+
+Tone: Constructive, encouraging, and specific. Avoid vague praise. Refer directly to the student's text.` },
+
+    { category:'academic-writing', icon:'🎯', title:'Research Question Refiner', description:'Transform a broad topic into a focused, researchable academic question.', prompt:`Help me develop strong research questions for the following academic context.
+
+Student level: [Grade Level / University Year]
+Subject/Discipline: [Subject]
+Broad topic area: [Topic]
+Purpose of research: [Essay / Extended essay / Project / Thesis]
+Available time and scope: [e.g., 2,000 word essay, 3 weeks research time]
+
+Please:
+1. Analyse the broad topic and identify 3 possible angles
+2. Propose one strong, focused research question for each angle
+3. Rate each question for: scope (too broad/narrow), researchability, and student interest potential
+4. Recommend the strongest question and explain why
+5. Suggest 3–4 key sub-questions to guide the research` },
+
+    // Administrative
+    { category:'administrative', icon:'🗂️', title:'Meeting Minutes Formatter', description:'Structure and format raw meeting notes into professional minutes.', prompt:`Format the following raw meeting notes into professional meeting minutes.
+
+Meeting details:
+- Meeting title: [Meeting Title]
+- Date and time: [Date / Time]
+- Attendees: [List names and roles]
+- Facilitator/Chair: [Name]
+- Minute taker: [Name]
+
+Raw notes:
+---
+[PASTE YOUR RAW NOTES HERE]
+---
+
+Format into:
+1. Meeting opened / quorum confirmation
+2. Apologies
+3. Agenda items discussed (with key points and decisions made)
+4. Action items table: Action | Responsible Person | Due Date
+5. Next meeting date and time
+6. Meeting closed
+
+Use clear, concise language in third person. Remove filler words and repetition.` },
+
+    { category:'administrative', icon:'📄', title:'Policy Summary Simplifier', description:'Summarise a complex policy document into a clear, staff-friendly overview.', prompt:`Summarise the following policy document for school staff.
+
+Audience: [Teaching staff / Administrative staff / All staff]
+Purpose: [Why they need to understand this policy]
+
+Policy text:
+---
+[PASTE POLICY TEXT HERE]
+---
+
+Create a staff summary that includes:
+1. What this policy is about (2–3 sentences)
+2. Who it applies to
+3. Key requirements and staff responsibilities (bullet points)
+4. Important dates or deadlines
+5. What staff must do / must not do (clear dos and don'ts)
+6. Where to get help or report concerns
+
+Keep language clear, practical and jargon-free. Maximum 1 page.` },
+
+    // Curriculum
+    { category:'curriculum', icon:'📚', title:'Unit Overview Designer', description:'Create a comprehensive unit overview aligned to learning standards and outcomes.', prompt:`Design a unit overview for the following:
+
+Subject: [Subject]
+Grade Level: [Grade Level]
+Unit Title: [Unit Title]
+Curriculum Framework/Standards: [e.g., Cambridge, IB, National Curriculum, K13]
+Duration: [Number of weeks / lessons]
+Key prerequisites: [What students should already know]
+
+The unit overview should include:
+1. Big Ideas / Essential Questions (2–3)
+2. Learning outcomes (aligned to the specified framework)
+3. Key concepts and vocabulary (8–12 terms)
+4. Suggested lesson sequence outline (week by week)
+5. Summative assessment task description
+6. Cross-curricular connections
+7. Recommended resources and materials` },
+
+    // Staff Development
+    { category:'staff-development', icon:'🌱', title:'Individual PD Plan Generator', description:'Create a personalised professional development plan aligned to school priorities and teacher goals.', prompt:`Create an Individual Professional Development Plan (PDP) for a teacher.
+
+Teacher profile:
+- Subject / Role: [Subject or Role]
+- Years of experience: [Years]
+- Current strength areas: [List 2–3]
+- Self-identified growth areas: [List 2–3]
+- School's current strategic priorities: [List 1–3 school priorities]
+
+Time period: [Academic year / Semester]
+
+The PDP should include:
+1. 2–3 professional learning goals (SMART format)
+2. For each goal:
+   - Specific actions and activities
+   - Resources and support needed
+   - Evidence of progress / success criteria
+   - Timeline and check-in points
+3. Coaching or mentoring opportunities to pursue
+4. Connection to school improvement priorities
+5. Reflection prompts for mid-year and end-year review` },
+  ];
+
+  // Check if prompts collection is empty
+  const { getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+  const snap = await getDocs(collection(db, 'prompts'));
+  if (!snap.empty) return; // already seeded
+
+  console.log('Seeding default prompts…');
+  for (const p of defaults) {
+    await addDoc(collection(db, 'prompts'), { ...p, uses: 0, createdAt: serverTimestamp(), createdBy: 'system' });
+  }
+  console.log('Seeding complete.');
+}
+
+// Call seed on first admin login
+onAuthStateChanged(auth, async user => {
+  if (user && isAdmin) await seedDefaultPrompts();
+});
+</script>
+</body>
+</html>

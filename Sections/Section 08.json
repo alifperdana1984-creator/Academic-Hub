@@ -1,0 +1,149 @@
+{
+  "id": "08",
+  "title": "Inclusion, EAL, and Learning Support",
+  "lastUpdated": "2025-01-16",
+  "subsections": [
+    {
+      "id": "8.1",
+      "title": "Philosophy of Inclusion",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal schools are committed to providing an inclusive education where every student, regardless of their background, ability, or language proficiency, feels valued and supported to reach their full potential."
+        }
+      ]
+    },
+    {
+      "id": "8.2",
+      "title": "The Graduated Response (Three Waves of Support)",
+      "content": [
+        {
+          "type": "text",
+          "text": "We utilize a tiered approach to support, ensuring resources are matched to student needs."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            {
+              "title": "Wave 1: Quality First Teaching (Universal)",
+              "points": [
+                "High-quality, differentiated instruction in the mainstream classroom.",
+                "Accessible to all students.",
+                "Teachers use flexible grouping and scaffolded tasks."
+              ]
+            },
+            {
+              "title": "Wave 2: Targeted Support (Small Group)",
+              "points": [
+                "For students who are not making expected progress despite Wave 1 support.",
+                "Time-bound interventions (e.g., reading groups, math booster sessions).",
+                "Monitored by subject teachers and Learning Support staff."
+              ]
+            },
+            {
+              "title": "Wave 3: Specialist Support (Individual)",
+              "points": [
+                "For students with significant or complex needs.",
+                "Highly personalized interventions, often 1:1.",
+                "May involve external specialists (e.g., educational psychologists, speech therapists)."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.3",
+      "title": "English as an Additional Language (EAL)",
+      "content": [
+        {
+          "type": "text",
+          "text": "Given the international nature of our curriculum, EAL support is critical. Our goal is to help students access the curriculum in English while valuing their home languages."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Initial Assessment: All new students are assessed using WIDA or Cambridge placement tests.",
+            "Support Models: Push-in support (co-teaching) and Pull-out (intensive English) depending on proficiency level.",
+            "Exit Criteria: Clear benchmarks for students to transition out of intensive EAL support."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.4",
+      "title": "Special Educational Needs (SEN)",
+      "content": [
+        {
+          "type": "text",
+          "text": "We support students with a range of learning needs through identification, planning, and review."
+        },
+        {
+          "type": "text",
+          "title": "Individualized Education Plans (IEPs)",
+          "text": "Students at Wave 3 (and some at Wave 2) will have an IEP detailing:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Specific learning targets (SMART goals).",
+            "Strategies and accommodations to be used in class.",
+            "Success criteria and review dates."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.5",
+      "title": "Gifted and Talented (G&T)",
+      "content": [
+        {
+          "type": "text",
+          "text": "Inclusion also means challenging our most able students."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Identification: Through assessment data (EASE, Checkpoint) and teacher nomination.",
+            "Provision: Enrichment activities, extension tasks within lessons, and opportunities for acceleration (e.g., EduOS olympiad program)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.6",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "table",
+          "title": "Key Roles",
+          "headers": ["Role", "Responsibilities"],
+          "rows": [
+            ["Classroom Teacher", "Primary responsibility for the progress of all students in their class; implementing differentiation."],
+            ["SENCo / Learning Support Coordinator", "Managing the SEN register, coordinating interventions, supporting teachers, liaising with parents."],
+            ["School Counselor", "Supporting social-emotional wellbeing, providing pastoral care."],
+            ["Parents", "Partners in the process; providing insights and supporting learning at home."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.7",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "CIS Domain E: Access to Teaching and Learning.",
+            "WASC Category B: Standards-based Student Learning: Curriculum.",
+            "Indonesian Regulation on Inclusive Education (Permendiknas No. 70 Tahun 2009)."
+          ]
+        }
+      ]
+    }
+  ]
+}
