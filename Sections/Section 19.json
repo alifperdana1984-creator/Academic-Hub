@@ -1,0 +1,256 @@
+{
+  "id": "19",
+  "title": "Templates and Operational Tools (Appendices)",
+  "lastUpdated": "2025-01-17",
+  "subsections": [
+    {
+      "id": "19.1",
+      "title": "Purpose and Overview",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section provides standardized templates and operational tools to support consistent implementation of policies, procedures, and practices across Eduversal Partner Schools."
+        },
+        {
+          "type": "list",
+          "title": "Template Design Principles",
+          "items": [
+            "Compliance-Ready for Indonesian MoE, Cambridge, and CIS/WASC requirements.",
+            "EAL-Friendly language and contextually adaptable usage.",
+            "Evidence-Generating for accreditation portfolios.",
+            "EduNav-Compatible structure and reporting fields."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Repository Organization",
+          "text": "Templates are organized by functional area, cross-referenced to handbook sections, and retained according to Section 14 requirements."
+        }
+      ]
+    },
+    {
+      "id": "19.2",
+      "title": "Template Index and Cross-Reference",
+      "content": [
+        {
+          "type": "table",
+          "title": "Template Sets",
+          "rows": [
+            ["Strategic Planning and School Improvement", "T-01, T-02, T-04"],
+            ["Governance", "T-05, T-07"],
+            ["Safeguarding and Child Protection", "T-08, T-09, T-11"],
+            ["Inclusion, EAL, and Learning Support", "T-12, T-15"],
+            ["Teaching Quality and Professional Practice", "T-17, T-20"],
+            ["Assessment and Examinations", "T-21, T-23"],
+            ["Operations and Risk Management", "T-28, T-31"],
+            ["Communications and Community Engagement", "T-32, T-34"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "19.3",
+      "title": "Strategic Planning and School Improvement Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-01 Strategic Plan Template: 3-5 year strategic direction aligned to vision, mission, and SLOs.",
+            "T-02 School Improvement Plan (SIP): annual priorities, success criteria, metrics, budget, and accountability.",
+            "T-04 PDSA Cycle Documentation: PLAN-DO-STUDY-ACT cycle with evidence and decisions."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 4 and Section 17."
+        }
+      ]
+    },
+    {
+      "id": "19.4",
+      "title": "Governance Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-05 Board Meeting Agenda: opening, strategic items, governance items, financial oversight, safeguarding, closing.",
+            "T-07 Conflict of Interest Declaration: annual declaration and update requirement within 30 days of material change."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 1 and Section 13.4."
+        }
+      ]
+    },
+    {
+      "id": "19.5",
+      "title": "Safeguarding and Child Protection Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-08 Safeguarding Concern/Incident Form: reporter, student, concern details, DSL response, and critical reminders.",
+            "T-09 Low-Level Concern Log: pattern tracking for boundary/professional conduct concerns and monthly DSL review.",
+            "T-11 Safer Recruitment Checklist: controls across advertisement, application, interview, checks, and induction."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 9 and Section 12.2."
+        }
+      ]
+    },
+    {
+      "id": "19.6",
+      "title": "Inclusion, EAL, and Learning Support Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-12 IEP Template: student profile, SMART goals, interventions, accommodations, and progress monitoring.",
+            "T-15 CEFR Language Profile: proficiency tracking, CEFR descriptors (A1-C2), differentiation strategies, and progress notes."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 8 and Section 5.4."
+        }
+      ]
+    },
+    {
+      "id": "19.7",
+      "title": "Teaching Quality and Professional Practice Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-17 Lesson Observation Rubric and Form: observation details plus Domains 1-4 and rating scale (Unsatisfactory to Distinguished).",
+            "T-20 Professional Development Plan (PDP): individual goals, activities, and end-of-year review outcomes."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 7 and Section 12."
+        }
+      ]
+    },
+    {
+      "id": "19.8",
+      "title": "Assessment and Examinations Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-21 Moderation Cover Sheet: panel, sampling, standardization, findings, actions, and sign-off.",
+            "T-23 Examination Incident Report: incident classification, factual narrative, immediate actions, evidence, Cambridge reporting, and follow-up."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Moderation sample size guideline: minimum 10% or 10 scripts, whichever is greater."
+        }
+      ]
+    },
+    {
+      "id": "19.9",
+      "title": "Operations and Risk Management Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-28 Trip/Activity Risk Assessment: activity profile, participant ratios, controls, emergency contacts, required documents, approvals.",
+            "T-31 Risk Register: risk categories, likelihood-impact scoring, and review schedule."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Risk Score Bands",
+          "rows": [
+            ["Low", "1-4 (Monitor)"],
+            ["Medium", "5-9 (Active management)"],
+            ["High", "10-15 (Priority action)"],
+            ["Critical", "16-25 (Immediate action required)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "19.10",
+      "title": "Communications and Community Engagement Templates",
+      "content": [
+        {
+          "type": "list",
+          "title": "Templates",
+          "items": [
+            "T-32 Parent-Teacher Conference Agenda: preparation and 15-20 minute conference structure.",
+            "T-34 Complaints Procedure Form: intake, complaint stage, investigation, resolution, lessons learned, and sign-off."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "Section 16 and Section 1.7."
+        }
+      ]
+    },
+    {
+      "id": "19.11",
+      "title": "Template Compliance Alignment Summary",
+      "content": [
+        {
+          "type": "text",
+          "text": "Templates in this section support compliance with Indonesian regulatory expectations, Cambridge requirements, and CIS/WASC accreditation processes."
+        }
+      ]
+    },
+    {
+      "id": "19.12",
+      "title": "Evidence Requirements and Artifacts",
+      "content": [
+        {
+          "type": "list",
+          "title": "Evidence Storage and Organization",
+          "items": [
+            "Store completed templates in EduNav with appropriate access control.",
+            "Retain signed originals (e.g., safeguarding and conflict forms) in secure physical files where required.",
+            "Use naming convention: [TemplateCode][Subject/Area][Date]_[Version] (e.g., T-17_Math10_2025-03-15_v1).",
+            "Apply retention periods from Section 14.5, including extended safeguarding retention."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Accreditation Visit Preparation",
+          "items": [
+            "Sample completed templates demonstrating consistent implementation.",
+            "Aggregated data summaries from template inputs.",
+            "Evidence of template review and improvement cycles.",
+            "Staff training records on template use."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Template Review and Updates",
+          "items": [
+            "Annual review by Eduversal Academic Team.",
+            "School modification proposals via General Manager.",
+            "Version control and changelog maintained in EduNav.",
+            "Updates communicated through Principal Network and EduNav notifications."
+          ]
+        }
+      ]
+    }
+  ]
+}

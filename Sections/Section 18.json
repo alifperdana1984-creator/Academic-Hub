@@ -1,0 +1,154 @@
+{
+  "id": "18",
+  "title": "Accreditation Toolkit (CIS/WASC)",
+  "lastUpdated": "2025-01-17",
+  "subsections": [
+    {
+      "id": "18.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To provide Eduversal Partner Schools with a practical, step-by-step guide and resource kit for successfully navigating the international accreditation process with bodies such as the Council of International Schools (CIS) and the Western Association of Schools and Colleges (WASC). This toolkit aims to demystify the process, streamline evidence collection, and embed the self-study into the school's ongoing cycle of improvement."
+        }
+      ]
+    },
+    {
+      "id": "18.2",
+      "title": "Understanding International Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "International accreditation is not an 'inspection' but a peer-review process focused on continuous improvement. It validates the quality of a school's educational program against rigorous, internationally-recognized standards. Both CIS and WASC follow a similar multi-year cycle."
+        },
+        {
+          "type": "process",
+          "title": "The Accreditation Cycle",
+          "purpose": "A cyclical journey of reflection, validation, and growth.",
+          "steps": [
+            { "n": 1, "title": "Application & Membership", "desc": "School applies and becomes a candidate/member school." },
+            { "n": 2, "title": "Self-Study (12-18 months)", "desc": "The school conducts a comprehensive internal review against the accreditation standards, involving all stakeholders. This culminates in a detailed Self-Study Report." },
+            { "n": 3, "title": "Team Visit (1 week)", "desc": "A team of peer educators from other accredited schools visits to validate the findings of the Self-Study Report through observations and interviews." },
+            { "n": 4, "title": "Report & Action Planning", "desc": "The school receives a formal report with commendations and recommendations. The school then creates an action plan to address the recommendations." },
+            { "n": 5, "title": "Follow-Up & Reporting", "desc": "The school submits progress reports (e.g., First Report, Five-Year Report) to the agency, demonstrating ongoing improvement." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18.3",
+      "title": "The Self-Study: A Whole-School Endeavor",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Self-Study is the most critical phase. It is a process of institutional reflection, not a task to be completed by one person. Success depends on broad participation."
+        },
+        {
+          "type": "roles",
+          "title": "Committee Structure",
+          "roles": [
+            { "title": "Steering Committee", "resp": ["Chaired by the Accreditation Coordinator and Principal.", "Oversees the entire process, sets timelines, edits the final report."] },
+            { "title": "Domain/Standard Committees", "resp": ["Groups of teachers, staff, parents, and students.", "Each committee focuses on one section of the standards (e.g., CIS Domain C: Curriculum).", "Responsible for gathering evidence, analyzing it, and writing their section of the report."] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18.4",
+      "title": "Mapping Eduversal Standards to CIS & WASC",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Eduversal Academic Standards are designed to align directly with CIS and WASC standards. This table helps committees identify where to find relevant policies and evidence within this Hub."
+        },
+        {
+          "type": "table",
+          "title": "Alignment Map",
+          "headers": ["CIS Domain / WASC Category", "Primary Eduversal Section(s)"],
+          "rows": [
+            ["CIS A: Purpose & Direction / WASC A: Organization", "01 (Governance), 04 (Strategy), 17 (QA)"],
+            ["CIS B: Governance, Leadership & Ownership", "01 (Governance), 02 (Legal), 13 (Finance)"],
+            ["CIS C: The Curriculum / WASC B: Curriculum", "05 (Curriculum), 06 (Assessment)"],
+            ["CIS D: Teaching & Assessing for Learning / WASC B: Instruction & Assessment", "07 (Teaching), 06 (Assessment), 08 (Inclusion)"],
+            ["CIS E: Student Learning & Well-being / WASC C: Student Support", "08 (Inclusion), 09 (Safeguarding), 22 (Conduct)"],
+            ["CIS F: Staffing", "12 (Staff Lifecycle), 07 (Teaching Quality)"],
+            ["CIS G: Premises & Physical Accommodation / WASC D: Resources", "13 (Operations), 15 (Risk)"],
+            ["CIS H: Community & Home Partnerships", "11 (Admissions), 16 (Community Engagement)"],
+            ["WASC D: Resource Management & Development", "13 (Finance), 14 (Data), 21 (Technology)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18.5",
+      "title": "Evidence Gathering Best Practices",
+      "content": [
+        {
+          "type": "text",
+          "text": "Evidence should demonstrate that policies are not just written, but are 'living documents' that are implemented, understood, and reviewed."
+        },
+        {
+          "type": "list",
+          "title": "Types of Evidence",
+          "items": [
+            "Policy Documents: The written standard (e.g., Safeguarding Policy from Section 09).",
+            "Implementation Evidence: Proof the policy is in action (e.g., training records for safeguarding, visitor sign-in logs, meeting minutes where a safeguarding case was discussed).",
+            "Review Evidence: Proof the policy is evaluated and improved (e.g., annual review report of the policy, survey feedback on safety).",
+            "Student Work: Samples of assignments, projects, and assessments that demonstrate curriculum standards are being met.",
+            "Data: Survey results, exam analysis, attendance records, budget reports."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Organize evidence digitally in shared folders (e.g., Google Drive) structured by the accreditation standards for easy access by the visiting team."
+        }
+      ]
+    },
+    {
+      "id": "18.6",
+      "title": "Preparing for the Visiting Team",
+      "content": [
+        {
+          "type": "text",
+          "text": "The visit is a collaborative and collegial experience. The goal is to present an authentic picture of the school."
+        },
+        {
+          "type": "numbered",
+          "title": "Logistical Checklist",
+          "items": [
+            { "title": "Team Room", "points": ["A dedicated, comfortable room with reliable internet, power, a printer, and refreshments."] },
+            { "title": "Documentation", "points": ["Provide digital access to the Self-Study, all evidence, school handbooks, curriculum maps, and the visit schedule."] },
+            { "title": "Scheduling", "points": ["Work with the team chair to create a schedule of interviews, observations, and meetings. Ensure all requested individuals are available."] }
+          ]
+        },
+        {
+          "type": "numbered",
+          "title": "Preparing Your Community",
+          "items": [
+            { "title": "Brief Staff", "points": ["Explain the purpose of the visit. Encourage teachers to teach normally and speak openly and honestly during interviews."] },
+            { "title": "Inform Parents & Students", "points": ["Let the community know about the visit and that some members may be invited to meet with the team."] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18.7",
+      "title": "Post-Visit: Embracing Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "The end of the visit is the beginning of the next phase of improvement."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Review the Report: The leadership team and steering committee should carefully review the visiting team's final report.",
+            "Celebrate Commendations: Share the positive feedback with the entire community to build morale and recognize hard work.",
+            "Address Recommendations: Integrate the report's recommendations into the school's main School Improvement Plan (SIP) as new strategic goals or key actions (see Section 4).",
+            "Report Progress: Fulfill the agency's reporting requirements (e.g., First Report After Visit) by documenting actions taken and their impact."
+          ]
+        }
+      ]
+    }
+  ]
+}

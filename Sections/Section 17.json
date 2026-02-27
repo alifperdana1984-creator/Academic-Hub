@@ -1,0 +1,163 @@
+{
+  "id": "17",
+  "title": "Quality Assurance and Review",
+  "lastUpdated": "2025-01-17",
+  "subsections": [
+    {
+      "id": "17.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish a robust and cyclical Quality Assurance (QA) framework that ensures all Eduversal Partner Schools consistently meet high standards of educational delivery, comply with regulatory and accreditation requirements, and foster a culture of continuous, evidence-based improvement."
+        }
+      ]
+    },
+    {
+      "id": "17.2",
+      "title": "The QA Framework: A Multi-Layered Approach",
+      "content": [
+        {
+          "type": "text",
+          "text": "Our QA framework integrates internal self-assessment with external validation, ensuring both accountability and support. It is built on the P.I.E. model (Plan, Implement, Evaluate) described in Section 4."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            {
+              "title": "Layer 1: School-Based Self-Review (Internal)",
+              "points": [
+                "Annual School Self-Evaluation (SSE).",
+                "Regular lesson observations and work scrutiny by school leadership.",
+                "Departmental reviews and data analysis."
+              ]
+            },
+            {
+              "title": "Layer 2: Eduversal Network Review (Internal-External)",
+              "points": [
+                "Annual 'Supervisi' (Supervision) visits from the Eduversal Head Office.",
+                "Peer reviews and inter-school moderation.",
+                "Centralized analysis of network-wide data (e.g., EASE results)."
+              ]
+            },
+            {
+              "title": "Layer 3: Formal External Accreditation (External)",
+              "points": [
+                "National Accreditation (BAN-S/M).",
+                "International Accreditation (CIS, WASC).",
+                "Cambridge International compliance visits."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.3",
+      "title": "School Self-Evaluation (SSE) Process",
+      "content": [
+        {
+          "type": "text",
+          "text": "The SSE is an annual, reflective process led by the school's leadership team to honestly assess performance against all Eduversal Academic Standards."
+        },
+        {
+          "type": "process",
+          "title": "Annual SSE Cycle",
+          "purpose": "To identify strengths and prioritize areas for improvement for the upcoming academic year.",
+          "steps": [
+            { "n": 1, "title": "Data Gathering (Term 3)", "desc": "Collate all relevant data from the year: exam results, EASE data, survey feedback, observation summaries, attendance records." },
+            { "n": 2, "title": "Departmental Review (Term 3)", "desc": "Heads of Department lead their teams in a SWOT analysis based on the data, focusing on their subject area." },
+            { "n": 3, "title": "Leadership Analysis (Term 4)", "desc": "The School Improvement Committee (SIC) analyzes all departmental reviews and whole-school data to identify overarching themes." },
+            { "n": 4, "title": "SER & SIP Creation (Term 4)", "desc": "A formal School Evaluation Report (SER) is written, which directly informs the creation of the next School Improvement Plan (SIP). See Section 4." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.4",
+      "title": "Eduversal 'Supervisi' (Supervision) Visits",
+      "content": [
+        {
+          "type": "text",
+          "text": "The annual 'Supervisi' visit by the Eduversal Head Office team serves as a 'critical friend' review to validate the school's self-evaluation and provide targeted support."
+        },
+        {
+          "type": "table",
+          "title": "Supervisi Visit Protocol",
+          "headers": ["Phase", "Activities"],
+          "rows": [
+            ["Pre-Visit", "School submits its latest SER, SIP, and key data dashboards to the Supervisi team. A schedule is co-created."],
+            ["On-Site (2-3 days)", "Lesson observations, learning walks, interviews with Principal, HODs, teachers, students, and parents. Review of physical evidence (student work, policy documents)."],
+            ["Post-Visit", "Verbal feedback to the leadership team on the final day. A formal written report with commendations and prioritized recommendations is delivered within two weeks."]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "The recommendations from the Supervisi report must be incorporated into the school's active School Improvement Plan."
+        }
+      ]
+    },
+    {
+      "id": "17.5",
+      "title": "Lesson Observation & Work Scrutiny",
+      "content": [
+        {
+          "type": "text",
+          "text": "Monitoring the quality of teaching and learning is the most critical QA function. This is done through a balanced and developmental observation and feedback cycle."
+        },
+        {
+          "type": "list",
+          "title": "Key Monitoring Activities",
+          "items": [
+            "Formal Lesson Observations: At least one per teacher per semester, part of the formal appraisal process (see Section 12). Uses the Eduversal Teaching Standards (ETS) rubric.",
+            "Learning Walks/Walkthroughs: Frequent (weekly), short (5-10 minute), informal visits to multiple classrooms by leadership to gauge school-wide trends and climate. Feedback is general and non-judgmental.",
+            "Work Scrutiny ('Book Looks'): Termly review of a sample of student notebooks/portfolios by HODs and leadership. Focus is on curriculum coverage, quality of marking/feedback, and evidence of student progress over time."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Cross-Reference",
+          "text": "The standards for teaching and feedback are defined in Section 7: Teaching Quality and Practice."
+        }
+      ]
+    },
+    {
+      "id": "17.6",
+      "title": "Stakeholder Feedback Integration",
+      "content": [
+        {
+          "type": "text",
+          "text": "The voices of students, parents, and staff are essential data points for quality assurance."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual Surveys: Formal surveys are administered to all three stakeholder groups annually. Results are disaggregated and analyzed for trends.",
+            "Parent-Teacher Conferences (PTCs): Formal opportunities for feedback on individual student progress and general school matters.",
+            "Open Forums: 'Principal's Coffee Mornings' and other open-door events provide informal channels for feedback.",
+            "Student Council: A formal body for channeling student voice to school leadership."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.7",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "CIS Domain H: Continuous School Improvement.",
+            "WASC Category A: Organization: Vision and Purpose, Governance, Leadership, Staff, and Resources.",
+            "Indonesian National Standard of Education (SNP) - Standard Pengelolaan (Management Standard).",
+            "ISO 9001:2015 principles of Quality Management Systems (Plan-Do-Check-Act)."
+          ]
+        }
+      ]
+    }
+  ]
+}
