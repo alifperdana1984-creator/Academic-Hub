@@ -351,10 +351,8 @@
             shortTitle: "Accreditation",
             icon: "Award",
             color: "#b91c1c",
-            description: "International accreditation requirements",
             description: "A practical guide for CIS and WASC self-study",
             tags: ["accreditation", "CIS", "WASC"],
-            status: "skeleton",
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1WQRPMLkSGSfWMDD9yI1AADKvwlz3-gWJXh0M3DGDBxQ/edit?usp=drive_link",
@@ -1466,13 +1464,13 @@
                 )}
               </main>
             </div>
-            <ChatBot dark={dark} />
+            <ChatBot dark={dark} sectionsData={sectionsData} />
           </div>
         );
       }
 
       // ── AI Chatbot Component ─────────────────────────────────────
-      const ChatBot = ({ dark }) => {
+      const ChatBot = ({ dark, sectionsData }) => {
         const [open, setOpen] = useState(false);
         const [messages, setMessages] = useState([
           {
@@ -1498,29 +1496,94 @@
           }
         }, [open]);
 
+        const serializeBlock = (block) => {
+          switch (block.type) {
+            case "text":
+              return `${block.title ? block.title + ": " : ""}${block.text || ""}`;
+            case "list":
+            case "numbered":
+              return `${block.title ? block.title + ":\n" : ""}${(block.items || []).map((it, i) => `  ${block.type === "numbered" ? (i + 1) + "." : "-"} ${it}`).join("\n")}`;
+            case "table":
+              return `${block.title ? block.title + ":\n" : ""}${(block.rows || []).map(([k, v]) => `  ${k}: ${v}`).join("\n")}`;
+            case "info":
+            case "note":
+              return `[${block.label || block.type}] ${block.text || ""}`;
+            case "vision":
+              return `Vision: ${block.text || ""}`;
+            case "mission":
+              return `${block.title || "Mission"}:\n${(block.items || []).map((it, i) => `  ${i + 1}. ${it}`).join("\n")}`;
+            case "values":
+              return `${block.title || "Values"}:\n${(block.items || []).map(v => `  ${v.name} (${v.id}): ${v.desc}`).join("\n")}`;
+            case "slos":
+              return `${block.title || "Student Learning Outcomes"}:\n${(block.items || []).map(s => `  ${s.n}. ${s.name}: ${(s.points || []).join("; ")}`).join("\n")}`;
+            case "policy":
+              return [
+                block.purpose ? `Purpose: ${block.purpose}` : "",
+                block.scope ? `Scope: ${block.scope}` : "",
+                block.examples?.length ? `Examples: ${block.examples.join(", ")}` : "",
+                block.steps?.length ? `Steps:\n${block.steps.map((st, i) => `  ${i + 1}. ${st}`).join("\n")}` : "",
+              ].filter(Boolean).join("\n");
+            case "process":
+              return `${block.title || "Process"}:\n${(block.steps || []).map(st => `  ${st.n}. ${st.title}: ${(st.actions || []).join("; ")}`).join("\n")}`;
+            case "levels":
+              return `${block.title || ""}:\n${(block.levels || []).map(lv => `  Level ${lv.level} - ${lv.name}: ${(lv.roles || []).map(r => r.title).join(", ")}`).join("\n")}`;
+            case "roles":
+              return (block.items || []).map(r => `  ${r.title}: ${(r.responsibilities || []).join("; ")}`).join("\n");
+            case "evidence":
+            case "compliance":
+              return (block.categories || []).map(c => `  ${c.name}: ${(c.items || []).join(", ")}`).join("\n");
+            case "link":
+              return `Reference: ${block.text || ""} (${block.url || ""})`;
+            default:
+              return "";
+          }
+        };
+
         const buildSystemPrompt = () => {
           let prompt = `You are an AI assistant for the Eduversal Indonesia Academic Standards — a comprehensive 23-section framework for educational excellence developed by Yayasan Edukasi Universal Indonesia. Your role is to help school staff (teachers, administrators, managers) understand and apply these standards in their day-to-day work.
 
 LANGUAGE: Always respond in the same language the user writes in. If they write in Indonesian (Bahasa Indonesia), respond in Indonesian. If in English, respond in English. If in Turkish, respond in Turkish.
 
-Here is the full list of the 23 academic standard sections:
-
 `;
-          indexData.sections.forEach((s) => {
-            prompt += `**Section ${s.id}: ${s.title}**\n`;
-            prompt += `  Description: ${s.description}\n`;
-            prompt += `  Keywords: ${s.tags.join(", ")}\n`;
-            prompt += `  Status: ${s.status === "complete" ? "Fully documented" : "Under development"}\n\n`;
-          });
+          const hasDetail = sectionsData && Object.keys(sectionsData).length > 0;
+
+          if (hasDetail) {
+            prompt += `Below is the full content of all available academic standard sections. Use this as your primary knowledge source.\n\n`;
+            indexData.sections.forEach((s) => {
+              const detail = sectionsData[s.id];
+              prompt += `═══ SECTION ${s.id}: ${s.title.toUpperCase()} ═══\n`;
+              prompt += `Keywords: ${s.tags.join(", ")} | Status: ${s.status === "complete" ? "Complete" : "Under development"}\n`;
+              if (detail && detail.subsections) {
+                detail.subsections.forEach((sub) => {
+                  prompt += `\n  [${sub.id}] ${sub.title}\n`;
+                  (sub.content || []).forEach((block) => {
+                    const text = serializeBlock(block);
+                    if (text.trim()) prompt += `    ${text.replace(/\n/g, "\n    ")}\n`;
+                  });
+                });
+              } else {
+                prompt += `  Description: ${s.description}\n`;
+                if (s.status !== "complete") prompt += `  (Content under development)\n`;
+              }
+              prompt += "\n";
+            });
+          } else {
+            prompt += `Here is the full list of the 23 academic standard sections:\n\n`;
+            indexData.sections.forEach((s) => {
+              prompt += `**Section ${s.id}: ${s.title}**\n`;
+              prompt += `  Description: ${s.description}\n`;
+              prompt += `  Keywords: ${s.tags.join(", ")}\n`;
+              prompt += `  Status: ${s.status === "complete" ? "Fully documented" : "Under development"}\n\n`;
+            });
+          }
 
           prompt += `
 Guidelines:
 - Be specific about which section(s) cover the topic the user is asking about
-- When referencing a section, mention that users can click on it in the platform to read the full content
-- Be helpful, professional, and concise — give practical answers
-- If a section is "Under development", mention it is still being finalized
-- Do not make up specific policy details you are uncertain about; instead direct the user to the relevant section document
-- For very detailed or specific questions, encourage the user to open the full section document via the "Open Doc" button in the platform`;
+- Give detailed, accurate answers based on the content above
+- Be helpful, professional, and concise
+- If a section is under development, mention it is still being finalized
+- For sections not yet fully documented, direct users to the "Open Doc" button in the platform`;
 
           return prompt;
         };
