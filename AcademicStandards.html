@@ -341,7 +341,7 @@
             color: "#3b82f6",
             description: "Quality management and internal review",
             tags: ["quality", "QA", "review", "audit"],
-            status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1RAm-c4UO2FRW3XghF111Za-Oy1Kuj62VkWL8-jszcKk/edit?usp=drive_link",
           },
@@ -1534,6 +1534,7 @@ Guidelines:
 
           try {
             const apiKey = window.ENV?.CLAUDE_API_KEY;
+            console.log("[ChatBot] apiKey:", apiKey ? apiKey.slice(0, 12) + "..." : apiKey, "| falsy:", !apiKey, "| placeholder:", apiKey === "__CLAUDE_API_KEY__");
             if (!apiKey || apiKey === "__CLAUDE_API_KEY__" || apiKey === "") {
               throw new Error("CLAUDE_API_KEY not configured");
             }
