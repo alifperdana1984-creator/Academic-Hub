@@ -316,7 +316,7 @@
             color: "#c2410c",
             description: "Risk assessment and emergency procedures",
             tags: ["risk", "emergency", "continuity"],
-            status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1HkiDrnqy7rY3bKYCjj8P-_Y2PqNl7VqiUHr5BG5bC-I/edit?usp=drive_link",
           },
@@ -328,7 +328,7 @@
             color: "#ef4444",
             description: "Stakeholder engagement and communication",
             tags: ["parents", "community", "engagement"],
-            status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1AHmTk2PTsuQp8YQK3yZdu8KfFChGZyhMlE8vKh7ZYoA/edit?usp=drive_link",
           },
@@ -513,6 +513,24 @@
                     </li>
                   ))}
                 </ol>
+              </div>
+            );
+          case "link":
+            return (
+              <div className="mb-5">
+                <a
+                  href={block.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    dark
+                      ? "bg-blue-600 hover:bg-blue-500 text-white"
+                      : "bg-blue-50 hover:bg-blue-100 text-blue-700"
+                  }`}
+                >
+                  <ExternalLink size={16} />
+                  {block.text}
+                </a>
               </div>
             );
           case "vision":

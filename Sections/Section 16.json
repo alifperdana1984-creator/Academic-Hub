@@ -1,0 +1,172 @@
+{
+  "id": "16",
+  "title": "Parent and Community Engagement",
+  "lastUpdated": "2025-01-16",
+  "subsections": [
+    {
+      "id": "16.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To foster strong, collaborative partnerships with parents and the wider community, recognizing that student success is maximized when schools and families work together towards shared educational goals."
+        }
+      ]
+    },
+    {
+      "id": "16.2",
+      "title": "Communication Channels",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal schools maintain open, two-way communication channels to ensure parents are well-informed and engaged."
+        },
+        {
+          "type": "list",
+          "title": "Standard Channels",
+          "items": [
+            "School Management System (EduNav): For grades, attendance, and direct messaging.",
+            "Weekly/Monthly Newsletters: Highlighting school events, achievements, and upcoming dates.",
+            "Parent-Teacher Conferences (PTC): Scheduled at least twice per year to discuss student progress.",
+            "Coffee with Principal: Informal sessions for parents to meet leadership and discuss school-wide topics.",
+            "Social Media: Official school accounts for celebrating student life and community events."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.3",
+      "title": "Parent Teacher Association (PTA)",
+      "content": [
+        {
+          "type": "text",
+          "text": "The PTA serves as a bridge between the parent body and the school administration. It supports the school's mission through volunteerism, fundraising, and community-building events."
+        },
+        {
+          "type": "roles",
+          "title": "PTA Structure",
+          "roles": [
+            { "title": "Chairperson", "resp": ["Leads PTA meetings", "Liaises with School Principal"] },
+            { "title": "Class Representatives", "resp": ["Coordinate communication for specific grade levels", "Support homeroom teachers"] },
+            { "title": "Event Committees", "resp": ["Plan and execute specific events like International Day, Family Fun Fair"] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.4",
+      "title": "Reporting Student Progress",
+      "content": [
+        {
+          "type": "text",
+          "text": "Parents receive regular, data-driven updates on their child's academic and social development."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            { "title": "Termly Reports", "points": ["Issued at the end of each term (4 times a year). Includes grades, effort scores, and teacher comments."] },
+            { "title": "Progress Reports", "points": ["Mid-term updates for students at risk or requiring specific interventions."] },
+            { "title": "Student-Led Conferences (SLC)", "points": ["An annual event where students present their portfolio of work and learning goals to their parents."] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.5",
+      "title": "Parent Education and Workshops",
+      "content": [
+        {
+          "type": "text",
+          "text": "The school provides opportunities for parents to learn about the curriculum and how to support their child's learning at home."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Curriculum Information Sessions (e.g., Introduction to Cambridge IGCSE/A Level).",
+            "Digital Safety and Cyberbullying Workshops.",
+            "University Guidance Seminars for parents of high school students.",
+            "Parenting workshops on child development and wellbeing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.6",
+      "title": "Community Partnerships",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools actively seek partnerships with local organizations, businesses, and universities to enrich the learning experience."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Service Learning Projects: Collaborations with local NGOs or charities.",
+            "Internship Programs: Opportunities for senior students to gain work experience.",
+            "Guest Speakers: Inviting community leaders and experts to speak to students."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.7",
+      "title": "Complaint and Feedback Mechanism",
+      "content": [
+        {
+          "type": "text",
+          "text": "The school values feedback and has a clear procedure for addressing parental concerns constructively."
+        },
+        {
+          "type": "process",
+          "title": "Grievance Procedure",
+          "purpose": "To resolve issues fairly and promptly.",
+          "steps": [
+            { "n": "1", "title": "Informal Resolution", "desc": "Contact the specific teacher or staff member involved to discuss the issue directly." },
+            { "n": "2", "title": "Formal Complaint to HOD/Coordinator", "desc": "If unresolved, escalate to the Head of Department or Level Coordinator." },
+            { "n": "3", "title": "Principal Review", "desc": "Submit a formal written complaint to the Principal for investigation and final decision." },
+            { "n": "4", "title": "Board Appeal", "desc": "In exceptional cases, appeals can be made to the School Board/Foundation." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.8",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Documentation maintained to demonstrate effective engagement:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Parent Handbook.",
+            "Calendar of parent events and workshops.",
+            "Minutes of PTA meetings.",
+            "Samples of student reports and newsletters.",
+            "Records of parent surveys and feedback analysis.",
+            "Logs of community service and partnership activities."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.9",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "CIS Standards: Domain E (Access to Teaching and Learning) and Domain F (School Culture and Partnerships).",
+            "WASC Category E: School Culture and Support for Student Personal and Academic Growth.",
+            "Indonesian National Standards: Standar Pengelolaan (Management Standard) regarding community partnership."
+          ]
+        }
+      ]
+    }
+  ]
+}
