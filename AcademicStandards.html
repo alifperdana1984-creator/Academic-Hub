@@ -630,7 +630,7 @@
                       <ul className={`ml-8 space-y-1 ${base}`}>
                         {slo.points.map((p, j) => (
                           <li key={j} className="text-xs flex items-start">
-                            <span className="mr-1.5 text-emerald-500">â€¢</span>
+                            <span className="mr-1.5 text-emerald-500">•</span>
                             {p}
                           </li>
                         ))}
@@ -693,7 +693,7 @@
                           </span>
                           {role.details && (
                             <span className={`text-xs ${muted}`}>
-                              â€” {role.details}
+                              — {role.details}
                             </span>
                           )}
                         </div>
@@ -701,7 +701,7 @@
                           {role.resp.map((r, rri) => (
                             <li key={rri} className="text-xs flex items-start">
                               <span className="mr-1.5 text-emerald-500">
-                                â€¢
+                                •
                               </span>
                               {r}
                             </li>
@@ -750,7 +750,7 @@
                       <ul className={`space-y-0.5 ${base}`}>
                         {role.resp.map((r, ri) => (
                           <li key={ri} className="text-xs flex items-start">
-                            <span className="mr-1.5 text-emerald-500">â€¢</span>
+                            <span className="mr-1.5 text-emerald-500">•</span>
                             {r}
                           </li>
                         ))}
@@ -774,7 +774,7 @@
                     dark ? "text-yellow-200" : "text-yellow-800"
                   }`}
                 >
-                  ðŸ“Œ {block.text}
+                  📌 {block.text}
                 </p>
               </div>
             );
@@ -1050,7 +1050,7 @@
                       {indexData.meta.title}
                     </h1>
                     <p className={`text-xs ${muted}`}>
-                      {indexData.meta.organization} â€¢ v
+                      {indexData.meta.organization} • v
                       {indexData.meta.version}
                     </p>
                   </div>
