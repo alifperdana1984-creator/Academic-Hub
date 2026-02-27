@@ -88,10 +88,10 @@
           "type": "list",
           "title": "Key Strategies",
           "items": [
-            "Inquiry-Based Learning: Starting with questions, problems, or scenarios.",
-            "Collaborative Learning: Pair work, group projects, peer teaching.",
-            "Metacognition: Helping students think about their own thinking and learning processes.",
-            "Differentiation: Tailoring instruction to meet individual needs (see Section 5.9)."
+            "Inquiry-Based Learning: Starting with driving questions, problems, or scenarios rather than simply presenting facts.",
+            "Collaborative Learning: Structured pair work (Think-Pair-Share), group projects, and peer teaching activities.",
+            "Metacognition: Explicitly teaching students how to plan, monitor, and evaluate their own learning (e.g., learning journals, self-assessment).",
+            "Formative Assessment: Using techniques like exit tickets, mini-whiteboards, and quizzes to check understanding in real-time."
           ]
         },
         {
@@ -113,12 +113,30 @@
           "title": "Lesson Plan Components",
           "headers": ["Component", "Description"],
           "rows": [
-            ["Learning Objectives", "Specific, measurable goals derived from the curriculum (e.g., 'Students will be able to analyze...')."],
-            ["Success Criteria", "How students will know they have achieved the objective."],
-            ["Starter/Hook", "Activity to engage students and activate prior knowledge."],
-            ["Main Activities", "Sequence of learning tasks, including teacher modeling, guided practice, and independent practice."],
-            ["Plenary/Closure", "Review of learning and check for understanding."],
-            ["Differentiation", "Specific adaptations for EAL, SEN, or gifted students."],
+            [
+              "Learning Objectives",
+              "Specific, measurable goals derived from the curriculum (e.g., 'Students will be able to analyze...')."
+            ],
+            [
+              "Success Criteria",
+              "How students will know they have achieved the objective."
+            ],
+            [
+              "Starter/Hook",
+              "Activity to engage students and activate prior knowledge."
+            ],
+            [
+              "Main Activities",
+              "Sequence of learning tasks, including teacher modeling, guided practice, and independent practice."
+            ],
+            [
+              "Plenary/Closure",
+              "Review of learning and check for understanding."
+            ],
+            [
+              "Differentiation",
+              "Specific adaptations for EAL, SEN, or gifted students."
+            ],
             ["Resources", "Materials and technology needed."]
           ]
         }
@@ -126,6 +144,46 @@
     },
     {
       "id": "7.5",
+      "title": "Differentiation Strategies",
+      "content": [
+        {
+          "type": "text",
+          "text": "Teachers must adapt instruction to meet the diverse needs of learners, including EAL students, students with SEN, and high achievers."
+        },
+        {
+          "type": "list",
+          "title": "Differentiation by...",
+          "items": [
+            "Content: Varying what students learn (e.g., using texts at different reading levels).",
+            "Process: Varying how students learn (e.g., using manipulatives, audio support, or independent research).",
+            "Product: Varying how students demonstrate learning (e.g., writing an essay, creating a video, building a model).",
+            "Environment: Adjusting the physical setting (e.g., quiet zones, collaborative tables)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.6",
+      "title": "Feedback and Marking Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Feedback is the most powerful tool for student improvement. It must be timely, specific, and actionable."
+        },
+        {
+          "type": "list",
+          "title": "Marking Standards",
+          "items": [
+            "WWW (What Went Well): Highlight specific strengths in the work.",
+            "EBI (Even Better If): Provide concrete steps for improvement.",
+            "Student Response: Students must be given time to read and respond to feedback (e.g., 'Purple Pen' time).",
+            "Frequency: Core subjects marked weekly; others fortnightly. Verbal feedback is encouraged daily."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.7",
       "title": "Classroom Environment and Management",
       "content": [
         {
@@ -143,7 +201,7 @@
       ]
     },
     {
-      "id": "7.6",
+      "id": "7.8",
       "title": "Professional Development (CPD)",
       "content": [
         {
@@ -174,7 +232,7 @@
       ]
     },
     {
-      "id": "7.7",
+      "id": "7.9",
       "title": "Monitoring and Quality Assurance",
       "content": [
         {
@@ -197,7 +255,7 @@
       ]
     },
     {
-      "id": "7.8",
+      "id": "7.10",
       "title": "Compliance Alignment",
       "content": [
         {

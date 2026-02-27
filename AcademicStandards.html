@@ -1,10 +1,14 @@
-﻿<!doctype html>
+﻿﻿﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eduversal Academic Standards</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>"
+    />
     <script>
       window.ENV = {
         FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
@@ -27,66 +31,80 @@
   <body>
     <div id="root"></div>
     <script type="text/babel">
-      
       const { useState, useMemo, useRef, useEffect } = React;
 
       // Map PascalCase names to feather kebab-case names
       const iconNameMap = {
-        "ScrollText": "file-text",
-        "Scale": "sliders",
-        "GraduationCap": "award",
-        "Target": "target",
-        "BookOpen": "book-open",
-        "BarChart3": "bar-chart-2",
-        "Users": "users",
-        "Heart": "heart",
-        "Shield": "shield",
-        "ClipboardList": "clipboard",
-        "DoorOpen": "log-in",
-        "UserCog": "user",
-        "Settings": "settings",
-        "Lock": "lock",
-        "AlertTriangle": "alert-triangle",
-        "Building": "home",
-        "CheckCircle": "check-circle",
-        "Award": "award",
-        "FileStack": "layers",
-        "Library": "book",
-        "Laptop": "monitor",
-        "Ruler": "edit-3",
-        "Handshake": "users",
-        "X": "x",
-        "Menu": "menu",
-        "Sun": "sun",
-        "Moon": "moon",
-        "Search": "search",
-        "Home": "home",
-        "Clock": "clock",
-        "Tag": "tag",
-        "FileText": "file-text",
-        "ArrowLeft": "arrow-left",
-        "ExternalLink": "external-link",
-        "ChevronDown": "chevron-down",
-        "ChevronRight": "chevron-right"
+        ScrollText: "file-text",
+        Scale: "sliders",
+        GraduationCap: "award",
+        Target: "target",
+        BookOpen: "book-open",
+        BarChart3: "bar-chart-2",
+        Users: "users",
+        Heart: "heart",
+        Shield: "shield",
+        ClipboardList: "clipboard",
+        DoorOpen: "log-in",
+        UserCog: "user",
+        Settings: "settings",
+        Lock: "lock",
+        AlertTriangle: "alert-triangle",
+        Building: "home",
+        CheckCircle: "check-circle",
+        Award: "award",
+        FileStack: "layers",
+        Library: "book",
+        Laptop: "monitor",
+        Ruler: "edit-3",
+        Handshake: "users",
+        X: "x",
+        Menu: "menu",
+        Sun: "sun",
+        Moon: "moon",
+        Search: "search",
+        Home: "home",
+        Clock: "clock",
+        Tag: "tag",
+        FileText: "file-text",
+        ArrowLeft: "arrow-left",
+        ExternalLink: "external-link",
+        ChevronDown: "chevron-down",
+        ChevronRight: "chevron-right",
       };
 
       // Icon wrapper component for feather icons
       const FeatherIcon = ({ name, size = 20, className = "", style = {} }) => {
-        const featherName = iconNameMap[name] || name.toLowerCase().replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        const featherName =
+          iconNameMap[name] ||
+          name
+            .toLowerCase()
+            .replace(/([a-z])([A-Z])/g, "$1-$2")
+            .toLowerCase();
         const iconData = feather.icons[featherName];
         if (!iconData) {
-          return <span style={{ width: size, height: size, display: "inline-block" }} />;
+          return (
+            <span
+              style={{ width: size, height: size, display: "inline-block" }}
+            />
+          );
         }
         const svgString = iconData.toSvg({
           width: size,
           height: size,
           class: className,
-          color: style.color || "currentColor"
+          color: style.color || "currentColor",
         });
-        return <span
-          dangerouslySetInnerHTML={{ __html: svgString }}
-          style={{ display: "inline-flex", alignItems: "center", color: style.color }}
-        />;
+        return (
+          <span
+            dangerouslySetInnerHTML={{ __html: svgString }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              color: style.color,
+            }}
+          />
+        );
       };
 
       // Shortcut components for commonly used icons
@@ -100,9 +118,15 @@
       const Tag = (props) => <FeatherIcon name="Tag" {...props} />;
       const FileText = (props) => <FeatherIcon name="FileText" {...props} />;
       const ArrowLeft = (props) => <FeatherIcon name="ArrowLeft" {...props} />;
-      const ExternalLink = (props) => <FeatherIcon name="ExternalLink" {...props} />;
-      const ChevronDown = (props) => <FeatherIcon name="ChevronDown" {...props} />;
-      const ChevronRight = (props) => <FeatherIcon name="ChevronRight" {...props} />;
+      const ExternalLink = (props) => (
+        <FeatherIcon name="ExternalLink" {...props} />
+      );
+      const ChevronDown = (props) => (
+        <FeatherIcon name="ChevronDown" {...props} />
+      );
+      const ChevronRight = (props) => (
+        <FeatherIcon name="ChevronRight" {...props} />
+      );
       const BookOpen = (props) => <FeatherIcon name="BookOpen" {...props} />;
 
       const indexData = {
@@ -268,7 +292,7 @@
             color: "#f97316",
             description: "Operational and financial management",
             tags: ["operations", "finance", "budget"],
-            status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1ibSOeRkw00rqeYDwBE2JO9Y2dA6cA5XTdWeZSMbscZY/edit?usp=drive_link",
           },
@@ -279,8 +303,8 @@
             icon: "Lock",
             color: "#fb923c",
             description: "Data privacy and information management",
-            tags: ["data", "privacy", "records"],
-            status: "skeleton",
+            tags: ["data", "privacy", "records", "pdp"],
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1pKUfHe9aE4g8VfNuMqMRK3dy9KMarcq9CjF6u-QrL0s/edit?usp=drive_link",
           },
@@ -657,7 +681,9 @@
                         <ul className={`space-y-0.5 ${base}`}>
                           {role.resp.map((r, rri) => (
                             <li key={rri} className="text-xs flex items-start">
-                              <span className="mr-1.5 text-emerald-500">â€¢</span>
+                              <span className="mr-1.5 text-emerald-500">
+                                â€¢
+                              </span>
                               {r}
                             </li>
                           ))}
@@ -913,16 +939,20 @@
         const [dataLoading, setDataLoading] = useState(true);
 
         useEffect(() => {
-          const completeSections = indexData.sections.filter(s => s.status === "complete");
+          const completeSections = indexData.sections.filter(
+            (s) => s.status === "complete",
+          );
           Promise.all(
-            completeSections.map(s =>
+            completeSections.map((s) =>
               fetch(`Sections/Section ${s.id}.json`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null)
-            )
-          ).then(results => {
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null),
+            ),
+          ).then((results) => {
             const data = {};
-            completeSections.forEach((s, i) => { if (results[i]) data[s.id] = results[i]; });
+            completeSections.forEach((s, i) => {
+              if (results[i]) data[s.id] = results[i];
+            });
             setSectionsData(data);
             setDataLoading(false);
           });
@@ -958,10 +988,17 @@
 
         if (dataLoading) {
           return (
-            <div className={`min-h-screen flex items-center justify-center ${bg}`}>
+            <div
+              className={`min-h-screen flex items-center justify-center ${bg}`}
+            >
               <div className="text-center">
-                <div className="inline-block w-10 h-10 border-4 border-blue-200 border-t-blue-500 rounded-full" style={{animation: "spin 1s linear infinite"}}></div>
-                <p className={`mt-4 text-sm ${muted}`}>Loading academic standards...</p>
+                <div
+                  className="inline-block w-10 h-10 border-4 border-blue-200 border-t-blue-500 rounded-full"
+                  style={{ animation: "spin 1s linear infinite" }}
+                ></div>
+                <p className={`mt-4 text-sm ${muted}`}>
+                  Loading academic standards...
+                </p>
                 <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
               </div>
             </div>
@@ -994,7 +1031,8 @@
                       {indexData.meta.title}
                     </h1>
                     <p className={`text-xs ${muted}`}>
-                      {indexData.meta.organization} â€¢ v{indexData.meta.version}
+                      {indexData.meta.organization} â€¢ v
+                      {indexData.meta.version}
                     </p>
                   </div>
                 </div>

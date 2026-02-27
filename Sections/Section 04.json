@@ -15,6 +15,61 @@
     },
     {
       "id": "4.2",
+      "title": "Governance of School Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "To ensure diverse perspectives and shared ownership, the planning process is overseen by a School Improvement Committee (SIC)."
+        },
+        {
+          "type": "roles",
+          "title": "SIC Composition & Responsibilities",
+          "roles": [
+            {
+              "title": "Principal/Director",
+              "resp": [
+                "Chairperson",
+                "Final accountability for SIP execution",
+                "Alignment with Foundation strategic goals"
+              ]
+            },
+            {
+              "title": "Vice Principals",
+              "resp": [
+                "Operational feasibility analysis",
+                "Resource allocation planning",
+                "Monitoring of specific domains"
+              ]
+            },
+            {
+              "title": "Heads of Department",
+              "resp": [
+                "Subject-specific data analysis",
+                "Teacher voice representation",
+                "Curriculum goal setting"
+              ]
+            },
+            {
+              "title": "Parent Representative",
+              "resp": [
+                "Community feedback integration",
+                "Parental engagement perspective"
+              ]
+            },
+            {
+              "title": "Student Council President",
+              "resp": ["Student voice", "Learner experience input"]
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "text": "The SIC meets quarterly to review progress against the SIP and adjust strategies as necessary."
+        }
+      ]
+    },
+    {
+      "id": "4.3",
       "title": "The Eduversal School Improvement Cycle (P.I.E. Model)",
       "content": [
         {
@@ -55,7 +110,7 @@
       ]
     },
     {
-      "id": "4.3",
+      "id": "4.4",
       "title": "Phase 1: Data Analysis & Self-Assessment",
       "content": [
         {
@@ -63,36 +118,29 @@
           "text": "The foundation of any effective improvement plan is a deep and honest understanding of the school's current reality. This phase involves gathering and analyzing a wide range of quantitative and qualitative data."
         },
         {
-          "type": "text",
-          "title": "Key Data Sources",
-          "text": ""
-        },
-        {
           "type": "list",
+          "title": "Academic Data Sources",
           "items": [
-            "Student Achievement Data: EASE results, Cambridge exam scores, ANBK national assessment data, internal assessment results.",
-            "Stakeholder Feedback: Student, parent, and staff satisfaction surveys.",
-            "Appraisal & Observation Data: Eduversal appraisal reports, internal classroom observation summaries.",
-            "School Operations Data: Student attendance and behavior records, teacher retention rates, enrollment trends."
+            "External Exams: Cambridge Checkpoint, IGCSE, AS/A Level results (year-on-year trends, value-added analysis).",
+            "Internal Assessments: EASE (Eduversal Achievement of Standardized Echievement) scores, termly report card grades.",
+            "National Assessments: ANBK literacy and numeracy scores.",
+            "Language Proficiency: WIDA or CEFR progression data for EAL learners."
           ]
         },
         {
-          "type": "text",
-          "title": "Analysis Process",
-          "text": ""
-        },
-        {
-          "type": "numbered",
+          "type": "list",
+          "title": "Operational & Perception Data",
           "items": [
-            "Data Triangulation: Cross-reference multiple data sources to validate findings.",
-            "SWOT Analysis: Identify internal Strengths and Weaknesses, and external Opportunities and Threats.",
-            "Root Cause Analysis: Use techniques like the '5 Whys' to move beyond symptoms and identify the underlying causes of challenges."
+            "Stakeholder Surveys: Annual parent, student, and staff satisfaction surveys (NPS scores).",
+            "HR Data: Staff retention rates, attendance, professional development participation.",
+            "Enrollment: Admission conversion rates, student turnover/churn analysis.",
+            "Observation Data: Aggregated findings from classroom walkthroughs and formal appraisals."
           ]
         }
       ]
     },
     {
-      "id": "4.4",
+      "id": "4.5",
       "title": "Phase 2: Strategic Goal Setting & KPIs",
       "content": [
         {
@@ -119,7 +167,7 @@
       ]
     },
     {
-      "id": "4.5",
+      "id": "4.6",
       "title": "Phase 3: School Improvement Plan (SIP) Development",
       "content": [
         {
@@ -132,19 +180,37 @@
           "headers": ["Component", "Description"],
           "rows": [
             ["Strategic Goal", "The overarching SMART goal for the year."],
-            ["Rationale", "Why this goal is a priority, supported by data from the self-assessment."],
-            ["Key Actions", "Specific, concrete steps that will be taken to achieve the goal."],
-            ["Person Responsible", "The individual or team accountable for leading each action."],
+            [
+              "Rationale",
+              "Why this goal is a priority, supported by data from the self-assessment."
+            ],
+            [
+              "Key Actions",
+              "Specific, concrete steps that will be taken to achieve the goal."
+            ],
+            [
+              "Person Responsible",
+              "The individual or team accountable for leading each action."
+            ],
             ["Timeline", "Start and end dates for each action."],
-            ["Resources Needed", "Budget, materials, training, or support required."],
-            ["Success Criteria (KPIs)", "How progress and success will be measured (leading and lagging indicators)."],
-            ["Evidence of Impact", "What artifacts will be collected to demonstrate completion and impact."]
+            [
+              "Budget & Resources",
+              "Specific financial allocation (CAPEX/OPEX) and human resources required."
+            ],
+            [
+              "Success Criteria (KPIs)",
+              "How progress and success will be measured (leading and lagging indicators)."
+            ],
+            [
+              "Risk Assessment",
+              "Potential barriers to implementation and mitigation strategies."
+            ]
           ]
         }
       ]
     },
     {
-      "id": "4.6",
+      "id": "4.7",
       "title": "Phase 4 & 5: Implementation, Monitoring, and Evaluation",
       "content": [
         {
@@ -178,7 +244,7 @@
       ]
     },
     {
-      "id": "4.7",
+      "id": "4.8",
       "title": "Key Evidence and Artifacts",
       "content": [
         {
@@ -199,7 +265,7 @@
       ]
     },
     {
-      "id": "4.8",
+      "id": "4.9",
       "title": "Compliance Alignment",
       "content": [
         {

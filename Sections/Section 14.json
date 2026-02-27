@@ -1,0 +1,218 @@
+{
+  "id": "14",
+  "title": "Data Protection and Records",
+  "lastUpdated": "2025-01-16",
+  "subsections": [
+    {
+      "id": "14.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish a comprehensive framework for the lawful, fair, and transparent processing of personal data of students, parents, and staff, ensuring compliance with Indonesian Law No. 27 of 2022 (PDP Law) and international best practices, and to define procedures for secure records management."
+        }
+      ]
+    },
+    {
+      "id": "14.2",
+      "title": "Core Data Protection Principles",
+      "content": [
+        {
+          "type": "text",
+          "text": "All data processing activities must adhere to the following principles:"
+        },
+        {
+          "type": "numbered",
+          "items": [
+            {
+              "title": "Lawfulness, Fairness, and Transparency",
+              "points": [
+                "Data is processed based on explicit consent or other legal grounds. Individuals are informed about how their data is used."
+              ]
+            },
+            {
+              "title": "Purpose Limitation",
+              "points": [
+                "Data is collected for specified, explicit, and legitimate purposes and not further processed in a manner that is incompatible with those purposes."
+              ]
+            },
+            {
+              "title": "Data Minimization",
+              "points": [
+                "Only personal data that is adequate, relevant, and limited to what is necessary for the purpose is collected."
+              ]
+            },
+            {
+              "title": "Accuracy",
+              "points": [
+                "Personal data must be accurate and, where necessary, kept up to date."
+              ]
+            },
+            {
+              "title": "Storage Limitation",
+              "points": [
+                "Data is kept in a form which permits identification of data subjects for no longer than is necessary for the purposes for which the personal data are processed."
+              ]
+            },
+            {
+              "title": "Integrity and Confidentiality",
+              "points": [
+                "Data is processed in a manner that ensures appropriate security, including protection against unauthorized or unlawful processing and against accidental loss, destruction, or damage."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.3",
+      "title": "Data Subject Rights",
+      "content": [
+        {
+          "type": "text",
+          "text": "Students, parents, and staff (data subjects) have the right to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Right to Access: Request and receive a copy of their personal data.",
+            "Right to Rectification: Request correction of inaccurate or incomplete data.",
+            "Right to Erasure ('Right to be Forgotten'): Request the deletion of their data under certain conditions.",
+            "Right to Restrict Processing: Request the limitation of how their data is used.",
+            "Right to Withdraw Consent: Withdraw consent at any time for data processing based on consent."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "All requests from data subjects must be processed within the timeframes stipulated by the PDP Law. A formal 'Data Subject Access Request' (DSAR) form should be used."
+        }
+      ]
+    },
+    {
+      "id": "14.4",
+      "title": "Handling Data Subject Access Requests (DSAR)",
+      "content": [
+        {
+          "type": "text",
+          "text": "When a parent or staff member asks to see their data, the school must respond professionally and legally."
+        },
+        {
+          "type": "numbered",
+          "items": [
+            "Verification: Verify the identity of the requester (e.g., check ID).",
+            "Scope: Clarify exactly what data is being requested.",
+            "Collection: Gather data from SIS, emails, and physical files.",
+            "Redaction: Remove information about *other* people (third parties) from the documents.",
+            "Delivery: Provide the data securely within 30 days."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.5",
+      "title": "Records Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Systematic control of student and staff records from creation to disposal is mandatory."
+        },
+        {
+          "type": "table",
+          "title": "Record Retention Schedule (Minimums)",
+          "headers": ["Record Type", "Retention Period"],
+          "rows": [
+            ["Student Academic Records (Transcripts)", "Permanently"],
+            [
+              "Student Disciplinary Records",
+              "3 years after graduation/withdrawal"
+            ],
+            ["Student Health Records", "5 years after graduation/withdrawal"],
+            [
+              "Staff Employment Contracts",
+              "10 years after termination of employment"
+            ],
+            [
+              "Financial Records (Invoices, Audits)",
+              "10 years as per Indonesian law"
+            ],
+            ["CCTV Footage", "30 days (unless required for investigation)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.6",
+      "title": "Data Breach Response Protocol",
+      "content": [
+        {
+          "type": "text",
+          "text": "In the event of a suspected or confirmed data breach, the school must follow a clear incident response plan."
+        },
+        {
+          "type": "process",
+          "title": "Incident Response Steps",
+          "purpose": "To contain, assess, and remediate any data breach incident promptly.",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Containment",
+              "desc": "Immediately take steps to secure systems and prevent further data loss. Isolate affected systems if necessary."
+            },
+            {
+              "n": 2,
+              "title": "Assessment",
+              "desc": "Assess the scope and impact of the breach. Identify what data was compromised and who was affected."
+            },
+            {
+              "n": 3,
+              "title": "Notification",
+              "desc": "Notify the affected data subjects and the relevant authorities within the legally required timeframe (e.g., 3x24 hours)."
+            },
+            {
+              "n": 4,
+              "title": "Review & Remediate",
+              "desc": "Conduct a post-incident review to understand the root cause and implement measures to prevent recurrence."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.7",
+      "title": "Staff Training and Culture",
+      "content": [
+        {
+          "type": "text",
+          "text": "Technical controls are useless if staff are not aware of risks. Human error is the leading cause of data breaches."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Induction: All new staff must complete Data Protection training within their first week.",
+            "Annual Refresher: Mandatory update training for all staff every academic year.",
+            "Phishing Simulations: IT department conducts periodic fake phishing tests to raise awareness."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.8",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Indonesian Law No. 27 of 2022 on Personal Data Protection (PDP Law).",
+            "General Data Protection Regulation (GDPR) principles, for international best practice.",
+            "CIS Domain F: Operational Systems (Information Management).",
+            "WASC Category D: Resource Management and Development (Information and Technology Resources)."
+          ]
+        }
+      ]
+    }
+  ]
+}
