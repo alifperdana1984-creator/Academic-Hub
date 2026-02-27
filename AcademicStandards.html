@@ -359,13 +359,13 @@
           },
           {
             id: "19",
-            title: "Templates and Tools",
+            title: "Templates and Operational Tools (Appendices)",
             shortTitle: "Templates",
             icon: "FileStack",
             color: "#78350f",
             description: "Operational templates and forms",
             tags: ["templates", "forms", "tools"],
-            status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1ToKNoxKH9WafL6Nv38NCrCEscjKWOBbWNsECpWFKrBM/edit?usp=drive_link",
           },
@@ -1261,6 +1261,7 @@
                                 href={s.docUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                                 className={`p-1.5 rounded-lg ${
                                   dark
                                     ? "hover:bg-gray-700 text-blue-400"
