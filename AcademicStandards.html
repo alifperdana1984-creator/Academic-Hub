@@ -352,8 +352,10 @@
             icon: "Award",
             color: "#b91c1c",
             description: "International accreditation requirements",
+            description: "A practical guide for CIS and WASC self-study",
             tags: ["accreditation", "CIS", "WASC"],
             status: "skeleton",
+            status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1WQRPMLkSGSfWMDD9yI1AADKvwlz3-gWJXh0M3DGDBxQ/edit?usp=drive_link",
           },
@@ -1534,8 +1536,7 @@ Guidelines:
 
           try {
             const apiKey = window.ENV?.CLAUDE_API_KEY;
-            console.log("[ChatBot] apiKey:", apiKey ? apiKey.slice(0, 12) + "..." : apiKey, "| falsy:", !apiKey, "| placeholder:", apiKey === "__CLAUDE_API_KEY__");
-            if (!apiKey || apiKey === "__CLAUDE_API_KEY__" || apiKey === "") {
+            if (!apiKey || apiKey.startsWith("__") || apiKey === "") {
               throw new Error("CLAUDE_API_KEY not configured");
             }
 
