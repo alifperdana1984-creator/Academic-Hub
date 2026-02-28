@@ -1,289 +1,85 @@
 {
   "id": "04",
   "title": "Strategic Planning and School Improvement",
-  "lastUpdated": "2025-01-16",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
       "id": "4.1",
-      "title": "Purpose",
+      "title": "Strategic Planning Framework",
       "content": [
         {
           "type": "text",
-          "text": "To establish a systematic, data-driven, and collaborative process for continuous school improvement that aligns with the Eduversal vision, enhances student outcomes, meets accreditation standards, and fosters a culture of reflective practice among all stakeholders."
+          "text": "Strategic planning is the process of defining the school's direction and making decisions on allocating resources to pursue this direction. Eduversal schools operate on a 3-5 year strategic cycle."
+        },
+        {
+          "type": "process",
+          "title": "The Planning Cycle",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Analysis",
+              "desc": "SWOT analysis, stakeholder surveys, data review."
+            },
+            {
+              "n": 2,
+              "title": "Formulation",
+              "desc": "Setting vision, mission, and strategic goals."
+            },
+            {
+              "n": 3,
+              "title": "Implementation",
+              "desc": "Annual School Improvement Plans (SIP) and action plans."
+            },
+            {
+              "n": 4,
+              "title": "Evaluation",
+              "desc": "Monitoring progress and adjusting strategies."
+            }
+          ]
         }
       ]
     },
     {
       "id": "4.2",
-      "title": "Governance of School Improvement",
+      "title": "School Improvement Plan (SIP)",
       "content": [
         {
           "type": "text",
-          "text": "To ensure diverse perspectives and shared ownership, the planning process is overseen by a School Improvement Committee (SIC)."
+          "text": "The SIP is the annual operational document that translates strategic goals into actionable steps."
         },
         {
-          "type": "roles",
-          "title": "SIC Composition & Responsibilities",
-          "roles": [
-            {
-              "title": "Principal/Director",
-              "resp": [
-                "Chairperson",
-                "Final accountability for SIP execution",
-                "Alignment with Foundation strategic goals"
-              ]
-            },
-            {
-              "title": "Vice Principals",
-              "resp": [
-                "Operational feasibility analysis",
-                "Resource allocation planning",
-                "Monitoring of specific domains"
-              ]
-            },
-            {
-              "title": "Heads of Department",
-              "resp": [
-                "Subject-specific data analysis",
-                "Teacher voice representation",
-                "Curriculum goal setting"
-              ]
-            },
-            {
-              "title": "Parent Representative",
-              "resp": [
-                "Community feedback integration",
-                "Parental engagement perspective"
-              ]
-            },
-            {
-              "title": "Student Council President",
-              "resp": ["Student voice", "Learner experience input"]
-            }
+          "type": "table",
+          "title": "SIP Components",
+          "headers": ["Component", "Description"],
+          "rows": [
+            [
+              "Goal",
+              "Specific, Measurable, Achievable, Relevant, Time-bound (SMART) objective."
+            ],
+            ["Actions", "Steps to achieve the goal."],
+            ["Responsibility", "Who is accountable."],
+            ["Timeline", "Start and end dates."],
+            ["Resources", "Budget and materials needed."],
+            ["Success Criteria", "How we know the goal is met."]
           ]
-        },
-        {
-          "type": "note",
-          "text": "The SIC meets quarterly to review progress against the SIP and adjust strategies as necessary."
         }
       ]
     },
     {
       "id": "4.3",
-      "title": "The Eduversal School Improvement Cycle (P.I.E. Model)",
+      "title": "Key Performance Indicators (KPIs)",
       "content": [
         {
           "type": "text",
-          "text": "Eduversal schools utilize the P.I.E. (Plan, Implement, Evaluate) model, a cyclical framework for continuous improvement. This iterative process ensures that school development is strategic, evidence-based, and responsive to the evolving needs of the school community."
-        },
-        {
-          "type": "link",
-          "text": "View P.I.E. Model Diagram",
-          "url": "https://docs.google.com/document/d/1glDSDMx5JjSvtxbnFBtwXLQSiheR_2z50DRlXINeips/edit?usp=drive_link"
-        },
-        {
-          "type": "numbered",
-          "items": [
-            {
-              "title": "PLAN (Where are we now & Where are we going?)",
-              "points": [
-                "Conduct a comprehensive self-assessment and data analysis.",
-                "Identify key priorities and root causes of challenges.",
-                "Set 3-5 SMART (Specific, Measurable, Achievable, Relevant, Time-bound) goals.",
-                "Develop a detailed School Improvement Plan (SIP) outlining actions, responsibilities, and timelines."
-              ]
-            },
-            {
-              "title": "IMPLEMENT (How will we get there?)",
-              "points": [
-                "Execute the strategies and actions defined in the SIP.",
-                "Provide necessary resources and professional development.",
-                "Monitor implementation fidelity through regular check-ins and classroom walkthroughs."
-              ]
-            },
-            {
-              "title": "EVALUATE (How did we do & What's next?)",
-              "points": [
-                "Collect and analyze data to measure progress against KPIs.",
-                "Evaluate the impact of implemented strategies.",
-                "Celebrate successes and identify lessons learned.",
-                "Use findings to inform the next planning cycle."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.4",
-      "title": "Phase 1: Data Analysis & Self-Assessment",
-      "content": [
-        {
-          "type": "text",
-          "text": "The foundation of any effective improvement plan is a deep and honest understanding of the school's current reality. This phase involves gathering and analyzing a wide range of quantitative and qualitative data."
+          "text": "KPIs are used to measure the health and performance of the school."
         },
         {
           "type": "list",
-          "title": "Academic Data Sources",
+          "title": "Standard Network KPIs",
           "items": [
-            "External Exams: Cambridge Checkpoint, IGCSE, AS/A Level results (year-on-year trends, value-added analysis).",
-            "Internal Assessments: EASE (Eduversal Achievement of Standardized Echievement) scores, termly report card grades.",
-            "National Assessments: ANBK literacy and numeracy scores.",
-            "Language Proficiency: WIDA or CEFR progression data for EAL learners."
-          ]
-        },
-        {
-          "type": "list",
-          "title": "Operational & Perception Data",
-          "items": [
-            "Stakeholder Surveys: Annual parent, student, and staff satisfaction surveys (NPS scores).",
-            "HR Data: Staff retention rates, attendance, professional development participation.",
-            "Enrollment: Admission conversion rates, student turnover/churn analysis.",
-            "Observation Data: Aggregated findings from classroom walkthroughs and formal appraisals."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.5",
-      "title": "Phase 2: Strategic Goal Setting & KPIs",
-      "content": [
-        {
-          "type": "text",
-          "text": "Based on the data analysis, the school leadership team, in consultation with the community, identifies 3-5 high-leverage priority areas for the academic year. For each priority, a SMART goal is developed."
-        },
-        {
-          "type": "text",
-          "title": "Example SMART Goal",
-          "text": "By the end of the 2025-2026 academic year, increase the percentage of Grade 10 students achieving A*-C in IGCSE Mathematics from 65% to 75% by implementing targeted intervention strategies and improving formative assessment practices."
-        },
-        {
-          "type": "text",
-          "title": "Key Performance Indicators (KPIs)",
-          "text": "KPIs are the specific, measurable metrics used to track progress toward a goal. Each goal should have 2-3 leading and lagging KPIs."
-        },
-        {
-          "type": "list",
-          "items": [
-            "Leading Indicators: Measure activities and processes that are expected to lead to the desired outcome (e.g., '% of math teachers using formative assessment daily').",
-            "Lagging Indicators: Measure the final outcome (e.g., 'Final IGCSE Math A*-C percentage')."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.6",
-      "title": "Phase 3: School Improvement Plan (SIP) Development",
-      "content": [
-        {
-          "type": "text",
-          "text": "The School Improvement Plan (SIP) is the formal, documented action plan that outlines how the school will achieve its strategic goals. It is a living document, reviewed and updated regularly."
-        },
-        {
-          "type": "table",
-          "title": "SIP Template Components",
-          "headers": ["Component", "Description"],
-          "rows": [
-            ["Strategic Goal", "The overarching SMART goal for the year."],
-            [
-              "Rationale",
-              "Why this goal is a priority, supported by data from the self-assessment."
-            ],
-            [
-              "Key Actions",
-              "Specific, concrete steps that will be taken to achieve the goal."
-            ],
-            [
-              "Person Responsible",
-              "The individual or team accountable for leading each action."
-            ],
-            ["Timeline", "Start and end dates for each action."],
-            [
-              "Budget & Resources",
-              "Specific financial allocation (CAPEX/OPEX) and human resources required."
-            ],
-            [
-              "Success Criteria (KPIs)",
-              "How progress and success will be measured (leading and lagging indicators)."
-            ],
-            [
-              "Risk Assessment",
-              "Potential barriers to implementation and mitigation strategies."
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.7",
-      "title": "Phase 4 & 5: Implementation, Monitoring, and Evaluation",
-      "content": [
-        {
-          "type": "text",
-          "title": "Implementation & Monitoring",
-          "text": "A plan is only as good as its execution. Regular monitoring ensures the SIP stays on track."
-        },
-        {
-          "type": "list",
-          "items": [
-            "Monthly SIP Review: Leadership team meets to review progress on all actions and KPIs.",
-            "Classroom Walkthroughs: Principals and HODs conduct frequent, informal observations to see strategies in action.",
-            "Data Dashboards: Key data is updated and reviewed regularly to track leading indicators."
-          ]
-        },
-        {
-          "type": "text",
-          "title": "Evaluation & Annual Review",
-          "text": "At the end of the academic year, the school conducts a formal evaluation of the SIP."
-        },
-        {
-          "type": "numbered",
-          "items": [
-            "Final Data Analysis: Compare end-of-year data against baseline data and KPIs.",
-            "Impact Assessment: Determine which actions had the most significant positive impact.",
-            "Lessons Learned: Analyze what worked, what didn't, and why.",
-            "Annual Report: A summary of the year's improvement journey is shared with the school community.",
-            "Input for Next Cycle: The evaluation findings become a key data source for the next year's P.I.E. cycle."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.8",
-      "title": "Key Evidence and Artifacts",
-      "content": [
-        {
-          "type": "text",
-          "text": "To demonstrate a robust school improvement process, schools should maintain the following documentation:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "The official School Improvement Plan (SIP) for the current academic year.",
-            "Data analysis summaries (e.g., SWOT analysis, survey result summaries).",
-            "Meeting minutes from leadership and department data reviews.",
-            "KPI dashboards or progress tracking spreadsheets.",
-            "End-of-Year School Improvement Report.",
-            "Examples of how data analysis has led to specific changes in teaching practice or school policy."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "4.9",
-      "title": "Compliance Alignment",
-      "content": [
-        {
-          "type": "text",
-          "text": "This section aligns with:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "CIS Standards: Domain A (Purpose and Direction) and Domain H (Continuous Improvement).",
-            "WASC Category A: Organization for Student Learning, and Category D: Resource Management and Development.",
-            "Indonesian National Standards for Education (SNP): Standard 4 (Process Standard) and Standard 5 (Assessment Standard).",
-            "Eduversal's commitment to data-informed decision-making and excellence as outlined in the Governance Charter (Section 1)."
+            "Academic: EASE scores, Cambridge exam results, University placement rates.",
+            "Operational: Student enrollment, Staff retention, Budget adherence.",
+            "Stakeholder: Parent satisfaction (NPS), Student wellbeing surveys."
           ]
         }
       ]

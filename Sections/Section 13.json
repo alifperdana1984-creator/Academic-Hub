@@ -1,154 +1,79 @@
 {
   "id": "13",
   "title": "Operations, Finance, Resources",
-  "lastUpdated": "2025-01-16",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
       "id": "13.1",
-      "title": "Purpose",
+      "title": "Financial Management",
       "content": [
         {
           "type": "text",
-          "text": "To ensure the long-term sustainability and operational efficiency of Eduversal Partner Schools through robust financial management, strategic resource allocation, and high standards of facility operations, all aimed at supporting the core mission of student learning."
+          "text": "Transparent and prudent financial management is essential for the sustainability of the school. The school operates on an annual budget approved by the Board."
+        },
+        {
+          "type": "list",
+          "title": "Key Procedures",
+          "items": [
+            "Budgeting: Departments submit budget requests annually.",
+            "Purchasing: Competitive bidding required for major procurement; purchase orders must be approved before spending.",
+            "Petty Cash: Managed strictly for small, incidental expenses.",
+            "Auditing: Annual external financial audits to ensure compliance."
+          ]
         }
       ]
     },
     {
       "id": "13.2",
-      "title": "Financial Management & Integrity",
+      "title": "Facilities Management",
       "content": [
         {
           "type": "text",
-          "text": "Schools must adhere to strict financial controls and transparent reporting practices."
-        },
-        {
-          "type": "numbered",
-          "items": [
-            {
-              "title": "Annual Budgeting",
-              "points": [
-                "The Principal and General Manager prepare an annual operating budget in consultation with department heads.",
-                "Budgets must align with the School Improvement Plan (SIP) priorities.",
-                "Final approval is required from the Foundation Board before the start of the fiscal year."
-              ]
-            },
-            {
-              "title": "Tuition and Fee Management",
-              "points": [
-                "Clear policies for tuition collection, late fees, and scholarships.",
-                "Digital payment systems are preferred to ensure traceability.",
-                "Scholarship funds (Eduversal Scholarship) are managed separately and audited."
-              ]
-            },
-            {
-              "title": "Financial Reporting",
-              "points": [
-                "Monthly financial statements (P&L, Cash Flow) submitted to the Board.",
-                "Quarterly budget variance analysis.",
-                "Annual external audit by a certified public accountant."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "13.3",
-      "title": "Cash Management & Petty Cash",
-      "content": [
-        {
-          "type": "text",
-          "text": "Strict controls are required for all cash handling to prevent fraud and error."
-        },
-        {
-          "type": "list",
-          "items": [
-            "Petty Cash Limit: Maximum cash on hand is IDR 5,000,000. Replenishment requires submission of valid receipts.",
-            "Cash Collection: All cash received (uniform sales, events) must be receipted immediately and deposited to the bank within 24 hours.",
-            "Safe Access: Only the Finance Officer and GM hold keys/codes to the school safe. Access logs must be maintained."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "13.4",
-      "title": "Facilities and Campus Operations",
-      "content": [
-        {
-          "type": "text",
-          "text": "A safe, clean, and inspiring physical environment is essential for learning."
-        },
-        {
-          "type": "list",
-          "title": "Key Operational Standards",
-          "items": [
-            "Preventive Maintenance: Monthly checks of HVAC, generators, and fire safety systems. Annual structural inspections.",
-            "Cleaning Protocols: Hourly toilet checks with sign-off sheets. Deep cleaning during term breaks.",
-            "Security: 24/7 security personnel, CCTV monitoring with 30-day retention, mandatory visitor ID badges.",
-            "Health & Safety Audits: Termly walkthroughs to identify hazards (loose cables, broken furniture, chemical storage)."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "13.5",
-      "title": "Procurement and Resource Allocation",
-      "content": [
-        {
-          "type": "text",
-          "text": "Procurement processes must be fair, competitive, and transparent."
+          "text": "Providing a safe, clean, and conducive learning environment is a priority."
         },
         {
           "type": "table",
-          "title": "Procurement Thresholds (Example)",
-          "headers": ["Value", "Requirement"],
+          "title": "Maintenance Schedule",
+          "headers": ["Frequency", "Activity"],
           "rows": [
-            ["Small (< IDR 5M)", "Direct purchase with approval from HOD."],
             [
-              "Medium (IDR 5M - 50M)",
-              "Three written quotes required; approval from GM."
+              "Daily",
+              "Cleaning of classrooms, toilets, and common areas; hygiene checks."
+            ],
+            ["Weekly", "Grounds maintenance; check of AC units and lighting."],
+            [
+              "Monthly",
+              "Safety inspections (fire extinguishers, electrical systems, playground equipment)."
             ],
             [
-              "Large (> IDR 50M)",
-              "Formal tender process; Board approval required."
+              "Annual",
+              "Major repairs, painting, and renovations during school holidays."
             ]
           ]
         }
       ]
     },
     {
-      "id": "13.6",
-      "title": "Inventory and Asset Management",
+      "id": "13.3",
+      "title": "Procurement and Inventory",
       "content": [
         {
           "type": "text",
-          "text": "Proper tracking of school property prevents loss and aids financial reporting."
-        },
-        {
-          "type": "list",
-          "items": [
-            "Asset Register: All items > IDR 1,000,000 must be tagged with a unique barcode and logged in the digital asset register.",
-            "Stock Taking: Full physical inventory check conducted annually in June. Spot checks conducted quarterly.",
-            "Disposal: Broken or obsolete assets require a 'Disposal Form' signed by the GM before removal."
-          ]
+          "text": "All school assets must be tagged and recorded in the Asset Register. An annual stocktake is conducted to verify inventory."
         }
       ]
     },
     {
-      "id": "13.7",
-      "title": "Compliance Alignment",
+      "id": "13.4",
+      "title": "Health and Safety (Operational)",
       "content": [
-        {
-          "type": "text",
-          "text": "This section aligns with:"
-        },
         {
           "type": "list",
           "items": [
-            "Indonesian Tax Laws and Foundation Regulations.",
-            "CIS Domain F: Operational Systems.",
-            "WASC Category D: Resource Management and Development.",
-            "Eduversal Foundation Financial SOPs."
+            "Security: 24/7 security personnel; visitor management system (ID badges).",
+            "Emergency Drills: Fire and earthquake drills conducted at least once per term.",
+            "First Aid: Qualified nurse on site; first aid kits available in key locations.",
+            "Canteen: Regular hygiene inspections of food preparation areas."
           ]
         }
       ]

@@ -1,530 +1,84 @@
 {
   "id": "02",
   "title": "Legal and Regulatory Compliance",
-  "lastUpdated": "2025-01-15",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
-      "id": "2.0",
-      "title": "Key Terms and Acronyms",
-      "content": [
-        {
-          "type": "table",
-          "title": "Key Terms",
-          "rows": [
-            ["EASE", "Evaluation of Achievement Standardized Exam"],
-            ["DTP", "Development of Teaching Proficiency (Educamp)"],
-            ["EduNav", "Eduversal's School Information System"],
-            ["EduOS", "Eduversal Olimpiade Sains"],
-            ["Dapodik", "Data Pokok Pendidikan (National Education Database)"],
-            ["NPSN", "Nomor Pokok Sekolah Nasional (National School ID)"],
-            ["BAN-PDM", "National School Accreditation Board"],
-            ["ANBK", "Computer-Based National Assessment"],
-            ["NISN", "National Student ID"],
-            ["NUPTK", "Teacher ID Number"],
-            ["KITAS", "Limited Stay Permit"],
-            ["KITAP", "Permanent Stay Permit"],
-            ["BPJS", "Social Security"]
-          ]
-        }
-      ]
-    },
-    {
       "id": "2.1",
-      "title": "Purpose",
+      "title": "Indonesian Education Law Framework",
       "content": [
         {
           "type": "text",
-          "title": "Section Purpose",
-          "text": "To ensure full adherence to Indonesian national regulations governing private education institutions, maintain all required licenses and permits, integrate mandatory national curriculum components, and fulfill reporting obligations to the Ministry of Education, Culture, Research, and Technology (Kemendikdasmen)."
+          "text": "All Eduversal Partner Schools must operate in full compliance with the laws and regulations of the Republic of Indonesia. The foundation of our compliance is the National Education System Law (UU Sisdiknas)."
+        },
+        {
+          "type": "list",
+          "title": "Key Regulations",
+          "items": [
+            "UU No. 20 Tahun 2003 tentang Sistem Pendidikan Nasional",
+            "PP No. 57 Tahun 2021 tentang Standar Nasional Pendidikan",
+            "Permendikbudristek regarding Kurikulum Merdeka implementation",
+            "Local regulations from Dinas Pendidikan (Provincial/District)"
+          ]
         }
       ]
     },
     {
       "id": "2.2",
-      "title": "Legal Foundation and School Identity",
+      "title": "School Licensing (Izin Operasional)",
       "content": [
         {
           "type": "text",
-          "title": "Yayasan (Foundation) Legal Status",
-          "text": "Each Eduversal Partner School operates under a legally registered Yayasan (foundation) as the school owner and license holder, in accordance with Law No. 28 of 2004 concerning Foundations."
+          "text": "Maintaining valid operational licenses is critical. Schools must ensure all licenses are up-to-date and reflect current operations."
         },
         {
-          "type": "list",
-          "title": "Key Yayasan Obligations",
-          "items": [
-            "Akta Pendirian (Deed of Establishment): Notarized foundation charter",
-            "NPWP Yayasan: Tax identification number for the foundation",
-            "Annual Reporting: Submit annual activity and financial reports",
-            "Asset Management: All school buildings, land, and facilities owned by Yayasan",
-            "Non-Profit Status: Operate exclusively for educational and social purposes"
+          "type": "process",
+          "title": "Licensing Maintenance Cycle",
+          "steps": [
+            { "n": 1, "title": "Audit", "desc": "Check expiration dates of Izin Prinsip and Izin Operasional annually." },
+            { "n": 2, "title": "Preparation", "desc": "Prepare required documents (curriculum, facilities, staffing) 6 months before expiration." },
+            { "n": 3, "title": "Submission", "desc": "Submit renewal applications to OSS (Online Single Submission) or local Dinas." },
+            { "n": 4, "title": "Verification", "desc": "Host site visits from verifiers." }
           ]
-        },
-        {
-          "type": "text",
-          "title": "School Operational Licenses",
-          "text": "Each school level (PAUD, SD, SMP, SMA) must obtain and maintain an operational license from the local Education Office (Dinas Pendidikan). Valid for 5 years, renewable."
-        },
-        {
-          "type": "text",
-          "title": "NPSN",
-          "text": "Every school must obtain a unique NPSN from the Ministry of Education as the official school identifier for all national reporting systems."
         }
       ]
     },
     {
       "id": "2.3",
-      "title": "National Data and Reporting Systems",
+      "title": "Data Reporting (Dapodik)",
       "content": [
         {
           "type": "text",
-          "title": "Dapodik",
-          "text": "Dapodik is the Ministry's primary database for schools, students, teachers, and facilities serving as the foundation for national education planning."
+          "text": "Accurate and timely reporting to Data Pokok Pendidikan (Dapodik) is mandatory for student NISN registration, teacher certification, and school accreditation."
         },
         {
-          "type": "table",
-          "title": "Dapodik Timeline",
-          "rows": [
-            ["Semester 1", "Data cut-off October 31, sync by November 15"],
-            ["Semester 2", "Data cut-off April 30, sync by May 15"]
+          "type": "list",
+          "title": "Reporting Deadlines",
+          "items": [
+            "Semester 1 Cut-off: August 31st",
+            "Semester 2 Cut-off: January 31st",
+            "Monthly updates for attendance and staffing changes"
           ]
-        },
-        {
-          "type": "text",
-          "title": "SIMPKB",
-          "text": "Tracks teacher professional development activities linked to certification and career progression."
-        },
-        {
-          "type": "text",
-          "title": "SIAGA",
-          "text": "Information system managed by Ministry of Religious Affairs for religion teachers."
         }
       ]
     },
     {
       "id": "2.4",
-      "title": "National Curriculum Integration",
-      "content": [
-        {
-          "type": "table",
-          "title": "Mandatory National Subjects",
-          "rows": [
-            ["PPKn (Civics)", "Minimum 2 hours/week"],
-            ["Bahasa Indonesia", "Minimum 4-6 hours/week"],
-            ["Pendidikan Agama", "Minimum 2-3 hours/week"],
-            ["Muatan Lokal", "Local culture subjects"]
-          ]
-        },
-        {
-          "type": "table",
-          "title": "Timetable Balance",
-          "rows": [
-            ["Cambridge subjects", "~70%"],
-            ["National subjects", "~25%"],
-            ["Co-curricular", "~5%"]
-          ]
-        },
-        {
-          "type": "values",
-          "title": "Six Dimensions of Profil Pelajar Pancasila",
-          "items": [
-            {
-              "name": "Beriman & Berakhlak",
-              "id": "Faith",
-              "desc": "Religious education, moral reasoning"
-            },
-            {
-              "name": "Berkebinekaan Global",
-              "id": "Diversity",
-              "desc": "Intercultural competence, global citizenship"
-            },
-            {
-              "name": "Bergotong Royong",
-              "id": "Collaboration",
-              "desc": "Teamwork, community service"
-            },
-            {
-              "name": "Mandiri",
-              "id": "Independence",
-              "desc": "Self-awareness, resilience"
-            },
-            {
-              "name": "Bernalar Kritis",
-              "id": "Critical",
-              "desc": "Analytical thinking, problem-solving"
-            },
-            {
-              "name": "Kreatif",
-              "id": "Creative",
-              "desc": "Innovation, design thinking"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.5",
-      "title": "National Calendar and Instructional Time",
-      "content": [
-        {
-          "type": "table",
-          "title": "Academic Year",
-          "rows": [
-            ["Semester 1", "Mid-July to December"],
-            ["Semester 2", "January to mid-June"],
-            ["Minimum weeks", "38 weeks per year"]
-          ]
-        },
-        {
-          "type": "table",
-          "title": "Minimum Hours per Week",
-          "rows": [
-            ["SD (Primary)", "30-36 hours"],
-            ["SMP", "38-40 hours"],
-            ["SMA", "38-40 hours"]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.6",
-      "title": "Child Protection and Student Welfare",
+      "title": "National Curriculum Implementation",
       "content": [
         {
           "type": "text",
-          "title": "Legal Framework",
-          "text": "Law No. 35 of 2014 on Child Protection and Minister of Education Regulation on Prevention of Violence in Educational Settings."
-        },
-        {
-          "type": "list",
-          "title": "Key Requirements",
-          "items": [
-            "Written anti-bullying policy",
-            "Clear reporting mechanisms",
-            "Prohibition of corporal punishment",
-            "Safe school environment",
-            "Minimum 90% attendance rate expected"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.7",
-      "title": "Staffing and Employment Regulations",
-      "content": [
-        {
-          "type": "table",
-          "title": "Teacher Qualifications",
-          "rows": [
-            ["PAUD", "D-IV or S1 in Early Childhood"],
-            ["SD", "S1 in Primary Education"],
-            ["SMP/SMA", "S1 in subject area + Akta IV"]
-          ]
-        },
-        {
-          "type": "list",
-          "title": "Employment Requirements",
-          "items": [
-            "NUPTK: Unique teacher identifier for certification",
-            "KITAS/KITAP: Work permits for foreign staff",
-            "PPh 21: Income tax withholding",
-            "BPJS: Social security enrollment mandatory"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.8",
-      "title": "Ministry Inspections and Accreditation",
-      "content": [
-        {
-          "type": "text",
-          "title": "Dinas Inspections",
-          "text": "Routine inspections every 3-5 years covering facilities, teacher qualifications, curriculum, student records, and child protection."
+          "text": "Schools must implement the mandatory national curriculum subjects alongside the Cambridge curriculum."
         },
         {
           "type": "table",
-          "title": "BAN-PDM Accreditation Levels",
+          "title": "Mandatory Subjects",
+          "headers": ["Subject", "Requirement"],
           "rows": [
-            ["A (Unggul)", "Score 91-100"],
-            ["B (Baik)", "Score 81-90"],
-            ["C (Cukup)", "Score 71-80"],
-            ["TT", "Below 71"]
-          ]
-        },
-        {
-          "type": "list",
-          "title": "Eight National Standards",
-          "items": [
-            "Curriculum and Learning Process",
-            "Graduate Competency Standards",
-            "Assessment Standards",
-            "Educators and Personnel",
-            "Facilities and Infrastructure",
-            "School Management",
-            "Financing",
-            "Educational Culture"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.9",
-      "title": "Financial and Operational Transparency",
-      "content": [
-        {
-          "type": "list",
-          "title": "Fee Best Practices",
-          "items": [
-            "Publish fee schedule annually (English + Bahasa)",
-            "Offer scholarships for qualifying families",
-            "No hidden fees",
-            "Clear refund policy"
-          ]
-        },
-        {
-          "type": "list",
-          "title": "Procurement Principles",
-          "items": [
-            "Competitive bidding for contracts >IDR 50M",
-            "Conflict of interest disclosure",
-            "EduNav for expense approvals"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.10",
-      "title": "Emergency and Disaster Preparedness",
-      "content": [
-        {
-          "type": "list",
-          "title": "Mandatory Elements",
-          "items": [
-            "Emergency Response Plan with evacuation routes",
-            "Fire drill: Minimum 2x per year",
-            "Earthquake drill: Minimum 2x per year",
-            "Emergency supplies: First aid, 3-day food/water",
-            "Remote learning backup plan"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.11",
-      "title": "Health Protocol Compliance",
-      "content": [
-        {
-          "type": "list",
-          "title": "Compliance Areas",
-          "items": [
-            "Health screening and symptom monitoring",
-            "Hygiene: Handwashing stations, sanitizers",
-            "Vaccination encouraged",
-            "Remote learning readiness maintained"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.12",
-      "title": "Data Protection and Privacy",
-      "content": [
-        {
-          "type": "text",
-          "title": "Legal Framework",
-          "text": "Law No. 27 of 2022 on Personal Data Protection (PDP Law)."
-        },
-        {
-          "type": "list",
-          "title": "Key Principles",
-          "items": [
-            "Lawful basis for processing (consent, legal obligation)",
-            "Purpose limitation",
-            "Data minimization",
-            "Security measures and access controls",
-            "Rights of data subjects (access, correction, deletion)"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.13",
-      "title": "Reporting Obligations",
-      "content": [
-        {
-          "type": "table",
-          "title": "Reporting Schedule",
-          "rows": [
-            ["To Yayasan", "Bi-annual (Dec/Jan and June/July)"],
-            ["To Eduversal", "Quarterly dashboards + bi-annual reports"]
-          ]
-        },
-        {
-          "type": "list",
-          "title": "Report Content",
-          "items": [
-            "Operational overview and enrollment",
-            "Academic performance and SIP progress",
-            "Financial summary",
-            "Compliance status",
-            "Challenges and recommendations"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.14",
-      "title": "Policy Register",
-      "content": [
-        {
-          "type": "list",
-          "title": "Categories",
-          "items": [
-            "Legal: Akta, licenses, NPSN, accreditation",
-            "Curriculum: Syllabi, Profil Pelajar Pancasila projects",
-            "Staffing: Qualifications, NUPTK, contracts, BPJS",
-            "Safety: Child protection, emergency plans",
-            "Financial: Budget, procurement, audits",
-            "Data Protection: Privacy notices, consent forms"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.15",
-      "title": "Complaints and Grievance Mechanism",
-      "content": [
-        {
-          "type": "numbered",
-          "title": "Complaints Process",
-          "items": [
-            "Level 1: Informal resolution (5 working days)",
-            "Level 2: Formal complaint to Principal (10 days)",
-            "Level 3: Appeal to GM (10 days)",
-            "Level 4: Yayasan/Eduversal (15 days)",
-            "Level 5: External authorities"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.16",
-      "title": "National Examinations and Assessments",
-      "content": [
-        {
-          "type": "list",
-          "title": "ANBK Components",
-          "items": [
-            "AKM: Literacy and numeracy (grades 5, 8, 11)",
-            "Survei Karakter: Student wellbeing survey",
-            "Survei Lingkungan Belajar: School climate survey"
-          ]
-        },
-        {
-          "type": "text",
-          "title": "EASE",
-          "text": "Eduversal's flagship assessment with 4 annual cycles covering Cambridge and Indonesian subjects. Provides individual, class, and school-wide analytics."
-        }
-      ]
-    },
-    {
-      "id": "2.17",
-      "title": "Eduversal Quality Assurance Visits",
-      "content": [
-        {
-          "type": "text",
-          "title": "Purpose",
-          "text": "Minimum 3 visits per school per year for monitoring, coaching, and continuous improvement."
-        },
-        {
-          "type": "list",
-          "title": "Appraisal Domains",
-          "items": [
-            "School Development",
-            "Management and Leadership",
-            "Subject Departments and PD",
-            "Olympiad and EdTech",
-            "Curriculum, Teaching, Assessment"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.18",
-      "title": "Cambridge Qualification Recognition",
-      "content": [
-        {
-          "type": "list",
-          "title": "Equivalency",
-          "items": [
-            "IGCSE: Equivalent to SMA completion",
-            "5+ IGCSE passes (A*-C) for university admission",
-            "AS Level: 1 year post-secondary equivalent",
-            "A Level: 2 years post-secondary equivalent"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.19",
-      "title": "Annual Compliance Checklist",
-      "content": [
-        {
-          "type": "list",
-          "title": "Quarterly Tasks",
-          "items": [
-            "Q1: Licenses, NPSN, calendar, BPJS, permits, training, drills",
-            "Q2: ANBK, exams, Dapodik sync, financial review, reports",
-            "Q3: SIMPKB, tax forms, QMS fee, policy review, budget",
-            "Q4: Cambridge exams, Dapodik sync, graduation, contracts"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.20",
-      "title": "Key Evidence and Artifacts",
-      "content": [
-        {
-          "type": "list",
-          "title": "Compliance Portfolio",
-          "items": [
-            "Legal: Yayasan Akta, licenses, NPSN",
-            "Data: Dapodik receipts, SIMPKB records",
-            "Assessment: EASE reports, ANBK results",
-            "Staffing: Qualifications, BPJS, tax records",
-            "Safety: Policies, drill logs, training records",
-            "Accreditation: BAN-S/M certificate, Eduversal reports"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2.21",
-      "title": "Compliance Alignment",
-      "content": [
-        {
-          "type": "compliance",
-          "categories": [
-            {
-              "title": "International Standards",
-              "items": [
-                "CIS: Operational Systems; Compliance; Governance",
-                "WASC Category D: Resource Management",
-                "WASC Category E: School Culture",
-                "Cambridge Centre Requirements"
-              ]
-            },
-            {
-              "title": "Indonesian Regulations",
-              "items": [
-                "National education laws",
-                "Labor law",
-                "Tax law (PPh 21, PPh 23)",
-                "Immigration (KITAS/KITAP)",
-                "Data Protection (PDP Law)"
-              ]
-            }
+            ["Pendidikan Agama", "Mandatory for all students according to their faith"],
+            ["PPKn (Civics)", "Mandatory for Indonesian citizens"],
+            ["Bahasa Indonesia", "Mandatory for all students"],
+            ["Sejarah Indonesia", "Integrated or standalone"]
           ]
         }
       ]

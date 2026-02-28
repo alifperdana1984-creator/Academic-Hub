@@ -1,7 +1,7 @@
 {
   "id": "08",
   "title": "Inclusion, EAL, and Learning Support",
-  "lastUpdated": "2025-01-16",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
       "id": "8.1",
@@ -9,44 +9,42 @@
       "content": [
         {
           "type": "text",
-          "text": "Eduversal schools are committed to providing an inclusive education where every student, regardless of their background, ability, or language proficiency, feels valued and supported to reach their full potential."
+          "text": "Eduversal believes that every child has the right to a high-quality education in a mainstream setting. Inclusion is not just about placing students with diverse needs in a classroom; it is about creating a learning environment where every student feels valued, supported, and challenged to reach their full potential."
         }
       ]
     },
     {
       "id": "8.2",
-      "title": "The Graduated Response (Three Waves of Support)",
+      "title": "Identification and Referral Process",
       "content": [
         {
-          "type": "text",
-          "text": "We utilize a tiered approach to support, ensuring resources are matched to student needs."
-        },
-        {
-          "type": "numbered",
-          "items": [
+          "type": "process",
+          "title": "Student Support Pathway",
+          "steps": [
             {
-              "title": "Wave 1: Quality First Teaching (Universal)",
-              "points": [
-                "High-quality, differentiated instruction in the mainstream classroom.",
-                "Accessible to all students.",
-                "Teachers use flexible grouping and scaffolded tasks."
-              ]
+              "n": 1,
+              "title": "Initial Concern",
+              "desc": "A classroom teacher, parent, or student raises a concern about academic progress, behavior, or wellbeing."
             },
             {
-              "title": "Wave 2: Targeted Support (Small Group)",
-              "points": [
-                "For students who are not making expected progress despite Wave 1 support.",
-                "Time-bound interventions (e.g., reading groups, math booster sessions).",
-                "Monitored by subject teachers and Learning Support staff."
-              ]
+              "n": 2,
+              "title": "Data Collection",
+              "desc": "The teacher gathers data (work samples, observation notes, assessment results) over 4-6 weeks."
             },
             {
-              "title": "Wave 3: Specialist Support (Individual)",
-              "points": [
-                "For students with significant or complex needs.",
-                "Highly personalized interventions, often 1:1.",
-                "May involve external specialists (e.g., educational psychologists, speech therapists)."
-              ]
+              "n": 3,
+              "title": "Referral",
+              "desc": "If concerns persist, the teacher completes a referral form for the Student Support Team (SST)."
+            },
+            {
+              "n": 4,
+              "title": "SST Review",
+              "desc": "The SST (Learning Support Coordinator, Counselor, EAL Lead, Admin) reviews the case and recommends a course of action."
+            },
+            {
+              "n": 5,
+              "title": "Intervention/Assessment",
+              "desc": "Action may include targeted interventions, further observation, or a formal educational-psychological assessment."
             }
           ]
         }
@@ -54,58 +52,71 @@
     },
     {
       "id": "8.3",
-      "title": "English as an Additional Language (EAL)",
+      "title": "Tiered System of Support (MTSS)",
       "content": [
         {
           "type": "text",
-          "text": "Given the international nature of our curriculum, EAL support is critical. Our goal is to help students access the curriculum in English while valuing their home languages."
+          "text": "We use a Multi-Tiered System of Supports (MTSS) to provide the appropriate level of support for every student."
         },
         {
-          "type": "list",
-          "items": [
-            "Initial Assessment: All new students are assessed using WIDA or Cambridge placement tests.",
-            "Support Models: Push-in support (co-teaching) and Pull-out (intensive English) depending on proficiency level.",
-            "Exit Criteria: Clear benchmarks for students to transition out of intensive EAL support."
+          "type": "table",
+          "headers": ["Tier", "Description", "Support Provided"],
+          "rows": [
+            [
+              "Tier 1",
+              "Universal Support for All Students",
+              "High-quality, differentiated instruction in the mainstream classroom."
+            ],
+            [
+              "Tier 2",
+              "Targeted Support",
+              "Small-group interventions for students needing extra help in specific areas (e.g., reading group, math booster)."
+            ],
+            [
+              "Tier 3",
+              "Intensive, Individualized Support",
+              "One-on-one support, specialized programs, or an Individual Education Plan (IEP) for students with significant needs."
+            ]
           ]
         }
       ]
     },
     {
       "id": "8.4",
-      "title": "Special Educational Needs (SEN)",
+      "title": "English as an Additional Language (EAL) Support",
       "content": [
         {
           "type": "text",
-          "text": "We support students with a range of learning needs through identification, planning, and review."
-        },
-        {
-          "type": "text",
-          "title": "Individualized Education Plans (IEPs)",
-          "text": "Students at Wave 3 (and some at Wave 2) will have an IEP detailing:"
+          "text": "EAL support is integrated into the curriculum to help students develop academic English proficiency."
         },
         {
           "type": "list",
+          "title": "Support Models",
           "items": [
-            "Specific learning targets (SMART goals).",
-            "Strategies and accommodations to be used in class.",
-            "Success criteria and review dates."
+            "Sheltered Instruction: All subject teachers use EAL-friendly strategies (visuals, scaffolding, group work).",
+            "Push-In Support: An EAL specialist co-teaches in the mainstream classroom to support EAL learners.",
+            "Pull-Out Support: Students at beginning proficiency levels receive intensive, small-group English instruction for a portion of the day."
           ]
         }
       ]
     },
     {
       "id": "8.5",
-      "title": "Gifted and Talented (G&T)",
+      "title": "Special Educational Needs (SEN) Support & IEPs",
       "content": [
         {
           "type": "text",
-          "text": "Inclusion also means challenging our most able students."
+          "text": "For students with diagnosed learning differences, an Individual Education Plan (IEP) is developed."
         },
         {
           "type": "list",
+          "title": "IEP Components",
           "items": [
-            "Identification: Through assessment data (EASE, Checkpoint) and teacher nomination.",
-            "Provision: Enrichment activities, extension tasks within lessons, and opportunities for acceleration (e.g., EduOS olympiad program)."
+            "Student's strengths and challenges.",
+            "Specific, Measurable, Achievable, Relevant, Time-bound (SMART) goals.",
+            "Accommodations (e.g., extra time, preferential seating) and/or Modifications (e.g., altered curriculum).",
+            "Details of support services to be provided.",
+            "Plan for monitoring progress."
           ]
         }
       ]
@@ -115,32 +126,50 @@
       "title": "Roles and Responsibilities",
       "content": [
         {
-          "type": "table",
-          "title": "Key Roles",
-          "headers": ["Role", "Responsibilities"],
-          "rows": [
-            ["Classroom Teacher", "Primary responsibility for the progress of all students in their class; implementing differentiation."],
-            ["SENCo / Learning Support Coordinator", "Managing the SEN register, coordinating interventions, supporting teachers, liaising with parents."],
-            ["School Counselor", "Supporting social-emotional wellbeing, providing pastoral care."],
-            ["Parents", "Partners in the process; providing insights and supporting learning at home."]
+          "type": "roles",
+          "roles": [
+            {
+              "title": "Learning Support Coordinator",
+              "resp": [
+                "Manages the SST, oversees IEPs, coordinates with external specialists."
+              ]
+            },
+            {
+              "title": "EAL Coordinator/Teacher",
+              "resp": [
+                "Assesses EAL proficiency, provides direct instruction, supports subject teachers."
+              ]
+            },
+            {
+              "title": "School Counselor",
+              "resp": [
+                "Provides social-emotional support, short-term counseling, and crisis intervention."
+              ]
+            },
+            {
+              "title": "Classroom Teacher",
+              "resp": [
+                "Implements Tier 1 strategies and accommodations as per the IEP."
+              ]
+            }
           ]
         }
       ]
     },
     {
       "id": "8.7",
-      "title": "Compliance Alignment",
+      "title": "Partnership with Parents",
       "content": [
         {
           "type": "text",
-          "text": "This section aligns with:"
+          "text": "Parents are essential partners in supporting students with diverse needs."
         },
         {
           "type": "list",
           "items": [
-            "CIS Domain E: Access to Teaching and Learning.",
-            "WASC Category B: Standards-based Student Learning: Curriculum.",
-            "Indonesian Regulation on Inclusive Education (Permendiknas No. 70 Tahun 2009)."
+            "Parents are involved in the referral and assessment process.",
+            "IEP meetings are held collaboratively with parents at least twice a year.",
+            "Regular communication between the support team and home is maintained to ensure consistency."
           ]
         }
       ]

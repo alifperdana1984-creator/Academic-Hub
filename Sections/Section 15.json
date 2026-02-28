@@ -1,204 +1,115 @@
 {
   "id": "15",
   "title": "Risk Management and Emergency",
-  "lastUpdated": "2025-01-16",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
       "id": "15.1",
-      "title": "Purpose",
+      "title": "Risk Management Framework",
       "content": [
         {
           "type": "text",
-          "text": "To establish a proactive and systematic framework for identifying, assessing, mitigating, and responding to risks that could impact the safety, wellbeing, and operational continuity of the school, ensuring a secure environment for all stakeholders."
+          "text": "The school employs a proactive approach to risk management to protect the safety of students, staff, and assets. All significant activities require a formal risk assessment."
+        },
+        {
+          "type": "process",
+          "title": "Risk Assessment Cycle",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Identify",
+              "desc": "Identify potential hazards associated with an activity or area."
+            },
+            {
+              "n": 2,
+              "title": "Assess",
+              "desc": "Evaluate the likelihood and severity of harm (Risk Matrix)."
+            },
+            {
+              "n": 3,
+              "title": "Control",
+              "desc": "Implement measures to eliminate or reduce the risk to an acceptable level."
+            },
+            {
+              "n": 4,
+              "title": "Review",
+              "desc": "Monitor the effectiveness of controls and update as necessary."
+            }
+          ]
         }
       ]
     },
     {
       "id": "15.2",
-      "title": "Risk Management Cycle",
+      "title": "Emergency Response Procedures",
       "content": [
         {
           "type": "text",
-          "text": "The school employs a continuous four-stage risk management cycle to proactively manage potential threats."
+          "text": "Clear, practiced procedures are in place for various emergency scenarios. Drills are conducted regularly."
         },
         {
-          "type": "numbered",
-          "items": [
-            {
-              "title": "Identify",
-              "points": ["Proactively identify potential risks across all operational domains through brainstorming, audits, and incident reviews."]
-            },
-            {
-              "title": "Assess",
-              "points": ["Analyze risks based on their likelihood and potential impact (severity) using a risk assessment matrix."]
-            },
-            {
-              "title": "Mitigate & Control",
-              "points": ["Develop and implement strategies to reduce the likelihood or impact of identified risks. This includes preventative measures, contingency plans, and control systems."]
-            },
-            {
-              "title": "Monitor & Review",
-              "points": ["Regularly review the effectiveness of mitigation strategies and update the risk register. This process is reviewed annually or after any significant incident."]
-            }
+          "type": "table",
+          "title": "Standard Drills",
+          "headers": ["Type", "Signal", "Action"],
+          "rows": [
+            [
+              "Fire / Evacuation",
+              "Continuous Alarm / Siren",
+              "Evacuate immediately to designated assembly point. Take attendance."
+            ],
+            [
+              "Earthquake",
+              "Announcement / Siren",
+              "Drop, Cover, and Hold On. Evacuate when shaking stops."
+            ],
+            [
+              "Lockdown",
+              "Coded Announcement",
+              "Lock doors, cover windows, lights off, silence, hide out of sight."
+            ],
+            [
+              "Medical Emergency",
+              "Call to Nurse/Reception",
+              "First aid by qualified staff; call ambulance if critical."
+            ]
           ]
         }
       ]
     },
     {
       "id": "15.3",
-      "title": "Risk Categories & Register",
+      "title": "Off-Site Activities (Excursions)",
       "content": [
         {
           "type": "text",
-          "text": "Risks are categorized to ensure comprehensive coverage. The school maintains a formal Risk Register, which is a live document reviewed quarterly by the leadership team."
+          "text": "Field trips and excursions extend learning but carry specific risks. Strict approval processes apply."
         },
         {
           "type": "list",
-          "title": "Key Risk Categories",
+          "title": "Requirements",
           "items": [
-            "Health & Safety: Student/staff injuries, illness outbreaks, food safety, building hazards.",
-            "Safeguarding & Child Protection: Bullying, abuse, online safety threats.",
-            "Operational: Staff turnover, IT system failure, utility disruption, transportation incidents.",
-            "Financial: Budget shortfalls, fraud, unexpected capital expenditures.",
-            "Reputational: Negative media, parent complaints, social media crises.",
-            "Compliance: Failure to meet Ministry, Cambridge, or accreditation standards.",
-            "Natural Disasters: Earthquakes, floods, fires, extreme weather."
+            "Risk Assessment: Completed by Trip Leader and approved by Principal.",
+            "Parental Consent: Signed permission forms with medical details.",
+            "Ratios: Adequate staff-to-student ratios based on age and activity risk.",
+            "First Aid: First aid kit and trained staff member must accompany all trips."
           ]
         }
       ]
     },
     {
       "id": "15.4",
-      "title": "Emergency Response Plan (ERP)",
+      "title": "Crisis Communication",
       "content": [
         {
           "type": "text",
-          "text": "The ERP provides clear, actionable procedures for responding to critical incidents. The plan is designed to protect life, stabilize the incident, and facilitate a return to normal operations."
-        },
-        {
-          "type": "roles",
-          "title": "Crisis Management Team (CMT)",
-          "roles": [
-            { "title": "Principal/Director", "resp": ["CMT Leader, final decision-maker, primary spokesperson."] },
-            { "title": "Head of Operations/Facilities", "resp": ["Manages on-the-ground response, logistics, and site security."] },
-            { "title": "Head of Academic/Vice Principal", "resp": ["Responsible for student and staff accountability and welfare."] },
-            { "title": "School Counselor/Head of Pastoral", "resp": ["Leads psychological first aid and post-crisis support."] },
-            { "title": "Communications Officer", "resp": ["Manages all internal and external communications."] }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "15.5",
-      "title": "Specific Emergency Procedures",
-      "content": [
-        {
-          "type": "text",
-          "text": "Clear, color-coded procedures are established for different types of emergencies. These are displayed in all classrooms and common areas."
-        },
-        {
-          "type": "list",
-          "title": "Standard Response Protocols",
-          "items": [
-            "Evacuation: Used for fire, gas leaks, or structural concerns. Move to designated assembly points.",
-            "Lockdown: Used for a threat or hazard inside the building. All doors are locked, and occupants remain silent and out of sight.",
-            "Shelter-in-Place: Used for external hazards like severe weather or air quality issues. Occupants remain indoors.",
-            "Medical Emergency: Procedures for responding to serious injuries or health crises, including contacting emergency services and designated first aiders."
-          ]
-        },
-        {
-          "type": "note",
-          "text": "Detailed, site-specific maps showing evacuation routes, assembly points, first aid kits, and fire extinguishers are posted throughout the campus."
-        }
-      ]
-    },
-    {
-      "id": "15.6",
-      "title": "Communication Protocol in a Crisis",
-      "content": [
-        {
-          "type": "text",
-          "text": "Timely and accurate communication is critical during an emergency. The school uses a multi-channel approach."
-        },
-        {
-          "type": "numbered",
-          "items": [
-            {
-              "title": "Initial Alert (Internal)",
-              "points": ["Public address (PA) system, school-wide alarm, or internal messaging app to alert staff and students."]
-            },
-            {
-              "title": "Parent/Guardian Notification",
-              "points": ["Initial notification via SMS blast or school app (e.g., EduNav) with basic information and instructions. Follow-up emails provide more detail as it becomes available."]
-            },
-            {
-              "title": "Media & Public",
-              "points": ["All media inquiries are directed to the designated spokesperson (Principal/Director). Official statements are posted on the school website."]
-            },
-            {
-              "title": "Post-Incident Communication",
-              "points": ["Debriefing sessions for staff, students, and parents. Counseling support information is shared."]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "15.7",
-      "title": "Training, Drills, and Review",
-      "content": [
-        {
-          "type": "text",
-          "text": "Preparedness is maintained through regular training and practice."
+          "text": "In a crisis, accurate and timely communication is vital to maintain trust and calm."
         },
         {
           "type": "list",
           "items": [
-            "Drills: Fire, earthquake, and lockdown drills are conducted at least twice per academic year.",
-            "Staff Training: Annual training for all staff on ERP procedures, including first aid and fire extinguisher use.",
-            "CMT Training: The Crisis Management Team undergoes annual tabletop exercises to simulate and practice responding to various scenarios.",
-            "Post-Drill/Incident Review: Every drill and actual incident is followed by a debriefing session to identify lessons learned and improve the ERP."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "15.8",
-      "title": "Key Evidence and Artifacts",
-      "content": [
-        {
-          "type": "text",
-          "text": "To demonstrate compliance and preparedness, the school maintains:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "The official Risk Register, updated quarterly.",
-            "The comprehensive Emergency Response Plan (ERP) document.",
-            "Drill schedule and log, including evaluation reports for each drill.",
-            "Minutes from Crisis Management Team meetings and post-incident reviews.",
-            "Records of staff training on safety and emergency procedures.",
-            "Building safety inspection certificates (e.g., fire safety, structural integrity).",
-            "Communication templates for various emergency scenarios."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "15.9",
-      "title": "Compliance Alignment",
-      "content": [
-        {
-          "type": "text",
-          "text": "This section aligns with:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "CIS Standards: Domain B (Guiding Statements) and Domain G (Wellbeing).",
-            "WASC Category A: Organization for Student Learning, and Category C: Support for Student Personal and Academic Growth.",
-            "Indonesian Law on Child Protection (No. 35/2014) and Disaster Management (No. 24/2007).",
-            "School's duty of care to provide a safe and secure environment for all members of the community."
+            "Spokesperson: Only the Principal or designated Board member speaks to the media.",
+            "Channels: SMS/WhatsApp blast for urgent alerts; Email for detailed updates.",
+            "Privacy: No names of injured/affected individuals are released without family consent."
           ]
         }
       ]

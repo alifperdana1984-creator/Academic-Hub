@@ -1,0 +1,91 @@
+{
+  "id": "23",
+  "title": "External Partnerships and Pathways",
+  "lastUpdated": "2025-01-20",
+  "subsections": [
+    {
+      "id": "23.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish and maintain strategic relationships with external organizations, universities, and industry partners that enhance student learning opportunities, support university placement, and provide clear career pathways."
+        }
+      ]
+    },
+    {
+      "id": "23.2",
+      "title": "University Guidance and Placement",
+      "content": [
+        {
+          "type": "text",
+          "text": "A comprehensive university counseling program supports students in identifying and applying to higher education institutions that best fit their aspirations and potential."
+        },
+        {
+          "type": "list",
+          "title": "Key Services",
+          "items": [
+            "Individualized counseling starting from Grade 10.",
+            "University fairs and visits from admissions representatives.",
+            "Support with application procedures (UCAS, Common App, etc.) and scholarship applications.",
+            "Preparation for entrance exams (SAT, IELTS, TOEFL)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.3",
+      "title": "Industry Partnerships and Internships",
+      "content": [
+        {
+          "type": "text",
+          "text": "Partnerships with businesses and organizations provide students with real-world exposure and practical experience."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Internship Programs: Structured work experience opportunities for Grade 11/12 students.",
+            "Guest Speaker Series: Industry professionals sharing insights and career advice.",
+            "Industry Visits: Field trips to companies and organizations to observe professional environments."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.4",
+      "title": "Alumni Relations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Maintaining a strong connection with alumni fosters a supportive community and provides mentorship opportunities for current students."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Alumni Database: Maintaining up-to-date contact information.",
+            "Alumni Events: Reunions and networking gatherings.",
+            "Mentorship Program: Connecting alumni with current students for guidance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.5",
+      "title": "Memorandum of Understanding (MoU) Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Formal partnerships are governed by MoUs to ensure clarity of expectations and mutual benefit."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Review Process: All MoUs must be reviewed by the School Leadership Team and Legal Counsel.",
+            "Renewal: Regular assessment of partnership effectiveness prior to renewal.",
+            "Compliance: Ensuring partners adhere to school safeguarding and ethical standards."
+          ]
+        }
+      ]
+    }
+  ]
+}

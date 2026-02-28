@@ -1,0 +1,108 @@
+{
+  "id": "21",
+  "title": "Digital Learning and Technology",
+  "lastUpdated": "2025-01-20",
+  "subsections": [
+    {
+      "id": "21.1",
+      "title": "Purpose and Vision",
+      "content": [
+        {
+          "type": "text",
+          "text": "To leverage technology as a transformative tool that enhances teaching and learning, fosters innovation, and prepares students for a digital future, while ensuring a safe, secure, and equitable digital environment."
+        }
+      ]
+    },
+    {
+      "id": "21.2",
+      "title": "Infrastructure and Access",
+      "content": [
+        {
+          "type": "list",
+          "title": "Device Policy",
+          "items": [
+            "1:1 Device Program: Students in Grades 7-12 are required to bring a personal laptop or tablet (BYOD) meeting minimum specifications.",
+            "School-Provided Devices: Computer labs and tablet carts are available for Primary students and specialized subjects (e.g., Computer Science, Design).",
+            "Equity of Access: The school maintains a loaner pool for students with financial need or temporary device issues."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Network and Connectivity",
+          "items": [
+            "High-speed internet access is available throughout the campus.",
+            "Secure Wi-Fi networks are segregated for Staff, Students, and Guests.",
+            "Content filtering is implemented to block inappropriate or harmful material."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.3",
+      "title": "Digital Learning Ecosystem",
+      "content": [
+        {
+          "type": "table",
+          "title": "Core Platforms",
+          "headers": ["Platform", "Function", "Users"],
+          "rows": [
+            ["EduNav", "School Information System (SIS) - Grades, Attendance, Schedule", "All Stakeholders"],
+            ["Google Workspace / Microsoft 365", "Productivity, Collaboration, Email", "Staff & Students"],
+            ["Learning Management System (LMS)", "Course content, assignments, digital assessment (e.g., Google Classroom, Canvas)", "Teachers & Students"],
+            ["EASE Platform", "Standardized assessment and data analysis", "Academic Team"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.4",
+      "title": "Digital Citizenship and Acceptable Use",
+      "content": [
+        {
+          "type": "text",
+          "text": "All users must adhere to the Acceptable Use Policy (AUP). Digital citizenship education is integrated into the curriculum."
+        },
+        {
+          "type": "list",
+          "title": "Key Expectations",
+          "items": [
+            "Respect: Use technology to communicate kindly and constructively.",
+            "Privacy: Do not share personal information or passwords.",
+            "Integrity: Respect copyright and intellectual property; avoid plagiarism.",
+            "Balance: Manage screen time effectively for health and wellbeing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.5",
+      "title": "Data Privacy and Security",
+      "content": [
+        {
+          "type": "text",
+          "text": "The school is committed to protecting the personal data of students and staff in compliance with Indonesian Personal Data Protection (PDP) laws."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Data Collection: Only necessary data is collected for educational and administrative purposes.",
+            "Data Storage: Digital records are stored on secure, encrypted servers.",
+            "Access Control: Access to sensitive data is restricted based on user roles.",
+            "Incident Reporting: Any data breach must be reported immediately to the IT Department."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.6",
+      "title": "Technical Support",
+      "content": [
+        {
+          "type": "info",
+          "label": "IT Helpdesk",
+          "text": "The IT Support team is available during school hours to assist with network issues, account access, and basic hardware troubleshooting. Requests can be submitted via the IT Ticket System or in person at the IT Office."
+        }
+      ]
+    }
+  ]
+}

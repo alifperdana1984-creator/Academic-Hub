@@ -1,0 +1,92 @@
+{
+  "id": "22",
+  "title": "Student Conduct and Discipline",
+  "lastUpdated": "2025-01-20",
+  "subsections": [
+    {
+      "id": "22.1",
+      "title": "Purpose and Philosophy",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish a safe, respectful, and positive learning environment where students can thrive academically and socially. Our approach balances clear expectations with restorative practices, focusing on learning from mistakes and repairing harm."
+        }
+      ]
+    },
+    {
+      "id": "22.2",
+      "title": "Code of Conduct",
+      "content": [
+        {
+          "type": "list",
+          "title": "Core Expectations",
+          "items": [
+            "Respect: Treat self, others, and property with dignity and care.",
+            "Responsibility: Be accountable for actions, attendance, and learning.",
+            "Integrity: Act with honesty in academic work and social interactions.",
+            "Safety: Contribute to a secure environment free from harm or intimidation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.3",
+      "title": "Behavior Management Framework",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal schools utilize a tiered approach to behavior management, prioritizing positive reinforcement and early intervention."
+        },
+        {
+          "type": "table",
+          "title": "Levels of Behavior",
+          "headers": ["Level", "Description", "Response"],
+          "rows": [
+            ["Level 1", "Minor infractions (e.g., lateness, disruption, uniform)", "Classroom management, verbal warning, teacher-student conference."],
+            ["Level 2", "Repeated Level 1 or moderate infractions (e.g., defiance, cheating, minor damage)", "Referral to HOD/Pastoral Lead, parent contact, detention/reflection."],
+            ["Level 3", "Serious infractions (e.g., bullying, theft, fighting)", "Principal referral, formal investigation, suspension, behavior contract."],
+            ["Level 4", "Severe/Illegal acts (e.g., drugs, weapon, assault)", "Discipline Committee hearing, possible expulsion, police involvement."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.4",
+      "title": "Anti-Bullying Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Bullying (physical, verbal, social, or cyber) is strictly prohibited. All reports are investigated promptly."
+        },
+        {
+          "type": "list",
+          "title": "Procedures",
+          "items": [
+            "Reporting: Students/staff report incidents to Homeroom Teacher or Counselor.",
+            "Investigation: Facts gathered from all parties involved.",
+            "Action: Disciplinary consequences coupled with restorative support for the victim and education for the perpetrator.",
+            "Follow-up: Monitoring to ensure behavior stops and victim feels safe."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.5",
+      "title": "Disciplinary Committee",
+      "content": [
+        {
+          "type": "text",
+          "text": "For Level 3 and 4 offenses, a Disciplinary Committee is convened to ensure a fair and thorough review process before major sanctions are imposed."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Composition: Principal, Vice Principal, Counselor, and relevant teachers.",
+            "Process: Review evidence, hear student's perspective, determine appropriate consequences.",
+            "Outcome: Written decision communicated to parents, documented in student file."
+          ]
+        }
+      ]
+    }
+  ]
+}

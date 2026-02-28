@@ -1,0 +1,92 @@
+{
+  "id": "20",
+  "title": "References and Compliance Library",
+  "lastUpdated": "2025-01-20",
+  "subsections": [
+    {
+      "id": "20.1",
+      "title": "Purpose",
+      "content": [
+        {
+          "type": "text",
+          "text": "To provide a centralized, up-to-date repository of all external regulatory documents, accreditation standards, and internal policy frameworks that govern Eduversal Partner Schools. This library ensures that school leadership and staff have direct access to the authoritative sources of compliance requirements."
+        }
+      ]
+    },
+    {
+      "id": "20.2",
+      "title": "National Regulations (Indonesia)",
+      "content": [
+        {
+          "type": "list",
+          "title": "Key Laws and Regulations",
+          "items": [
+            "UU No. 20 Tahun 2003 tentang Sistem Pendidikan Nasional (National Education System Law).",
+            "PP No. 57 Tahun 2021 tentang Standar Nasional Pendidikan (National Education Standards).",
+            "Permendikbudristek No. 5 Tahun 2022 about Graduate Competency Standards.",
+            "Permendikbudristek No. 7 Tahun 2022 about Content Standards.",
+            "Permendikbudristek No. 16 Tahun 2022 about Process Standards.",
+            "Permendikbudristek No. 21 Tahun 2022 about Assessment Standards."
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Access",
+          "text": "Full texts of these regulations are available in the school's administration office and the Ministry of Education and Culture website."
+        }
+      ]
+    },
+    {
+      "id": "20.3",
+      "title": "International Standards",
+      "content": [
+        {
+          "type": "table",
+          "title": "Accreditation and Curriculum Frameworks",
+          "headers": ["Organization", "Document", "Relevance"],
+          "rows": [
+            [
+              "Cambridge International",
+              "Cambridge Handbook (current year)",
+              "Administrative and assessment regulations."
+            ],
+            [
+              "Cambridge International",
+              "Curriculum Frameworks (by subject)",
+              "Learning objectives and content standards."
+            ],
+            [
+              "CIS (Council of International Schools)",
+              "CIS International Accreditation Standards",
+              "School-wide quality assurance framework."
+            ],
+            [
+              "WASC (Western Association of Schools and Colleges)",
+              "Focus on Learning (FOL) Manual",
+              "Self-study and accreditation protocols."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20.4",
+      "title": "Eduversal Network Policies",
+      "content": [
+        {
+          "type": "text",
+          "text": "Internal policies that apply across all partner schools to ensure consistency and quality."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Eduversal Academic Standards (this handbook).",
+            "Eduversal HR Policy Manual.",
+            "Eduversal Finance and Operations Manual.",
+            "Eduversal Branding Guidelines."
+          ]
+        }
+      ]
+    }
+  ]
+}
