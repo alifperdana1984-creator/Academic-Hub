@@ -24,3 +24,6 @@ node_modules/
 # PDF files
 *.pdf
 Sections/*.pdf
+
+# AI summarization scripts (contain API keys)
+summarize_sections*.py
