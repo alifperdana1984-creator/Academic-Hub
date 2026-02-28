@@ -5,85 +5,335 @@
   "subsections": [
     {
       "id": "22.1",
-      "title": "Purpose and Philosophy",
+      "title": "Philosophy and Guiding Principles",
       "content": [
         {
           "type": "text",
-          "text": "To establish a safe, respectful, and positive learning environment where students can thrive academically and socially. Our approach balances clear expectations with restorative practices, focusing on learning from mistakes and repairing harm."
+          "text": "Discipline serves an educational purpose, promoting self-governance and ethical decision-making. The framework aligns with Indonesian child protection regulations and integrates Islamic educational values where applicable."
+        },
+        {
+          "type": "list",
+          "title": "Core Principles",
+          "items": [
+            "Restorative Focus: Prioritizing repairing harm and restoring relationships.",
+            "Due Process: Ensuring every student has the right to be heard.",
+            "Proportionality: Matching consequences to the severity of behavior.",
+            "Consistency: Applying expectations equitably across all students.",
+            "Cultural Sensitivity: Respecting diverse backgrounds while maintaining universal standards.",
+            "Student Voice: Involving students in developing expectations and resolving conflicts.",
+            "Positive Reinforcement: Recognizing positive behavior alongside addressing misconduct.",
+            "Transparency: Clearly communicating rules and consequences."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The discipline framework supports the development of Schoolwide Learner Outcomes (SLOs) and integrates Profil Pelajar Pancasila (P8) character competencies."
+        },
+        {
+          "type": "text",
+          "text": "Student conduct and discipline intersect with safeguarding, ensuring the safety and wellbeing of all students."
         }
       ]
     },
     {
       "id": "22.2",
-      "title": "Code of Conduct",
+      "title": "Student Code of Conduct",
       "content": [
         {
+          "type": "text",
+          "text": "The Student Code of Conduct applies to all students and governs behavior in various contexts including school hours, school-sponsored activities, and online interactions."
+        },
+        {
           "type": "list",
-          "title": "Core Expectations",
+          "title": "Behavioral Expectations Matrix",
           "items": [
-            "Respect: Treat self, others, and property with dignity and care.",
-            "Responsibility: Be accountable for actions, attendance, and learning.",
-            "Integrity: Act with honesty in academic work and social interactions.",
-            "Safety: Contribute to a secure environment free from harm or intimidation."
+            "Respect for Self: Maintain personal dignity and make healthy choices.",
+            "Respect for Others: Treat all community members with kindness and courtesy.",
+            "Respect for Learning: Come prepared and engage actively in lessons.",
+            "Respect for Environment: Care for school property and maintain cleanliness.",
+            "Safety and Security: Follow safety protocols and report concerns.",
+            "Digital Citizenship: Use technology responsibly and ethically."
           ]
+        },
+        {
+          "type": "text",
+          "text": "Behavioral expectations are developmentally appropriate across different age groups, with clear communication through handbooks, orientation programs, and classroom agreements."
         }
       ]
     },
     {
       "id": "22.3",
-      "title": "Behavior Management Framework",
+      "title": "Classification of Behaviors and Progressive Consequences",
       "content": [
         {
           "type": "text",
-          "text": "Eduversal schools utilize a tiered approach to behavior management, prioritizing positive reinforcement and early intervention."
+          "text": "Behaviors are classified into four levels based on severity and impact, ensuring proportionate responses."
         },
         {
           "type": "table",
           "title": "Levels of Behavior",
-          "headers": ["Level", "Description", "Response"],
+          "headers": [
+            "Level",
+            "Description",
+            "Response"
+          ],
           "rows": [
-            ["Level 1", "Minor infractions (e.g., lateness, disruption, uniform)", "Classroom management, verbal warning, teacher-student conference."],
-            ["Level 2", "Repeated Level 1 or moderate infractions (e.g., defiance, cheating, minor damage)", "Referral to HOD/Pastoral Lead, parent contact, detention/reflection."],
-            ["Level 3", "Serious infractions (e.g., bullying, theft, fighting)", "Principal referral, formal investigation, suspension, behavior contract."],
-            ["Level 4", "Severe/Illegal acts (e.g., drugs, weapon, assault)", "Discipline Committee hearing, possible expulsion, police involvement."]
+            [
+              "Level 1",
+              "Minor infractions (e.g., lateness, disruption)",
+              "Classroom management, verbal warning."
+            ],
+            [
+              "Level 2",
+              "Moderate infractions (e.g., defiance, minor vandalism)",
+              "Referral to SC Coordinator, parent contact."
+            ],
+            [
+              "Level 3",
+              "Serious infractions (e.g., bullying, theft)",
+              "Principal referral, formal investigation."
+            ],
+            [
+              "Level 4",
+              "Severe/Illegal acts (e.g., drugs, weapons)",
+              "Discipline Committee hearing, possible expulsion."
+            ]
           ]
+        },
+        {
+          "type": "text",
+          "text": "Factors affecting classification and consequences include intent, frequency, and student history."
         }
       ]
     },
     {
       "id": "22.4",
-      "title": "Anti-Bullying Policy",
+      "title": "Discipline Procedures",
       "content": [
         {
           "type": "text",
-          "text": "Bullying (physical, verbal, social, or cyber) is strictly prohibited. All reports are investigated promptly."
+          "text": "Disciplinary procedures adhere to principles of presumption of innocence, confidentiality, and timely response."
         },
         {
-          "type": "list",
-          "title": "Procedures",
-          "items": [
-            "Reporting: Students/staff report incidents to Homeroom Teacher or Counselor.",
-            "Investigation: Facts gathered from all parties involved.",
-            "Action: Disciplinary consequences coupled with restorative support for the victim and education for the perpetrator.",
-            "Follow-up: Monitoring to ensure behavior stops and victim feels safe."
+          "type": "process",
+          "title": "Investigation Process",
+          "steps": [
+            "Initial Report: Staff report incidents using the Incident Report Form.",
+            "Initial Assessment: SC Coordinator reviews the report.",
+            "Evidence Collection: Gather statements and documentation.",
+            "Student Interview: Interview the student involved.",
+            "Parent Notification: Inform parents of the investigation.",
+            "Analysis and Recommendation: Analyze evidence and recommend actions.",
+            "Decision and Communication: Authority makes the final decision."
           ]
         }
       ]
     },
     {
       "id": "22.5",
-      "title": "Disciplinary Committee",
+      "title": "Suspension and Expulsion Procedures",
       "content": [
         {
           "type": "text",
-          "text": "For Level 3 and 4 offenses, a Disciplinary Committee is convened to ensure a fair and thorough review process before major sanctions are imposed."
+          "text": "Suspension can be in-school or out-of-school, with specific procedures for each."
+        },
+        {
+          "type": "process",
+          "title": "Expulsion Process",
+          "steps": [
+            "Principal Recommendation: Prepare a written recommendation.",
+            "Discipline Committee Review: Committee convenes to review documentation.",
+            "Hearing: Student and parents invited to present their case.",
+            "Committee Deliberation: Committee decides on expulsion or alternative consequences.",
+            "Yayasan Board Decision: Final decision made by the Yayasan Board."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.6",
+      "title": "Appeals Process",
+      "content": [
+        {
+          "type": "text",
+          "text": "Students and parents have the right to appeal Level 3 and Level 4 decisions based on procedural errors, new evidence, or disproportionate consequences."
+        },
+        {
+          "type": "process",
+          "title": "Appeal Procedures",
+          "steps": [
+            "Written Appeal Submission: Submit appeal within 5 school days.",
+            "Review of Appeal: GM/Foundation Representative reviews the appeal.",
+            "Appeal Decision: Written response provided within 10 school days."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.7",
+      "title": "Restorative Practices Framework",
+      "content": [
+        {
+          "type": "text",
+          "text": "Restorative practices focus on repairing harm and restoring relationships rather than punitive measures."
         },
         {
           "type": "list",
+          "title": "Restorative Approaches",
           "items": [
-            "Composition: Principal, Vice Principal, Counselor, and relevant teachers.",
-            "Process: Review evidence, hear student's perspective, determine appropriate consequences.",
-            "Outcome: Written decision communicated to parents, documented in student file."
+            "Community Circles: Regular meetings to build relationships.",
+            "Restorative Conversations: Dialogue between those harmed and those causing harm.",
+            "Peer Mediation: Trained students help peers resolve conflicts."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.8",
+      "title": "Specific Behavior Policies",
+      "content": [
+        {
+          "type": "list",
+          "title": "Key Policies",
+          "items": [
+            "Anti-Bullying Policy: Strict prohibition of all forms of bullying.",
+            "Academic Integrity Policy: Expectations for honesty in academic work.",
+            "Technology and Digital Citizenship Policy: Guidelines for responsible technology use.",
+            "Search and Seizure Policy: Authority to conduct searches for safety.",
+            "Substance Abuse Policy: Prohibition of drugs and alcohol on school premises."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.9",
+      "title": "Boarding School Considerations",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Code of Conduct applies 24/7 for boarding students, with additional expectations for dormitory behavior."
+        },
+        {
+          "type": "list",
+          "title": "Dormitory-Specific Expectations",
+          "items": [
+            "Daily schedule compliance including prayer times and study periods.",
+            "Maintaining cleanliness and respecting roommates' belongings.",
+            "Proper authorization for leaving campus and adherence to curfews."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.10",
+      "title": "Behavior Monitoring and Data",
+      "content": [
+        {
+          "type": "text",
+          "text": "All behavioral incidents must be documented in EduNav for tracking and improvement."
+        },
+        {
+          "type": "list",
+          "title": "Documentation Requirements",
+          "items": [
+            "Incident Reports: Detailed descriptions of incidents.",
+            "Conference Notes: Records of meetings regarding behavior.",
+            "Warning Letters: Documentation of serious misconduct."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.11",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "list",
+          "title": "Key Roles",
+          "items": [
+            "Principal: Overall accountability for discipline implementation.",
+            "General Manager/Foundation Representative: Oversight of policy implementation.",
+            "School Culture Coordinator: Day-to-day behavior management leadership.",
+            "Homeroom Teacher: First point of contact for behavior concerns.",
+            "Counselor: Provides support and facilitates restorative processes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.12",
+      "title": "Professional Development",
+      "content": [
+        {
+          "type": "text",
+          "text": "Staff receive training on discipline policy and restorative practices to ensure effective implementation."
+        },
+        {
+          "type": "list",
+          "title": "Training Components",
+          "items": [
+            "Annual policy refresher for all staff.",
+            "Restorative practices training for teachers.",
+            "Cultural sensitivity training for understanding diverse backgrounds."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.13",
+      "title": "Policy Review and Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "The policy is reviewed annually with input from stakeholders and analysis of behavioral data."
+        },
+        {
+          "type": "list",
+          "title": "Review Process",
+          "items": [
+            "Gather feedback from stakeholders.",
+            "Analyze behavioral data for trends.",
+            "Finalize revisions and communicate updates."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.14",
+      "title": "Key Evidence and Artifacts for Accreditation",
+      "content": [
+        {
+          "type": "list",
+          "title": "Documentation for Accreditation",
+          "items": [
+            "Student Code of Conduct with parent acknowledgment.",
+            "Incident logs and behavior data reports.",
+            "Sample investigation files demonstrating due process."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22.15",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "The policy aligns with CIS/WASC standards, Indonesian regulations, and Cambridge requirements."
+        }
+      ]
+    },
+    {
+      "id": "22.16",
+      "title": "Appendices",
+      "content": [
+        {
+          "type": "list",
+          "title": "Appendices",
+          "items": [
+            "Incident Report Form Template",
+            "Warning Letter Templates",
+            "Restorative Conference Facilitator Guide"
           ]
         }
       ]

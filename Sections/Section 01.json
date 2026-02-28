@@ -5,11 +5,71 @@
   "subsections": [
     {
       "id": "1.1",
-      "title": "Welcome Message",
+      "title": "Document Control and Version Management",
       "content": [
         {
           "type": "text",
-          "text": "Welcome to the Eduversal Academic Standards Handbook. This document serves as the definitive guide for all academic and operational standards across our partner schools. It is designed to ensure consistency, quality, and excellence in education, aligning our practices with both Indonesian national requirements and international standards."
+          "text": "The Academic Standards handbook is a comprehensive guide to educational leadership, Cambridge standards, and quality management."
+        },
+        {
+          "type": "table",
+          "title": "Version Control",
+          "headers": [
+            "Version",
+            "Date",
+            "Next Review Date",
+            "Review Cycle"
+          ],
+          "rows": [
+            [
+              "1.0",
+              "July 30, 2025",
+              "January 2026",
+              "Annual (with mid-year evaluation)"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Document Ownership",
+          "items": [
+            "Primary Owner: Yayasan Edukasi Universal Indonesia (Eduversal)",
+            "Custodian: Chief Academic Officer",
+            "Approval Authority: Eduversal Board of Trustees & Network General Managers"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Distribution",
+          "items": [
+            "Principals across all Eduversal Partner Schools",
+            "Senior Leadership Teams (SLT)",
+            "Eduversal Board of Trustees members",
+            "General Managers / Foundation Representatives",
+            "Quality Assurance Team"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Amendment Process",
+          "steps": [
+            "Proposed amendments submitted to the Chief Academic Officer",
+            "Review by the General Managers Committee (quarterly meetings)",
+            "Stakeholder consultation (schools, parents, staff, where applicable)",
+            "Board approval for substantive changes",
+            "Version update and re-distribution",
+            "Implementation timeline communicated network-wide"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Language and Accessibility",
+          "items": [
+            "Primary Language: English",
+            "EAL Considerations: Written in clear, accessible English suitable for non-native speakers",
+            "Indonesian Summaries: Key policies available in Bahasa Indonesia upon request",
+            "Digital Access: Available via the EduNav platform for authorized users"
+          ]
         }
       ]
     },
@@ -18,67 +78,288 @@
       "title": "Vision, Mission, and Core Values",
       "content": [
         {
-          "type": "vision",
-          "title": "Vision",
-          "text": "To be a leading educational network that nurtures globally competent, morally grounded, and socially responsible individuals who contribute positively to humanity."
+          "type": "text",
+          "text": "Our vision is to be a transformative network of Cambridge schools across Indonesia, recognized internationally for academic excellence, innovative pedagogy, and developing globally competent, ethically grounded learners."
         },
         {
-          "type": "mission",
+          "type": "list",
           "title": "Mission",
           "items": [
-            "Provide a holistic education integrating academic rigor with character development.",
-            "Foster a learning environment that encourages critical thinking, innovation, and creativity.",
-            "Cultivate respect for diversity and a strong sense of social responsibility.",
-            "Empower students with the skills and values necessary for success in a rapidly changing world."
+            "Deliver world-class, Cambridge-standard education that challenges and supports every student to achieve their highest potential academically, socially, and emotionally.",
+            "Cultivate exceptional educators through continuous professional development, collaborative practice, and access to cutting-edge pedagogical approaches.",
+            "Prepare students for global competitiveness by providing opportunities in international academic competitions, university pathways, and real-world problem-solving.",
+            "Build a network of educational excellence by sharing best practices, resources, and expertise across our partner schools and the wider Indonesian education community.",
+            "Integrate Indonesian values and identity within an international curriculum framework, ensuring students are rooted in Pancasila principles while globally aware.",
+            "Provide comprehensive educational consultancy that elevates teaching quality, curriculum design, and institutional effectiveness across our network and beyond."
           ]
         },
         {
-          "type": "values",
-          "title": "Core Values (R.A.I.S.E.)",
+          "type": "list",
+          "title": "Core Values",
           "items": [
-            { "name": "Respect", "id": "R", "desc": "We treat everyone with dignity and empathy." },
-            { "name": "Accountability", "id": "A", "desc": "We take responsibility for our actions and outcomes." },
-            { "name": "Integrity", "id": "I", "desc": "We act with honesty and strong moral principles." },
-            { "name": "Service", "id": "S", "desc": "We contribute to the well-being of our community." },
-            { "name": "Excellence", "id": "E", "desc": "We strive for the highest standards in all we do." }
+            "EXCELLENCE (Keunggulan): We set high standards and pursue continuous improvement in all aspects of our work.",
+            "INTEGRITY (Integritas): We act with honesty, ethical responsibility, and transparency.",
+            "INNOVATION (Inovasi): We embrace change, take calculated risks, and continuously seek better ways to teach, learn, and lead.",
+            "INCLUSIVITY (Inklusivitas): We value diversity and ensure equitable access to high-quality education.",
+            "COLLABORATION (Kolaborasi): We believe in the power of teamwork, shared leadership, and learning communities.",
+            "GLOBAL CITIZENSHIP (Kewarganegaraan Global): We develop students who understand their Indonesian identity while engaging confidently and responsibly with diverse cultures, perspectives, and global challenges.",
+            "SOCIAL CONTRIBUTION (Pengabdian Sosial): We encourage students to contribute meaningfully to their communities, embodying empathy, responsibility, and global citizenship."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Schoolwide Learner Outcomes (SLOs)",
+          "items": [
+            "Academic Excellence & Critical Thinking",
+            "Effective Communication",
+            "Global Competence & Cultural Awareness",
+            "Ethical Leadership & Social Responsibility",
+            "Innovation & Adaptability",
+            "Personal Wellbeing & Self-Awareness"
           ]
         }
       ]
     },
     {
       "id": "1.3",
-      "title": "Governance Structure",
+      "title": "Governance Charter",
       "content": [
         {
           "type": "text",
-          "text": "The governance of Eduversal Partner Schools is structured to ensure strategic oversight, operational efficiency, and accountability."
+          "text": "Eduversal Partner Schools operate under a collaborative governance model that balances network coherence, school autonomy, and accountability."
         },
         {
-          "type": "org",
-          "title": "Organizational Chart",
-          "levels": [
-            "Foundation Board (Yayasan)",
-            "Eduversal Head Office (Central Management)",
-            "School Board of Management",
-            "School Principal",
-            "Academic & Operational Departments"
+          "type": "list",
+          "title": "Governance Structure",
+          "items": [
+            "Level 1: Eduversal Foundation (Network Level)",
+            "Level 2: Partner School Foundation (School Ownership Level)",
+            "Level 3: School Leadership (Operational Level)"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Governance Roles and Responsibilities",
+          "headers": [
+            "Role",
+            "Reports to",
+            "Responsibilities"
           ],
-          "support": ["HR", "Finance", "IT", "Marketing", "Facilities"]
+          "rows": [
+            [
+              "Board of Trustees",
+              "None",
+              "Approve network-wide strategic direction and 5-year plans, ensure financial sustainability, appoint and evaluate the Chief Academic Officer and senior network leadership"
+            ],
+            [
+              "Chief Academic Officer",
+              "Board of Trustees",
+              "Lead implementation of network strategy and academic standards, oversee Quality Management System (QMS) across all schools"
+            ],
+            [
+              "General Manager",
+              "Chief Academic Officer (functional) and Local Yayasan (administrative)",
+              "Full operational authority over school management, curriculum, staffing, and student affairs"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "School-Level Middle Leadership Roles",
+          "items": [
+            "School Subject Leader (Koordinator Mata Pelajaran)",
+            "School Olympiad Coordinator",
+            "School College Counsellor (Secondary Schools Only)",
+            "School Extracurricular Coordinator"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Cambridge Centre-Specific Roles",
+          "items": [
+            "Centre Head",
+            "Exams Officer",
+            "Quality Nominee"
+          ]
         }
       ]
     },
     {
       "id": "1.4",
-      "title": "Document Control",
+      "title": "Decision-Making Matrix",
       "content": [
         {
           "type": "table",
-          "title": "Version History",
-          "headers": ["Version", "Date", "Author", "Changes"],
+          "title": "Decision-Making Matrix",
+          "headers": [
+            "Decision",
+            "Authority",
+            "Consultation"
+          ],
           "rows": [
-            ["1.0", "2024-07-01", "Academic Dept", "Initial Release"],
-            ["1.1", "2025-01-15", "Quality Assurance", "Updated Section 5 & 7"],
-            ["1.2", "2025-01-20", "Compliance Team", "Expanded Governance & Legal Sections"]
+            [
+              "School-level annual budget",
+              "General Manager",
+              "Local Yayasan and Eduversal"
+            ],
+            [
+              "Major capital projects and facility changes",
+              "Local Yayasan",
+              "General Manager and Eduversal"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.5",
+      "title": "Conflict of Interest Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "The purpose of this policy is to identify, disclose, and manage conflicts of interest that may compromise decision-making integrity."
+        },
+        {
+          "type": "list",
+          "title": "Disclosure Requirements",
+          "items": [
+            "Annual Declaration: All covered individuals complete a Conflict of Interest Declaration Form at the start of each fiscal year.",
+            "Ongoing Duty: Immediate disclosure when a new conflict arises"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Examples of Conflicts",
+          "items": [
+            "Financial interest in a vendor or service provider to the school",
+            "Family member employed by or seeking employment with the network",
+            "Board/leadership position in a competing educational institution"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Management Procedures",
+          "steps": [
+            "Disclosure: Individual declares conflict in writing to Chair (Board) or Chief Academic Officer (Staff).",
+            "Review: Chair or CAO assesses materiality and recommends a management approach.",
+            "Management Options: Recusal, Divestment, Monitoring, Prohibition.",
+            "Documentation: All conflicts and management actions are recorded in the Conflict of Interest Register.",
+            "Gifts and Hospitality Register: Record all gifts, favors, meals, or hospitality received in a professional capacity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.6",
+      "title": "Board Self-Evaluation and Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "The purpose of this process is to assess Board effectiveness, identify areas for improvement, and enhance governance capacity."
+        },
+        {
+          "type": "process",
+          "title": "Annual Board Self-Evaluation Process",
+          "steps": [
+            "Survey: Board members complete an anonymous self-evaluation survey.",
+            "Analysis: Chair and Secretary compile results and identify themes.",
+            "Feedback from School Leadership: Collect structured input from the General Manager and School Principals.",
+            "Reflection Session: The Board dedicates a meeting to discuss findings and develop an improvement plan.",
+            "Action Plan: Board commits to 2-3 priority improvement actions for the year.",
+            "Progress Review: Mid-year check-in on action plan implementation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.7",
+      "title": "Annual Governance Calendar",
+      "content": [
+        {
+          "type": "text",
+          "text": "The purpose of this calendar is to ensure systematic oversight, compliance, and strategic focus throughout the year."
+        }
+      ]
+    },
+    {
+      "id": "1.8",
+      "title": "Organizational Chart",
+      "content": [
+        {
+          "type": "table",
+          "title": "Network-Wide Organizational Structure",
+          "headers": [
+            "Role",
+            "Reports to",
+            "Responsibilities"
+          ],
+          "rows": [
+            [
+              "Board of Trustees",
+              "None",
+              "Approve network-wide strategic direction and 5-year plans"
+            ],
+            [
+              "Chief Academic Officer",
+              "Board of Trustees",
+              "Lead implementation of network strategy and academic standards"
+            ],
+            [
+              "General Manager",
+              "Chief Academic Officer (functional) and Local Yayasan (administrative)",
+              "Full operational authority over school management, curriculum, staffing, and student affairs"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.9",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "list",
+          "title": "Board-Level Evidence",
+          "items": [
+            "Board Terms of Reference (Bylaws) and the 20-year Partnership MOUs",
+            "Board meeting agendas, minutes, and resolutions (past 3 years)",
+            "Annual governance calendar"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "School-Level Evidence",
+          "items": [
+            "Partnership MOUs (20-year agreements with local Yayasan)",
+            "Organizational charts (network and school-specific)",
+            "General Manager job description and performance contract"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.10",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with international standards and Indonesian regulations."
+        },
+        {
+          "type": "list",
+          "title": "International Standards",
+          "items": [
+            "CIS Standards: Purpose & Direction; Governance, Leadership & Ownership",
+            "WASC Category A: Organization for Student Learning (A1-A5)",
+            "Cambridge Centre Requirements: Governance structures that ensure exam integrity and quality assurance"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Indonesian Regulations",
+          "items": [
+            "UU No. 20/2003 (Sisdiknas): National Education System Law",
+            "Permendiknas No. 13/2007: Standards for School Principals (Competency Framework)"
           ]
         }
       ]

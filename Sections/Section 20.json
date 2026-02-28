@@ -5,85 +5,296 @@
   "subsections": [
     {
       "id": "20.1",
-      "title": "Purpose",
+      "title": "Introduction and Purpose",
       "content": [
         {
           "type": "text",
-          "text": "To provide a centralized, up-to-date repository of all external regulatory documents, accreditation standards, and internal policy frameworks that govern Eduversal Partner Schools. This library ensures that school leadership and staff have direct access to the authoritative sources of compliance requirements."
+          "text": "This section serves as the authoritative reference repository for all regulatory frameworks, accreditation standards, and professional resources cited throughout this handbook."
+        },
+        {
+          "type": "text",
+          "text": "The library provides Principals and Senior Leadership Teams with direct access to primary sources, ensuring traceability and facilitating compliance verification during internal reviews and external accreditation visits."
+        },
+        {
+          "type": "text",
+          "text": "The library consolidates all authoritative sources that underpin the policies, procedures, and practices outlined in this Principal's Handbook."
+        },
+        {
+          "type": "text",
+          "text": "It serves multiple critical functions including regulatory compliance, accreditation readiness, Cambridge Centre operations, professional practice, and evidence management."
         }
       ]
     },
     {
       "id": "20.2",
-      "title": "National Regulations (Indonesia)",
+      "title": "Indonesian Regulations Summary Index",
       "content": [
         {
           "type": "list",
-          "title": "Key Laws and Regulations",
+          "title": "Foundational Education Laws",
           "items": [
-            "UU No. 20 Tahun 2003 tentang Sistem Pendidikan Nasional (National Education System Law).",
-            "PP No. 57 Tahun 2021 tentang Standar Nasional Pendidikan (National Education Standards).",
-            "Permendikbudristek No. 5 Tahun 2022 about Graduate Competency Standards.",
-            "Permendikbudristek No. 7 Tahun 2022 about Content Standards.",
-            "Permendikbudristek No. 16 Tahun 2022 about Process Standards.",
-            "Permendikbudristek No. 21 Tahun 2022 about Assessment Standards."
+            "UU No. 20 Tahun 2003 tentang Sistem Pendidikan Nasional (National Education System Law)",
+            "PP No. 57 Tahun 2021 tentang Standar Nasional Pendidikan (National Education Standards)"
           ]
         },
         {
+          "type": "list",
+          "title": "School Establishment and Licensing",
+          "items": [
+            "Permendikbudristek No. 5 Tahun 2022 about Graduate Competency Standards",
+            "Permendikbudristek No. 7 Tahun 2022 about Content Standards"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "National Curriculum Standards",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Teacher Standards and Professional Development",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Assessment and Evaluation",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Child Protection and Safeguarding",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Inclusive Education",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "School Management and Quality Assurance",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Employment and Staffing",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Foreign Worker Regulations (Expatriate Teachers)",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Tax and Social Security",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "Data and Information Systems",
+          "items": []
+        },
+        {
+          "type": "list",
+          "title": "BAN-S/M Accreditation Standards",
+          "items": []
+        },
+        {
           "type": "info",
-          "label": "Access",
-          "text": "Full texts of these regulations are available in the school's administration office and the Ministry of Education and Culture website."
+          "label": "Access Points",
+          "text": "JDIH Kemendikbud: https://jdih.kemdikbud.go.id/, JDIH Kemendikdasmen: https://jdih.kemendikdasmen.go.id/, Peraturan BPK: https://peraturan.bpk.go.id/"
         }
       ]
     },
     {
       "id": "20.3",
-      "title": "International Standards",
+      "title": "Cambridge International Education References",
       "content": [
         {
-          "type": "table",
-          "title": "Accreditation and Curriculum Frameworks",
-          "headers": ["Organization", "Document", "Relevance"],
-          "rows": [
-            [
-              "Cambridge International",
-              "Cambridge Handbook (current year)",
-              "Administrative and assessment regulations."
-            ],
-            [
-              "Cambridge International",
-              "Curriculum Frameworks (by subject)",
-              "Learning objectives and content standards."
-            ],
-            [
-              "CIS (Council of International Schools)",
-              "CIS International Accreditation Standards",
-              "School-wide quality assurance framework."
-            ],
-            [
-              "WASC (Western Association of Schools and Colleges)",
-              "Focus on Learning (FOL) Manual",
-              "Self-study and accreditation protocols."
-            ]
+          "type": "list",
+          "title": "Core Cambridge Handbooks",
+          "items": [
+            "Cambridge Handbook (current year)",
+            "Curriculum Frameworks (by subject)"
           ]
+        },
+        {
+          "type": "info",
+          "label": "Access Points",
+          "text": "Cambridge Support Hub: https://cambridgeinternational.org/support, Cambridge Website: https://www.cambridgeinternational.org"
         }
       ]
     },
     {
       "id": "20.4",
-      "title": "Eduversal Network Policies",
+      "title": "CIS Accreditation Standards References",
       "content": [
         {
-          "type": "text",
-          "text": "Internal policies that apply across all partner schools to ensure consistency and quality."
+          "type": "list",
+          "title": "CIS Framework Documentation",
+          "items": [
+            "CIS International Accreditation Standards",
+            "CIS Process Documentation"
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Access Points",
+          "text": "CIS Website: https://www.cois.org, CIS Member Portal: Access via school membership"
+        }
+      ]
+    },
+    {
+      "id": "20.5",
+      "title": "WASC Accreditation Standards References",
+      "content": [
+        {
+          "type": "list",
+          "title": "WASC ACS WASC Framework",
+          "items": [
+            "WASC ACS WASC Framework",
+            "WASC Process Documentation"
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Access Points",
+          "text": "ACS WASC: https://www.acswasc.org, WASC International: https://www.acswasc.org/international/"
+        }
+      ]
+    },
+    {
+      "id": "20.6",
+      "title": "EAL/SEN Best-Practice Resources",
+      "content": [
+        {
+          "type": "list",
+          "title": "English as an Additional Language (EAL)",
+          "items": [
+            "CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages",
+            "WIDA: https://wida.wisc.edu"
+          ]
         },
         {
           "type": "list",
+          "title": "Special Educational Needs (SEN)",
           "items": [
-            "Eduversal Academic Standards (this handbook).",
-            "Eduversal HR Policy Manual.",
-            "Eduversal Finance and Operations Manual.",
-            "Eduversal Branding Guidelines."
+            "UK SEND Code of Practice: https://www.gov.uk/government/publications/send-code-of-practice-0-to-25",
+            "UDL Guidelines: https://udlguidelines.cast.org",
+            "RTI Action Network: http://www.rtinetwork.org"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "MTSS/RTI Implementation",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "20.7",
+      "title": "Eduversal Quality Management System Resources",
+      "content": [
+        {
+          "type": "list",
+          "title": "Core QMS Components",
+          "items": [
+            "Eduversal Policy Documents",
+            "Network Contacts"
+          ]
+        },
+        {
+          "type": "info",
+          "label": "Access Points",
+          "text": "Eduversal Website: https://eduversal.net/"
+        }
+      ]
+    },
+    {
+      "id": "20.8",
+      "title": "Handbook Cross-Reference Index",
+      "content": [
+        {
+          "type": "text",
+          "text": "This index maps each handbook section to its primary regulatory and standards references."
+        }
+      ]
+    },
+    {
+      "id": "20.9",
+      "title": "Reference Update Protocol",
+      "content": [
+        {
+          "type": "process",
+          "title": "Annual Review Cycle",
+          "steps": [
+            "Review all Indonesian regulations for updates published during the previous year",
+            "Verify Cambridge Handbook updates and incorporate changes",
+            "Update CIS/WASC framework references if new versions are released",
+            "Check all hyperlinks for accessibility"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Mid-Year Review",
+          "steps": [
+            "Monitor for mid-year regulatory changes (particularly Ministry circulars)",
+            "Update Cambridge exam timeline references",
+            "Review EAL/SEN resources for new publications"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Ongoing Monitoring",
+          "steps": [
+            "Subscribe to JDIH Kemendikbud notification system",
+            "Monitor Cambridge Support Hub announcements",
+            "Track CIS/WASC communications to member schools"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20.10",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "The following evidence demonstrates effective reference management and compliance awareness."
+        }
+      ]
+    },
+    {
+      "id": "20.11",
+      "title": "Quick Reference Cards",
+      "content": [
+        {
+          "type": "list",
+          "title": "QRC-A: Key Indonesian Contacts",
+          "items": [
+            "Local Dinas Pendidikan office",
+            "BAN-S/M contact for the region",
+            "BPJS Ketenagakerjaan branch",
+            "Immigration office (for KITAS/KITAP)"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "QRC-B: Cambridge Key Contacts",
+          "items": [
+            "Cambridge Support Hub: support@cambridgeinternational.org",
+            "Regional Recognition Manager",
+            "School's Cambridge Centre Number"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "QRC-C: Emergency Compliance Contacts",
+          "items": [
+            "Child protection reporting authority",
+            "Fire and safety inspection contacts",
+            "Health emergency contacts"
           ]
         }
       ]

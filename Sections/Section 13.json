@@ -5,75 +5,716 @@
   "subsections": [
     {
       "id": "13.1",
-      "title": "Financial Management",
+      "title": "Introduction to Operations and Finance Management",
       "content": [
         {
           "type": "text",
-          "text": "Transparent and prudent financial management is essential for the sustainability of the school. The school operates on an annual budget approved by the Board."
+          "text": "Effective operations and finance management form the essential foundation that enables educational excellence at Eduversal Partner Schools."
+        },
+        {
+          "type": "text",
+          "text": "This section provides comprehensive guidance for principals navigating the complex landscape of operational and financial leadership within the unique Yayasan-Eduversal partnership model."
+        }
+      ]
+    },
+    {
+      "id": "13.1.1",
+      "title": "The Role of Operations and Finance in Educational Excellence",
+      "content": [
+        {
+          "type": "text",
+          "text": "Operations and finance are strategic enablers of the school's educational mission, impacting budget allocation, facility maintenance, technology investment, and resource procurement."
+        }
+      ]
+    },
+    {
+      "id": "13.1.2",
+      "title": "Dual Accountability Framework: Yayasan and Eduversal Partnership",
+      "content": [
+        {
+          "type": "text",
+          "text": "Understanding the operational and financial governance structure is fundamental to effective school leadership."
         },
         {
           "type": "list",
-          "title": "Key Procedures",
           "items": [
-            "Budgeting: Departments submit budget requests annually.",
-            "Purchasing: Competitive bidding required for major procurement; purchase orders must be approved before spending.",
-            "Petty Cash: Managed strictly for small, incidental expenses.",
-            "Auditing: Annual external financial audits to ensure compliance."
+            "Yayasan Responsibilities: Holds ultimate authority over major financial decisions and ensures compliance with Indonesian foundation law.",
+            "Eduversal Management Support: Provides comprehensive management support through the General Manager or Foundation Representative.",
+            "Principal's Role: Provides educational leadership and manages teaching and learning quality."
           ]
         }
       ]
     },
     {
-      "id": "13.2",
-      "title": "Facilities Management",
+      "id": "13.1.3",
+      "title": "Principal's Operational and Financial Leadership Responsibilities",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Financial Stewardship: Participates in annual budget development and manages expenditures.",
+            "Operational Oversight: Ensures facilities are safe and conducive to learning.",
+            "Resource Management: Balances competing priorities and maintains transparency."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.4",
+      "title": "Integration with EduNav Platform for Operational Excellence",
       "content": [
         {
           "type": "text",
-          "text": "Providing a safe, clean, and conducive learning environment is a priority."
+          "text": "EduNav serves as the central platform for operational and financial management across all partner schools."
         },
         {
-          "type": "table",
-          "title": "Maintenance Schedule",
-          "headers": ["Frequency", "Activity"],
-          "rows": [
-            [
-              "Daily",
-              "Cleaning of classrooms, toilets, and common areas; hygiene checks."
-            ],
-            ["Weekly", "Grounds maintenance; check of AC units and lighting."],
-            [
-              "Monthly",
-              "Safety inspections (fire extinguishers, electrical systems, playground equipment)."
-            ],
-            [
-              "Annual",
-              "Major repairs, painting, and renovations during school holidays."
-            ]
+          "type": "list",
+          "items": [
+            "Financial Management Features: Streamlines financial workflows and maintains proper internal controls.",
+            "Operational Monitoring: Provides dashboards displaying key operational performance indicators."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.5",
+      "title": "Compliance Context: Indonesian Regulations and International Standards",
+      "content": [
+        {
+          "type": "text",
+          "text": "Operations and finance management must satisfy multiple regulatory and accreditation frameworks."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Indonesian Regulatory Requirements: Governed by UU No. 35/2014 and labor laws.",
+            "International Accreditation Standards: Compliance with CIS and WASC standards."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.6",
+      "title": "Cultural Context: Indonesian School Operations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Operational and financial management requires cultural awareness and adaptation to local contexts."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tropical Climate Considerations: Prepare for flooding and high humidity.",
+            "Cultural Business Practices: Build relationships and engage respectfully with vendors."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.7",
+      "title": "Key Principles for Operational and Financial Excellence",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Transparency and Accountability: Document and justify all financial decisions.",
+            "Mission Alignment: Ensure operational decisions support educational outcomes.",
+            "Continuous Improvement: Regularly review operational efficiency and seek stakeholder feedback."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.8",
+      "title": "Structure of This Section",
+      "content": [
+        {
+          "type": "text",
+          "text": "The remainder of Section 13 provides detailed guidance on all aspects of operations and finance management."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Financial Planning and Budget Management",
+            "Financial Reporting and Accountability",
+            "Facilities Management and Maintenance",
+            "Transportation and Boarding Operations",
+            "Technology Infrastructure and IT Management",
+            "Procurement and Vendor Management",
+            "Risk Management and Insurance",
+            "Sustainability and Environmental Management",
+            "Operational Performance Monitoring",
+            "Collaboration with Yayasan and Eduversal HQ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.1.9",
+      "title": "Conclusion",
+      "content": [
+        {
+          "type": "text",
+          "text": "Operations and finance management are essential infrastructure that makes educational excellence possible."
+        }
+      ]
+    },
+    {
+      "id": "13.2",
+      "title": "Financial Planning and Budget Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Sound financial planning and budget management are fundamental to school sustainability and educational quality."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual budget is the financial expression of the school's strategic priorities.",
+            "Effective budget development requires participation from multiple stakeholders."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.2.1",
+      "title": "Annual Budget Development Process",
+      "content": [
+        {
+          "type": "text",
+          "text": "The budget development process follows a structured timeline involving multiple stakeholders."
+        },
+        {
+          "type": "list",
+          "items": [
+            "January-February: Initial budget planning begins.",
+            "March: Draft budget preparation.",
+            "April: Yayasan review and feedback.",
+            "May: Budget finalization and approval.",
+            "June: Budget communication and implementation preparation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.2.2",
+      "title": "Budget Approval and Oversight",
+      "content": [
+        {
+          "type": "text",
+          "text": "The budget approval process engages both Yayasan parties and establishes accountability."
+        },
+        {
+          "type": "list",
+          "items": [
+            "The GM prepares the draft budget.",
+            "The Yayasan Board reviews the budget.",
+            "The final approved budget is signed by the GM."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.2.3",
+      "title": "Revenue Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Revenue management is fundamental to financial sustainability."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tuition revenue accounts for 80-90% of total school income.",
+            "Tuition fee structures should reflect the school's educational value proposition."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.2.4",
+      "title": "Expenditure Controls",
+      "content": [
+        {
+          "type": "text",
+          "text": "Expenditure controls ensure resources are used efficiently and appropriately."
+        },
+        {
+          "type": "list",
+          "items": [
+            "All expenditures must follow formal approval processes.",
+            "Clear spending authority levels prevent bottlenecks."
           ]
         }
       ]
     },
     {
       "id": "13.3",
-      "title": "Procurement and Inventory",
+      "title": "Financial Reporting and Accountability",
       "content": [
         {
           "type": "text",
-          "text": "All school assets must be tagged and recorded in the Asset Register. An annual stocktake is conducted to verify inventory."
+          "text": "Transparency and accountability in financial reporting build trust with stakeholders."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Internal financial reports provide timely information for oversight.",
+            "External reporting obligations must be satisfied."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.3.1",
+      "title": "Internal Financial Reporting",
+      "content": [
+        {
+          "type": "text",
+          "text": "Internal financial reports provide management with timely information."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Monthly reports to Yayasan Board include financial position statements and income statements.",
+            "Variance analysis explains significant deviations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.3.2",
+      "title": "External Reporting Requirements",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must satisfy multiple external reporting obligations."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual tax returns must be filed by the deadline.",
+            "Supporting documentation is essential for tax filings."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.3.3",
+      "title": "Audit Procedures",
+      "content": [
+        {
+          "type": "text",
+          "text": "Annual external audits provide essential accountability mechanisms."
+        },
+        {
+          "type": "list",
+          "items": [
+            "The audit process includes planning, preparation, fieldwork, reporting, and follow-up phases.",
+            "Internal audits evaluate compliance with Eduversal policies."
+          ]
         }
       ]
     },
     {
       "id": "13.4",
-      "title": "Health and Safety (Operational)",
+      "title": "Facilities Management and Maintenance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective facilities management ensures that buildings and grounds support learning."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Long-term facility master planning should align with enrollment projections.",
+            "Compliance with Indonesian building regulations is essential."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.4.1",
+      "title": "Facility Planning and Development",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools should develop 5-10 year facility master plans."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Address classroom capacity needs and specialized learning spaces.",
+            "Ensure compliance with Indonesian building codes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.4.2",
+      "title": "Preventive Maintenance Programs",
+      "content": [
+        {
+          "type": "text",
+          "text": "Systematic preventive maintenance reduces costly emergency repairs."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual maintenance calendar should include roof inspections and HVAC servicing.",
+            "Routine inspection protocols ensure early problem identification."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.4.3",
+      "title": "Reactive Maintenance and Emergency Repairs",
+      "content": [
+        {
+          "type": "text",
+          "text": "All maintenance requests should flow through a formal work order system."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Prioritization criteria should categorize requests by urgency.",
+            "Emergency response protocols must be coordinated with crisis management procedures."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.4.4",
+      "title": "Health and Safety Compliance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Regular inspections should address fire safety and building safety."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Ensure functional fire alarms and detection systems.",
+            "Regularly test water quality and sanitation facilities."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.4.5",
+      "title": "Asset Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "All school assets should be tracked in a comprehensive registry."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Physical asset tagging facilitates annual inventories.",
+            "Comprehensive insurance should cover buildings and major infrastructure."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.5",
+      "title": "Transportation and Boarding Operations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Transportation and boarding services extend the school's duty of care beyond the classroom."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Transportation routes should minimize student travel time and ensure safety.",
+            "Boarding programs must provide adequate staffing and student welfare support."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.5.1",
+      "title": "School Transportation Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Transportation routes should minimize student travel time and ensure safety."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual route reviews should reflect enrollment changes.",
+            "Drivers must have valid licenses and background checks."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.5.2",
+      "title": "Boarding School Operations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Boarding programs should articulate clear educational philosophy."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Effective boarding requires adequate staffing and supervision.",
+            "Meal services must provide balanced nutrition meeting growth needs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.6",
+      "title": "Technology Infrastructure and IT Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Technology infrastructure enables modern teaching, learning, and administration."
+        },
+        {
+          "type": "list",
+          "items": [
+            "IT planning should align with the School Strategic Plan.",
+            "Reliable connectivity requires adequate internet bandwidth."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.6.1",
+      "title": "IT Infrastructure Planning",
+      "content": [
+        {
+          "type": "text",
+          "text": "IT planning should align with the School Strategic Plan."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Budget 5-8% of operating budget for technology.",
+            "Plan 3-5 year replacement cycles for major systems."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.6.2",
+      "title": "Data Security and Privacy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must comply with Indonesian Personal Data Protection Law requirements."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Implement cybersecurity protocols including firewalls and intrusion detection.",
+            "Limit access to student data for legitimate educational purposes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.7",
+      "title": "Procurement and Vendor Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective procurement ensures quality resources at reasonable costs."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Key vendor categories include curriculum resources, technology, and food services.",
+            "Utilize Eduversal preferred vendors for advantageous pricing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.7.1",
+      "title": "Key Vendor Categories",
       "content": [
         {
           "type": "list",
           "items": [
-            "Security: 24/7 security personnel; visitor management system (ID badges).",
-            "Emergency Drills: Fire and earthquake drills conducted at least once per term.",
-            "First Aid: Qualified nurse on site; first aid kits available in key locations.",
-            "Canteen: Regular hygiene inspections of food preparation areas."
+            "Curriculum Resources: Cambridge-approved textbooks and digital resources.",
+            "Technology: Hardware, software licenses, and technical support services.",
+            "Food Services: Cafeteria and boarding meal suppliers."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.8",
+      "title": "Risk Management and Insurance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools should maintain comprehensive risk registers identifying various risks."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Essential coverage includes property insurance and liability insurance.",
+            "Annual reviews should verify adequate coverage levels."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.8.1",
+      "title": "Operational Risk Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Identify financial, operational, reputational, legal, and health/safety risks."
+        }
+      ]
+    },
+    {
+      "id": "13.8.2",
+      "title": "Insurance Requirements",
+      "content": [
+        {
+          "type": "text",
+          "text": "Essential coverage includes property insurance and liability insurance."
+        }
+      ]
+    },
+    {
+      "id": "13.9",
+      "title": "Sustainability and Environmental Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools should implement energy conservation programs and waste reduction initiatives."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Community engagement through environmental projects.",
+            "Integration of environmental education into the curriculum."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.9.1",
+      "title": "Environmental Initiatives",
+      "content": [
+        {
+          "type": "text",
+          "text": "Implement energy conservation programs and sustainable procurement."
+        }
+      ]
+    },
+    {
+      "id": "13.9.2",
+      "title": "Community Engagement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Engage the community through environmental projects and student clubs."
+        }
+      ]
+    },
+    {
+      "id": "13.10",
+      "title": "Operational Performance Monitoring",
+      "content": [
+        {
+          "type": "text",
+          "text": "Monitoring operational performance through key performance indicators is essential."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Financial Health: Operating margin and revenue per student.",
+            "Facility Utilization: Classroom occupancy rates."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.10.1",
+      "title": "Key Performance Indicators",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Revenue Metrics: Tuition revenue per student.",
+            "Expense Metrics: Personnel cost ratio."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.10.2",
+      "title": "EduNav Dashboard Integration",
+      "content": [
+        {
+          "type": "text",
+          "text": "EduNav provides real-time operational dashboards and automated KPI tracking."
+        }
+      ]
+    },
+    {
+      "id": "13.11",
+      "title": "Collaboration with Yayasan and Eduversal HQ",
+      "content": [
+        {
+          "type": "text",
+          "text": "Collaboration with Yayasan and Eduversal HQ is essential for effective governance."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Principal reports to GM for operational matters.",
+            "Eduversal provides QMS support and technical assistance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13.11.1",
+      "title": "Governance Framework",
+      "content": [
+        {
+          "type": "text",
+          "text": "The governance framework includes collaboration between the Principal, GM, and Yayasan Board."
+        }
+      ]
+    },
+    {
+      "id": "13.11.2",
+      "title": "Support Services",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal HQ offers various support services including finance consultation and technology support."
+        }
+      ]
+    },
+    {
+      "id": "13.12",
+      "title": "Summary and Key Takeaways",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective operations and finance management creates the essential foundation for educational excellence."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Mission Alignment: Every operational decision must support student learning.",
+            "Transparency and Accountability: Open communication and responsible use of resources."
           ]
         }
       ]

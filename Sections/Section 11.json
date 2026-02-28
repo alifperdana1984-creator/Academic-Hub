@@ -9,14 +9,27 @@
       "content": [
         {
           "type": "text",
-          "text": "Eduversal Partner Schools are committed to a fair, transparent, and merit-based admissions process. We welcome students from diverse backgrounds who demonstrate the potential to thrive in our academic environment and align with our core values."
+          "text": "The admissions process is the first point of contact between prospective families and the school community, establishing trust, transparency, and shared commitment to student success."
         },
         {
           "type": "list",
-          "title": "Non-Discrimination",
+          "title": "Key Objectives of Admissions Policy",
           "items": [
-            "Admissions decisions are made without regard to race, ethnicity, or religion (except where religious background is a specific criteria for faith-based schools within the network).",
-            "We strive to accommodate students with mild to moderate learning needs where resources allow."
+            "Equitable access to enrollment for every child who can benefit from our Cambridge international education.",
+            "Clear understanding of educational philosophy, expectations, and support systems for families.",
+            "Maintenance of appropriate class sizes and teacher-student ratios.",
+            "Placement of students in environments where they can thrive academically, socially, and emotionally.",
+            "Compliance with Indonesian regulations and international accreditation standards."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Commitment to Equity, Diversity, and Inclusion",
+          "items": [
+            "No discrimination based on religion, ethnicity, gender, socioeconomic status, or learning differences.",
+            "Holistic consideration of each applicant's potential.",
+            "Reasonable accommodations for students with Special Educational Needs (SEN).",
+            "Support for English as an Additional Language (EAL) learners."
           ]
         }
       ]
@@ -55,6 +68,17 @@
               "desc": "Payment of fees and signing of the enrollment contract."
             }
           ]
+        },
+        {
+          "type": "list",
+          "title": "Required Documents for Enrollment",
+          "items": [
+            "Birth certificate (Akta Kelahiran)",
+            "Family card (Kartu Keluarga)",
+            "Previous school reports/transcripts",
+            "Immunization records",
+            "Passport and residence permit (for international students)"
+          ]
         }
       ]
     },
@@ -68,7 +92,10 @@
         },
         {
           "type": "table",
-          "headers": ["Type", "Criteria"],
+          "headers": [
+            "Type",
+            "Criteria"
+          ],
           "rows": [
             [
               "Academic Merit",

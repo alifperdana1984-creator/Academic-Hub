@@ -5,48 +5,89 @@
   "subsections": [
     {
       "id": "10.1",
-      "title": "Purpose and Compliance",
+      "title": "Introduction and Purpose",
       "content": [
         {
           "type": "text",
-          "text": "To ensure the secure, ethical, and efficient administration of all Cambridge International examinations, in strict accordance with the regulations outlined in the Cambridge Handbook. The integrity of the examination process is paramount."
+          "text": "Cambridge International Examinations are the cornerstone of academic credibility for Eduversal Partner Schools. Maintaining examination integrity, security, and fairness is a contractual requirement of our Cambridge Centre status and demonstrates our commitment to ethical assessment and international standards."
         },
         {
-          "type": "info",
-          "label": "Governing Document",
-          "text": "The Cambridge Handbook, updated annually, is the definitive source for all regulations. The Exams Officer must be an expert in its contents."
+          "type": "list",
+          "title": "Key Objectives",
+          "items": [
+            "Ensure secure, fair, and compliant administration of all Cambridge examinations.",
+            "Maintain Cambridge Centre status through adherence to regulations and annual declarations.",
+            "Protect candidate welfare and rights throughout the examination process.",
+            "Provide accurate, timely data to inform teaching, intervention, and university counseling.",
+            "Demonstrate assessment integrity to meet CIS/WASC accreditation standards."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Alignment with Organizational Frameworks",
+          "items": [
+            "CIS Domain: Teaching & Assessing for Learning (Assessment Integrity)",
+            "WASC Category: B. Curriculum, Instruction, and Assessment; C. Support for Student Personal and Academic Growth",
+            "Cambridge: Centre Handbook compliance; Quality Management Standards",
+            "Indonesian Context: Integration with rapor (report cards); data reporting to Dapodik, where applicable."
+          ]
         }
       ]
     },
     {
       "id": "10.2",
-      "title": "Key Roles and Responsibilities",
+      "title": "Examinations Governance Structure",
       "content": [
         {
-          "type": "roles",
-          "roles": [
+          "type": "text",
+          "text": "Clear role delineation ensures accountability and prevents gaps in examination management."
+        },
+        {
+          "type": "list",
+          "title": "Roles and Responsibilities",
+          "items": [
             {
-              "title": "Head of Centre (Principal)",
+              "title": "Principal",
               "resp": [
-                "Ultimately responsible for the correct and secure conduct of exams.",
-                "Appoints the Exams Officer.",
-                "Co-signs security and dispatch documents."
+                "Sign and submit the Cambridge Centre Annual Declaration by the deadline.",
+                "Approve examination entries, timetable clashes, and special consideration requests.",
+                "Ensure adequate secure storage facilities and monitor key control logs.",
+                "Authorize appointment of the Exams Officer and Quality Nominee.",
+                "Oversee investigations of malpractice or maladministration and communicate with Cambridge.",
+                "Review post-results analysis and integrate findings into the School Improvement Plan (SIP).",
+                "Allocate budget for examination fees, invigilation costs, and contingency arrangements.",
+                "Report examination outcomes to the Board and integrate data into EduNav dashboards."
               ]
             },
             {
-              "title": "Exams Officer (CEM)",
+              "title": "Exams Officer",
               "resp": [
-                "Manages all operational aspects of the exam cycle.",
-                "Serves as the primary contact with Cambridge.",
-                "Trains and manages invigilators."
+                "Manage the examination entry process: verify student eligibility, submit entries via Cambridge International Direct (CID), and confirm fee payments.",
+                "Create and publish the internal examination timetable, resolving timetable clashes.",
+                "Coordinate access arrangements with the Learning Support Team.",
+                "Order and receive question papers and materials per the Cambridge Key Times schedule.",
+                "Conduct secure storage audits and maintain control logs for all materials.",
+                "Train and brief invigilators using standardized checklists.",
+                "Prepare examination rooms and ensure compliance with Cambridge regulations."
               ]
             },
             {
               "title": "Invigilators",
               "resp": [
-                "Supervise exams according to strict regulations.",
-                "Ensure all candidates have a fair and equal opportunity.",
-                "Prevent and report any malpractice."
+                "Arrive early to collect materials and verify room setup.",
+                "Read the Examination Instructions to Candidates script verbatim.",
+                "Monitor candidate behavior continuously and document any irregularities.",
+                "Assist candidates with permitted queries without providing subject-specific help.",
+                "Enforce prohibited items policy and ensure silence and fairness throughout the session."
+              ]
+            },
+            {
+              "title": "Quality Nominee",
+              "resp": [
+                "Liaise with Cambridge on Centre inspections or audits.",
+                "Lead internal quality assurance reviews.",
+                "Ensure syllabus changes and assessment updates are communicated to teaching staff.",
+                "Support the Principal and Exams Officer during malpractice investigations."
               ]
             }
           ]
@@ -55,31 +96,34 @@
     },
     {
       "id": "10.3",
-      "title": "The Examinations Cycle",
+      "title": "Secure Materials Management",
       "content": [
         {
+          "type": "text",
+          "text": "Cambridge examination materials must be stored in conditions that prevent unauthorized access, tampering, or environmental damage."
+        },
+        {
+          "type": "list",
+          "title": "Secure Storage Requirements",
+          "items": [
+            "Dedicated secure room or cabinet with steel construction and dual locks.",
+            "Environmental controls: Temperature 15-25°C, humidity <70%, fire suppression system.",
+            "Access restrictions: Only the Principal and Exams Officer hold keys."
+          ]
+        },
+        {
           "type": "process",
-          "title": "Annual Exam Administration",
+          "title": "Key Times and Materials Handling",
           "steps": [
             {
               "n": 1,
-              "title": "Entries Phase",
-              "desc": "Submitting accurate candidate and subject entries to Cambridge via Cambridge International Direct before the deadline."
+              "title": "Materials Receipt Process",
+              "desc": "Verify the courier's identity, inspect packages for tampering, log receipt in the Secure Storage Register, and store immediately."
             },
             {
               "n": 2,
-              "title": "Pre-Exams Phase",
-              "desc": "Receiving, checking, and securely storing exam materials. Creating timetables and briefing candidates and invigilators."
-            },
-            {
-              "n": 3,
-              "title": "Exams Phase",
-              "desc": "Conducting exams according to regulations. Managing attendance, incidents, and script collection."
-            },
-            {
-              "n": 4,
-              "title": "Post-Exams Phase",
-              "desc": "Securely packing and dispatching scripts. Managing results release, enquiries about results (EARs), and certificate distribution."
+              "title": "Materials Dispatch Process",
+              "desc": "Pack scripts securely, complete dispatch documentation, photograph sealed packages, and use a tracked courier service."
             }
           ]
         }
@@ -87,36 +131,124 @@
     },
     {
       "id": "10.4",
-      "title": "Exam Security and Materials Handling",
+      "title": "Examination Day Procedures",
       "content": [
         {
-          "type": "text",
-          "text": "Breaches in security can lead to centre suspension. All procedures must be followed without deviation."
+          "type": "process",
+          "title": "Pre-Examination Setup (Day Before)",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Confirm room bookings and display 'EXAM IN PROGRESS' signage.",
+              "desc": "Prepare seating plans and set up examination desks with minimum spacing."
+            },
+            {
+              "n": 2,
+              "title": "Verify clock synchronization and test environmental conditions.",
+              "desc": "Place candidate instructions posters and prepare invigilator packs."
+            }
+          ]
         },
         {
-          "type": "list",
-          "title": "Key Security Measures",
-          "items": [
-            "Secure Storage: Question papers must be stored in a dedicated, locked safe or secure cabinet within a locked, access-controlled room.",
-            "Key Control: Access to the secure storage keys is restricted to the Head of Centre and the Exams Officer only.",
-            "Receiving Materials: Two people must be present to check sealed exam packets against the packing list upon arrival.",
-            "Confidentiality: The contents of question papers are strictly confidential until the exam has taken place."
+          "type": "process",
+          "title": "During the Examination",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Opening the Exam",
+              "desc": "Invigilators arrive, candidates are admitted, identity checks are conducted, and prohibited items are confiscated."
+            },
+            {
+              "n": 2,
+              "title": "During the Exam",
+              "desc": "Continuous vigilance is maintained, and any irregularities are documented."
+            },
+            {
+              "n": 3,
+              "title": "Closing the Exam",
+              "desc": "Collect all materials systematically, count scripts against the attendance register, and dismiss candidates row by row."
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Managing Timetable Clashes",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Different Start Times (Supervised Rest Break)",
+              "desc": "The candidate sits Exam A at the normal time, supervised for a rest break, then sits Exam B."
+            },
+            {
+              "n": 2,
+              "title": "Same Start Time (Separate Room)",
+              "desc": "The candidate takes both exams simultaneously in a separate room with an additional invigilator."
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Examination Incidents and Emergencies",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Incident Report Form",
+              "desc": "Complete within 24 hours, documenting evidence and submitting to the Exams Officer."
+            },
+            {
+              "n": 2,
+              "title": "Communication with Cambridge",
+              "desc": "Report incidents and follow guidance for special consideration."
+            }
           ]
         }
       ]
     },
     {
       "id": "10.5",
-      "title": "Conduct of Examinations (Invigilation)",
+      "title": "Malpractice and Maladministration",
       "content": [
         {
+          "type": "text",
+          "text": "Malpractice undermines the integrity of the examination, while maladministration compromises examination security or fairness."
+        },
+        {
           "type": "list",
-          "title": "Exam Room Regulations",
+          "title": "Definitions",
           "items": [
-            "Room Setup: Desks must be spaced according to regulations (e.g., 1.25m in all directions). A clock and centre details must be visible.",
-            "Invigilator Ratio: A minimum of 1 invigilator per 30 candidates.",
-            "Candidate Identification: Photo ID must be checked for all candidates.",
-            "Unauthorized Materials: No mobile phones, smartwatches, or unauthorized notes are permitted in the exam room."
+            "Malpractice: Cheating, unauthorized materials, disruptive behavior, impersonation.",
+            "Maladministration: Opening papers early, providing unauthorized assistance, failing to report malpractice."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Investigation Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Incident Report",
+              "desc": "Complete and submit to Exams Officer and Principal."
+            },
+            {
+              "n": 2,
+              "title": "Preliminary Review",
+              "desc": "Review evidence and determine if further investigation is needed."
+            },
+            {
+              "n": 3,
+              "title": "Candidate Interview",
+              "desc": "Invite candidate and parent to discuss the incident."
+            },
+            {
+              "n": 4,
+              "title": "Decision and Report to Cambridge",
+              "desc": "Determine if malpractice occurred and report findings."
+            },
+            {
+              "n": 5,
+              "title": "Communication and Record Keeping",
+              "desc": "Inform candidate of the outcome and file all documentation."
+            }
           ]
         }
       ]
@@ -126,28 +258,450 @@
       "title": "Access Arrangements and Special Consideration",
       "content": [
         {
-          "type": "table",
-          "headers": ["Type", "Description"],
-          "rows": [
-            [
-              "Access Arrangements",
-              "Pre-approved arrangements for candidates with SEN (e.g., extra time, a reader, a scribe). Applications must be submitted well in advance."
-            ],
-            [
-              "Special Consideration",
-              "A post-exam adjustment for candidates who were disadvantaged during the exam (e.g., illness, bereavement). Applications must be submitted within 7 days of the exam."
-            ]
+          "type": "text",
+          "text": "Access arrangements provide pre-exam support to candidates with documented learning needs."
+        },
+        {
+          "type": "list",
+          "title": "Common Access Arrangements",
+          "items": [
+            "Extra time (typically 25% additional)",
+            "Separate invigilation in a smaller room",
+            "Reader or scribe support",
+            "Modified question papers",
+            "Rest breaks",
+            "Word processor use"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Application Process for Access Arrangements",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Identify eligible candidates",
+              "desc": "Based on diagnostic assessments or medical documentation."
+            },
+            {
+              "n": 2,
+              "title": "Submit application to Cambridge",
+              "desc": "By the March deadline."
+            },
+            {
+              "n": 3,
+              "title": "Receive approval from Cambridge",
+              "desc": "Or proceed with Centre-approved arrangements."
+            },
+            {
+              "n": 4,
+              "title": "Inform Exams Officer",
+              "desc": "To arrange room setup and materials."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Special consideration provides post-exam grade adjustments for candidates affected by temporary circumstances."
+        },
+        {
+          "type": "list",
+          "title": "Eligibility Criteria for Special Consideration",
+          "items": [
+            "Candidate was present and completed the exam.",
+            "Adverse circumstances were beyond the candidate's control.",
+            "Evidence is available and submitted within 7 days of the exam."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Application Process for Special Consideration",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Report adverse circumstances",
+              "desc": "To the Exams Officer within 24 hours."
+            },
+            {
+              "n": 2,
+              "title": "Collect evidence",
+              "desc": "Medical certificate or incident report."
+            },
+            {
+              "n": 3,
+              "title": "Submit request via CID",
+              "desc": "Within 7 days of the exam."
+            },
+            {
+              "n": 4,
+              "title": "Cambridge reviews evidence",
+              "desc": "And may apply a percentage adjustment."
+            },
+            {
+              "n": 5,
+              "title": "Inform candidate of outcome",
+              "desc": "When results are released."
+            }
           ]
         }
       ]
     },
     {
       "id": "10.7",
-      "title": "Malpractice and Irregularities",
+      "title": "Post-Examination Processes",
+      "content": [
+        {
+          "type": "process",
+          "title": "Results Analysis and Reporting",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Data Collection",
+              "desc": "Download results from Cambridge International Direct and upload to EduNav."
+            },
+            {
+              "n": 2,
+              "title": "Subject-Level Analysis",
+              "desc": "Heads of Department receive Subject Performance Reports."
+            },
+            {
+              "n": 3,
+              "title": "Cohort-Level Analysis",
+              "desc": "Senior Leadership Team reviews Whole-School Performance Dashboard."
+            },
+            {
+              "n": 4,
+              "title": "Integration into School Improvement Plan",
+              "desc": "Action planning meetings with Heads of Department."
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Post-Results Services",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Clerical Re-Check",
+              "desc": "Verify that all parts of the script were marked correctly."
+            },
+            {
+              "n": 2,
+              "title": "Review of Marking",
+              "desc": "Re-mark by a senior examiner to check for marking errors."
+            },
+            {
+              "n": 3,
+              "title": "Return of Candidate Script",
+              "desc": "Obtain a copy of the candidate's marked script for review."
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Certificate Distribution and Record Keeping",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Certificate Issuance",
+              "desc": "Verify certificate accuracy against results data."
+            },
+            {
+              "n": 2,
+              "title": "Lost or Duplicate Certificates",
+              "desc": "Complete Lost Certificate Request Form for duplicates."
+            },
+            {
+              "n": 3,
+              "title": "Record Retention",
+              "desc": "Maintain permanent digital archive of results and certificates."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.8",
+      "title": "Risk Management and Contingency Planning",
       "content": [
         {
           "type": "text",
-          "text": "Any suspected malpractice (e.g., cheating by a candidate, security breach by staff) must be reported to Cambridge immediately. The Exams Officer will lead the investigation and submit a formal report."
+          "text": "In the event of a significant disruption, the Examinations Business Continuity Plan ensures minimal disruption to candidate welfare and qualification outcomes."
+        },
+        {
+          "type": "list",
+          "title": "Key Elements",
+          "items": [
+            "Communication Tree for rapid notification.",
+            "Alternative Venues pre-arranged.",
+            "Remote Invigilation procedures.",
+            "Predicted Grades Submission for internal assessment data."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.9",
+      "title": "Continuous Improvement and Quality Assurance",
+      "content": [
+        {
+          "type": "process",
+          "title": "Annual Review of Examination Procedures",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Data Review",
+              "desc": "Analyze results trends and post-results service outcomes."
+            },
+            {
+              "n": 2,
+              "title": "Stakeholder Feedback",
+              "desc": "Conduct surveys of candidates, invigilators, and subject teachers."
+            },
+            {
+              "n": 3,
+              "title": "Incident Analysis",
+              "desc": "Review all incident reports and malpractice cases."
+            },
+            {
+              "n": 4,
+              "title": "Compliance Audit",
+              "desc": "Self-assess against Cambridge Centre Handbook requirements."
+            },
+            {
+              "n": 5,
+              "title": "Action Planning",
+              "desc": "Identify improvements for the next series."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Cambridge may conduct inspections to verify Centre compliance."
+        }
+      ]
+    },
+    {
+      "id": "10.10",
+      "title": "Communication and Stakeholder Engagement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Clear and timely communication reduces anxiety and ensures candidates are well-prepared for their examinations."
+        },
+        {
+          "type": "list",
+          "title": "Communication Principles",
+          "items": [
+            "Bilingual communications in English and Bahasa Indonesia.",
+            "Accessible language and visual aids.",
+            "Multi-channel communication methods.",
+            "Transparent about timelines and costs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.11",
+      "title": "Financial Management and Budgeting",
+      "content": [
+        {
+          "type": "text",
+          "text": "Cambridge charges fees per subject per candidate, with costs varying by qualification level and series."
+        },
+        {
+          "type": "list",
+          "title": "Typical Fee Ranges (2025-26 Academic Year)",
+          "items": [
+            "Cambridge Checkpoint: $30-50 per subject",
+            "IGCSE: $100-150 per subject",
+            "AS Level: $120-180 per subject",
+            "A Level: $150-220 per subject"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Annual Examination Budget Preparation",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Submit draft budget to Principal.",
+              "desc": "Based on projected enrollment and subject choices."
+            },
+            {
+              "n": 2,
+              "title": "Principal reviews and integrates into whole-school budget.",
+              "desc": "Board approves final budget."
+            },
+            {
+              "n": 3,
+              "title": "Quarterly expenditure reviews.",
+              "desc": "Monitor actuals vs. projections."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.12",
+      "title": "Templates and Resources",
+      "content": [
+        {
+          "type": "text",
+          "text": "Templates support standardized, efficient examination management."
+        },
+        {
+          "type": "list",
+          "title": "Management Features",
+          "items": [
+            "Version control for each template.",
+            "Annual review during Post-Series Review.",
+            "Accessibility in multiple formats."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.13",
+      "title": "Professional Development for Examination Personnel",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Exams Officer is required to maintain current knowledge of Cambridge regulations and best practices."
+        },
+        {
+          "type": "list",
+          "title": "Mandatory Training",
+          "items": [
+            "Cambridge Exams Officer Course within 6 months of appointment.",
+            "Annual refresher webinars offered by Cambridge.",
+            "Eduversal network training twice annually."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Optional Professional Development",
+          "items": [
+            "Data analysis training.",
+            "Project management training.",
+            "Stakeholder communication training."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.14",
+      "title": "Integration with School Systems",
+      "content": [
+        {
+          "type": "text",
+          "text": "Examination data is integrated into EduNav for real-time visibility."
+        },
+        {
+          "type": "list",
+          "title": "Key Dashboards",
+          "items": [
+            "Exams Officer Dashboard for entry progress and secure storage audit status.",
+            "Principal Dashboard for results overview and compliance status.",
+            "HoD Dashboard for subject performance data.",
+            "Parent/Student Portal for individual examination timetable."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.15",
+      "title": "Key Performance Indicators (KPIs)",
+      "content": [
+        {
+          "type": "text",
+          "text": "The school monitors examination management effectiveness using KPIs."
+        },
+        {
+          "type": "list",
+          "title": "Reporting",
+          "items": [
+            "Quarterly KPI Dashboard reviewed by SLT.",
+            "Annual KPI Summary included in the Annual Examinations Report.",
+            "Action plans developed for any KPI falling below the target."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.16",
+      "title": "Compliance and Accreditation Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section supports accreditation standards and regulatory requirements."
+        },
+        {
+          "type": "list",
+          "title": "CIS Standards",
+          "items": [
+            "Assessment integrity, fairness, validity, and reliability.",
+            "Secure materials management and record keeping.",
+            "Candidate support and access to special arrangements."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "WASC Categories",
+          "items": [
+            "Valid and reliable assessment of student learning.",
+            "Access arrangements for diverse learners.",
+            "Adequate facilities and budget allocation."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Indonesian Regulations",
+          "items": [
+            "Integration of Cambridge results into rapor.",
+            "Data reporting to Dapodik.",
+            "Compliance with student data protection norms."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.17",
+      "title": "Review and Continuous Improvement Cycle",
+      "content": [
+        {
+          "type": "text",
+          "text": "This policy is reviewed annually by the Exams Officer, Quality Nominee, and Principal."
+        },
+        {
+          "type": "process",
+          "title": "Review Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Post-Series Review Report provides data foundation.",
+              "desc": "Incorporate stakeholder feedback and Cambridge updates."
+            },
+            {
+              "n": 2,
+              "title": "Draft revisions circulated to SLT for input.",
+              "desc": "Final approval by Principal and Board."
+            },
+            {
+              "n": 3,
+              "title": "Updated policy published on EduNav.",
+              "desc": "Communicated to all staff."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10.18",
+      "title": "Conclusion",
+      "content": [
+        {
+          "type": "text",
+          "text": "Effective Cambridge examinations management is a hallmark of a high-performing international school. By adhering to the procedures, standards, and safeguards outlined in this section, Eduversal Partner Schools demonstrate commitment to examination integrity and fairness."
         }
       ]
     }

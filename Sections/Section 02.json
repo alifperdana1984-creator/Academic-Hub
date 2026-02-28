@@ -5,81 +5,671 @@
   "subsections": [
     {
       "id": "2.1",
-      "title": "Indonesian Education Law Framework",
+      "title": "Purpose",
       "content": [
         {
           "type": "text",
-          "text": "All Eduversal Partner Schools must operate in full compliance with the laws and regulations of the Republic of Indonesia. The foundation of our compliance is the National Education System Law (UU Sisdiknas)."
-        },
-        {
-          "type": "list",
-          "title": "Key Regulations",
-          "items": [
-            "UU No. 20 Tahun 2003 tentang Sistem Pendidikan Nasional",
-            "PP No. 57 Tahun 2021 tentang Standar Nasional Pendidikan",
-            "Permendikbudristek regarding Kurikulum Merdeka implementation",
-            "Local regulations from Dinas Pendidikan (Provincial/District)"
-          ]
+          "text": "To ensure full adherence to Indonesian national regulations governing private education institutions, maintain all required licenses and permits, integrate mandatory national curriculum components, and fulfill reporting obligations to the Ministry of Education, Culture, Research, and Technology (Kemendikdasmen)."
         }
       ]
     },
     {
       "id": "2.2",
-      "title": "School Licensing (Izin Operasional)",
+      "title": "Legal Foundation and School Identity",
       "content": [
         {
           "type": "text",
-          "text": "Maintaining valid operational licenses is critical. Schools must ensure all licenses are up-to-date and reflect current operations."
+          "text": "Each Eduversal Partner School operates under a legally registered Yayasan (foundation) as the school owner and license holder, in accordance with Law No. 28 of 2004 concerning Foundations."
         },
         {
-          "type": "process",
-          "title": "Licensing Maintenance Cycle",
-          "steps": [
-            { "n": 1, "title": "Audit", "desc": "Check expiration dates of Izin Prinsip and Izin Operasional annually." },
-            { "n": 2, "title": "Preparation", "desc": "Prepare required documents (curriculum, facilities, staffing) 6 months before expiration." },
-            { "n": 3, "title": "Submission", "desc": "Submit renewal applications to OSS (Online Single Submission) or local Dinas." },
-            { "n": 4, "title": "Verification", "desc": "Host site visits from verifiers." }
+          "type": "list",
+          "title": "Key Obligations",
+          "items": [
+            "Akta Pendirian (Deed of Establishment): Notarized foundation charter registered with the Ministry of Law and Human Rights.",
+            "NPWP Yayasan: Tax identification number for the foundation.",
+            "Annual Reporting: Submit annual activity and financial reports to the relevant authorities.",
+            "Asset Management: All school buildings, land, and facilities owned or controlled by the Yayasan.",
+            "Non-Profit Status: Operate exclusively for educational and social purposes; any surplus reinvested in educational quality."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Notarized Akta Pendirian and any amendments.",
+            "Registration certificate from the Ministry of Law and Human Rights.",
+            "NPWP certificate.",
+            "Annual financial statements audited by a registered accountant.",
+            "Board meeting minutes documenting oversight."
           ]
         }
       ]
     },
     {
       "id": "2.3",
-      "title": "Data Reporting (Dapodik)",
+      "title": "School Operational Licenses (Izin Operasional)",
       "content": [
         {
           "type": "text",
-          "text": "Accurate and timely reporting to Data Pokok Pendidikan (Dapodik) is mandatory for student NISN registration, teacher certification, and school accreditation."
+          "text": "Each school level (PAUD, SD, SMP, SMA) must obtain and maintain an operational license from the local Education Office (Dinas Pendidikan Kabupaten/Kota or Provinsi)."
+        },
+        {
+          "type": "process",
+          "title": "Licensing Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Application Submission",
+              "desc": "Completed application with supporting documents to local Dinas Pendidikan."
+            },
+            {
+              "n": 2,
+              "title": "Document Requirements",
+              "desc": "Yayasan legal documents, land ownership/lease documentation, building safety certificate, fire safety clearance, environmental health clearance, proposed curriculum and staffing plan, principal and teacher qualification documents."
+            },
+            {
+              "n": 3,
+              "title": "Site Inspection",
+              "desc": "Dinas team verifies facilities, safety, and readiness."
+            },
+            {
+              "n": 4,
+              "title": "Issuance",
+              "desc": "Operational license valid for 5 years (renewable)."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Renewal requires submission of updated documentation and compliance evidence 6 months before expiration."
         },
         {
           "type": "list",
-          "title": "Reporting Deadlines",
+          "title": "Evidence Required",
           "items": [
-            "Semester 1 Cut-off: August 31st",
-            "Semester 2 Cut-off: January 31st",
-            "Monthly updates for attendance and staffing changes"
+            "Current operational license (Izin Operasional) for each school level.",
+            "Renewal application tracking log.",
+            "Inspection reports and corrective action records.",
+            "Correspondence with Dinas Pendidikan."
           ]
         }
       ]
     },
     {
       "id": "2.4",
-      "title": "National Curriculum Implementation",
+      "title": "NPSN (Nomor Pokok Sekolah Nasional)",
       "content": [
         {
           "type": "text",
-          "text": "Schools must implement the mandatory national curriculum subjects alongside the Cambridge curriculum."
+          "text": "Every school must obtain a unique NPSN from the Ministry of Education as the official school identifier for all national reporting systems."
         },
         {
-          "type": "table",
-          "title": "Mandatory Subjects",
-          "headers": ["Subject", "Requirement"],
-          "rows": [
-            ["Pendidikan Agama", "Mandatory for all students according to their faith"],
-            ["PPKn (Civics)", "Mandatory for Indonesian citizens"],
-            ["Bahasa Indonesia", "Mandatory for all students"],
-            ["Sejarah Indonesia", "Integrated or standalone"]
+          "type": "list",
+          "title": "Purpose of NPSN",
+          "items": [
+            "National school registry and identification.",
+            "Access to Dapodik (national data system).",
+            "Eligibility for government programs and subsidies (if applicable).",
+            "UN/ANBK examination registration."
           ]
+        },
+        {
+          "type": "process",
+          "title": "Application Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Submit Online",
+              "desc": "Via Dapodik system with school profile, operational license, and facility data."
+            },
+            {
+              "n": 2,
+              "title": "Verification",
+              "desc": "NPSN issued upon verification."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must keep NPSN data current in Dapodik and report any changes."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "NPSN certificate and documentation.",
+            "Dapodik registration confirmation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.5",
+      "title": "National Data and Reporting Systems",
+      "content": [
+        {
+          "type": "text",
+          "text": "Dapodik is the Ministry's primary database for schools, students, teachers, and facilities, serving as the foundation for national education planning, funding allocation, and policy decisions."
+        },
+        {
+          "type": "list",
+          "title": "Responsibilities",
+          "items": [
+            "Designate a trained Dapodik Operator responsible for data entry.",
+            "Update data each semester (minimum): student enrollment and attendance, teacher and staff employment data, curriculum delivery and assessment results, facility and infrastructure inventory, financial data.",
+            "Synchronize data online with the national server.",
+            "Respond to validation errors and queries."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The principal must ensure the Dapodik Operator receives training and support, reviews data quality, and approves data submissions."
+        },
+        {
+          "type": "list",
+          "title": "Timeline for Reporting",
+          "items": [
+            "Semester 1 Cut-off: October 31st, sync by November 15.",
+            "Semester 2 Cut-off: April 30th, sync by May 15.",
+            "Ad hoc updates as required for critical changes."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Common Data Elements",
+          "items": [
+            "Students: Name, NISN, birthdate, address, parent contact, enrollment date, class placement.",
+            "Teachers: Name, NIK, NUPTK, qualifications, subjects taught, employment status.",
+            "Curriculum: Subjects offered, teaching hours, assessment methods.",
+            "Facilities: Classrooms, labs, libraries, sports facilities, and condition."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Dapodik Operator appointment letter and training certificates.",
+            "Data entry logs and synchronization receipts.",
+            "Validation reports and error correction documentation.",
+            "Annual Dapodik accuracy audit by GM or designated reviewer."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.6",
+      "title": "SIMPKB (Sistem Informasi Manajemen Pengembangan Keprofesian Berkelanjutan)",
+      "content": [
+        {
+          "type": "text",
+          "text": "SIMPKB tracks teacher professional development activities and is linked to teacher certification and career progression."
+        },
+        {
+          "type": "list",
+          "title": "Requirements",
+          "items": [
+            "All certified teachers must maintain SIMPKB accounts.",
+            "Record all CPD activities: workshops, training, conferences, lesson study, action research.",
+            "Upload supporting evidence (certificates, attendance records).",
+            "Minimum CPD hours per year as mandated by regulations."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must facilitate teacher access to SIMPKB, verify and endorse teacher CPD claims, and maintain school records of PD activities."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "SIMPKB activity logs for all certified teachers.",
+            "School PD calendar and attendance records.",
+            "Certificates of completion for workshops/training.",
+            "Annual CPD summary report."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.7",
+      "title": "National Curriculum Integration",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools must integrate mandatory Indonesian national curriculum subjects and embrace the Profil Pelajar Pancasila competencies as outlined in Kurikulum National (Merdeka)."
+        },
+        {
+          "type": "list",
+          "title": "Mandatory National Subjects",
+          "items": [
+            "Pendidikan Pancasila dan Kewarganegaraan (PPKn) - Minimum 2 hours/week.",
+            "Bahasa Indonesia - Minimum 4-6 hours/week.",
+            "Pendidikan Agama - Minimum 2-3 hours/week, grouped by religion.",
+            "Muatan Lokal (Mulok) - Local content reflecting local culture."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "National subjects are taught in dedicated time blocks, using Indonesian as the language of instruction, and assessed using national frameworks."
+        },
+        {
+          "type": "list",
+          "title": "Integration Approach",
+          "items": [
+            "Bilingual reports for Cambridge and national curriculum subjects.",
+            "Typical weekly allocation: Cambridge subjects ~70%, National subjects ~25%, Co-curricular/enrichment ~5%."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Profil Pelajar Pancasila defines the competencies Indonesian students should develop, aligned with Pancasila values."
+        },
+        {
+          "type": "list",
+          "title": "Six Dimensions of Profil Pelajar Pancasila",
+          "items": [
+            "Beriman, Bertakwa kepada Tuhan Yang Maha Esa, dan Berakhlak Mulia (Faith, piety, and noble character).",
+            "Berkebinekaan Global (Global diversity appreciation).",
+            "Bergotong Royong (Collaboration and mutual assistance).",
+            "Mandiri (Independence and self-direction).",
+            "Bernalar Kritis (Critical reasoning).",
+            "Kreatif (Creativity and innovation)."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The Profil Pelajar Pancasila program is delivered through the EduSTEAM approach, combining Indonesian national character competencies with international STEAM pedagogies."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Project proposals with STEAM integration plans.",
+            "Student work portfolios documenting design and process.",
+            "Reflection rubrics tracking growth in all dimensions.",
+            "Exhibition materials showcasing student projects."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.8",
+      "title": "National Calendar and Instructional Time",
+      "content": [
+        {
+          "type": "text",
+          "text": "School calendars must align with the national academic calendar issued annually by the Ministry of Education while accommodating Cambridge examination schedules."
+        },
+        {
+          "type": "list",
+          "title": "National Calendar Elements",
+          "items": [
+            "Semester 1 (Ganjil): Mid-July to December.",
+            "Semester 2 (Genap): January to mid-June.",
+            "Minimum 38 instructional weeks per year (excluding holidays and exams)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "National Holidays and Observances",
+          "items": [
+            "Indonesian Independence Day (August 17).",
+            "Religious holidays (Idul Fitri, Idul Adha, etc.).",
+            "National Hero's Day (November 10).",
+            "Education Day (May 2)."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must meet minimum instructional hours per week as specified by national regulations."
+        },
+        {
+          "type": "list",
+          "title": "Minimum Instructional Hours",
+          "items": [
+            "SD (Primary): Minimum 30-36 hours/week.",
+            "SMP (Lower Secondary): Minimum 38-40 hours/week.",
+            "SMA (Upper Secondary): Minimum 38-40 hours/week."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Timetables must be designed to meet or exceed minimum hours, with both national and Cambridge subjects counting toward the total."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Master timetable by grade and subject.",
+            "Calculation showing compliance with minimum hours.",
+            "Attendance records and instructional delivery logs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.9",
+      "title": "Child Protection and Student Welfare Regulations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must comply with national child protection laws and ensure a safe environment for all students."
+        },
+        {
+          "type": "list",
+          "title": "Key Requirements",
+          "items": [
+            "Written anti-bullying policy accessible to all students and families.",
+            "Clear reporting mechanisms for students, parents, and staff.",
+            "Prohibition of corporal punishment and positive behavior management.",
+            "Physical and psychological safety measures in place."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain a confidential incident log for suspected child abuse or neglect and cooperate with external investigations."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Anti-bullying policy published in English and Bahasa Indonesia.",
+            "Training records for staff on child protection.",
+            "Incident logs and response documentation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.10",
+      "title": "Staffing and Employment Regulations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must adhere to national staffing regulations and ensure all teachers meet minimum qualifications."
+        },
+        {
+          "type": "list",
+          "title": "Minimum National Requirements",
+          "items": [
+            "PAUD: Diploma IV (D-IV) or Bachelor's (S1) in Early Childhood Education.",
+            "SD: S1 in Primary Education or relevant subject + teaching credential.",
+            "SMP/SMA: S1 in subject area + teaching credential."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain a teacher qualification matrix and verify the authenticity of documents."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Teacher qualification matrix with copies of degrees and transcripts.",
+            "Verification logs confirming document authenticity.",
+            "Cambridge training certificates (if applicable)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.11",
+      "title": "Ministry Inspections and National Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Local and provincial education offices conduct periodic inspections to verify compliance with operational standards."
+        },
+        {
+          "type": "list",
+          "title": "Inspection Focus Areas",
+          "items": [
+            "Facilities and safety.",
+            "Teacher qualifications and employment documentation.",
+            "Curriculum and instructional quality.",
+            "Student records and assessment."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain inspection-ready documentation at all times and prepare for inspections."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Inspection notices and correspondence.",
+            "Inspection reports with findings and recommendations.",
+            "Action plans and implementation logs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.12",
+      "title": "Financial and Operational Transparency",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must establish fair, transparent, and non-discriminatory tuition and fee structures."
+        },
+        {
+          "type": "list",
+          "title": "Best Practices",
+          "items": [
+            "Publish fee schedule annually in English and Bahasa Indonesia.",
+            "Provide scholarship or financial aid for qualifying families.",
+            "No hidden fees; all charges disclosed upfront."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Prohibited practices include arbitrary fee increases and withholding academic records for non-payment."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Published fee schedule.",
+            "Fee approval documentation.",
+            "Payment receipts and financial records."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.13",
+      "title": "Emergency and Disaster Preparedness",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must prepare for natural disasters and emergencies, ensuring safety protocols are in place."
+        },
+        {
+          "type": "list",
+          "title": "Mandatory Elements",
+          "items": [
+            "Emergency response plan with evacuation routes and assembly points.",
+            "Regular emergency drills (fire, earthquake).",
+            "Emergency supplies available on campus."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain communication with families regarding emergency procedures."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Emergency response plan.",
+            "Drill schedule and debrief reports.",
+            "Emergency supply inventory."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.14",
+      "title": "Quarantine and Health Protocol Compliance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must implement health protocols as directed by the Ministry of Health and the Ministry of Education."
+        },
+        {
+          "type": "list",
+          "title": "Compliance Areas",
+          "items": [
+            "Health screening and symptom monitoring.",
+            "Hygiene measures and cleaning protocols.",
+            "Capacity and distancing adjustments if required."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain communication with families regarding health measures."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Health protocol policy.",
+            "Screening records.",
+            "Cleaning schedules and supply inventory."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.15",
+      "title": "Data Protection and Privacy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must comply with Indonesia's Personal Data Protection Law and ensure the privacy of student and staff data."
+        },
+        {
+          "type": "list",
+          "title": "Key Principles",
+          "items": [
+            "Lawful basis for processing data.",
+            "Purpose limitation for data collection.",
+            "Data minimization and accuracy."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Schools must maintain a register of personal data processed and inform families about data usage."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Personal data register.",
+            "Privacy notices.",
+            "Consent forms."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.16",
+      "title": "Reporting Obligations to Yayasan and Eduversal",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools must keep the local Yayasan informed of operational performance, financial status, and compliance."
+        },
+        {
+          "type": "list",
+          "title": "Reporting Frequency",
+          "items": [
+            "Mid-Year Report: End of Semester 1.",
+            "End-of-Year Report: End of Semester 2."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Content of Reports",
+          "items": [
+            "Operational overview including enrollment data.",
+            "Academic performance data.",
+            "Financial summary and compliance status."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Evidence Required",
+          "items": [
+            "Bi-annual report documents.",
+            "Meeting minutes with Yayasan."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.17",
+      "title": "Annual Compliance Checklist",
+      "content": [
+        {
+          "type": "text",
+          "text": "To ensure compliance, GMs should use an annual checklist to track key obligations."
+        },
+        {
+          "type": "list",
+          "title": "Checklist Items by Quarter",
+          "items": [
+            "Q1: Check operational licenses, NPSN data, academic calendar, and staff training.",
+            "Q2: Administer ANBK, conduct mid-year financial review, and submit bi-annual reports.",
+            "Q3: Update SIMPKB, file tax returns, and review policy register.",
+            "Q4: Conduct graduation ceremonies, finalize enrollment for the next academic year, and prepare for accreditation visits."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.18",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Maintain a compliance portfolio for inspections and audits, including key legal and operational documents."
+        },
+        {
+          "type": "list",
+          "title": "Legal Foundation Evidence",
+          "items": [
+            "Yayasan Akta and registration.",
+            "Operational licenses.",
+            "NPSN certificate."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Data and Reporting Evidence",
+          "items": [
+            "Dapodik sync receipts.",
+            "Bi-annual reports to Yayasan and Eduversal."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Child Protection Evidence",
+          "items": [
+            "Safeguarding policy.",
+            "Incident logs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.19",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with CIS and WASC standards, ensuring compliance with national education laws and regulations."
         }
       ]
     }

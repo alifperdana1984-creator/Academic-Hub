@@ -5,84 +5,447 @@
   "subsections": [
     {
       "id": "3.1",
-      "title": "Cambridge Handbook Obligations",
+      "title": "Purpose",
       "content": [
         {
           "type": "text",
-          "text": "As registered Cambridge International Schools, we are bound by the regulations set forth in the Cambridge Handbook. Failure to comply can result in malpractice cases or centre deregistration."
-        },
-        {
-          "type": "info",
-          "label": "Critical Reference",
-          "text": "The Cambridge Handbook is updated annually. The Exams Officer (CEM) must read and understand the current version."
+          "text": "To maintain Eduversal Partner Schools' status as approved Cambridge Assessment International Education Centres, ensure examination integrity, deliver high-quality Cambridge curriculum and assessments, and comply with all Cambridge policies and procedures."
         }
       ]
     },
     {
       "id": "3.2",
-      "title": "Centre Exams Manager (CEM) Responsibilities",
+      "title": "Cambridge Centre Registration and Status",
       "content": [
         {
-          "type": "roles",
-          "title": "Key Duties",
-          "roles": [
-            { "title": "Security", "resp": ["Secure storage of question papers", "Key management", "Confidentiality of exam materials"] },
-            { "title": "Administration", "resp": ["Entries submission", "Timetabling", "Special consideration applications"] },
-            { "title": "Conduct", "resp": ["Invigilator training", "Exam room setup", "Malpractice reporting"] }
+          "type": "text",
+          "text": "A Cambridge Centre is a school or institution approved by Cambridge Assessment International Education to deliver Cambridge curriculum, register students for examinations, administer exams under secure conditions, and receive official certificates."
+        },
+        {
+          "type": "list",
+          "title": "Centre Registration Process",
+          "items": [
+            "Eligibility Assessment: Valid operational license, adequate facilities, qualified staff, commitment to standards.",
+            "Application Submission: Complete application via Cambridge International Direct, provide school details, nominate key roles, pay application fee.",
+            "Cambridge Review: Review of application, possible site visit, approval typically takes 4-8 weeks.",
+            "Centre Approval: Upon approval, receive Centre number and login credentials."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Existing Centres must maintain registration and comply with annual requirements."
+        },
+        {
+          "type": "list",
+          "title": "Annual Centre Declaration Requirements",
+          "items": [
+            "Confirm current contact details.",
+            "Update key personnel.",
+            "Ensure facilities are adequate for exam administration.",
+            "Commit to upholding Cambridge standards."
           ]
         }
       ]
     },
     {
       "id": "3.3",
-      "title": "Secure Storage Requirements",
+      "title": "Key Roles and Responsibilities",
       "content": [
         {
+          "type": "text",
+          "text": "Each Centre must designate individuals responsible for examination integrity and quality assurance."
+        },
+        {
           "type": "list",
-          "title": "The 'Safe Room'",
+          "title": "Centre Head Responsibilities",
           "items": [
-            "Must be a solid construction (walls, ceiling, floor).",
-            "No windows or windows with bars.",
-            "Solid door with strong lock (not glass).",
-            "Safe/strongbox must be immovable (bolted to floor/wall) if under a certain weight.",
-            "Only the Head of Centre and CEM have access keys."
+            "Overall accountability for compliance.",
+            "Ensure secure exam administration.",
+            "Approve student registrations and exam entries.",
+            "Liaise with Cambridge on Centre matters."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Exams Officer Responsibilities",
+          "items": [
+            "Coordinate exam entries and submit to Cambridge.",
+            "Order secure exam materials and schedule exam timetable.",
+            "Train invigilators and communicate exam schedules."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Quality Nominee Responsibilities",
+          "items": [
+            "Monitor teaching quality and curriculum coverage.",
+            "Review student work for alignment with Cambridge expectations.",
+            "Facilitate internal moderation and standardization."
           ]
         }
       ]
     },
     {
       "id": "3.4",
-      "title": "Teacher Training and Support",
+      "title": "Cambridge Curriculum Pathways",
       "content": [
         {
           "type": "text",
-          "text": "Schools must ensure teachers are trained to deliver the Cambridge curriculum effectively."
+          "text": "Eduversal Partner Schools deliver the Cambridge curriculum across multiple stages tailored to student age and progression."
         },
         {
           "type": "list",
+          "title": "Curriculum Stages",
           "items": [
-            "Introductory Training: For all new Cambridge teachers.",
-            "Extension Training: For experienced teachers to deepen subject knowledge.",
-            "Professional Development Qualifications (PDQs): Encouraged for long-term growth."
+            "Early Years Foundation Stage (EYFS)",
+            "Cambridge Primary (Ages 5-11)",
+            "Cambridge Lower Secondary (Ages 11-14)",
+            "Cambridge IGCSE (Ages 14-16)",
+            "Cambridge AS & A Level (Ages 16-18)"
           ]
         }
       ]
     },
     {
       "id": "3.5",
-      "title": "Branding and Logo Usage",
+      "title": "Examination Series and Timeline",
       "content": [
         {
           "type": "text",
-          "text": "Use of the 'Cambridge International School' logo must adhere strictly to Cambridge guidelines."
+          "text": "Cambridge offers two main examination series per year."
         },
         {
           "type": "list",
+          "title": "May/June Series",
           "items": [
-            "Do not alter the logo colors or proportions.",
-            "Use only the specific logo provided for registered centres.",
-            "Do not use the University of Cambridge logo."
+            "Exam Period: Late April to Early June.",
+            "Results Release: Early-Mid August."
           ]
+        },
+        {
+          "type": "list",
+          "title": "October/November Series",
+          "items": [
+            "Exam Period: Late October to Late November.",
+            "Results Release: Mid-January."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.6",
+      "title": "Examination Entry Process",
+      "content": [
+        {
+          "type": "process",
+          "title": "Steps for Examination Entry",
+          "steps": [
+            "Step 1: Student Subject Selection (Term before exams).",
+            "Step 2: Exam Entries Submission (8-10 weeks before exams).",
+            "Step 3: Timetable Preparation (6-8 weeks before exams)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.7",
+      "title": "Secure Storage and Exam Materials Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Exam papers are confidential until the official start time of the exam."
+        },
+        {
+          "type": "list",
+          "title": "Secure Storage Requirements",
+          "items": [
+            "Lockable safe or strong room dedicated to exam materials.",
+            "Limited access to Exams Officer and Centre Head only.",
+            "Access log maintained throughout exam period."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.8",
+      "title": "Invigilation and Exam Conduct",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure exams are conducted fairly and securely."
+        },
+        {
+          "type": "list",
+          "title": "Invigilator Qualifications",
+          "items": [
+            "Teachers (not the exam subject teacher).",
+            "Senior administrators.",
+            "External invigilators if hired."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Exam Conduct Rules",
+          "items": [
+            "Students must arrive 15 minutes before Key Time.",
+            "No communication with other students once exam begins.",
+            "Invigilators must monitor students continuously."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.9",
+      "title": "Access Arrangements and Special Considerations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Cambridge provides fair access to exams for students with disabilities or learning differences."
+        },
+        {
+          "type": "list",
+          "title": "Common Accommodations",
+          "items": [
+            "Extra time (typically 25%).",
+            "Supervised rest breaks.",
+            "Scribe or reader assistance."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Application Process for Access Arrangements",
+          "steps": [
+            "Collect documentation at least 6 months before exams.",
+            "Submit application to Cambridge 3-4 months before exams.",
+            "Implement approved accommodations during exams."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.10",
+      "title": "Malpractice and Exam Irregularities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Any action that compromises exam integrity or gives unfair advantage."
+        },
+        {
+          "type": "list",
+          "title": "Types of Malpractice",
+          "items": [
+            "Cheating, plagiarism, collusion, personation.",
+            "Centre malpractice: opening papers early, inadequate security."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Reporting Obligation",
+          "steps": [
+            "Report all suspected malpractice to Cambridge within 7 days.",
+            "Document incidents and evidence."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.11",
+      "title": "Script Collection and Dispatch",
+      "content": [
+        {
+          "type": "process",
+          "title": "Traditional Paper-Based Marking Process",
+          "steps": [
+            "Collect scripts after exam and verify attendance.",
+            "Package scripts by subject and dispatch to Cambridge.",
+            "Confirm receipt with Cambridge."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "e-Marking Process",
+          "steps": [
+            "Scan scripts and upload to Cambridge within 48 hours.",
+            "Ensure quality of scanned documents."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.12",
+      "title": "Results and Certificates",
+      "content": [
+        {
+          "type": "text",
+          "text": "Results are released at specific times based on the exam series."
+        },
+        {
+          "type": "list",
+          "title": "Results Release Timeline",
+          "items": [
+            "May/June series: Early-mid August.",
+            "October/November series: Mid-January."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Certificate Issuance",
+          "items": [
+            "Certificates dispatched approximately 3 months after results.",
+            "School holds presentation ceremony for students."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.13",
+      "title": "Internal Moderation and Standardization",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure assessment practices align with Cambridge standards."
+        },
+        {
+          "type": "process",
+          "title": "Internal Moderation Process",
+          "steps": [
+            "Teacher assesses student work using Cambridge criteria.",
+            "Internal moderation by department head or experienced teacher.",
+            "Submit marks to Cambridge via International Direct."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.14",
+      "title": "Cambridge Professional Development and Resources",
+      "content": [
+        {
+          "type": "text",
+          "text": "Support teachers in delivering high-quality Cambridge curriculum."
+        },
+        {
+          "type": "list",
+          "title": "Available Courses",
+          "items": [
+            "Cambridge Professional Development Qualification.",
+            "Cambridge International Certificate in Teaching and Learning.",
+            "Online self-paced modules."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.15",
+      "title": "Cambridge International School Award",
+      "content": [
+        {
+          "type": "text",
+          "text": "Recognition program for schools demonstrating excellence in Cambridge education."
+        },
+        {
+          "type": "list",
+          "title": "Award Levels",
+          "items": [
+            "Registered: Commitment to development plan.",
+            "Accredited: Meets quality benchmarks.",
+            "Outstanding: Exemplary practice."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.16",
+      "title": "Compliance with Cambridge Policies",
+      "content": [
+        {
+          "type": "list",
+          "title": "Key Cambridge Policies",
+          "items": [
+            "Cambridge Handbook: Annual review required.",
+            "Safeguarding Policy: Child protection policy.",
+            "Data Protection: Secure handling of student data.",
+            "Intellectual Property: Copyrighted exam materials.",
+            "Marketing: Accurate representation of Cambridge relationship."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Annual Compliance Checklist",
+          "items": [
+            "Review updated Cambridge Handbook.",
+            "Update Centre details in Cambridge International Direct.",
+            "Submit Annual Centre Declaration.",
+            "Confirm exam series usage."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.17",
+      "title": "Cambridge Centre Inspections",
+      "content": [
+        {
+          "type": "text",
+          "text": "Cambridge may conduct inspections to ensure compliance with standards."
+        },
+        {
+          "type": "list",
+          "title": "Types of Visits",
+          "items": [
+            "Routine Quality Assurance Visit.",
+            "Investigation Visit.",
+            "Pre-Approval Visit for new Centres."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.18",
+      "title": "Integration with Indonesian National Curriculum",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools deliver Cambridge curriculum while meeting Indonesian national requirements."
+        },
+        {
+          "type": "list",
+          "title": "Typical Weekly Allocation",
+          "items": [
+            "Cambridge Subjects: ~25-30 periods/week.",
+            "Indonesian National Subjects: ~10-12 periods/week.",
+            "Co-curricular/PE/Arts: ~5 periods/week."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.19",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Compliance portfolio for Cambridge Centre status includes various documentation."
+        },
+        {
+          "type": "list",
+          "title": "Documentation Examples",
+          "items": [
+            "Cambridge Centre number certificate.",
+            "Annual Centre Declaration submissions.",
+            "Exam administration logs.",
+            "Access arrangements applications."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.20",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with Cambridge Centre Requirements and other educational standards."
         }
       ]
     }

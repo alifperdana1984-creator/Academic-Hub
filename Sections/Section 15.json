@@ -9,107 +9,248 @@
       "content": [
         {
           "type": "text",
-          "text": "The school employs a proactive approach to risk management to protect the safety of students, staff, and assets. All significant activities require a formal risk assessment."
+          "text": "Effective risk management is a systematic process of identifying, assessing, controlling, and monitoring potential threats to the school's ability to achieve its educational mission. This framework applies to all categories of risk: academic, operational, financial, reputational, regulatory, health and safety, safeguarding, and natural disasters."
+        },
+        {
+          "type": "list",
+          "title": "Risk Categories",
+          "items": [
+            "Academic Risks: Curriculum gaps, assessment malpractice, poor teaching quality, failure to meet standards, low enrollment.",
+            "Operational Risks: Facility failures, technology system failures, supply chain disruptions, contractor failures, transportation incidents.",
+            "Financial Risks: Budget shortfalls, fee collection difficulties, unexpected expenses, fraud.",
+            "Reputational Risks: Safeguarding incidents, academic integrity violations, negative media coverage.",
+            "Regulatory and Compliance Risks: Non-compliance with regulations, data protection breaches.",
+            "Health, Safety, and Security Risks: Natural disasters, fire hazards, medical emergencies, security threats.",
+            "Safeguarding Risks: Child abuse concerns, online safety threats, missing students."
+          ]
         },
         {
           "type": "process",
-          "title": "Risk Assessment Cycle",
+          "title": "Risk Assessment Process",
           "steps": [
             {
               "n": 1,
-              "title": "Identify",
-              "desc": "Identify potential hazards associated with an activity or area."
+              "title": "Identify the Risk",
+              "desc": "Clearly describe the risk event and its potential manifestations."
             },
             {
               "n": 2,
-              "title": "Assess",
-              "desc": "Evaluate the likelihood and severity of harm (Risk Matrix)."
+              "title": "Assess Likelihood",
+              "desc": "Consider historical data and local conditions."
             },
             {
               "n": 3,
-              "title": "Control",
-              "desc": "Implement measures to eliminate or reduce the risk to an acceptable level."
+              "title": "Assess Potential Impact",
+              "desc": "Consider worst-case scenarios across multiple dimensions."
             },
             {
               "n": 4,
-              "title": "Review",
-              "desc": "Monitor the effectiveness of controls and update as necessary."
+              "title": "Calculate Initial Risk Score",
+              "desc": "Multiply likelihood by impact."
+            },
+            {
+              "n": 5,
+              "title": "Identify Existing Controls",
+              "desc": "Document current measures that reduce likelihood or impact."
+            },
+            {
+              "n": 6,
+              "title": "Assess Residual Risk",
+              "desc": "Re-evaluate likelihood and impact considering existing controls."
+            },
+            {
+              "n": 7,
+              "title": "Determine Additional Mitigation",
+              "desc": "Identify further controls needed if residual risk is unacceptable."
             }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The school risk register is a living document that records all identified risks, their assessments, control measures, ownership, and monitoring schedules."
+        },
+        {
+          "type": "list",
+          "title": "Risk Register Template",
+          "items": [
+            "Risk ID: Unique identifier.",
+            "Risk Category: From categories above.",
+            "Risk Description: Clear statement of the risk event.",
+            "Date Identified: When the risk was first added.",
+            "Risk Owner: Individual responsible for monitoring the risk.",
+            "Likelihood (Initial): Rating before controls.",
+            "Impact (Initial): Rating before controls.",
+            "Initial Risk Score: Likelihood × Impact.",
+            "Current Controls: Existing measures to prevent or mitigate the risk.",
+            "Likelihood (Residual): Rating with current controls.",
+            "Impact (Residual): Rating with current controls.",
+            "Residual Risk Score: Likelihood × Impact after controls.",
+            "Risk Status: Target, Tolerate, Treat, Transfer, Terminate.",
+            "Mitigation Actions: Additional measures needed.",
+            "Action Owner: Person responsible for implementing mitigation.",
+            "Target Completion: Deadline for mitigation actions.",
+            "Monitoring Frequency: How often risk is reviewed.",
+            "Last Reviewed: Date of most recent review.",
+            "Next Review: Date of next scheduled review.",
+            "Notes/Updates: Running log of changes."
           ]
         }
       ]
     },
     {
       "id": "15.2",
-      "title": "Emergency Response Procedures",
+      "title": "Emergency Response Planning",
       "content": [
         {
           "type": "text",
-          "text": "Clear, practiced procedures are in place for various emergency scenarios. Drills are conducted regularly."
+          "text": "While risk management aims to prevent crises, emergency response planning prepares the school to act effectively when incidents occur despite preventive measures."
         },
         {
-          "type": "table",
-          "title": "Standard Drills",
-          "headers": ["Type", "Signal", "Action"],
-          "rows": [
-            [
-              "Fire / Evacuation",
-              "Continuous Alarm / Siren",
-              "Evacuate immediately to designated assembly point. Take attendance."
-            ],
-            [
-              "Earthquake",
-              "Announcement / Siren",
-              "Drop, Cover, and Hold On. Evacuate when shaking stops."
-            ],
-            [
-              "Lockdown",
-              "Coded Announcement",
-              "Lock doors, cover windows, lights off, silence, hide out of sight."
-            ],
-            [
-              "Medical Emergency",
-              "Call to Nurse/Reception",
-              "First aid by qualified staff; call ambulance if critical."
-            ]
+          "type": "list",
+          "title": "Emergency Classifications and Response Levels",
+          "items": [
+            "Level 1: Minor Incident - Localized event with minimal impact.",
+            "Level 2: Significant Incident - Event requiring coordinated response but not threatening life.",
+            "Level 3: Major Emergency - Serious event potentially affecting multiple people.",
+            "Level 4: Critical Crisis - Catastrophic event threatening life, requiring external emergency services."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Emergency Response Team Structure",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Incident Commander",
+              "desc": "Principal or senior leader assumes command."
+            },
+            {
+              "n": 2,
+              "title": "Communication Officer",
+              "desc": "Coordinates notifications and manages communications."
+            },
+            {
+              "n": 3,
+              "title": "First Aid Officer",
+              "desc": "Assesses and provides emergency medical care."
+            },
+            {
+              "n": 4,
+              "title": "Evacuation Coordinator",
+              "desc": "Oversees orderly evacuation if needed."
+            },
+            {
+              "n": 5,
+              "title": "Security Coordinator",
+              "desc": "Secures campus perimeter and controls access."
+            },
+            {
+              "n": 6,
+              "title": "Student Support Coordinator",
+              "desc": "Provides psychological first aid to students."
+            },
+            {
+              "n": 7,
+              "title": "Logistics Coordinator",
+              "desc": "Manages emergency supplies and resources."
+            },
+            {
+              "n": 8,
+              "title": "Documentation Officer",
+              "desc": "Documents timeline of events and evidence."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Effective evacuation depends on clear procedures practiced regularly through drills."
+        },
+        {
+          "type": "list",
+          "title": "Evacuation Procedures and Assembly Points",
+          "items": [
+            "Primary Assembly Points: Designated open areas away from buildings.",
+            "Secondary Assembly Points: Alternative locations if primary blocked.",
+            "Evacuation Roles: Teachers direct students, conduct roll call, report status."
           ]
         }
       ]
     },
     {
       "id": "15.3",
-      "title": "Off-Site Activities (Excursions)",
+      "title": "Business Continuity Planning",
       "content": [
         {
           "type": "text",
-          "text": "Field trips and excursions extend learning but carry specific risks. Strict approval processes apply."
+          "text": "Business continuity planning ensures that learning and essential school operations can continue or be rapidly restored after a disruption."
         },
         {
           "type": "list",
-          "title": "Requirements",
+          "title": "Critical Functions and Dependencies",
           "items": [
-            "Risk Assessment: Completed by Trip Leader and approved by Principal.",
-            "Parental Consent: Signed permission forms with medical details.",
-            "Ratios: Adequate staff-to-student ratios based on age and activity risk.",
-            "First Aid: First aid kit and trained staff member must accompany all trips."
+            "Student Supervision and Safety: Staff, safe facilities, communication systems.",
+            "Teaching and Learning: Teachers, curriculum materials, learning spaces.",
+            "Assessment and Examinations: Exam materials, invigilators, secure storage.",
+            "Student Wellbeing and Safeguarding: Counseling staff, safeguarding procedures.",
+            "Communication with Parents and Stakeholders: Phone, email, SMS systems."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Identify which functions are essential to the school's mission and what they depend on."
+        },
+        {
+          "type": "list",
+          "title": "Learning Continuity Scenarios and Plans",
+          "items": [
+            "Scenario 1: Facility Closure - Assess facility damage and communicate with stakeholders.",
+            "Scenario 2: Staff Shortage - Adjust schedule and notify parents.",
+            "Scenario 3: Utilities Failure - Implement backup plans for power, water, and internet."
           ]
         }
       ]
     },
     {
       "id": "15.4",
-      "title": "Crisis Communication",
+      "title": "Activity and Trip Risk Management",
       "content": [
         {
           "type": "text",
-          "text": "In a crisis, accurate and timely communication is vital to maintain trust and calm."
+          "text": "Off-campus activities and educational trips enrich learning but introduce additional risks. Rigorous risk assessment and approval processes are essential."
         },
         {
           "type": "list",
+          "title": "Trip and Activity Categories",
           "items": [
-            "Spokesperson: Only the Principal or designated Board member speaks to the media.",
-            "Channels: SMS/WhatsApp blast for urgent alerts; Email for detailed updates.",
-            "Privacy: No names of injured/affected individuals are released without family consent."
+            "Category A: Low Risk - Local, routine activities.",
+            "Category B: Medium Risk - Extended local or regular competitive events.",
+            "Category C: High Risk - Adventure, specialized, or international activities."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Trip Risk Assessment Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Trip Details",
+              "desc": "Document trip title, purpose, date, destination, and participants."
+            },
+            {
+              "n": 2,
+              "title": "Hazard Identification",
+              "desc": "List all potential hazards associated with the trip."
+            },
+            {
+              "n": 3,
+              "title": "Risk Assessment for Each Hazard",
+              "desc": "Evaluate likelihood and impact for each identified hazard."
+            },
+            {
+              "n": 4,
+              "title": "Emergency Procedures",
+              "desc": "Outline emergency contacts, local services, and communication plans."
+            }
           ]
         }
       ]

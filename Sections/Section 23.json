@@ -5,84 +5,442 @@
   "subsections": [
     {
       "id": "23.1",
-      "title": "Purpose",
+      "title": "Purpose and Overview",
       "content": [
         {
           "type": "text",
-          "text": "To establish and maintain strategic relationships with external organizations, universities, and industry partners that enhance student learning opportunities, support university placement, and provide clear career pathways."
+          "text": "This section establishes the framework for developing and maintaining external partnerships that enhance student learning opportunities and prepare students for post-secondary success. Eduversal Partner Schools are committed to creating meaningful pathways that connect students with universities, employers, cultural institutions, and alumni networks, ensuring graduates are well-prepared for their chosen futures. The external partnerships and student pathways program supports the achievement of Schoolwide Learner Outcomes (SLOs), particularly Academic Excellence, Global Competence, Communication, and Innovation, while aligning with CIS Domain F (Community Partnerships) and WASC Category E (School Culture and Support for Student Learning)."
+        },
+        {
+          "type": "list",
+          "title": "Guiding Principles",
+          "items": [
+            "Student-Centered: All partnerships prioritize student benefit, learning outcomes, and future opportunities",
+            "Ethical Engagement: Partnerships maintain transparency, avoid conflicts of interest, and uphold school values",
+            "Equity and Access: All students, regardless of background or financial circumstances, have access to pathway support",
+            "EAL-Inclusive: Programs accommodate students whose first language is not English, providing appropriate support and resources",
+            "Data-Informed: Decisions are based on student outcomes, destination tracking, and partnership effectiveness data",
+            "Sustainable: Partnerships are built for long-term mutual benefit rather than short-term gains"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Scope of External Partnerships",
+          "items": [
+            "Higher Education Institutions: Indonesian and international universities, polytechnics, and vocational institutions",
+            "Industry and Business: Companies offering internships, work experience, and career insights",
+            "Professional Organizations: Bodies providing certifications, competitions, and professional development",
+            "Cultural Institutions: Museums, galleries, libraries, and cultural centers supporting educational programs",
+            "NGOs and Community Organizations: Partners supporting service learning, community engagement, and social impact",
+            "Alumni Network: Graduates contributing through mentorship, career guidance, and school support"
+          ]
         }
       ]
     },
     {
       "id": "23.2",
-      "title": "University Guidance and Placement",
+      "title": "University Counseling Program",
       "content": [
         {
           "type": "text",
-          "text": "A comprehensive university counseling program supports students in identifying and applying to higher education institutions that best fit their aspirations and potential."
+          "text": "The university counseling program provides comprehensive support for students preparing for tertiary education, ensuring they are equipped to navigate Indonesian and international university admissions processes successfully."
         },
         {
           "type": "list",
-          "title": "Key Services",
+          "title": "Program Structure and Roles",
           "items": [
-            "Individualized counseling starting from Grade 10.",
-            "University fairs and visits from admissions representatives.",
-            "Support with application procedures (UCAS, Common App, etc.) and scholarship applications.",
-            "Preparation for entrance exams (SAT, IELTS, TOEFL)."
+            "Director of College Counselling: Develops network-wide university counseling strategies, coordinates with College Counsellors, fosters partnerships with universities and admissions organizations, monitors network-wide university placement outcomes, and organizes cross-school workshops and university fairs",
+            "College Counsellor: Guides individual students through the university application process, conducts one-on-one counseling sessions with students and parents, organizes school-level workshops, university visits, and information sessions, monitors application progress and outcomes for school students, and coordinates with class teachers on academic preparation and documentation",
+            "Secondary School Principal: Oversees integration of university counseling with academic programs, supports College Counsellor in resource allocation and scheduling, reviews university placement outcomes as part of school quality metrics"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Counseling Program Timeline",
+          "rows": [
+            {
+              "Grade": "7-8",
+              "Description": "Career awareness through curriculum connections, introduction to career sectors and job families, guest speaker program, field trips to workplaces and industry sites"
+            },
+            {
+              "Grade": "9-10",
+              "Description": "Career exploration aligned with IGCSE subject choices, aptitude and personality assessments, job shadowing opportunities, introduction to entrepreneurship"
+            },
+            {
+              "Grade": "11-12",
+              "Description": "In-depth career research and planning, work experience placements, industry mentorship program, career fair participation and networking"
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Application Platform Support",
+          "items": [
+            "UCAS (UK): Personal statement development, reference writing, predicted grade preparation, interview preparation, deadline management",
+            "Common Application (USA): Essay writing support, activities list development, counselor recommendation, financial aid application guidance, Early Decision/Early Action strategy",
+            "Indonesian National Systems: SNBP and SNBT test registration and preparation support, Mandiri application guidance, transcript preparation",
+            "Other Systems: Direct university applications for Australia, Singapore, Europe; portfolio development for art programs; audition preparation for performing arts"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "EAL Considerations in University Counseling",
+          "items": [
+            "English proficiency test preparation (IELTS, TOEFL, Duolingo)",
+            "Essay support with awareness of language development stages",
+            "University recommendations considering EAL context",
+            "Information about foundation/pathway programs",
+            "Bilingual parent communication",
+            "Connections with universities offering strong EAL support services"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Counseling Documentation and Records",
+          "items": [
+            "Maintain records of student counseling sessions",
+            "Track application progress and outcomes",
+            "Document communication with universities and stakeholders"
           ]
         }
       ]
     },
     {
       "id": "23.3",
-      "title": "Industry Partnerships and Internships",
+      "title": "Career Guidance and Work Experience",
       "content": [
         {
           "type": "text",
-          "text": "Partnerships with businesses and organizations provide students with real-world exposure and practical experience."
+          "text": "Career guidance prepares students for the world of work, whether through direct employment, vocational training, or university-to-career pathways."
         },
         {
           "type": "list",
+          "title": "Career Education Framework",
           "items": [
-            "Internship Programs: Structured work experience opportunities for Grade 11/12 students.",
-            "Guest Speaker Series: Industry professionals sharing insights and career advice.",
-            "Industry Visits: Field trips to companies and organizations to observe professional environments."
+            "Lower Secondary (Grade 7-8): Career awareness, introduction to career sectors and job families, guest speaker program, field trips to workplaces and industry sites",
+            "Upper Secondary (Grade 9-10): Career exploration, aptitude and personality assessments, job shadowing opportunities, introduction to entrepreneurship",
+            "Advanced Level (Grade 11-12): In-depth career research and planning, work experience placements, industry mentorship program, career fair participation and networking"
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Work Experience Program",
+          "steps": [
+            "Pre-placement workshop on workplace expectations",
+            "CV and cover letter development",
+            "Interview skills practice",
+            "Health and safety briefing",
+            "Understanding workplace culture and professional behavior",
+            "Post-placement activities including reflection journal/report, presentation to peers, thank you letter to host organization, evaluation of placement for future students"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Industry Partnerships for Career Development",
+          "items": [
+            "Identify potential partners aligned with school values and student interests",
+            "Initial approach and relationship building",
+            "Partnership proposal with clear benefits and expectations",
+            "MOU development",
+            "Program implementation and monitoring",
+            "Annual review and renewal"
           ]
         }
       ]
     },
     {
       "id": "23.4",
-      "title": "Alumni Relations",
+      "title": "External Educational Partnerships",
       "content": [
         {
           "type": "text",
-          "text": "Maintaining a strong connection with alumni fosters a supportive community and provides mentorship opportunities for current students."
+          "text": "Schools develop formal partnerships with universities to enhance student opportunities, including guaranteed interview or conditional acceptance programs, campus visits, and professor guest lectures."
         },
         {
           "type": "list",
+          "title": "University Partnerships",
           "items": [
-            "Alumni Database: Maintaining up-to-date contact information.",
-            "Alumni Events: Reunions and networking gatherings.",
-            "Mentorship Program: Connecting alumni with current students for guidance."
+            "Guaranteed interview or conditional acceptance programs",
+            "Campus visits and taster sessions for students",
+            "Professor guest lectures and academic enrichment",
+            "Scholarship programs for Eduversal students",
+            "Research collaboration opportunities",
+            "Recognition of Cambridge qualifications"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Professional and Industry Organization Partnerships",
+          "items": [
+            "Partnerships with professional bodies supporting student development and career preparation"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "NGO and Community Partnerships",
+          "items": [
+            "Partnerships aligned with SLO: Ethical Leadership",
+            "Student-led community service projects",
+            "Integration with Profil Pelajar Pancasila competencies",
+            "Reflection and documentation of learning"
           ]
         }
       ]
     },
     {
       "id": "23.5",
-      "title": "Memorandum of Understanding (MoU) Management",
+      "title": "Alumni Relations and Network",
       "content": [
         {
           "type": "text",
-          "text": "Formal partnerships are governed by MoUs to ensure clarity of expectations and mutual benefit."
+          "text": "The alumni network is a valuable resource for current students and the school community, providing mentorship, career guidance, and community connection."
         },
         {
           "type": "list",
+          "title": "Alumni Program Structure",
           "items": [
-            "Review Process: All MoUs must be reviewed by the School Leadership Team and Legal Counsel.",
-            "Renewal: Regular assessment of partnership effectiveness prior to renewal.",
-            "Compliance: Ensuring partners adhere to school safeguarding and ethical standards."
+            "Alumni Coordinator: Maintains comprehensive alumni database, plans and executes alumni engagement events, coordinates mentorship program, facilitates alumni contributions to school programs, manages alumni communications, tracks and celebrates alumni achievements",
+            "Alumni Association: Formal structure with elected board, annual general meeting, working committees, constitution and governance aligned with school policies"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Alumni Engagement Programs",
+          "items": [
+            "Mentorship program matching alumni with current students",
+            "Career advice, university guidance, skill development activities"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Alumni Data Management",
+          "items": [
+            "Database contents include contact information, graduation year, university attended, current profession, engagement history",
+            "Privacy and consent required for inclusion in database, annual data verification and update requests"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Alumni and Business Relationships",
+          "items": [
+            "Fair and transparent procurement policies",
+            "Equal opportunity for alumni-owned businesses to compete for contracts",
+            "No preferential treatment based solely on alumni status"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.6",
+      "title": "Scholarship and Financial Aid Guidance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools are committed to ensuring that financial constraints do not prevent students from accessing higher education opportunities."
+        },
+        {
+          "type": "list",
+          "title": "Scholarship Information and Support",
+          "items": [
+            "Maintain updated database of scholarship opportunities",
+            "Notify eligible students of relevant scholarships",
+            "Provide application guidance and essay review",
+            "Coordinate recommendation letters",
+            "Track application outcomes"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Financial Aid Awareness",
+          "items": [
+            "Understanding total cost of attendance",
+            "Types of financial aid available",
+            "Application processes for financial aid",
+            "Negotiating financial aid packages",
+            "Comparing offers across universities"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "School-Based Financial Support",
+          "items": [
+            "Tuition assistance for qualifying families",
+            "Emergency education fund for crisis situations",
+            "Textbook and materials support",
+            "Transportation assistance",
+            "Examination fee support"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.7",
+      "title": "Partnership Governance and Documentation",
+      "content": [
+        {
+          "type": "text",
+          "text": "All formal external partnerships require appropriate approval and are documented through Memoranda of Understanding (MOUs)."
+        },
+        {
+          "type": "list",
+          "title": "MOU Template",
+          "items": [
+            "Parties: Full legal names of school and partner organization",
+            "Purpose: Clear statement of partnership objectives",
+            "Scope: Specific activities and programs covered",
+            "Duration: Start date, end date, renewal provisions",
+            "Responsibilities: Detailed obligations of each party",
+            "Resources: Financial contributions, in-kind support, staffing",
+            "Intellectual Property: Ownership of materials created",
+            "Confidentiality: Data sharing and privacy requirements",
+            "Safeguarding: Child protection commitments",
+            "Liability: Insurance requirements, indemnification",
+            "Termination: Conditions for ending partnership",
+            "Dispute Resolution: Process for addressing disagreements",
+            "Signatories: Authorized representatives of each party"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Partnership Review and Evaluation",
+          "items": [
+            "Achievement of stated objectives",
+            "Student participation and outcomes",
+            "Resource utilization and cost-effectiveness",
+            "Alignment with school values and strategic priorities",
+            "Stakeholder feedback",
+            "Safeguarding compliance",
+            "Partner satisfaction"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.8",
+      "title": "Student Destination Tracking",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools track graduate destinations to evaluate program effectiveness and inform improvement."
+        },
+        {
+          "type": "list",
+          "title": "Destination Data Collection",
+          "items": [
+            "Initial: At graduation (intended destination)",
+            "6-month follow-up: Confirmed enrollment/employment",
+            "Annual survey: 1, 3, 5 years post-graduation"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Destination Data Analysis and Use",
+          "items": [
+            "University acceptance rates by institution type",
+            "Scholarship success rates",
+            "Correlation between academic performance and destinations",
+            "Impact of counseling program on outcomes",
+            "Comparison across cohorts and schools"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Reporting and Communication",
+          "items": [
+            "Annual destination report to Board and Yayasan",
+            "Termly updates to SLT on application progress",
+            "Summary statistics in school profile and marketing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.9",
+      "title": "Key Performance Indicators",
+      "content": [
+        {
+          "type": "text",
+          "text": "Key performance indicators are used to evaluate the effectiveness of university counseling, partnerships, and alumni engagement."
+        },
+        {
+          "type": "list",
+          "title": "KPIs",
+          "items": [
+            "University counseling KPIs: University acceptance rates, scholarship success rates",
+            "Partnership KPIs: Partnership satisfaction, student participation",
+            "Alumni engagement KPIs: Alumni event attendance, mentorship program participation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.10",
+      "title": "Evidence and Artifacts for Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "The school maintains a portfolio of evidence and artifacts to support accreditation, including university placement data, counseling records, and partnership MOUs."
+        },
+        {
+          "type": "list",
+          "title": "Evidence Portfolio Contents",
+          "items": [
+            "University placement data (3-year trend)",
+            "Sample counseling records (anonymized)",
+            "Partnership MOUs (active)",
+            "Career fair programs and evaluations",
+            "Work experience placement records",
+            "Alumni database statistics",
+            "Mentorship program documentation",
+            "Student and parent satisfaction surveys",
+            "Destination tracking reports"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.11",
+      "title": "Implementation Responsibilities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Implementation responsibilities are defined across various roles within the school to ensure effective execution of external partnerships and pathways."
+        },
+        {
+          "type": "list",
+          "title": "Role Summary",
+          "items": [
+            "Director of College Counselling: Oversees university counseling strategies and partnerships.",
+            "College Counsellor: Provides direct support to students in the application process.",
+            "Secondary School Principal: Ensures integration of counseling with academic programs."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Annual Planning Cycle",
+          "items": [
+            "Review of partnership effectiveness and student outcomes.",
+            "Planning for workshops and engagement events.",
+            "Evaluation of counseling program and adjustments based on feedback."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23.12",
+      "title": "Compliance Summary",
+      "content": [
+        {
+          "type": "text",
+          "text": "Compliance with relevant regulations and standards is essential for the successful operation of external partnerships and pathways."
+        },
+        {
+          "type": "list",
+          "title": "Compliance Areas",
+          "items": [
+            "Adherence to data protection regulations.",
+            "Safeguarding protocols for student involvement in partnerships.",
+            "Regular review of partnership agreements and MOUs."
           ]
         }
       ]

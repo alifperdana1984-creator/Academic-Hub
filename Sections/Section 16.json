@@ -5,22 +5,72 @@
   "subsections": [
     {
       "id": "16.1",
+      "title": "Introduction and Guiding Principles",
+      "content": [
+        {
+          "type": "text",
+          "text": "To establish authentic, culturally responsive partnerships between school, families, students, and community stakeholders that support student learning, wellbeing, and holistic development in alignment with Eduversal's mission and Schoolwide Learner Outcomes (SLOs)."
+        }
+      ]
+    },
+    {
+      "id": "16.1.1",
       "title": "Philosophy of Partnership",
       "content": [
         {
           "type": "text",
-          "text": "We view parents as essential partners in the educational journey. Open, two-way communication builds trust and supports student success."
+          "text": "Eduversal Partner Schools recognize that parents and guardians are essential partners in the learning journey. Our approach is grounded in Joyce Epstein's Framework of Six Types of Involvement, emphasizing mutual cooperation and collective responsibility."
+        }
+      ]
+    },
+    {
+      "id": "16.1.2",
+      "title": "Core Principles",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Transparency: Open, honest, and timely communication builds trust.",
+            "Accessibility: Information is provided in plain language and available in both English and Bahasa Indonesia.",
+            "Inclusivity: Engagement across diverse backgrounds, including EAL learners and families with limited technology access.",
+            "Mutual Respect: Valuing the knowledge and cultural perspectives families bring.",
+            "Collaborative Decision-Making: Seeking stakeholder input on school matters.",
+            "Responsiveness: Listening actively to feedback and acknowledging concerns promptly."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.1.3",
+      "title": "Indonesian Context Considerations",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Extended Family Structures: Engage with multiple family members in decision-making.",
+            "Religious Considerations: Accommodate prayer times and religious holidays in scheduling.",
+            "Communication Preferences: Utilize WhatsApp for effective communication.",
+            "Parental Work Patterns: Offer flexible engagement opportunities for working parents."
+          ]
         }
       ]
     },
     {
       "id": "16.2",
-      "title": "Communication Channels",
+      "title": "Communications Policy",
       "content": [
         {
+          "type": "text",
+          "text": "Eduversal Partner Schools utilize various communication channels to ensure clarity and consistency."
+        },
+        {
           "type": "table",
-          "title": "Methods of Communication",
-          "headers": ["Channel", "Purpose", "Frequency"],
+          "title": "Official Communication Channels",
+          "headers": [
+            "Channel",
+            "Purpose",
+            "Frequency"
+          ],
           "rows": [
             [
               "EduNav / LMS",
@@ -71,55 +121,159 @@
     },
     {
       "id": "16.4",
-      "title": "Parent Association (POMG)",
+      "title": "Parent Education and Empowerment",
       "content": [
         {
           "type": "text",
-          "text": "The Parent Association supports the school community through events, fundraising, and feedback."
+          "text": "Eduversal Partner Schools are committed to equipping parents with the knowledge and skills to support their children's learning and wellbeing at home."
         },
         {
           "type": "list",
-          "title": "Role",
           "items": [
-            "Organizing community events (e.g., Family Day, International Day).",
-            "Supporting school projects and charity initiatives.",
-            "Serving as a liaison for general parent feedback (not individual grievances)."
+            "Annual workshops on relevant topics scheduled on weekday evenings or Saturday mornings.",
+            "Parent Handbook distributed at the start of the school year.",
+            "Resource Library on the school website with downloadable guides and articles."
           ]
         }
       ]
     },
     {
       "id": "16.5",
-      "title": "Complaints and Grievances",
+      "title": "Parent Involvement and Volunteerism",
       "content": [
         {
           "type": "text",
-          "text": "The school takes concerns seriously and aims to resolve them constructively and locally."
+          "text": "Active parent involvement enriches the school community and strengthens the home-school partnership."
         },
         {
-          "type": "process",
-          "title": "Resolution Pathway",
-          "steps": [
-            {
-              "n": 1,
-              "title": "Teacher",
-              "desc": "Discuss the concern directly with the subject or homeroom teacher."
-            },
-            {
-              "n": 2,
-              "title": "Head of Department/Level",
-              "desc": "If unresolved, escalate to the relevant middle leader."
-            },
-            {
-              "n": 3,
-              "title": "Principal",
-              "desc": "If still unresolved, meet with the School Principal."
-            },
-            {
-              "n": 4,
-              "title": "Board/Foundation",
-              "desc": "Formal written grievance to the Board for serious policy breaches."
-            }
+          "type": "list",
+          "items": [
+            "Parent-Teacher Association (PTA) facilitates communication and organizes events.",
+            "Various volunteer opportunities available for parents.",
+            "Home visits conducted by teachers to strengthen relationships."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.6",
+      "title": "Feedback Mechanisms and Complaints Procedures",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools value stakeholder feedback and are committed to continuous improvement."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual Parent Satisfaction Survey conducted each May.",
+            "Informal feedback channels available at any time.",
+            "Formal complaints procedure outlined for unresolved issues."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.7",
+      "title": "Parent-Teacher Conferences (PTCs)",
+      "content": [
+        {
+          "type": "text",
+          "text": "PTCs are essential touchpoints for individualized communication about student progress."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Minimum twice per year, with additional conferences as needed.",
+            "Options for in-person, virtual, or phone conferences."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.8",
+      "title": "Student Voice and Leadership",
+      "content": [
+        {
+          "type": "text",
+          "text": "Empowering students to actively participate in shaping their school experience is central to Eduversal's commitment."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Student Council represents the student body and provides input on school matters.",
+            "Student voice surveys conducted twice per year.",
+            "Focus groups facilitated by the Principal for deeper discussions."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.9",
+      "title": "Community Partnerships and External Engagement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools extend their impact through strategic partnerships with local and global organizations."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Service Learning Program integrates community service with academic learning.",
+            "Partnerships with local organizations, businesses, and NGOs.",
+            "Alumni relations foster lifelong connections and mentorship."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.10",
+      "title": "Reporting and Evidence for Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools maintain comprehensive documentation of engagement efforts for accreditation."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Digital repository and physical files maintained for evidence.",
+            "Compliance alignment with CIS, WASC, and Indonesian regulations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.11",
+      "title": "Implementation Timeline and Responsibilities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Structured timeline for engagement activities ensures consistent implementation across schools."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Principal oversees strategic direction and high-level communications.",
+            "Parent Liaison Coordinator manages day-to-day communications.",
+            "Teachers conduct home visits and PTCs."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16.12",
+      "title": "Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools are committed to continuous improvement based on stakeholder feedback."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Annual review cycle for policies and engagement strategies.",
+            "Indicators of success include survey response rates and PTC attendance."
           ]
         }
       ]

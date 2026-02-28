@@ -9,266 +9,280 @@
       "content": [
         {
           "type": "text",
-          "text": "To define the standards of pedagogical excellence expected in all Eduversal Partner Schools, ensuring that instruction is student-centered, evidence-based, and aligned with Cambridge and national curriculum requirements."
+          "text": "To establish high standards for teaching practice aligned with the Eduversal Teacher Appraisal System, promote reflective and evidence-based pedagogy through Professional Learning Communities, support continuous professional growth through structured induction and mentoring, integrate STEAM education and 21st-century pedagogies across the curriculum, and ensure all students receive high-quality, culturally responsive instruction that maximizes learning and wellbeing."
         }
       ]
     },
     {
       "id": "7.2",
-      "title": "Eduversal Teaching Standards (ETS)",
+      "title": "Teaching Philosophy and Principles",
       "content": [
         {
-          "type": "text",
-          "text": "The ETS framework outlines the core competencies required of all teachers. It serves as the basis for recruitment, professional development, and appraisal."
-        },
-        {
-          "type": "numbered",
+          "type": "list",
           "items": [
-            {
-              "title": "Standard 1: Professional Knowledge",
-              "points": [
-                "Demonstrates deep subject matter expertise.",
-                "Understands how students learn and develop.",
-                "Knows the curriculum frameworks (Cambridge & National) thoroughly."
-              ]
-            },
-            {
-              "title": "Standard 2: Instructional Planning",
-              "points": [
-                "Plans lessons that are clear, logical, and aligned to learning objectives.",
-                "Incorporates differentiation to meet diverse learner needs.",
-                "Uses data to inform planning."
-              ]
-            },
-            {
-              "title": "Standard 3: Instructional Delivery",
-              "points": [
-                "Uses a variety of active learning strategies.",
-                "Communicates clearly and effectively.",
-                "Engages students in higher-order thinking."
-              ]
-            },
-            {
-              "title": "Standard 4: Assessment for Learning",
-              "points": [
-                "Uses formative assessment to check understanding during lessons.",
-                "Provides timely and constructive feedback.",
-                "Adjusts instruction based on assessment results."
-              ]
-            },
-            {
-              "title": "Standard 5: Learning Environment",
-              "points": [
-                "Creates a safe, inclusive, and positive classroom culture.",
-                "Manages student behavior effectively and respectfully.",
-                "Promotes student agency and independence."
-              ]
-            },
-            {
-              "title": "Standard 6: Professionalism",
-              "points": [
-                "Collaborates with colleagues and parents.",
-                "Engages in continuous professional reflection and growth.",
-                "Upholds ethical standards and school policies."
-              ]
-            }
+            "All Students Can Learn: High expectations for every student, guided by growth mindset principles.",
+            "Teaching is Both Art and Science: Balancing evidence-based strategies with creativity and responsiveness.",
+            "Learning is Active and Constructive: Emphasizing inquiry, problem-solving, and collaboration.",
+            "Relationships Matter: Building positive teacher-student relationships to foster engagement.",
+            "Assessment Informs Instruction: Integrating teaching and assessment for continuous improvement.",
+            "Continuous Improvement Through Collaboration: Lifelong learning through reflective practice and collaboration.",
+            "Culturally Responsive Teaching: Honoring students' identities and experiences in the learning process."
           ]
         }
       ]
     },
     {
       "id": "7.3",
-      "title": "Pedagogical Framework: Active Learning",
+      "title": "Eduversal Teacher Appraisal System",
       "content": [
         {
           "type": "text",
-          "text": "Eduversal schools prioritize 'Active Learning' as defined by Cambridge International Education. Students are not passive recipients of knowledge but active participants in constructing meaning."
+          "text": "The Eduversal Teacher Appraisal System is a comprehensive, evidence-based framework designed to elevate teaching quality, foster professional development, and improve student learning outcomes across all Eduversal Partner Schools."
         },
         {
           "type": "list",
-          "title": "Key Strategies",
           "items": [
-            "Inquiry-Based Learning: Starting with driving questions, problems, or scenarios rather than simply presenting facts.",
-            "Collaborative Learning: Structured pair work (Think-Pair-Share), group projects, and peer teaching activities.",
-            "Metacognition: Explicitly teaching students how to plan, monitor, and evaluate their own learning (e.g., learning journals, self-assessment).",
-            "Formative Assessment: Using techniques like exit tickets, mini-whiteboards, and quizzes to check understanding in real-time."
+            "Appraisal Cycle and Timeline: Five phases including orientation, data collection, appraisal visit, post-appraisal conferences, and follow-through.",
+            "Four Appraisal Domains: Administration (20%), Classroom Observation (60%), Teacher's Work Inspection (20%), and Student Satisfaction Survey."
           ]
-        },
-        {
-          "type": "note",
-          "text": "Teachers should aim for a ratio where student talk/activity exceeds teacher talk time in the majority of lessons."
         }
       ]
     },
     {
       "id": "7.4",
-      "title": "Lesson Planning Requirements",
+      "title": "Observation and Feedback Process",
       "content": [
         {
           "type": "text",
-          "text": "Effective teaching begins with intentional planning. All teachers are required to maintain up-to-date lesson plans."
+          "text": "A structured process for providing feedback to teachers, including pre-observation conferences, lesson observations, and post-observation conferences."
         },
         {
-          "type": "table",
-          "title": "Lesson Plan Components",
-          "headers": ["Component", "Description"],
-          "rows": [
-            [
-              "Learning Objectives",
-              "Specific, measurable goals derived from the curriculum (e.g., 'Students will be able to analyze...')."
-            ],
-            [
-              "Success Criteria",
-              "How students will know they have achieved the objective."
-            ],
-            [
-              "Starter/Hook",
-              "Activity to engage students and activate prior knowledge."
-            ],
-            [
-              "Main Activities",
-              "Sequence of learning tasks, including teacher modeling, guided practice, and independent practice."
-            ],
-            [
-              "Plenary/Closure",
-              "Review of learning and check for understanding."
-            ],
-            [
-              "Differentiation",
-              "Specific adaptations for EAL, SEN, or gifted students."
-            ],
-            ["Resources", "Materials and technology needed."]
+          "type": "list",
+          "items": [
+            "Pre-Observation Conference: Establish shared understanding of lesson context and objectives.",
+            "Lesson Observation: Collect evidence on planning, classroom management, instructional process, and assessment.",
+            "Post-Observation Conference: Provide evidence-based feedback and set professional growth goals."
           ]
         }
       ]
     },
     {
       "id": "7.5",
-      "title": "Differentiation Strategies",
+      "title": "New Teacher Induction Program",
       "content": [
         {
           "type": "text",
-          "text": "Teachers must adapt instruction to meet the diverse needs of learners, including EAL students, students with SEN, and high achievers."
+          "text": "A structured program to support new teachers in their first or second year, ensuring successful integration into the school community."
         },
         {
           "type": "list",
-          "title": "Differentiation by...",
           "items": [
-            "Content: Varying what students learn (e.g., using texts at different reading levels).",
-            "Process: Varying how students learn (e.g., using manipulatives, audio support, or independent research).",
-            "Product: Varying how students demonstrate learning (e.g., writing an essay, creating a video, building a model).",
-            "Environment: Adjusting the physical setting (e.g., quiet zones, collaborative tables)."
+            "Three-Stage Induction Model: Meeting and preparation, familiarization and welcoming, laying the foundation, and anchoring professional growth.",
+            "Mentor-Mentee Partnership: Experienced teachers guide new teachers through regular meetings and lesson observations."
           ]
         }
       ]
     },
     {
       "id": "7.6",
-      "title": "Feedback and Marking Policy",
+      "title": "Lesson Planning Expectations",
       "content": [
         {
           "type": "text",
-          "text": "Feedback is the most powerful tool for student improvement. It must be timely, specific, and actionable."
+          "text": "Teachers are required to thoughtfully plan instruction that maximizes student learning, aligns with curriculum standards, incorporates differentiation, and uses assessment to inform teaching."
         },
         {
           "type": "list",
-          "title": "Marking Standards",
           "items": [
-            "WWW (What Went Well): Highlight specific strengths in the work.",
-            "EBI (Even Better If): Provide concrete steps for improvement.",
-            "Student Response: Students must be given time to read and respond to feedback (e.g., 'Purple Pen' time).",
-            "Frequency: Core subjects marked weekly; others fortnightly. Verbal feedback is encouraged daily."
+            "Diagnostic Assessment: Assess students' prior knowledge before teaching.",
+            "Lesson Plan Components: Include learning objectives, success criteria, assessment methods, materials, and lesson sequence."
           ]
         }
       ]
     },
     {
       "id": "7.7",
-      "title": "Classroom Environment and Management",
+      "title": "Professional Learning Communities (PLCs)",
       "content": [
         {
           "type": "text",
-          "text": "A positive learning environment is a prerequisite for academic success."
+          "text": "PLCs create collaborative teams of teachers working together to improve student learning through inquiry, data analysis, shared practice, and collective problem-solving."
         },
         {
           "type": "list",
           "items": [
-            "Physical Environment: Classrooms should be clean, organized, and display student work and learning aids.",
-            "Emotional Safety: Students must feel safe to take risks, make mistakes, and express their ideas.",
-            "Routines and Procedures: Clear expectations for transitions, handing in work, and asking for help maximize learning time."
+            "PLC Structure: Subject-based, grade-level, vertical, and special focus PLCs.",
+            "Meeting Frequency: Typically bi-weekly or monthly, with a focus on student learning."
           ]
         }
       ]
     },
     {
       "id": "7.8",
-      "title": "Professional Development (CPD)",
+      "title": "STEAM Pedagogy and Practice",
       "content": [
         {
           "type": "text",
-          "text": "Eduversal is committed to the continuous growth of its teaching staff."
+          "text": "Integrate Science, Technology, Engineering, Arts, and Mathematics across the curriculum to foster creativity, critical thinking, collaboration, and real-world problem-solving skills."
         },
         {
-          "type": "numbered",
+          "type": "list",
           "items": [
-            {
-              "title": "Internal PD",
-              "points": [
-                "Weekly department meetings.",
-                "Peer observation and coaching.",
-                "School-wide INSET (In-Service Training) days."
-              ]
-            },
-            {
-              "title": "External PD",
-              "points": [
-                "Cambridge Professional Development Qualifications (PDQs).",
-                "Subject-specific workshops and webinars.",
-                "Eduversal Teacher Training Academy programs."
-              ]
-            }
+            "STEAM Implementation Framework: Weekly lessons, after-school programs, and weekend intensive programs.",
+            "Teaching STEAM Across the Curriculum: Project-based learning, real-world problem-solving, and inquiry-based learning."
           ]
         }
       ]
     },
     {
       "id": "7.9",
-      "title": "Monitoring and Quality Assurance",
+      "title": "Blended and Digital Learning Pedagogy",
       "content": [
         {
           "type": "text",
-          "text": "Teaching quality is monitored through a supportive and developmental process."
+          "text": "Integrate technology effectively to enhance teaching and learning, preparing students for a digital world."
         },
         {
           "type": "list",
           "items": [
-            "Lesson Observations: Formal (announced) and informal (walkthrough) observations by leadership.",
-            "Work Scrutiny: Regular review of student notebooks and assignments to check for feedback quality and marking.",
-            "Student Feedback: Surveys regarding teaching effectiveness and engagement."
+            "SAMR Model: Framework for evaluating technology use in lessons.",
+            "Digital Learning Strategies: Interactive presentations, formative assessment tools, collaborative tools, and virtual labs."
           ]
-        },
-        {
-          "type": "info",
-          "label": "Cross-Reference",
-          "text": "Detailed appraisal procedures are outlined in Section 12 (Staff Lifecycle) and Section 17 (Quality Assurance)."
         }
       ]
     },
     {
       "id": "7.10",
-      "title": "Compliance Alignment",
+      "title": "Differentiation and Inclusion in Practice",
       "content": [
         {
           "type": "text",
-          "text": "This section aligns with:"
+          "text": "Ensure every student has access to high-quality learning experiences through differentiation and inclusion strategies."
         },
         {
           "type": "list",
           "items": [
-            "Cambridge Standards for the Teaching and Learning.",
-            "Indonesian National Standards (Standar Proses).",
-            "CIS Domain C: Teaching and Assessing for Learning.",
-            "WASC Category B: Curriculum, Instruction, and Assessment."
+            "Universal Design for Learning (UDL): Principles for designing flexible learning experiences.",
+            "Differentiation Strategies: Content, process, and product differentiation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.11",
+      "title": "Universal Design for Learning (UDL) in Lesson Planning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Integrate UDL principles into daily lesson planning to ensure all students can access, engage with, and demonstrate mastery of curriculum content."
+        },
+        {
+          "type": "list",
+          "items": [
+            "UDL Lesson Planning Template: Comprehensive guidance for incorporating UDL principles.",
+            "Strategies for Mixed-Ability Classrooms: Addressing variability without creating separate lessons."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.12",
+      "title": "Culturally Responsive Teaching",
+      "content": [
+        {
+          "type": "text",
+          "text": "Honor students' cultural identities and lived experiences as assets in the learning process."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Build Relationships: Learn students' names, show interest in their lives.",
+            "Incorporate Diverse Perspectives: Include various cultural viewpoints in the curriculum."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.13",
+      "title": "AI and Academic Integrity in Teaching",
+      "content": [
+        {
+          "type": "text",
+          "text": "Navigate the landscape of artificial intelligence in education responsibly, teaching students to use AI ethically while maintaining academic integrity."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Teacher Use of AI: Appropriate uses for lesson planning and resource creation.",
+            "Teaching Students About AI: Understanding AI basics, ethical use, and critical evaluation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.14",
+      "title": "Managing Student Behavior and Positive Discipline",
+      "content": [
+        {
+          "type": "text",
+          "text": "Create safe, respectful, and productive learning environments through proactive behavior management and culturally responsive discipline."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Proactive Behavior Management: Establish clear expectations and build positive relationships.",
+            "Responding to Misbehavior: Use a graduated approach from non-verbal interventions to logical consequences."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.15",
+      "title": "Teacher Wellbeing and Work-Life Balance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Recognize that teacher wellbeing directly impacts teaching quality and student outcomes."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Workload Management Strategies: Prioritize tasks, batch similar activities, and set boundaries.",
+            "Self-Care and Wellbeing: Focus on physical health, mental health, and maintaining joy outside of teaching."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.16",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Maintain evidence of teaching quality standards for accreditation and internal quality assurance."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Teacher Appraisal System: Completed observation forms, appraisal reports, and student satisfaction survey results.",
+            "Professional Development: Attendance records, PLC meeting notes, and teacher reflection journals."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7.17",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure alignment with various educational standards and regulations."
+        },
+        {
+          "type": "list",
+          "items": [
+            "CIS Standards: Teaching and assessing for learning, student support systems, staffing and professional development.",
+            "WASC Categories: Standards-based student learning in curriculum, instruction, and assessment."
           ]
         }
       ]

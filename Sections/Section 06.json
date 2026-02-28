@@ -5,144 +5,486 @@
   "subsections": [
     {
       "id": "6.1",
-      "title": "Purpose and Philosophy",
+      "title": "Purpose",
       "content": [
         {
           "type": "text",
-          "text": "To establish a fair, consistent, and transparent assessment system that measures student progress, informs teaching and learning, and provides meaningful feedback to students and parents. Our philosophy is that assessment is primarily a tool for learning, not just of learning."
+          "text": "To ensure valid, reliable, and fair assessment practices that inform teaching, improve student learning, provide accurate feedback to students and parents, and maintain integrity across both Cambridge and Indonesian assessment requirements."
         }
       ]
     },
     {
       "id": "6.2",
-      "title": "Types of Assessment",
+      "title": "Assessment Philosophy and Principles",
       "content": [
         {
           "type": "text",
-          "text": "A balanced assessment approach is used to build a comprehensive picture of student achievement."
+          "text": "Eduversal schools implement a balanced assessment philosophy that includes Assessment FOR Learning (formative assessment to support instruction), Assessment AS Learning (student self-reflection and goal setting), and Assessment OF Learning (summative assessment to measure achievement against standards)."
         },
         {
-          "type": "table",
-          "title": "Assessment Framework",
-          "headers": ["Type", "Purpose", "Examples"],
-          "rows": [
-            ["Diagnostic", "To identify prior knowledge and misconceptions before a unit.", "Pre-unit quiz, K-W-L chart, entry ticket."],
-            ["Formative", "To monitor learning and provide ongoing feedback during a unit.", "Quizzes, exit tickets, teacher observation, peer feedback, mini-whiteboards."],
-            ["Summative", "To evaluate learning at the end of a unit or term.", "End-of-unit tests, final projects, essays, presentations, Cambridge exams."]
+          "type": "list",
+          "title": "Core Beliefs",
+          "items": [
+            "Assessment FOR Learning: Used during learning to diagnose needs, adjust instruction, and provide feedback.",
+            "Assessment AS Learning: Students reflect on their own learning, set goals, and monitor progress.",
+            "Assessment OF Learning: Measures achievement at the end of a unit/term/course."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Guiding Principles",
+          "items": [
+            "Standards-Referenced: All assessments aligned to clear learning objectives.",
+            "Fair and Equitable: Assessments accessible to all students with accommodations as needed.",
+            "Transparent: Assessment criteria shared with students before assessment.",
+            "Timely and Actionable Feedback: Feedback provided promptly and is specific and constructive.",
+            "Integrated with Instruction: Assessment data used to inform teaching decisions."
           ]
         }
       ]
     },
     {
       "id": "6.3",
-      "title": "Grading and Reporting Scales",
+      "title": "Assessment Architecture",
       "content": [
         {
           "type": "text",
-          "text": "Grading scales are aligned with the Cambridge pathway and provide clear benchmarks of performance."
+          "text": "Eduversal Partner Schools employ a comprehensive assessment system balancing multiple types and purposes."
         },
         {
-          "type": "table",
-          "title": "Grade Level Scales",
-          "headers": ["Level", "Scale", "Description"],
-          "rows": [
-            ["Primary (1-6)", "Effort & Attainment Descriptors", "e.g., 'Working Towards', 'Meeting', 'Exceeding' standards."],
-            ["Lower Secondary (7-8)", "Percentage Scale (0-100%)", "Provides a clear numerical measure of performance in preparation for IGCSE."],
-            ["IGCSE (9-10)", "Cambridge A*-G Scale & Percentages", "Final grades are A*-G. Internal reports use percentages for detailed feedback."],
-            ["AS/A Level (11-12)", "Cambridge A-E Scale & Percentages", "Final grades are A-E. Internal reports use percentages."]
-          ]
+          "type": "text",
+          "text": "Assessment Types include formative, summative, diagnostic, and standardized assessments."
         }
       ]
     },
     {
       "id": "6.4",
-      "title": "Feedback and Marking Policy",
+      "title": "Assessment Calendar and Schedule",
       "content": [
         {
           "type": "text",
-          "text": "Feedback is designed to be timely, specific, and actionable, helping students understand their strengths and how to improve."
+          "text": "Purpose: Coordinate assessments across subjects and grades to avoid student overload and ensure adequate time for teaching, learning, and feedback."
         },
         {
-          "type": "list",
-          "title": "Core Principles (WWW/EBI)",
-          "items": [
-            "What Went Well (WWW): Teachers identify and praise specific strengths in student work.",
-            "Even Better If (EBI): Teachers provide a clear, actionable target for improvement.",
-            "Student Response: Students are given dedicated time (e.g., 'Purple Pen of Progress') to read, reflect on, and respond to teacher feedback."
+          "type": "table",
+          "title": "Annual Assessment Calendar (Sample for Secondary)",
+          "headers": [
+            "Term",
+            "Dates"
+          ],
+          "rows": [
+            [
+              "Term 1",
+              "July-December"
+            ],
+            [
+              "Term 2",
+              "January-June"
+            ]
           ]
         },
         {
-          "type": "info",
-          "label": "Turnaround Time",
-          "text": "Major assignments should be marked and returned to students within two school weeks."
+          "type": "list",
+          "title": "Exam Week Protocols",
+          "items": [
+            "2 weeks' notice: Exam schedule published.",
+            "Study guides provided: Teachers distribute review materials.",
+            "No new content: Week before exams reserved for review.",
+            "Timetable staggered: Maximum 2 exams per day per student.",
+            "Prompt marking: Teachers aim to return marked exams within 1 week."
+          ]
         }
       ]
     },
     {
       "id": "6.5",
-      "title": "Standardized Assessment Program",
+      "title": "Formative Assessment Strategies",
       "content": [
         {
+          "type": "text",
+          "text": "Purpose: Provide ongoing feedback during learning to help students improve before summative assessments."
+        },
+        {
           "type": "list",
-          "title": "Key Assessments",
+          "title": "High-Impact Formative Assessment Techniques",
           "items": [
-            "EASE (Eduversal Achievement of Standardized Echievement): Internal standardized tests administered 2-4 times a year to track progress and inform instruction.",
-            "Cambridge Checkpoint: Diagnostic tests at the end of Primary (Grade 6) and Lower Secondary (Grade 8) to benchmark against international standards.",
-            "Cambridge IGCSE & A Level Exams: External, high-stakes examinations leading to globally recognized qualifications.",
-            "ANBK (Asesmen Nasional Berbasis Komputer): National assessment for Indonesian schools, measuring literacy, numeracy, and character."
+            "Exit Tickets: Brief responses at the end of lessons.",
+            "Think-Pair-Share: Students discuss questions with partners.",
+            "Thumbs Up/Down: Quick checks of understanding.",
+            "Draft Reviews: Feedback on drafts before final submission.",
+            "Observation and Anecdotal Notes: Teacher notes on student understanding.",
+            "Self-Assessment and Reflection: Students assess their own work."
           ]
+        },
+        {
+          "type": "text",
+          "text": "Feedback Guidelines: Effective feedback should be specific, actionable, timely, balanced, and goal-oriented."
         }
       ]
     },
     {
       "id": "6.6",
-      "title": "Reporting to Parents",
+      "title": "Summative Assessment Design",
       "content": [
         {
+          "type": "text",
+          "text": "Purpose: Measure student achievement against standards at the end of learning periods."
+        },
+        {
           "type": "list",
+          "title": "Types of Summative Assessments",
           "items": [
-            "Report Cards: Issued at the end of each term/semester, providing grades, effort marks, and teacher comments.",
-            "Parent-Teacher Conferences (PTCs): Held at least twice a year to discuss student progress in detail.",
-            "EduNav Parent Portal: Provides real-time access to grades, attendance, and school announcements."
+            "Traditional Tests/Exams: Multiple choice, short answer, essay questions.",
+            "Performance Tasks: Demonstrate skills or create products.",
+            "Projects: Extended inquiry or creation over several weeks.",
+            "Portfolios: Curated collection of student work showing growth."
           ]
+        },
+        {
+          "type": "text",
+          "text": "Assessment Quality Checklist: Ensures alignment, coverage, validity, reliability, fairness, clarity, and adequate time."
         }
       ]
     },
     {
       "id": "6.7",
-      "title": "Academic Integrity",
+      "title": "Internal Moderation and Standardization",
       "content": [
         {
-          "type": "policy",
-          "purpose": "To ensure all student work is authentic and to educate students on ethical academic practices.",
-          "scope": "Applies to all assignments, projects, and examinations.",
-          "examples": [
-            "Plagiarism: Submitting another's work as one's own without citation.",
-            "Collusion: Working with others on an individual assignment without permission.",
-            "Cheating: Using unauthorized aids during an examination."
-          ],
-          "steps": [
-            { "n": 1, "title": "Education", "desc": "Teachers explicitly teach citation, paraphrasing, and ethical research skills." },
-            { "n": 2, "title": "Detection", "desc": "Use of plagiarism detection software (e.g., Turnitin) for major assignments." },
-            { "n": 3, "title": "Consequences", "desc": "A tiered response, from re-doing the assignment with a penalty to suspension for repeated or severe offenses." }
+          "type": "text",
+          "text": "Moderation is the process through which teachers collaboratively review student work to ensure that marking is fair, accurate, and consistently aligned to agreed standards."
+        },
+        {
+          "type": "list",
+          "title": "Moderation Process (Step-by-Step)",
+          "items": [
+            "Pre-Assessment Standardization: Select anchor samples and mark independently.",
+            "During-Marking Moderation: Exchange scripts for blind re-marking.",
+            "Post-Marking Moderation: Review grade distribution and provide feedback."
           ]
+        },
+        {
+          "type": "text",
+          "text": "Moderation for Cambridge Coursework: Internal moderation required before submitting marks to Cambridge."
         }
       ]
     },
     {
       "id": "6.8",
-      "title": "Moderation and Standardization",
+      "title": "Grading and Reporting Systems",
       "content": [
         {
           "type": "text",
-          "text": "To ensure that grading is consistent and reliable across different teachers and classes."
+          "text": "Academic grades reflect student achievement against curriculum standards. Character and effort indicators are reported separately."
         },
         {
           "type": "list",
+          "title": "Cambridge Subjects: Grading Scale",
           "items": [
-            "Internal Moderation: Before finalizing grades for major assessments, teachers of the same subject meet to review and standardize a sample of student work against the rubric.",
-            "External Moderation: For Cambridge IGCSE and A Level coursework, samples are sent to Cambridge for external moderation to ensure global standards are met."
+            "Official Cambridge grades: A*, A, B, C, D, E, F, G, U.",
+            "School-based grades: Predicted grades or percentage/letter grades aligned to Cambridge standards."
           ]
+        },
+        {
+          "type": "list",
+          "title": "Indonesian National Subjects: Grading Scale",
+          "items": [
+            "Scale: 0-100 (percentage).",
+            "Descriptors: 90-100 = Sangat Baik (Excellent), 80-89 = Baik (Good), below 70 = Kurang (Needs Improvement)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.9",
+      "title": "Report Cards and Progress Reports",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Communicate student progress to students and parents clearly, accurately, and in ways that support continued learning."
+        },
+        {
+          "type": "list",
+          "title": "Report Card Schedule",
+          "items": [
+            "Mid-Term Progress Reports: Week 8-10 of each term.",
+            "End-of-Term Report Cards: Week 20 (Term 1) and Week 24 (Term 2)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Report Card Components",
+          "items": [
+            "Student and School Information.",
+            "Cambridge Subjects Section.",
+            "Indonesian National Subjects Section.",
+            "Profil Pelajar Pancasila Competencies.",
+            "Character and Effort Grades.",
+            "Attendance.",
+            "Co-Curricular Participation.",
+            "Homeroom Teacher Overall Comment."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.10",
+      "title": "Parent-Teacher Conferences",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Complement written reports with face-to-face dialogue, answer parent questions, co-create support plans."
+        },
+        {
+          "type": "list",
+          "title": "Conference Schedule",
+          "items": [
+            "Term 1: Week 20.",
+            "Mid-Year: Week 10 of Term 2 (optional).",
+            "Term 2: Week 24."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Conference Structure",
+          "items": [
+            "Welcome and Relationship Building.",
+            "Review Academic Progress.",
+            "Social-Emotional and Character Development.",
+            "Goal Setting and Action Plan.",
+            "Closing."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.11",
+      "title": "Use of Assessment Data to Inform Instruction",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Assessment is not an endpoint; it's a tool to improve teaching and learning."
+        },
+        {
+          "type": "list",
+          "title": "Data Analysis Process (Professional Learning Communities)",
+          "items": [
+            "Review Data: Identify patterns in student performance.",
+            "Analyze Root Causes: Determine why students struggled.",
+            "Plan Interventions: Develop strategies for whole class, small groups, and individuals.",
+            "Share Strategies: Collaborate and share successful practices.",
+            "Set Goals for Next Meeting."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.12",
+      "title": "Academic Integrity and Plagiarism Prevention",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Cultivate a culture of honesty, original thinking, and proper attribution; prevent and address academic dishonesty."
+        },
+        {
+          "type": "list",
+          "title": "Academic Integrity Policy",
+          "items": [
+            "Plagiarism: Using someone else's work without citation.",
+            "Cheating: Using unauthorized materials during assessments.",
+            "Collusion: Unauthorized collaboration on individual assignments."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Prevention Strategies",
+          "items": [
+            "Explicit Teaching: Lessons on citation and ethical research.",
+            "Assignment Design: Unique prompts and process-based assignments.",
+            "Technology Use: Plagiarism detection software."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Detection and Response",
+          "items": [
+            "Gather Evidence: Document concerns and run checks.",
+            "Private Conversation with Student: Discuss evidence.",
+            "Determine Violation Level and Consequence."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.13",
+      "title": "Accommodations and Differentiated Assessment",
+      "content": [
+        {
+          "type": "text",
+          "text": "Principle: Fair assessment means giving every student opportunity to demonstrate what they know and can do."
+        },
+        {
+          "type": "list",
+          "title": "Accommodations (Do Not Change Standards)",
+          "items": [
+            "Extended time and frequent breaks.",
+            "Separate quiet room or small group setting.",
+            "Presentation adjustments like enlarged print or read-aloud."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Differentiated Assessment (Adjust to Readiness/Interest)",
+          "items": [
+            "Choice Boards: Students choose how to demonstrate learning.",
+            "Tiered Assessments: Different complexity levels for the same objective.",
+            "Product Options: Allow students to choose format for assignments."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.14",
+      "title": "Benchmark and External Assessments",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Compare student performance to external standards, track growth over time, inform school improvement."
+        },
+        {
+          "type": "list",
+          "title": "EASE (Evaluation of Achievement Standardized Exam)",
+          "items": [
+            "Administered 4x/year to all students Grades 1-12.",
+            "Measures literacy, numeracy, and subject-specific content.",
+            "Used for formative/diagnostic purposes, not individual grades."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Cambridge Progression Tests",
+          "items": [
+            "Optional diagnostic tests for Grades 7-9.",
+            "Assess readiness for IGCSE and identify strengths/gaps."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "ANBK (Asesmen Nasional Berbasis Komputer)",
+          "items": [
+            "Indonesian national assessment for Grades 5, 8, 11.",
+            "Measures literacy, numeracy, character, and learning environment."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.15",
+      "title": "Reporting to Universities and Transcript Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Provide accurate, comprehensive academic records for university admission, scholarships, and transfers."
+        },
+        {
+          "type": "list",
+          "title": "Official Transcripts",
+          "items": [
+            "Includes student and school information, academic record, standardized test results, GPA, and graduation date."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Predicted Grades for University Applications",
+          "items": [
+            "Professional teacher judgments indicating likely grades for final exams.",
+            "Shared with universities but not typically with students/parents."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Letters of Recommendation",
+          "items": [
+            "Qualitative assessment of student's academic abilities and character.",
+            "Requested by students and submitted directly to universities."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.16",
+      "title": "Assessment Policy Review and Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Purpose: Assessment practices evolve based on research, student needs, and stakeholder feedback."
+        },
+        {
+          "type": "list",
+          "title": "Annual Assessment Policy Review Process",
+          "items": [
+            "Data Review: Analyze student achievement trends and assessment effectiveness.",
+            "Stakeholder Feedback: Surveys from teachers, students, and parents.",
+            "Research and Best Practices: Review educational research and benchmark against other schools.",
+            "Identify Improvements: Update grading scales, rubrics, and reporting formats."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.17",
+      "title": "Teacher Performance Evaluation",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Appraisal Program evaluates teaching quality through classroom observations and evaluations across multiple domains."
+        },
+        {
+          "type": "list",
+          "title": "Evidence",
+          "items": [
+            "Appraisal observation forms and rubrics.",
+            "Post-appraisal meeting notes.",
+            "Teacher improvement plans."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.18",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "All assessment data, records, and reports are handled confidentially in accordance with regulations."
+        },
+        {
+          "type": "list",
+          "title": "Policy and Procedures",
+          "items": [
+            "Assessment Policy.",
+            "Academic Integrity Policy.",
+            "Accommodations and Differentiation Guidelines."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Assessment Design",
+          "items": [
+            "Sample assessments from each subject/grade.",
+            "Assessment blueprints.",
+            "Moderation cover sheets."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6.19",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with Cambridge Assessment Standards, Indonesian Curriculum Standards, CIS Standards, WASC Category B, and Eduversal SLOs."
         }
       ]
     }

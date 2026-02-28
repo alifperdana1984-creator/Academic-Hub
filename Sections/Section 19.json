@@ -9,22 +9,23 @@
       "content": [
         {
           "type": "text",
-          "text": "This section provides standardized templates and operational tools to support consistent implementation of policies, procedures, and practices across Eduversal Partner Schools."
+          "text": "This section provides standardized templates and operational tools designed to support consistent implementation of policies, procedures, and practices across all Eduversal Partner Schools. These templates serve as practical resources that enable principals and school leadership teams to maintain compliance with Indonesian regulations, Cambridge International requirements, and CIS/WASC accreditation standards while ensuring efficient daily operations."
         },
         {
           "type": "list",
           "title": "Template Design Principles",
           "items": [
-            "Compliance-Ready for Indonesian MoE, Cambridge, and CIS/WASC requirements.",
-            "EAL-Friendly language and contextually adaptable usage.",
-            "Evidence-Generating for accreditation portfolios.",
-            "EduNav-Compatible structure and reporting fields."
+            "Compliance-Ready: Templates incorporate required elements for Indonesian MoE, Cambridge, and CIS/WASC requirements.",
+            "EAL-Friendly: Language is clear and accessible; bilingual versions available where appropriate.",
+            "Contextually Adaptable: Schools may customize templates to reflect local context while maintaining core elements.",
+            "Evidence-Generating: Templates create documentation suitable for accreditation evidence portfolios.",
+            "EduNav-Compatible: Templates align with EduNav platform fields and reporting structures."
           ]
         },
         {
           "type": "info",
-          "label": "Repository Organization",
-          "text": "Templates are organized by functional area, cross-referenced to handbook sections, and retained according to Section 14 requirements."
+          "label": "Template Repository Organization",
+          "text": "Templates are organized by functional area and cross-referenced to relevant handbook sections. Schools should maintain both digital and physical copies of completed templates according to the records retention requirements outlined in Section 14. The Eduversal Template Repository in EduNav serves as the central location for accessing current versions and submitting completed forms."
         }
       ]
     },
@@ -36,14 +37,38 @@
           "type": "table",
           "title": "Template Sets",
           "rows": [
-            ["Strategic Planning and School Improvement", "T-01, T-02, T-04"],
-            ["Governance", "T-05, T-07"],
-            ["Safeguarding and Child Protection", "T-08, T-09, T-11"],
-            ["Inclusion, EAL, and Learning Support", "T-12, T-15"],
-            ["Teaching Quality and Professional Practice", "T-17, T-20"],
-            ["Assessment and Examinations", "T-21, T-23"],
-            ["Operations and Risk Management", "T-28, T-31"],
-            ["Communications and Community Engagement", "T-32, T-34"]
+            [
+              "Strategic Planning and School Improvement",
+              "T-01, T-02, T-04"
+            ],
+            [
+              "Governance",
+              "T-05, T-07"
+            ],
+            [
+              "Safeguarding and Child Protection",
+              "T-08, T-09, T-11"
+            ],
+            [
+              "Inclusion, EAL, and Learning Support",
+              "T-12, T-15"
+            ],
+            [
+              "Teaching Quality and Professional Practice",
+              "T-17, T-20"
+            ],
+            [
+              "Assessment and Examinations",
+              "T-21, T-23"
+            ],
+            [
+              "Operations and Risk Management",
+              "T-28, T-31"
+            ],
+            [
+              "Communications and Community Engagement",
+              "T-32, T-34"
+            ]
           ]
         }
       ]
@@ -179,10 +204,22 @@
           "type": "table",
           "title": "Risk Score Bands",
           "rows": [
-            ["Low", "1-4 (Monitor)"],
-            ["Medium", "5-9 (Active management)"],
-            ["High", "10-15 (Priority action)"],
-            ["Critical", "16-25 (Immediate action required)"]
+            [
+              "Low",
+              "1-4 (Monitor)"
+            ],
+            [
+              "Medium",
+              "5-9 (Active management)"
+            ],
+            [
+              "High",
+              "10-15 (Priority action)"
+            ],
+            [
+              "Critical",
+              "16-25 (Immediate action required)"
+            ]
           ]
         }
       ]

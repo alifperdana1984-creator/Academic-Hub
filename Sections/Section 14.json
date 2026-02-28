@@ -5,35 +5,113 @@
   "subsections": [
     {
       "id": "14.1",
-      "title": "Data Privacy Policy",
+      "title": "Introduction and Scope",
       "content": [
         {
           "type": "text",
-          "text": "The school complies with the Indonesian Personal Data Protection (PDP) Law to safeguard the privacy of students, parents, and staff. Personal data is collected only for legitimate educational purposes."
+          "text": "This section establishes comprehensive policies and procedures for the protection of personal data, management of school records, and governance of information systems."
         },
         {
-          "type": "info",
-          "label": "Consent",
-          "text": "Explicit consent is obtained for data collection and for the use of student images in media."
+          "type": "list",
+          "items": [
+            "Protect privacy rights: Ensure that personal data of students, staff, parents, and other stakeholders is collected, processed, stored, and disposed of in accordance with legal requirements and ethical standards.",
+            "Maintain record integrity: Establish systematic record-keeping practices that support educational excellence, regulatory compliance, and organizational accountability.",
+            "Ensure system security: Implement technical and organizational measures to safeguard information systems against unauthorized access, data breaches, and operational disruptions."
+          ]
         }
       ]
     },
     {
       "id": "14.2",
-      "title": "Record Retention Schedule",
+      "title": "Data Protection Policy",
       "content": [
+        {
+          "type": "text",
+          "text": "The school adheres to internationally recognized data protection principles aligned with UU No. 27/2022 (Indonesian Personal Data Protection Law) and GDPR best practices."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Lawfulness, Fairness, and Transparency: All data processing has a valid legal basis.",
+            "Purpose Limitation: Data is collected for specified, explicit, and legitimate purposes.",
+            "Data Minimization: Only data that is adequate, relevant, and necessary for the purpose is collected.",
+            "Accuracy: Reasonable steps are taken to ensure data is accurate and kept up to date.",
+            "Storage Limitation: Data is retained only for as long as necessary for the purpose or as required by law.",
+            "Integrity and Confidentiality: Appropriate measures protect data against unauthorized access, loss, or destruction.",
+            "Accountability: The school is responsible for demonstrating compliance with all principles."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.3",
+      "title": "Data Security and Access Control",
+      "content": [
+        {
+          "type": "text",
+          "text": "Comprehensive technical safeguards protect electronic data across all school systems."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Role-Based Access Control (RBAC): Access to data is restricted based on user roles.",
+            "Authentication and Password Security: Strong password policies and multi-factor authentication are enforced.",
+            "Session Management: Automatic logout after periods of inactivity.",
+            "Data Encryption: All data transmitted and stored is encrypted.",
+            "Audit Logging: All user actions are logged for accountability."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.4",
+      "title": "Data Protection Impact Assessments (DPIAs)",
+      "content": [
+        {
+          "type": "text",
+          "text": "A DPIA is a systematic process to identify and minimize data protection risks arising from new or changed data processing activities."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Mandatory DPIAs for high-risk processing activities.",
+            "Structured seven-step DPIA process including description, necessity assessment, risk identification, mitigation measures, and approval."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14.5",
+      "title": "Records Retention and Disposal",
+      "content": [
+        {
+          "type": "text",
+          "text": "Systematic records management ensures the school retains documents for as long as necessary while securely disposing of them when no longer needed."
+        },
         {
           "type": "table",
           "title": "Retention Periods",
-          "headers": ["Record Type", "Retention Period"],
+          "headers": [
+            "Record Type",
+            "Retention Period"
+          ],
           "rows": [
-            ["Student Academic Records", "Permanent / 50 years (Transcripts)"],
+            [
+              "Student Academic Records",
+              "Permanent / 50 years (Transcripts)"
+            ],
             [
               "Student Discipline Records",
               "Until student turns 21 or 5 years after leaving"
             ],
-            ["Financial Records", "10 years (for tax and audit purposes)"],
-            ["Staff Personnel Files", "10 years after employment ends"],
+            [
+              "Financial Records",
+              "10 years (for tax and audit purposes)"
+            ],
+            [
+              "Staff Personnel Files",
+              "10 years after employment ends"
+            ],
             [
               "Health & Safety Incident Reports",
               "Until student turns 21 or 5 years"
@@ -43,26 +121,20 @@
       ]
     },
     {
-      "id": "14.3",
-      "title": "Information Security",
-      "content": [
-        {
-          "type": "list",
-          "items": [
-            "Access Control: Access to sensitive digital data (EduNav, HR systems) is restricted based on user roles.",
-            "Digital Security: Use of strong passwords, encryption, firewalls, and regular backups.",
-            "Physical Security: Hard copy records are stored in locked, fire-resistant cabinets in secure offices."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "14.4",
-      "title": "Data Breach Protocol",
+      "id": "14.6",
+      "title": "Data Breach Management",
       "content": [
         {
           "type": "text",
-          "text": "In the event of a data breach, the Data Protection Officer (DPO) must be notified immediately. The DPO will assess the breach, mitigate damage, and notify affected individuals and authorities as required by law."
+          "text": "A data breach is a security incident that leads to unauthorized or unlawful destruction, loss, alteration, disclosure of, or access to personal data."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Immediate response procedures to be followed within 24 hours of detection.",
+            "Risk assessment and classification within 72 hours.",
+            "Notification procedures to affected individuals and regulatory authorities."
+          ]
         }
       ]
     }

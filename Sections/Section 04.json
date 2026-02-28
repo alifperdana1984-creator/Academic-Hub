@@ -5,62 +5,107 @@
   "subsections": [
     {
       "id": "4.1",
-      "title": "Strategic Planning Framework",
+      "title": "Purpose and Overview",
       "content": [
         {
           "type": "text",
-          "text": "Strategic planning is the process of defining the school's direction and making decisions on allocating resources to pursue this direction. Eduversal schools operate on a 3-5 year strategic cycle."
+          "text": "Strategic planning and continuous school improvement form the foundation of educational excellence at Eduversal Partner Schools. This section establishes the framework through which Principals lead their schools in setting strategic direction, monitoring progress toward goals, and ensuring sustainable improvement aligned with our mission to deliver world-class Cambridge education while honoring Indonesian values and identity."
         },
         {
-          "type": "process",
-          "title": "The Planning Cycle",
-          "steps": [
-            {
-              "n": 1,
-              "title": "Analysis",
-              "desc": "SWOT analysis, stakeholder surveys, data review."
-            },
-            {
-              "n": 2,
-              "title": "Formulation",
-              "desc": "Setting vision, mission, and strategic goals."
-            },
-            {
-              "n": 3,
-              "title": "Implementation",
-              "desc": "Annual School Improvement Plans (SIP) and action plans."
-            },
-            {
-              "n": 4,
-              "title": "Evaluation",
-              "desc": "Monitoring progress and adjusting strategies."
-            }
+          "type": "list",
+          "title": "Effective strategic planning enables Principals to:",
+          "items": [
+            "Translate Vision into Action: Convert the school's mission and Schoolwide Learning Outcomes into measurable goals and operational priorities.",
+            "Align Stakeholder Efforts: Unite the Yayasan Foundation, Eduversal management team, teaching staff, parents, and students around shared priorities.",
+            "Drive Continuous Improvement: Establish systematic cycles of planning, implementation, monitoring, and reflection.",
+            "Demonstrate Accountability: Provide transparent evidence of progress to stakeholders.",
+            "Optimize Resource Allocation: Make informed decisions about budget, staffing, and facilities based on strategic priorities.",
+            "Prepare for Accreditation: Build a culture of evidence-based reflection and documentation required for CIS/WASC accreditation."
           ]
         }
       ]
     },
     {
       "id": "4.2",
-      "title": "School Improvement Plan (SIP)",
+      "title": "Strategic Planning Framework",
       "content": [
         {
           "type": "text",
-          "text": "The SIP is the annual operational document that translates strategic goals into actionable steps."
+          "text": "Every Eduversal Partner School maintains a comprehensive 3-5 year Strategic Plan that articulates the school's vision for development and establishes the roadmap for achieving its mission."
+        },
+        {
+          "type": "process",
+          "title": "Development Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Environmental Scanning",
+              "desc": "Analyze internal and external factors influencing the school through SWOT analysis and data review."
+            },
+            {
+              "n": 2,
+              "title": "Vision Refinement",
+              "desc": "Revisit the school's mission and vision statements with the Yayasan Board."
+            },
+            {
+              "n": 3,
+              "title": "Strategic Priorities Identification",
+              "desc": "Identify 4-6 major strategic priorities for the planning period."
+            },
+            {
+              "n": 4,
+              "title": "Stakeholder Consultation",
+              "desc": "Gather feedback on draft priorities from the Yayasan Board and parent representatives."
+            },
+            {
+              "n": 5,
+              "title": "Goal Setting and Success Metrics",
+              "desc": "Define specific, measurable goals for each strategic priority."
+            },
+            {
+              "n": 6,
+              "title": "Resource Mapping",
+              "desc": "Project the financial, human, and physical resources required to achieve each strategic priority."
+            },
+            {
+              "n": 7,
+              "title": "Approval and Communication",
+              "desc": "Present the complete Strategic Plan to the Yayasan Board for formal approval."
+            }
+          ]
         },
         {
           "type": "table",
-          "title": "SIP Components",
-          "headers": ["Component", "Description"],
+          "title": "Required Components of Multi-Year Strategic Plan",
+          "headers": [
+            "Component",
+            "Description"
+          ],
           "rows": [
             [
-              "Goal",
-              "Specific, Measurable, Achievable, Relevant, Time-bound (SMART) objective."
+              "Executive Summary",
+              "Overview of vision, strategic priorities, and expected outcomes."
             ],
-            ["Actions", "Steps to achieve the goal."],
-            ["Responsibility", "Who is accountable."],
-            ["Timeline", "Start and end dates."],
-            ["Resources", "Budget and materials needed."],
-            ["Success Criteria", "How we know the goal is met."]
+            [
+              "School Context and Analysis",
+              "Environmental scan including enrollment trends and academic performance data."
+            ],
+            [
+              "Strategic Priorities",
+              "Detailed plans for each priority including rationale, goals, initiatives, and timelines."
+            ],
+            [
+              "Implementation Framework",
+              "How strategic priorities will be translated into annual School Improvement Plans."
+            ],
+            [
+              "Financial Projections",
+              "Multi-year budget implications and sustainability indicators."
+            ],
+            [
+              "Appendices",
+              "Supporting data tables and stakeholder consultation summaries."
+            ]
           ]
         }
       ]

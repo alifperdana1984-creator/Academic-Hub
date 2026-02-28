@@ -5,78 +5,85 @@
   "subsections": [
     {
       "id": "8.1",
-      "title": "Philosophy of Inclusion",
+      "title": "Introduction and Philosophical Foundation",
       "content": [
         {
           "type": "text",
-          "text": "Eduversal believes that every child has the right to a high-quality education in a mainstream setting. Inclusion is not just about placing students with diverse needs in a classroom; it is about creating a learning environment where every student feels valued, supported, and challenged to reach their full potential."
+          "text": "Eduversal Partner Schools are committed to creating inclusive learning environments where every student—regardless of linguistic background, learning profile, or ability—can access a world-class Cambridge education while meeting Indonesian national requirements."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Diversity is an asset: Students with varied backgrounds enrich our learning communities.",
+            "All students can learn: With appropriate support, every learner can make meaningful progress.",
+            "Early intervention prevents failure: Proactive identification and tiered support systems reduce the need for intensive remediation.",
+            "Inclusion is a whole-school responsibility: Every teacher is a teacher of EAL learners and students with diverse needs."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "This philosophy aligns with various standards and laws, including CIS/WASC Standard E, Cambridge Policy B6.2, and Indonesian Law No. 8/2016."
         }
       ]
     },
     {
       "id": "8.2",
-      "title": "Identification and Referral Process",
+      "title": "Tier 1: Universal and Quality First Teaching",
       "content": [
         {
-          "type": "process",
-          "title": "Student Support Pathway",
-          "steps": [
-            {
-              "n": 1,
-              "title": "Initial Concern",
-              "desc": "A classroom teacher, parent, or student raises a concern about academic progress, behavior, or wellbeing."
-            },
-            {
-              "n": 2,
-              "title": "Data Collection",
-              "desc": "The teacher gathers data (work samples, observation notes, assessment results) over 4-6 weeks."
-            },
-            {
-              "n": 3,
-              "title": "Referral",
-              "desc": "If concerns persist, the teacher completes a referral form for the Student Support Team (SST)."
-            },
-            {
-              "n": 4,
-              "title": "SST Review",
-              "desc": "The SST (Learning Support Coordinator, Counselor, EAL Lead, Admin) reviews the case and recommends a course of action."
-            },
-            {
-              "n": 5,
-              "title": "Intervention/Assessment",
-              "desc": "Action may include targeted interventions, further observation, or a formal educational-psychological assessment."
-            }
+          "type": "text",
+          "text": "All teachers provide Quality First Teaching that meets the needs of 80-85% of students without additional intervention."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Differentiation by Content, Process, Product, and Environment.",
+            "Universal Design for Learning (UDL) principles to provide multiple means of representation, engagement, and action/expression."
           ]
+        },
+        {
+          "type": "text",
+          "text": "EAL-Responsive Teaching strategies include pre-teaching academic vocabulary and using sentence frames."
         }
       ]
     },
     {
       "id": "8.3",
-      "title": "Tiered System of Support (MTSS)",
+      "title": "Tier 2: Targeted Interventions",
       "content": [
         {
-          "type": "text",
-          "text": "We use a Multi-Tiered System of Supports (MTSS) to provide the appropriate level of support for every student."
+          "type": "process",
+          "title": "Tier 2 Identification Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Teacher Referral",
+              "desc": "Teacher completes SST Referral Form documenting specific areas of concern."
+            },
+            {
+              "n": 2,
+              "title": "SST Meeting",
+              "desc": "Meeting to determine if Tier 2 intervention is needed."
+            },
+            {
+              "n": 3,
+              "title": "Parent Communication",
+              "desc": "Parents informed of support plan."
+            },
+            {
+              "n": 4,
+              "title": "Intervention Begins",
+              "desc": "Intervention starts within 1 week of parent notification."
+            }
+          ]
         },
         {
-          "type": "table",
-          "headers": ["Tier", "Description", "Support Provided"],
-          "rows": [
-            [
-              "Tier 1",
-              "Universal Support for All Students",
-              "High-quality, differentiated instruction in the mainstream classroom."
-            ],
-            [
-              "Tier 2",
-              "Targeted Support",
-              "Small-group interventions for students needing extra help in specific areas (e.g., reading group, math booster)."
-            ],
-            [
-              "Tier 3",
-              "Intensive, Individualized Support",
-              "One-on-one support, specialized programs, or an Individual Education Plan (IEP) for students with significant needs."
-            ]
+          "type": "list",
+          "items": [
+            "Small Group Literacy Intervention for Grades 1-8.",
+            "Numeracy Support Groups for Grades 1-8.",
+            "EAL Tier 2 Support for CEFR A2-B1 level students.",
+            "Social-Emotional/Behavioral Support."
           ]
         }
       ]
@@ -91,86 +98,286 @@
         },
         {
           "type": "list",
-          "title": "Support Models",
           "items": [
-            "Sheltered Instruction: All subject teachers use EAL-friendly strategies (visuals, scaffolding, group work).",
-            "Push-In Support: An EAL specialist co-teaches in the mainstream classroom to support EAL learners.",
-            "Pull-Out Support: Students at beginning proficiency levels receive intensive, small-group English instruction for a portion of the day."
+            "EAL Proficiency Framework aligned to CEFR.",
+            "Initial Placement and Assessment Process for new students.",
+            "Ongoing Progress Monitoring through formative and summative assessments."
           ]
         }
       ]
     },
     {
       "id": "8.5",
-      "title": "Special Educational Needs (SEN) Support & IEPs",
+      "title": "Tier 3: Intensive and Individualized Support",
       "content": [
         {
           "type": "text",
-          "text": "For students with diagnosed learning differences, an Individual Education Plan (IEP) is developed."
+          "text": "Tier 3 is for students who have made minimal/no progress in Tier 2 despite interventions."
+        },
+        {
+          "type": "process",
+          "title": "IEP/ILP Development Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Draft Plan",
+              "desc": "Learning Support Coordinator drafts the IEP/ILP."
+            },
+            {
+              "n": 2,
+              "title": "IEP/ILP Meeting",
+              "desc": "Meeting to review and finalize the plan."
+            },
+            {
+              "n": 3,
+              "title": "Documentation in EduNav",
+              "desc": "IEP/ILP uploaded to student profile."
+            },
+            {
+              "n": 4,
+              "title": "Implementation and Monitoring",
+              "desc": "Review progress toward goals every 6-8 weeks."
+            }
+          ]
         },
         {
           "type": "list",
-          "title": "IEP Components",
           "items": [
-            "Student's strengths and challenges.",
-            "Specific, Measurable, Achievable, Relevant, Time-bound (SMART) goals.",
-            "Accommodations (e.g., extra time, preferential seating) and/or Modifications (e.g., altered curriculum).",
-            "Details of support services to be provided.",
-            "Plan for monitoring progress."
+            "Accommodations and Modifications Framework.",
+            "Progress Monitoring and Annual Review."
           ]
         }
       ]
     },
     {
       "id": "8.6",
-      "title": "Roles and Responsibilities",
+      "title": "Cambridge Access for SEN Students",
       "content": [
         {
-          "type": "roles",
-          "roles": [
-            {
-              "title": "Learning Support Coordinator",
-              "resp": [
-                "Manages the SST, oversees IEPs, coordinates with external specialists."
-              ]
-            },
-            {
-              "title": "EAL Coordinator/Teacher",
-              "resp": [
-                "Assesses EAL proficiency, provides direct instruction, supports subject teachers."
-              ]
-            },
-            {
-              "title": "School Counselor",
-              "resp": [
-                "Provides social-emotional support, short-term counseling, and crisis intervention."
-              ]
-            },
-            {
-              "title": "Classroom Teacher",
-              "resp": [
-                "Implements Tier 1 strategies and accommodations as per the IEP."
-              ]
-            }
+          "type": "text",
+          "text": "Cambridge allows access arrangements for students with disabilities or learning differences."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Types of Access Arrangements: Extra Time, Reader, Scribe, etc.",
+            "Application Process for Access Arrangements."
           ]
         }
       ]
     },
     {
       "id": "8.7",
-      "title": "Partnership with Parents",
+      "title": "Gifted and Talented (G&T) Support",
       "content": [
         {
           "type": "text",
-          "text": "Parents are essential partners in supporting students with diverse needs."
+          "text": "Eduversal recognizes the need to support high-ability students who require enrichment."
         },
         {
           "type": "list",
           "items": [
-            "Parents are involved in the referral and assessment process.",
-            "IEP meetings are held collaboratively with parents at least twice a year.",
-            "Regular communication between the support team and home is maintained to ensure consistency."
+            "Identification of Gifted and Talented Students.",
+            "G&T Support Models including Subject Acceleration and Enrichment Clusters."
           ]
+        }
+      ]
+    },
+    {
+      "id": "8.8",
+      "title": "Learning Support Team Structure and Roles",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Learning Support Team is composed of various roles including Learning Support Coordinator, EAL Coordinator, School Counselor, Year Level Coordinators, and Teaching Assistants."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Role",
+            "Responsibilities"
+          ],
+          "rows": [
+            [
+              "Learning Support Coordinator",
+              "Coordinates MTSS implementation, leads SST meetings, develops IEPs."
+            ],
+            [
+              "EAL Coordinator",
+              "Administers EAL assessments, provides direct instruction, monitors progress."
+            ],
+            [
+              "School Counselor",
+              "Provides counseling for social-emotional needs, supports behavioral interventions."
+            ],
+            [
+              "Year Level Coordinators",
+              "Identify students needing support, communicate with parents."
+            ],
+            [
+              "Teaching Assistants",
+              "Support implementation of IEP accommodations in classrooms."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.9",
+      "title": "Universal Design for Learning (UDL) as Tier 1",
+      "content": [
+        {
+          "type": "text",
+          "text": "UDL serves as the foundational cornerstone of Eduversal's Multi-Tiered System of Supports."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Key principles of UDL: Multiple means of representation, engagement, and action/expression.",
+            "UDL strategies for common learning barriers."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.10",
+      "title": "Professional Development for Inclusive Practice",
+      "content": [
+        {
+          "type": "text",
+          "text": "All teachers receive ongoing professional development in inclusive education."
+        },
+        {
+          "type": "list",
+          "items": [
+            "New Teacher Induction covering MTSS framework and differentiation basics.",
+            "Annual PD sessions on EAL strategies, SEN awareness, and G&T enrichment."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.11",
+      "title": "Family Partnership and Communication",
+      "content": [
+        {
+          "type": "text",
+          "text": "Parents are partners in supporting their child's learning."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Initial identification and concern communication.",
+            "SST decision communication.",
+            "IEP/ILP meetings with parental involvement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.12",
+      "title": "Data Systems and Documentation",
+      "content": [
+        {
+          "type": "text",
+          "text": "All inclusion, EAL, and learning support data is managed through EduNav."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Student Profile Module for EAL and SEN data.",
+            "SST Module for meeting minutes and progress monitoring.",
+            "Assessment Module for EASE benchmark data."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.13",
+      "title": "Compliance and Quality Assurance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal's inclusion practices align with CIS/WASC standards and Indonesian legal compliance."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Alignment with CIS/WASC standards for diversity and inclusion.",
+            "Indonesian legal compliance regarding educational rights."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.14",
+      "title": "Resources and Partnerships",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal schools partner with external specialists for comprehensive SEN support."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Educational psychologists for assessments.",
+            "Speech-language pathologists for communication disorders."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.15",
+      "title": "Continuous Improvement and Program Evaluation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Annual program reviews are conducted to assess the effectiveness of inclusion practices."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Data sources for evaluation include MTSS tier distribution and intervention effectiveness.",
+            "Guiding questions to assess early identification and Tier 1 instruction quality."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.16",
+      "title": "Key Policies and Procedures Summary",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quick reference for MTSS decision-making and frequently asked questions."
+        }
+      ]
+    },
+    {
+      "id": "8.17",
+      "title": "Conclusion and Implementation Roadmap",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal is committed to building inclusive learning communities through a structured implementation roadmap."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Year 1: Foundation building with training and SST establishment.",
+            "Years 2-3: Refinement and expansion of intervention strategies.",
+            "Year 4+: Sustaining and innovating inclusive practices."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8.18",
+      "title": "Artifacts and Evidence for Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools should compile evidence related to inclusion practices for accreditation."
         }
       ]
     }

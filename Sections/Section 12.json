@@ -5,67 +5,188 @@
   "subsections": [
     {
       "id": "12.1",
-      "title": "Recruitment and Selection",
+      "title": "Introduction and Rationale",
       "content": [
         {
           "type": "text",
-          "text": "We are committed to recruiting high-quality educators and staff through a rigorous process that prioritizes child protection (Safer Recruitment)."
+          "text": "The quality of education in any school is fundamentally determined by the quality of its teachers and staff. At Eduversal Partner Schools, we recognize that attracting, developing, and retaining exceptional educators is central to achieving our mission: delivering world-class Cambridge International education while upholding Indonesian values and preparing students for global success."
         },
         {
           "type": "list",
-          "title": "Key Requirements",
+          "title": "Purpose of Comprehensive Staff Lifecycle Management",
           "items": [
-            "Qualifications: Relevant degree and teaching certification (Akta IV/PPG for locals, QTS/PGCE for expats).",
-            "Experience: Proven track record in education, preferably with Cambridge curriculum experience.",
-            "Background Checks: Mandatory police checks (SKCK) and reference verification from previous employers."
+            "Quality Assurance: Ensuring all staff members possess the qualifications, competencies, and professional dispositions required to deliver high-quality Cambridge education and meet Indonesian regulatory standards.",
+            "Student Outcomes: Directly improving student learning, wellbeing, and achievement through effective teaching, pastoral care, and support services.",
+            "Continuous Improvement: Fostering a professional culture where staff are supported, developed, and empowered to grow throughout their careers.",
+            "Compliance and Accreditation: Meeting Indonesian employment law requirements, Cambridge Centre standards, and CIS/WASC accreditation criteria for professional staffing.",
+            "Retention and Morale: Creating positive work environments where talented educators choose to build their careers and contribute to school improvement over the long term."
           ]
+        },
+        {
+          "type": "text",
+          "text": "Research consistently demonstrates that teacher quality is the single most significant school-based factor influencing student achievement. Effective staff members contribute to student success by delivering engaging, well-planned lessons that promote deep learning and critical thinking."
         }
       ]
     },
     {
       "id": "12.2",
-      "title": "Onboarding and Induction",
+      "title": "Workforce Planning and Staffing Needs",
       "content": [
         {
           "type": "text",
-          "text": "New staff undergo a comprehensive induction program to familiarize them with school policies, culture, and expectations."
+          "text": "Strategic workforce planning ensures that schools have the right number of qualified staff in the right roles at the right time. This proactive approach supports continuity, quality, and fiscal responsibility across Eduversal Partner Schools."
         },
         {
           "type": "list",
+          "title": "Annual Staffing Review Process",
           "items": [
-            "General Induction: HR policies, code of conduct, safeguarding training.",
-            "Academic Induction: Curriculum framework, assessment policy, EduNav training.",
-            "Mentoring: Assignment of a buddy or mentor for the first semester."
+            "Enrollment Projections: Analysis of current enrollment, projected student numbers by year group, and anticipated growth or decline.",
+            "Class Size Planning: Determination of optimal class sizes aligned with Cambridge recommendations and Indonesian regulations.",
+            "Curriculum Requirements: Assessment of teaching loads across all subjects including Cambridge international subjects and Indonesian national curriculum subjects.",
+            "Subject Expertise Gaps: Identification of subjects where additional expertise is needed.",
+            "Support Staff Needs: Review of administrative, technical, boarding, and facility staff requirements."
           ]
+        },
+        {
+          "type": "table",
+          "title": "Qualification Matrix for Different Roles",
+          "headers": [
+            "Role",
+            "Minimum Qualifications"
+          ],
+          "rows": [
+            [
+              "International Teachers (Cambridge Subjects)",
+              "Bachelor's degree in relevant subject or education, Teaching qualification, Minimum 2 years teaching experience."
+            ],
+            [
+              "Indonesian National Subject Teachers",
+              "S1 (Bachelor's) degree in relevant subject, Sertifikat Pendidik or working toward certification."
+            ],
+            [
+              "Subject Leaders / Heads of Department",
+              "Bachelor's degree minimum; Master's preferred, Minimum 5 years teaching experience."
+            ],
+            [
+              "School Counselors",
+              "Bachelor's degree in Psychology, Counseling, or Social Work, Master's degree preferred."
+            ],
+            [
+              "EAL Coordinator / Specialist",
+              "Bachelor's degree in Education, Linguistics, or related field, TESOL/TEFL qualification."
+            ],
+            [
+              "SEN Coordinator / Learning Support",
+              "Bachelor's degree in Special Education or Education, Qualification in learning support."
+            ],
+            [
+              "Librarian / Media Specialist",
+              "Bachelor's degree; Library Science preferred."
+            ],
+            [
+              "Lab Technicians (Science, IT, Design)",
+              "Relevant technical diploma or degree in subject area."
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Staff-Student Ratios",
+          "items": [
+            "Overall School Ratio: Target 1:10.",
+            "Early Years: 1:8-10.",
+            "Primary: 1:10-12 average class size.",
+            "Lower Secondary: 1:20-24 average class size.",
+            "IGCSE: 1:18-24 depending on subject.",
+            "AS & A Level: 1:8-16."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Effective succession planning minimizes disruption and maintains quality."
         }
       ]
     },
     {
       "id": "12.3",
-      "title": "Performance Appraisal",
+      "title": "Recruitment And Selection",
       "content": [
         {
           "type": "text",
-          "text": "Regular performance reviews ensure continuous professional growth and accountability."
+          "text": "Eduversal employs a rigorous recruitment strategy to attract high-quality educators."
+        },
+        {
+          "type": "list",
+          "title": "Where to Recruit",
+          "items": [
+            "International teacher recruitment websites.",
+            "University career services.",
+            "Professional networks.",
+            "Local job portals."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Job Advertisements - Key Elements",
+          "items": [
+            "Clear job title and grade level.",
+            "Comprehensive job description.",
+            "Required and preferred qualifications.",
+            "Realistic expectations about school context.",
+            "Compensation package overview.",
+            "School profile and location."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Required Qualifications",
+          "items": [
+            "International Teachers: Bachelor's degree, teaching qualification, minimum 2 years experience.",
+            "Indonesian National Subject Teachers: S1 degree, teaching certification, fluency in Bahasa Indonesia."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Safer recruitment is a safeguarding responsibility, not merely an HR process."
         },
         {
           "type": "process",
-          "title": "Appraisal Cycle",
+          "title": "Selection Process (Step-by-Step)",
           "steps": [
             {
               "n": 1,
-              "title": "Goal Setting",
-              "desc": "Start of year: Teacher sets SMART goals aligned with school priorities."
+              "title": "Application Review",
+              "desc": "HR screens applications against minimum qualifications."
             },
             {
               "n": 2,
-              "title": "Observation",
-              "desc": "Mid-year: Formal classroom observations and feedback sessions."
+              "title": "Initial Interview",
+              "desc": "Video or in-person interview to assess communication skills and cultural fit."
             },
             {
               "n": 3,
-              "title": "Review",
-              "desc": "End of year: Formal review of achievements against goals and professional standards."
+              "title": "Teaching Demonstration",
+              "desc": "Candidates teach a sample lesson or are observed during a trial day."
+            },
+            {
+              "n": 4,
+              "title": "Panel Interview",
+              "desc": "Comprehensive assessment of teaching philosophy and subject knowledge."
+            },
+            {
+              "n": 5,
+              "title": "Reference Checks",
+              "desc": "Conduct thorough reference checks before making an offer."
+            },
+            {
+              "n": 6,
+              "title": "Offer Letter and Contract Negotiation",
+              "desc": "Verbal offer followed by formal written offer letter."
+            },
+            {
+              "n": 7,
+              "title": "Pre-Employment Compliance",
+              "desc": "Background check verification, medical examination, visa application."
             }
           ]
         }
@@ -73,21 +194,354 @@
     },
     {
       "id": "12.4",
-      "title": "Professional Development (CPD)",
+      "title": "Employment Contracts And Onboarding",
       "content": [
         {
           "type": "text",
-          "text": "The school supports staff development through internal workshops, external training (e.g., Cambridge training), and peer learning communities."
+          "text": "Eduversal Partner Schools utilize both fixed-term and permanent contracts in compliance with Indonesian labor law."
+        },
+        {
+          "type": "list",
+          "title": "Contract Types",
+          "items": [
+            "PKWT (Fixed-Term Contract): Used for new teachers and short-term roles.",
+            "PKWTT (Permanent Contract): Used for long-term teachers after successful probation."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Salary and benefits packages are competitive and include health insurance, housing allowances, and professional development opportunities."
+        },
+        {
+          "type": "process",
+          "title": "First Day Onboarding",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Welcome Meeting",
+              "desc": "Introduction to leadership team and overview of school structure."
+            },
+            {
+              "n": 2,
+              "title": "Campus Tour",
+              "desc": "Walkthrough of campus facilities and safety features."
+            },
+            {
+              "n": 3,
+              "title": "IT Setup",
+              "desc": "Issue of school devices and creation of school email accounts."
+            },
+            {
+              "n": 4,
+              "title": "Key Policies Briefing",
+              "desc": "Overview of safeguarding, code of conduct, and attendance procedures."
+            }
+          ]
         }
       ]
     },
     {
       "id": "12.5",
-      "title": "Code of Conduct",
+      "title": "Induction Program For New Teachers",
       "content": [
         {
           "type": "text",
-          "text": "All staff are expected to uphold high standards of professional and ethical behavior, serving as positive role models for students. Breaches of the code may result in disciplinary action."
+          "text": "All new teachers participate in a structured induction program throughout their first year."
+        },
+        {
+          "type": "list",
+          "title": "Structured Support Schedule",
+          "items": [
+            "Term 1: Weekly check-ins with mentor.",
+            "Term 2: Fortnightly check-ins.",
+            "Term 3: Monthly check-ins."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Core Induction Modules",
+          "items": [
+            "School Culture and Mission",
+            "Cambridge Curriculum Training",
+            "Indonesian Compliance and Context",
+            "Safeguarding and Child Protection",
+            "EAL and Inclusion",
+            "Teaching and Learning Pedagogy",
+            "Assessment and Data Use",
+            "Pastoral Care and Wellbeing"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Induction completion is reviewed at the end of the probationary period."
+        }
+      ]
+    },
+    {
+      "id": "12.6",
+      "title": "Professional Development Opportunities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal offers a variety of professional development opportunities to support staff growth."
+        },
+        {
+          "type": "list",
+          "title": "Types of Professional Development",
+          "items": [
+            "DTP (Development of Teaching Proficiency) Programme.",
+            "Cambridge International Education Training.",
+            "In-School Professional Learning.",
+            "External Conferences and Workshops.",
+            "Higher Education and Certifications.",
+            "Online Learning and Self-Directed PD."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.7",
+      "title": "Annual Appraisal Cycle",
+      "content": [
+        {
+          "type": "text",
+          "text": "The annual appraisal cycle includes multiple stages to ensure comprehensive evaluation."
+        },
+        {
+          "type": "list",
+          "title": "Appraisal Cycle Stages",
+          "items": [
+            "Orientation: Briefing on appraisal process.",
+            "Goal Setting: Co-develop professional and student learning goals.",
+            "Mid-Year Review: Progress check and evidence review.",
+            "Formal Observations: At least two formal observations.",
+            "Final Appraisal Meeting: Summative discussion and goal setting for next year."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.8",
+      "title": "Goal Setting And Growth Plans",
+      "content": [
+        {
+          "type": "text",
+          "text": "Teachers set SMART goals for professional growth and student learning."
+        },
+        {
+          "type": "list",
+          "title": "Goal Categories",
+          "items": [
+            "Professional Goals: Focused on improving specific instructional practices.",
+            "Student Learning Goals: Measurable improvement in student outcomes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.9",
+      "title": "Coaching And Mentoring",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal emphasizes coaching and mentoring to support teacher development."
+        },
+        {
+          "type": "list",
+          "title": "Mentoring for New Teachers",
+          "items": [
+            "Regular meetings with mentors for guidance and support.",
+            "Facilitation of observations and feedback cycles."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Peer Coaching for Experienced Teachers",
+          "items": [
+            "Collaborative relationships focused on refining specific practices.",
+            "Non-evaluative coaching cycles."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.10",
+      "title": "Staff Wellbeing And Work-Life Balance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal is committed to staff wellbeing and work-life balance."
+        },
+        {
+          "type": "list",
+          "title": "Workload Management Strategies",
+          "items": [
+            "Reasonable teaching loads and dedicated planning time.",
+            "Respect for personal time and encouragement to use leave."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Mental Health Support",
+          "items": [
+            "Access to employee assistance programs.",
+            "Wellbeing check-ins by leadership."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.11",
+      "title": "Performance Concerns And Improvement Plans",
+      "content": [
+        {
+          "type": "text",
+          "text": "A structured approach to address performance concerns is in place."
+        },
+        {
+          "type": "list",
+          "title": "Identifying Performance Concerns",
+          "items": [
+            "Consistent low appraisal ratings.",
+            "Student complaints or poor outcomes."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Performance Improvement Plan (PIP)",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Initial Response",
+              "desc": "Informal conversation to discuss concerns."
+            },
+            {
+              "n": 2,
+              "title": "PIP Development",
+              "desc": "Collaboratively develop a plan with specific goals and support."
+            },
+            {
+              "n": 3,
+              "title": "Monitoring Progress",
+              "desc": "Regular check-ins to assess improvement."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.12",
+      "title": "Staff Retention And Exit Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal implements strategies to enhance staff retention and manage exits."
+        },
+        {
+          "type": "list",
+          "title": "Retention Strategies",
+          "items": [
+            "Competitive compensation and benefits.",
+            "Positive school culture and supportive leadership."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Exit Interview Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Conduct Interview",
+              "desc": "HR or Principal conducts the exit interview in a private setting."
+            },
+            {
+              "n": 2,
+              "title": "Key Questions",
+              "desc": "Explore reasons for leaving and suggestions for improvement."
+            },
+            {
+              "n": 3,
+              "title": "Using Feedback",
+              "desc": "Aggregate data to identify patterns and develop action plans."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.13",
+      "title": "Key Evidence And Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Comprehensive evidence of effective staff lifecycle management is maintained for accreditation."
+        },
+        {
+          "type": "list",
+          "title": "Key Documents and Artifacts",
+          "items": [
+            "Workforce planning documents.",
+            "Job descriptions.",
+            "Recruitment records.",
+            "Employment contracts.",
+            "Induction materials.",
+            "Appraisal documents."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12.14",
+      "title": "Roles And Responsibilities",
+      "content": [
+        {
+          "type": "text",
+          "text": "Clear delineation of roles ensures accountability and quality in staff lifecycle management."
+        },
+        {
+          "type": "list",
+          "title": "Principal Responsibilities",
+          "items": [
+            "Conduct annual staffing review.",
+            "Approve job postings and recruitment strategies.",
+            "Monitor induction progress."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "HR Manager Responsibilities",
+          "items": [
+            "Manage day-to-day HR operations.",
+            "Coordinate onboarding and induction.",
+            "Process payroll and benefits."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Subject Leaders Responsibilities",
+          "items": [
+            "Lead department's instructional quality.",
+            "Conduct formal appraisals.",
+            "Identify PD needs."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Mentors Responsibilities",
+          "items": [
+            "Support new teachers through induction.",
+            "Facilitate observations and feedback.",
+            "Advocate for mentee's needs."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "General Manager Responsibilities",
+          "items": [
+            "Ensure consistency across schools.",
+            "Monitor implementation of appraisal programs.",
+            "Support network-wide PD events."
+          ]
         }
       ]
     }

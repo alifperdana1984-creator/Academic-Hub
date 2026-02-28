@@ -59,9 +59,15 @@
         {
           "type": "table",
           "title": "Key Definitions",
-          "headers": ["Term", "Definition"],
+          "headers": [
+            "Term",
+            "Definition"
+          ],
           "rows": [
-            ["Child / Young Person", "Any individual under 18 years of age."],
+            [
+              "Child / Young Person",
+              "Any individual under 18 years of age."
+            ],
             [
               "Safeguarding",
               "Actions to protect children from harm and promote safe development."
@@ -119,28 +125,46 @@
           "type": "roles",
           "roles": [
             {
-              "title": "Principal",
+              "title": "Board of Trustees (Eduversal Foundation)",
               "resp": [
-                "Lead school safeguarding culture and operational accountability.",
-                "Ensure all staff understand reporting pathways and boundaries.",
-                "Oversee allegations against staff with HR and legal support."
+                "Approve network-wide Safeguarding Policy and review annually.",
+                "Ensure adequate resources for safeguarding.",
+                "Receive annual safeguarding report from Director of Education."
+              ]
+            },
+            {
+              "title": "Local Yayasan (Partner School Foundation)",
+              "resp": [
+                "Ensure school operating licenses include child protection compliance.",
+                "Support Principal in implementing safeguarding measures."
+              ]
+            },
+            {
+              "title": "General Manager (GM) / Foundation Representative",
+              "resp": [
+                "Overall accountability for safeguarding at school level.",
+                "Ensure policy is implemented and staff trained."
+              ]
+            },
+            {
+              "title": "Principal (Kepala Sekolah)",
+              "resp": [
+                "Create and maintain a culture of safety and respect.",
+                "Support DSL in case management."
               ]
             },
             {
               "title": "Designated Safeguarding Lead (DSL)",
               "resp": [
                 "Receive, assess, and manage all safeguarding concerns.",
-                "Maintain confidential records and referral decisions.",
-                "Coordinate support plans, external referrals, and case follow-up.",
-                "Lead training, induction controls, and annual safeguarding review."
+                "Coordinate support plans and external referrals."
               ]
             },
             {
               "title": "All Staff, Volunteers, and Contractors",
               "resp": [
                 "Complete required safeguarding training and follow the code of conduct.",
-                "Report concerns immediately; do not investigate independently.",
-                "Model professional boundaries and child-centered behavior at all times."
+                "Report concerns immediately."
               ]
             }
           ]
@@ -162,14 +186,14 @@
             "Job descriptions clearly state safeguarding responsibilities.",
             "Application forms require full employment history and disclosure of any past concerns.",
             "Interviews include values-based questions related to child protection.",
-            "At least two professional references are checked, including a specific question about suitability to work with children.",
-            "Mandatory police background checks (SKCK for locals, international checks for expats) are completed before employment begins."
+            "At least two professional references are checked.",
+            "Mandatory police background checks are completed before employment begins."
           ]
         },
         {
           "type": "info",
           "label": "Single Central Register (SCR)",
-          "text": "A comprehensive, live document that tracks all safeguarding checks for all adults working in the school."
+          "text": "A comprehensive document that tracks all safeguarding checks for all adults working in the school."
         }
       ]
     },
@@ -180,15 +204,27 @@
         {
           "type": "table",
           "title": "Training Matrix",
-          "headers": ["Audience", "Training", "Frequency"],
+          "headers": [
+            "Audience",
+            "Training",
+            "Frequency"
+          ],
           "rows": [
-            ["All Staff", "Basic Safeguarding & Code of Conduct", "Annually"],
+            [
+              "All Staff",
+              "Basic Safeguarding & Code of Conduct",
+              "Annually"
+            ],
             [
               "DSL/Leadership",
               "Advanced Safeguarding Leadership",
               "Every 2 years"
             ],
-            ["New Staff", "Full Induction Training", "On hiring"]
+            [
+              "New Staff",
+              "Full Induction Training",
+              "On hiring"
+            ]
           ]
         }
       ]
@@ -229,7 +265,7 @@
             {
               "n": 4,
               "title": "Action",
-              "desc": "The DSL assesses the information and decides on the next steps, which may include a referral to external agencies (e.g., social services, police)."
+              "desc": "The DSL assesses the information and decides on the next steps."
             }
           ]
         }
@@ -242,9 +278,9 @@
         {
           "type": "list",
           "items": [
-            "Anti-Bullying Policy: A zero-tolerance approach to all forms of bullying, including cyberbullying. Clear procedures for reporting, investigation, and resolution.",
+            "Anti-Bullying Policy: A zero-tolerance approach to all forms of bullying, including cyberbullying.",
             "Online Safety: School network filters, digital citizenship education, and clear policies on the use of technology.",
-            "Student Wellbeing: Proactive programs to promote mental health, resilience, and positive relationships. Counselors are available for student support."
+            "Student Wellbeing: Proactive programs to promote mental health, resilience, and positive relationships."
           ]
         }
       ]
@@ -255,7 +291,7 @@
       "content": [
         {
           "type": "text",
-          "text": "All safeguarding records are kept securely and confidentially in a dedicated system, separate from academic files. Access is strictly limited to the safeguarding team. Information is shared only on a need-to-know basis to protect the child."
+          "text": "All safeguarding records are kept securely and confidentially in a dedicated system, separate from academic files. Access is strictly limited to the safeguarding team."
         }
       ]
     }

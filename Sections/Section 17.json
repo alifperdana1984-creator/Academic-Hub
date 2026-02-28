@@ -5,157 +5,395 @@
   "subsections": [
     {
       "id": "17.1",
-      "title": "Purpose",
+      "title": "Introduction to Quality Assurance",
       "content": [
         {
           "type": "text",
-          "text": "To establish a robust and cyclical Quality Assurance (QA) framework that ensures all Eduversal Partner Schools consistently meet high standards of educational delivery, comply with regulatory and accreditation requirements, and foster a culture of continuous, evidence-based improvement."
+          "text": "Quality Assurance (QA) refers to the systematic processes used to monitor, evaluate, and enhance the effectiveness of educational provision. In the context of Eduversal Partner Schools, quality assurance encompasses evaluation, monitoring, improvement, and accountability."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Evaluation: Evidence-based assessment of teaching, learning, curriculum, assessment, and operational effectiveness.",
+            "Monitoring: Ongoing tracking of key performance indicators, student outcomes, and program implementation.",
+            "Improvement: Action-oriented responses to identified gaps, informed by data and stakeholder feedback.",
+            "Accountability: Transparent reporting to stakeholders regarding school performance and progress toward goals."
+          ]
         }
       ]
     },
     {
       "id": "17.2",
-      "title": "The QA Framework: A Multi-Layered Approach",
+      "title": "The Eduversal Quality Management System (QMS)",
       "content": [
         {
           "type": "text",
-          "text": "Our QA framework integrates internal self-assessment with external validation, ensuring both accountability and support. It is built on the P.I.E. model (Plan, Implement, Evaluate) described in Section 4."
+          "text": "The Eduversal Quality Management System integrates multiple evaluation tools and platforms to provide comprehensive insights into school performance."
         },
         {
-          "type": "numbered",
+          "type": "list",
           "items": [
-            {
-              "title": "Layer 1: School-Based Self-Review (Internal)",
-              "points": [
-                "Annual School Self-Evaluation (SSE).",
-                "Regular lesson observations and work scrutiny by school leadership.",
-                "Departmental reviews and data analysis."
-              ]
-            },
-            {
-              "title": "Layer 2: Eduversal Network Review (Internal-External)",
-              "points": [
-                "Annual 'Supervisi' (Supervision) visits from the Eduversal Head Office.",
-                "Peer reviews and inter-school moderation.",
-                "Centralized analysis of network-wide data (e.g., EASE results)."
-              ]
-            },
-            {
-              "title": "Layer 3: Formal External Accreditation (External)",
-              "points": [
-                "National Accreditation (BAN-S/M).",
-                "International Accreditation (CIS, WASC).",
-                "Cambridge International compliance visits."
-              ]
-            }
+            "EASE: Standardized assessments measuring student achievement in Cambridge and National curriculum subjects.",
+            "EduNav Platform: Digital quality management system providing dashboards, KPI tracking, and evidence repositories.",
+            "DTP: Professional development program supporting continuous teacher growth.",
+            "Appraisal Program: Systematic evaluation of teacher and school performance against defined standards.",
+            "School Improvement Plan (SIP): Strategic planning tool linking goals to actions and monitoring progress."
           ]
         }
       ]
     },
     {
       "id": "17.3",
-      "title": "School Self-Evaluation (SSE) Process",
+      "title": "Internal Audit Schedule and Processes",
       "content": [
         {
           "type": "text",
-          "text": "The SSE is an annual, reflective process led by the school's leadership team to honestly assess performance against all Eduversal Academic Standards."
+          "text": "The Principal oversees implementation of a comprehensive QA calendar covering all aspects of school operations."
         },
         {
           "type": "process",
-          "title": "Annual SSE Cycle",
-          "purpose": "To identify strengths and prioritize areas for improvement for the upcoming academic year.",
+          "title": "Annual Quality Assurance Calendar",
           "steps": [
-            { "n": 1, "title": "Data Gathering (Term 3)", "desc": "Collate all relevant data from the year: exam results, EASE data, survey feedback, observation summaries, attendance records." },
-            { "n": 2, "title": "Departmental Review (Term 3)", "desc": "Heads of Department lead their teams in a SWOT analysis based on the data, focusing on their subject area." },
-            { "n": 3, "title": "Leadership Analysis (Term 4)", "desc": "The School Improvement Committee (SIC) analyzes all departmental reviews and whole-school data to identify overarching themes." },
-            { "n": 4, "title": "SER & SIP Creation (Term 4)", "desc": "A formal School Evaluation Report (SER) is written, which directly informs the creation of the next School Improvement Plan (SIP). See Section 4." }
+            {
+              "n": 1,
+              "title": "Term 1 (Semester 1 - August to December)",
+              "desc": "Includes SIP review, EASE baseline assessments, curriculum alignment checks, and mid-year assessments."
+            },
+            {
+              "n": 2,
+              "title": "Term 2 (Semester 2 - January to June)",
+              "desc": "Includes goal-setting, Cambridge examinations, accreditation evidence review, and annual self-evaluation report."
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "Internal audits structured around five key domains aligned with CIS/WASC standards.",
+            "Evidence collection through document review, observations, interviews, and data analysis."
           ]
         }
       ]
     },
     {
       "id": "17.4",
-      "title": "Eduversal 'Supervisi' (Supervision) Visits",
+      "title": "Lesson Study and Professional Learning Communities (PLCs)",
       "content": [
         {
           "type": "text",
-          "text": "The annual 'Supervisi' visit by the Eduversal Head Office team serves as a 'critical friend' review to validate the school's self-evaluation and provide targeted support."
+          "text": "Lesson study is a collaborative professional development approach where teachers jointly plan, observe, analyze, and refine lessons to improve teaching effectiveness."
         },
         {
-          "type": "table",
-          "title": "Supervisi Visit Protocol",
-          "headers": ["Phase", "Activities"],
-          "rows": [
-            ["Pre-Visit", "School submits its latest SER, SIP, and key data dashboards to the Supervisi team. A schedule is co-created."],
-            ["On-Site (2-3 days)", "Lesson observations, learning walks, interviews with Principal, HODs, teachers, students, and parents. Review of physical evidence (student work, policy documents)."],
-            ["Post-Visit", "Verbal feedback to the leadership team on the final day. A formal written report with commendations and prioritized recommendations is delivered within two weeks."]
+          "type": "process",
+          "title": "Lesson Study Process",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Collaborative Planning",
+              "desc": "Identify learning goals and develop lesson plans."
+            },
+            {
+              "n": 2,
+              "title": "Research Lesson",
+              "desc": "One teacher teaches while others observe."
+            },
+            {
+              "n": 3,
+              "title": "Post-Lesson Discussion",
+              "desc": "Reflect on the lesson and analyze student learning outcomes."
+            },
+            {
+              "n": 4,
+              "title": "Revision and Re-Teaching",
+              "desc": "Revise lesson based on insights and re-teach if necessary."
+            },
+            {
+              "n": 5,
+              "title": "Reflection and Dissemination",
+              "desc": "Prepare summary of learning and share insights."
+            }
           ]
         },
         {
-          "type": "note",
-          "text": "The recommendations from the Supervisi report must be incorporated into the school's active School Improvement Plan."
+          "type": "text",
+          "text": "PLCs are collaborative teams of educators focused on continuous improvement of teaching and student learning through inquiry and data analysis."
         }
       ]
     },
     {
       "id": "17.5",
-      "title": "Lesson Observation & Work Scrutiny",
+      "title": "Assessment Moderation and Standardization",
       "content": [
         {
           "type": "text",
-          "text": "Monitoring the quality of teaching and learning is the most critical QA function. This is done through a balanced and developmental observation and feedback cycle."
+          "text": "Moderation ensures that assessment judgments are fair, accurate, and consistent across classes and teachers."
         },
         {
           "type": "list",
-          "title": "Key Monitoring Activities",
           "items": [
-            "Formal Lesson Observations: At least one per teacher per semester, part of the formal appraisal process (see Section 12). Uses the Eduversal Teaching Standards (ETS) rubric.",
-            "Learning Walks/Walkthroughs: Frequent (weekly), short (5-10 minute), informal visits to multiple classrooms by leadership to gauge school-wide trends and climate. Feedback is general and non-judgmental.",
-            "Work Scrutiny ('Book Looks'): Termly review of a sample of student notebooks/portfolios by HODs and leadership. Focus is on curriculum coverage, quality of marking/feedback, and evidence of student progress over time."
+            "Pre-Assessment Moderation: Collaborative development of common assessment tasks.",
+            "During-Assessment Moderation: Blind double-marking and ongoing checks.",
+            "Post-Assessment Moderation: Review marked work and analyze grade distributions."
           ]
-        },
-        {
-          "type": "info",
-          "label": "Cross-Reference",
-          "text": "The standards for teaching and feedback are defined in Section 7: Teaching Quality and Practice."
         }
       ]
     },
     {
       "id": "17.6",
-      "title": "Stakeholder Feedback Integration",
+      "title": "Benchmarking and Data Analysis",
       "content": [
         {
           "type": "text",
-          "text": "The voices of students, parents, and staff are essential data points for quality assurance."
+          "text": "Benchmarking involves monitoring cohort progress and analyzing trends in key subject areas."
         },
         {
           "type": "list",
           "items": [
-            "Annual Surveys: Formal surveys are administered to all three stakeholder groups annually. Results are disaggregated and analyzed for trends.",
-            "Parent-Teacher Conferences (PTCs): Formal opportunities for feedback on individual student progress and general school matters.",
-            "Open Forums: 'Principal's Coffee Mornings' and other open-door events provide informal channels for feedback.",
-            "Student Council: A formal body for channeling student voice to school leadership."
+            "Internal Benchmarking: Longitudinal tracking and cross-class comparisons.",
+            "External Benchmarking: Cambridge assessments and EASE results."
           ]
         }
       ]
     },
     {
       "id": "17.7",
-      "title": "Compliance Alignment",
+      "title": "School Self-Evaluation Process",
       "content": [
         {
           "type": "text",
-          "text": "This section aligns with:"
+          "text": "The SSER is a comprehensive document that evaluates school performance against CIS/WASC standards and SIP goals."
+        },
+        {
+          "type": "process",
+          "title": "Self-Evaluation Process and Timeline",
+          "steps": [
+            {
+              "n": 1,
+              "title": "August-September",
+              "desc": "Leadership team reviews SSER template and departments conduct self-evaluations."
+            },
+            {
+              "n": 2,
+              "title": "October-November",
+              "desc": "Draft sections compiled and stakeholder consultations conducted."
+            },
+            {
+              "n": 3,
+              "title": "December",
+              "desc": "Final SSER drafted and presented to Board for review."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.8",
+      "title": "External Quality Assurance: Eduversal School Appraisal",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Eduversal School Appraisal is a comprehensive external review conducted annually to evaluate overall institutional performance."
         },
         {
           "type": "list",
           "items": [
-            "CIS Domain H: Continuous School Improvement.",
-            "WASC Category A: Organization: Vision and Purpose, Governance, Leadership, Staff, and Resources.",
-            "Indonesian National Standard of Education (SNP) - Standard Pengelolaan (Management Standard).",
-            "ISO 9001:2015 principles of Quality Management Systems (Plan-Do-Check-Act)."
+            "Pre-Appraisal Preparation: Evidence submission and logistics coordination.",
+            "During the Appraisal Visit: Subject teacher appraisals and school meetings.",
+            "Post-Appraisal Follow-Up: Written report detailing findings and action planning."
           ]
+        }
+      ]
+    },
+    {
+      "id": "17.9",
+      "title": "Continuous Improvement Cycles",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools use the PDSA cycle as a framework for continuous improvement."
+        },
+        {
+          "type": "process",
+          "title": "PDSA Methodology",
+          "steps": [
+            {
+              "n": 1,
+              "title": "Plan",
+              "desc": "Identify a problem and develop a hypothesis."
+            },
+            {
+              "n": 2,
+              "title": "Do",
+              "desc": "Implement the pilot and collect data."
+            },
+            {
+              "n": 3,
+              "title": "Study",
+              "desc": "Analyze the data collected."
+            },
+            {
+              "n": 4,
+              "title": "Act",
+              "desc": "Decide on next steps based on findings."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.10",
+      "title": "Roles and Responsibilities in Quality Assurance",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Principal holds ultimate accountability for quality assurance and continuous improvement."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Principal: Champion a culture of continuous improvement and oversee QA calendar.",
+            "Vice Principal: Coordinate logistics of audits and support Principal in data analysis.",
+            "Subject Leaders: Facilitate departmental moderation and ensure curriculum alignment.",
+            "Teachers: Engage in self-reflection and participate in QA processes.",
+            "Board of Trustees: Review annual SSER and monitor compliance with standards."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.11",
+      "title": "Quality Assurance in Specific Operational Areas",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quality assurance processes are applied across various operational areas including teaching, curriculum, assessment, safeguarding, and financial management."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Teaching Quality Assurance: Observation cycles and support for struggling teachers.",
+            "Curriculum Quality Assurance: Alignment checks and curriculum review cycles.",
+            "Assessment Quality Assurance: Design quality checks and post-assessment reviews.",
+            "Safeguarding Quality Assurance: Annual audits and staff training compliance.",
+            "Operational and Financial Quality Assurance: Budget monitoring and compliance audits."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.12",
+      "title": "Reporting Quality Assurance Findings",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quality assurance findings are reported to various stakeholders including the Board, leadership team, and teachers."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Internal Reporting: Quarterly Board meetings and weekly leadership updates.",
+            "External Reporting: Quarterly reports to Eduversal management and annual reports to the Ministry of Education."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.13",
+      "title": "Building a Culture of Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Leadership practices that foster improvement include modeling reflective practice and celebrating learning."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Professional Development: Needs-based and embedded in daily practice.",
+            "Student Voice: Engaging students in feedback and improvement initiatives."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.14",
+      "title": "Quality Assurance and Accreditation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quality assurance processes are designed to generate evidence for accreditation."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Alignment with CIS/WASC Standards: Evidence collection and self-study preparation.",
+            "Accreditation Visit Preparation: Organizing evidence and stakeholder preparation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.15",
+      "title": "Compliance Alignment Summary",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quality assurance processes align with various standards including CIS, WASC, and Indonesian regulatory compliance."
+        },
+        {
+          "type": "list",
+          "items": [
+            "CIS/WASC Alignment: Curriculum review and evaluation.",
+            "Cambridge International Alignment: Regular review of center practices.",
+            "Indonesian Regulatory Compliance: Monitoring of curriculum content and teaching processes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.16",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Key evidence should be systematically collected and organized for internal review, external appraisal, and accreditation processes."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Strategic Planning and Monitoring: Current strategic plan, annual SIP, and KPI targets.",
+            "Quality Assurance Processes: Annual QA calendar and internal audit reports.",
+            "Teaching Quality: Observation schedules and lesson study documentation.",
+            "Curriculum and Assessment: Curriculum maps and assessment calendars.",
+            "Student Learning Data: EASE reports and cohort progress tracking."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.17",
+      "title": "Templates and Tools",
+      "content": [
+        {
+          "type": "text",
+          "text": "Templates and tools are provided to support the implementation of quality assurance processes."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Internal Audit Protocol Template: For planning and documenting audits.",
+            "Data Conversation Protocol: For structured discussions on data analysis.",
+            "PDSA Cycle Documentation Template: For tracking improvement initiatives."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17.18",
+      "title": "Conclusion",
+      "content": [
+        {
+          "type": "text",
+          "text": "Quality assurance and internal review are means to improve student learning, development, and wellbeing. An effective QA system is comprehensive, systematic, evidence-based, collaborative, action-oriented, and sustainable."
         }
       ]
     }

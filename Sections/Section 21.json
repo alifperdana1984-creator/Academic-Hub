@@ -5,102 +5,661 @@
   "subsections": [
     {
       "id": "21.1",
-      "title": "Purpose and Vision",
+      "title": "Digital Learning Vision and Strategy",
       "content": [
         {
           "type": "text",
-          "text": "To leverage technology as a transformative tool that enhances teaching and learning, fosters innovation, and prepares students for a digital future, while ensuring a safe, secure, and equitable digital environment."
+          "text": "Eduversal Partner Schools are committed to leveraging technology to enhance teaching and learning, prepare students for success in a digital world, and develop responsible digital citizens. Technology serves as a tool to support pedagogical goals, not as an end in itself."
+        },
+        {
+          "type": "list",
+          "title": "Strategic Objectives",
+          "items": [
+            "Teaching and Learning Enhancement: Integrate technology meaningfully into curriculum delivery to personalize learning and develop 21st-century skills.",
+            "Infrastructure Development: Maintain robust, reliable, and secure IT infrastructure.",
+            "Digital Literacy and Citizenship: Develop students' digital literacy skills and responsible technology use.",
+            "Staff Professional Development: Build staff capacity to integrate technology effectively through ongoing professional development.",
+            "Data Security and Privacy: Protect data through robust cybersecurity measures and compliance with regulations."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Digital learning initiatives are embedded within the School Improvement Plan (SIP) and monitored through EduNav dashboards."
         }
       ]
     },
     {
       "id": "21.2",
-      "title": "Infrastructure and Access",
+      "title": "EduNav Platform: School Information System and Learning Management System",
       "content": [
         {
+          "type": "text",
+          "text": "EduNav is the integrated School Information System (SIS) and Learning Management System (LMS) deployed across all Eduversal Partner Schools."
+        },
+        {
           "type": "list",
-          "title": "Device Policy",
+          "title": "Core Functions",
           "items": [
-            "1:1 Device Program: Students in Grades 7-12 are required to bring a personal laptop or tablet (BYOD) meeting minimum specifications.",
-            "School-Provided Devices: Computer labs and tablet carts are available for Primary students and specialized subjects (e.g., Computer Science, Design).",
-            "Equity of Access: The school maintains a loaner pool for students with financial need or temporary device issues."
+            "Student Information System (SIS) Functions: Enrollment management, attendance tracking, gradebook management, scheduling, parent communication, and administrative reporting.",
+            "Learning Management System (LMS) Functions: Course content organization, assignment management, online quizzes, discussion forums, resource library, and communication tools."
           ]
         },
         {
           "type": "list",
-          "title": "Network and Connectivity",
+          "title": "User Access and Roles",
           "items": [
-            "High-speed internet access is available throughout the campus.",
-            "Secure Wi-Fi networks are segregated for Staff, Students, and Guests.",
-            "Content filtering is implemented to block inappropriate or harmful material."
+            "Students: Access to personal academic records and course materials.",
+            "Teachers: Access to class rosters and course management tools.",
+            "Parents/Guardians: Access to their child's academic progress and communication.",
+            "School Administrators: Full access to administrative functions.",
+            "Eduversal Central: Oversight access for quality assurance."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Teacher Responsibilities in EduNav",
+          "items": [
+            "Maintain current and organized course content.",
+            "Provide clear directions and update the gradebook regularly.",
+            "Encourage student communication and report technical issues."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Data Quality Assurance",
+          "items": [
+            "Regular audits and quality checks at the beginning, mid-term, and end of the term."
           ]
         }
       ]
     },
     {
       "id": "21.3",
-      "title": "Digital Learning Ecosystem",
+      "title": "IT Infrastructure and Device Management",
       "content": [
         {
-          "type": "table",
-          "title": "Core Platforms",
-          "headers": ["Platform", "Function", "Users"],
-          "rows": [
-            ["EduNav", "School Information System (SIS) - Grades, Attendance, Schedule", "All Stakeholders"],
-            ["Google Workspace / Microsoft 365", "Productivity, Collaboration, Email", "Staff & Students"],
-            ["Learning Management System (LMS)", "Course content, assignments, digital assessment (e.g., Google Classroom, Canvas)", "Teachers & Students"],
-            ["EASE Platform", "Standardized assessment and data analysis", "Academic Team"]
+          "type": "text",
+          "text": "Schools maintain robust network infrastructure to support digital learning."
+        },
+        {
+          "type": "list",
+          "title": "Network Infrastructure",
+          "items": [
+            "Sufficient bandwidth for simultaneous use.",
+            "Content filtering at the network level.",
+            "Secure authentication for authorized users."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Classroom Technology",
+          "items": [
+            "Interactive Flat Panels for engaging instruction.",
+            "Projectors and display equipment where necessary."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Device Ecosystem",
+          "items": [
+            "iPads and Chromebooks for student learning.",
+            "Teacher devices for classroom management."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Mobile Device Management (MDM)",
+          "items": [
+            "Enrollment in MDM systems for device management.",
+            "Monitoring and security policy enforcement."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Device Care and Responsibilities",
+          "items": [
+            "Students must handle devices with care and report issues.",
+            "Teachers must monitor student device use during lessons."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "BYOD Policy",
+          "items": [
+            "Personal devices may be permitted with parent consent.",
+            "Must comply with school network security requirements."
           ]
         }
       ]
     },
     {
       "id": "21.4",
-      "title": "Digital Citizenship and Acceptable Use",
+      "title": "Acceptable Use Policy (AUP)",
       "content": [
         {
           "type": "text",
-          "text": "All users must adhere to the Acceptable Use Policy (AUP). Digital citizenship education is integrated into the curriculum."
+          "text": "The AUP establishes guidelines for appropriate use of school technology resources."
         },
         {
           "type": "list",
-          "title": "Key Expectations",
+          "title": "Student Acceptable Use Policy",
           "items": [
-            "Respect: Use technology to communicate kindly and constructively.",
-            "Privacy: Do not share personal information or passwords.",
-            "Integrity: Respect copyright and intellectual property; avoid plagiarism.",
-            "Balance: Manage screen time effectively for health and wellbeing."
+            "Permitted uses include educational activities and approved research.",
+            "Prohibited uses include accessing inappropriate content and cyberbullying."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Staff Acceptable Use Policy",
+          "items": [
+            "Technology use should support teaching and learning.",
+            "Prohibited uses include sharing student information through unauthorized channels."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Parent/Guardian Access and Responsibilities",
+          "items": [
+            "Use credentials securely and access only information related to their child.",
+            "Report concerns about technology safety promptly."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "AUP Agreement Process",
+          "items": [
+            "Annual agreement signed by students and parents.",
+            "AUP published in Student and Parent Handbook."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Consequences for AUP Violations",
+          "items": [
+            "Minor violations may result in verbal warnings.",
+            "Serious violations may lead to suspension or expulsion."
           ]
         }
       ]
     },
     {
       "id": "21.5",
-      "title": "Data Privacy and Security",
+      "title": "Internet Safety and Content Filtering",
       "content": [
         {
           "type": "text",
-          "text": "The school is committed to protecting the personal data of students and staff in compliance with Indonesian Personal Data Protection (PDP) laws."
+          "text": "Schools implement multi-layer content filtering to protect students from harmful content."
         },
         {
           "type": "list",
+          "title": "Content Filtering Strategy",
           "items": [
-            "Data Collection: Only necessary data is collected for educational and administrative purposes.",
-            "Data Storage: Digital records are stored on secure, encrypted servers.",
-            "Access Control: Access to sensitive data is restricted based on user roles.",
-            "Incident Reporting: Any data breach must be reported immediately to the IT Department."
+            "Network-level filtering for all internet traffic.",
+            "Device-level filtering through MDM policies."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Monitoring and Reporting",
+          "items": [
+            "Web browsing history logged for managed devices.",
+            "Automated alerts for concerning search terms."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Cyberbullying Prevention and Response",
+          "items": [
+            "Digital citizenship education in curriculum.",
+            "Clear expectations in AUP."
           ]
         }
       ]
     },
     {
       "id": "21.6",
-      "title": "Technical Support",
+      "title": "Digital Citizenship Education",
       "content": [
         {
-          "type": "info",
-          "label": "IT Helpdesk",
-          "text": "The IT Support team is available during school hours to assist with network issues, account access, and basic hardware troubleshooting. Requests can be submitted via the IT Ticket System or in person at the IT Office."
+          "type": "text",
+          "text": "Digital citizenship is taught explicitly and integrated across subjects."
+        },
+        {
+          "type": "list",
+          "title": "Key Topics",
+          "items": [
+            "Responsible use of technology.",
+            "Protecting personal information and privacy.",
+            "Recognizing and reporting online dangers."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Age-Appropriate Instruction",
+          "items": [
+            "Primary: Basic internet safety and kind communication.",
+            "Lower Secondary: Social media awareness and cyberbullying recognition.",
+            "Upper Secondary: Advanced digital literacy and ethical use of AI."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Parent Education",
+          "items": [
+            "Information sessions on online safety.",
+            "Resources on parental controls and monitoring."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.7",
+      "title": "Cybersecurity Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools implement comprehensive cybersecurity measures aligned with regulations."
+        },
+        {
+          "type": "list",
+          "title": "Security Framework",
+          "items": [
+            "Preventive controls including firewalls and antivirus protection.",
+            "Detective controls such as network monitoring.",
+            "Corrective controls including incident response procedures."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Password and Account Security",
+          "items": [
+            "Minimum password requirements and regular changes.",
+            "Unique accounts for each user."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Data Backup and Recovery",
+          "items": [
+            "Daily automated backups of critical systems.",
+            "Documented recovery procedures."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Incident Response",
+          "items": [
+            "Detection and initial assessment.",
+            "Containment and notification to relevant parties."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.8",
+      "title": "Artificial Intelligence Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "Eduversal recognizes AI as a tool that can enhance teaching and learning when used ethically."
+        },
+        {
+          "type": "list",
+          "title": "Permitted Uses of AI",
+          "items": [
+            "Lesson planning assistance and resource creation.",
+            "Research assistance and information synthesis for students."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Prohibited Uses of AI",
+          "items": [
+            "Submitting AI-generated work as own without disclosure.",
+            "Using AI during assessments unless explicitly permitted."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Disclosure Requirements",
+          "items": [
+            "Students must acknowledge AI assistance in their work.",
+            "All final work must reflect the student's own understanding."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Teaching About AI",
+          "items": [
+            "Professional development on AI integration for teachers.",
+            "Age-appropriate instruction for students on AI."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.9",
+      "title": "Educational Technology Applications",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools utilize vetted educational applications that support curriculum delivery."
+        },
+        {
+          "type": "list",
+          "title": "Approved Educational Applications",
+          "items": [
+            "Edpuzzle for video lessons.",
+            "Google Docs for online collaboration."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Application Selection Criteria",
+          "items": [
+            "Educational value and alignment with curriculum objectives.",
+            "Data privacy and security compliance."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Application Approval Process",
+          "steps": [
+            "Needs Assessment: Identify educational need.",
+            "Market Research: Evaluate available options.",
+            "Security Review: Data protection assessment.",
+            "Pilot Testing: Trial with limited group.",
+            "Financial Approval: Budget authorization.",
+            "Contract Review: Legal review of terms.",
+            "Implementation: Deployment and training.",
+            "Evaluation: Ongoing assessment of effectiveness."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.10",
+      "title": "Social Media Policy",
+      "content": [
+        {
+          "type": "text",
+          "text": "This policy applies to all community members using social media."
+        },
+        {
+          "type": "list",
+          "title": "Student Use of Social Media",
+          "items": [
+            "Maintain respectful conduct and protect privacy.",
+            "Avoid using social media for academic dishonesty."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Staff Use of Social Media",
+          "items": [
+            "Maintain professionalism and protect student confidentiality.",
+            "Avoid forming personal relationships with students."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Official School Accounts",
+          "items": [
+            "Only authorized staff should manage official accounts.",
+            "Content must align with school values and be approved before posting."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.11",
+      "title": "Online and Blended Learning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Schools integrate online and face-to-face learning to enhance educational outcomes."
+        },
+        {
+          "type": "list",
+          "title": "Blended Learning Models",
+          "items": [
+            "Flipped classroom and station rotation models.",
+            "Online resources for enrichment and remediation."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Remote/Online Learning Provisions",
+          "items": [
+            "Teachers must follow established schedules and maintain engagement.",
+            "Students must attend sessions punctually and communicate difficulties."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Video Conferencing Guidelines",
+          "items": [
+            "Use school-approved platforms and enable waiting rooms.",
+            "Maintain appropriate dress code and professional backgrounds."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.12",
+      "title": "Technology Integration in Teaching",
+      "content": [
+        {
+          "type": "text",
+          "text": "Technology integration should follow effective principles."
+        },
+        {
+          "type": "list",
+          "title": "Principles of Effective Technology Integration",
+          "items": [
+            "Start with learning goals and introduce technology purposefully.",
+            "Engage students with interactive learning experiences."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Appraisal Criteria for Technology Integration",
+          "items": [
+            "Evaluate LMS usage and technology integration in teaching.",
+            "Monitor digital policy availability and communication."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Professional Development",
+          "items": [
+            "Required training on EduNav and device management.",
+            "Ongoing support through IT help desk and peer mentoring."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.13",
+      "title": "EdTech Procurement and Vendor Management",
+      "content": [
+        {
+          "type": "text",
+          "text": "Educational technology procurement follows specific principles."
+        },
+        {
+          "type": "list",
+          "title": "Procurement Principles",
+          "items": [
+            "Educational value and security compliance.",
+            "Total cost of ownership and sustainability."
+          ]
+        },
+        {
+          "type": "process",
+          "title": "Procurement Process",
+          "steps": [
+            "Needs Assessment: Identify educational need.",
+            "Market Research: Evaluate options.",
+            "Security Review: Data protection assessment.",
+            "Pilot Testing: Trial with limited group.",
+            "Financial Approval: Budget authorization.",
+            "Contract Review: Legal review.",
+            "Implementation: Deployment and training.",
+            "Evaluation: Ongoing assessment."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Vendor Partnerships",
+          "items": [
+            "Maintain partnerships with trusted vendors.",
+            "Ensure compliance with data protection requirements."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.14",
+      "title": "Roles and Responsibilities",
+      "content": [
+        {
+          "type": "list",
+          "title": "Principal Responsibilities",
+          "items": [
+            "Overall accountability for technology policy implementation.",
+            "Champion digital learning initiatives."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "IT Coordinator/Manager Responsibilities",
+          "items": [
+            "Day-to-day management of IT infrastructure.",
+            "User support and help desk management."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Academic Leadership Responsibilities",
+          "items": [
+            "Promote effective technology integration in teaching.",
+            "Support teachers in using digital tools."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Teacher Responsibilities",
+          "items": [
+            "Implement technology effectively in teaching.",
+            "Monitor and manage student device use."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Student Responsibilities",
+          "items": [
+            "Follow Acceptable Use Policy and use technology responsibly.",
+            "Develop digital citizenship skills."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Parent/Guardian Responsibilities",
+          "items": [
+            "Support school technology policies at home.",
+            "Monitor student technology use."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Eduversal Central Responsibilities",
+          "items": [
+            "Provide EduNav platform and support.",
+            "Monitor compliance through appraisal process."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.15",
+      "title": "Policy Review and Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section is reviewed annually."
+        },
+        {
+          "type": "list",
+          "title": "Annual Review Process",
+          "items": [
+            "Gather stakeholder feedback and analyze technology performance data.",
+            "Review committee meets and revisions finalized."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Inputs to Review",
+          "items": [
+            "Technology usage data and security incident reports.",
+            "Stakeholder feedback from surveys."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Version Control",
+          "items": [
+            "Document all updates with version number and date.",
+            "Retain previous versions for reference."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.16",
+      "title": "Key Evidence and Artifacts for Accreditation",
+      "content": [
+        {
+          "type": "list",
+          "title": "Documentation for Accreditation",
+          "items": [
+            "Digital Learning Strategy document.",
+            "Acceptable Use Policy with signed acknowledgment records.",
+            "Technology inventory and maintenance records."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.17",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "Compliance with CIS/WASC standards and Indonesian regulations."
+        },
+        {
+          "type": "list",
+          "title": "Standards and Regulations",
+          "items": [
+            "CIS/WASC standards for learning environments.",
+            "Indonesian Personal Data Protection regulations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21.18",
+      "title": "Appendices",
+      "content": [
+        {
+          "type": "list",
+          "title": "Appendices",
+          "items": [
+            "Acceptable Use Policy Agreement Form (Student)",
+            "Device Care Agreement Form",
+            "BYOD Registration and Agreement Form"
+          ]
         }
       ]
     }
