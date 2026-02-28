@@ -1,112 +1,193 @@
 {
   "id": "05",
   "title": "Curriculum Architecture",
+  "lastUpdated": "2025-01-20",
   "subsections": [
     {
-      "type": "text",
-      "title": "5.1 Purpose",
-      "content": "To design and deliver a coherent, rigorous, and culturally responsive curriculum that integrates Cambridge International Education standards with Indonesian national requirements, ensuring students develop both global competencies and a strong Indonesian identity while meeting all regulatory obligations."
-    },
-    {
-      "type": "list",
-      "title": "5.2 Curriculum Design Principles",
+      "id": "5.1",
+      "title": "Purpose",
       "content": [
-        "Standards-Based: Aligned to Cambridge learning objectives and Indonesian national curriculum standards; clear learning outcomes for each subject and grade level; assessment criteria are transparent and communicated to students.",
-        "Coherent and Sequential: Logical progression from grade to grade (vertical alignment); connections across subjects (horizontal integration); skills and knowledge build cumulatively.",
-        "Culturally Responsive: Honors Indonesian values, history, and context; embraces global perspectives and diversity; prepares students as confident Indonesian citizens and global learners.",
-        "Inquiry-Based and Student-Centered: Active learning, critical thinking, problem-solving emphasized; student agency and voice valued; differentiation for diverse learners (EAL, SEN, gifted).",
-        "Balanced: Academic rigor balanced with wellbeing and character development; breadth (exposure to multiple disciplines) and depth (mastery of core subjects); time for co-curricular activities, creativity, and rest."
+        {
+          "type": "text",
+          "text": "To design and deliver a coherent, rigorous, and culturally responsive curriculum that integrates Cambridge International Education standards with Indonesian national requirements, ensuring students develop both global competencies and a strong Indonesian identity while meeting all regulatory obligations."
+        }
       ]
     },
     {
-      "type": "text",
-      "title": "5.3 Cambridge Pathway Overview",
-      "content": "Eduversal Partner Schools follow the Cambridge International Education pathway, which spans ages 5-19 and aligns with international best practices. Wellbeing and Social-Emotional Learning are integrated into the curriculum."
-    },
-    {
-      "type": "list",
-      "title": "Stages of Cambridge Pathway",
+      "id": "5.2",
+      "title": "Curriculum Design Principles",
       "content": [
-        "Stage 1: Cambridge Primary (Ages 5-11, Grades 1-6)",
-        "Stage 2: Cambridge Lower Secondary (Ages 11-14, Grades 7-8)",
-        "Stage 3: Cambridge IGCSE (Ages 14-16, Grades 9-10)",
-        "Stage 4: Cambridge AS & A Level (Ages 16-18, Grades 11-12)"
+        {
+          "type": "list",
+          "items": [
+            "Standards-Based: Aligned to Cambridge learning objectives and Indonesian national curriculum standards; clear learning outcomes for each subject and grade level; assessment criteria are transparent and communicated to students.",
+            "Coherent and Sequential: Logical progression from grade to grade (vertical alignment); connections across subjects (horizontal integration); skills and knowledge build cumulatively.",
+            "Culturally Responsive: Honors Indonesian values, history, and context; embraces global perspectives and diversity; prepares students as confident Indonesian citizens and global learners.",
+            "Inquiry-Based and Student-Centered: Active learning, critical thinking, problem-solving emphasized; student agency and voice valued; differentiation for diverse learners (EAL, SEN, gifted).",
+            "Balanced: Academic rigor balanced with wellbeing and character development; breadth (exposure to multiple disciplines) and depth (mastery of core subjects); time for co-curricular activities, creativity, and rest."
+          ]
+        }
       ]
     },
     {
-      "type": "text",
-      "title": "5.4 Indonesian National Curriculum Integration",
-      "content": "All schools in Indonesia, including Cambridge schools, must deliver mandatory national subjects and fulfill Ministry of Education curriculum standards."
-    },
-    {
-      "type": "list",
-      "title": "Mandatory National Subjects",
+      "id": "5.3",
+      "title": "Cambridge Pathway Overview",
       "content": [
-        "1. Pendidikan Pancasila dan Kewarganegaraan (PPKn) - Civics Education",
-        "2. Bahasa Indonesia - Indonesian Language",
-        "3. Pendidikan Agama (Religious Education)",
-        "4. Muatan Lokal (Mulok) - Local Content"
+        {
+          "type": "text",
+          "text": "Eduversal Partner Schools follow the Cambridge International Education pathway, which spans ages 5-19 and aligns with international best practices. Wellbeing and Social-Emotional Learning are integrated into the curriculum."
+        },
+        {
+          "type": "list",
+          "title": "Stages of Cambridge Pathway",
+          "items": [
+            "Stage 1: Cambridge Primary (Ages 5-11, Grades 1-6)",
+            "Stage 2: Cambridge Lower Secondary (Ages 11-14, Grades 7-8)",
+            "Stage 3: Cambridge IGCSE (Ages 14-16, Grades 9-10)",
+            "Stage 4: Cambridge AS & A Level (Ages 16-18, Grades 11-12)"
+          ]
+        }
       ]
     },
     {
-      "type": "text",
-      "title": "5.5 Curriculum Mapping and Scope & Sequence",
-      "content": "Ensure comprehensive coverage of both the Cambridge and Indonesian curriculum requirements, with clear progression across grades."
+      "id": "5.4",
+      "title": "Indonesian National Curriculum Integration",
+      "content": [
+        {
+          "type": "text",
+          "text": "All schools in Indonesia, including Cambridge schools, must deliver mandatory national subjects and fulfill Ministry of Education curriculum standards."
+        },
+        {
+          "type": "list",
+          "title": "Mandatory National Subjects",
+          "items": [
+            "1. Pendidikan Pancasila dan Kewarganegaraan (PPKn) - Civics Education",
+            "2. Bahasa Indonesia - Indonesian Language",
+            "3. Pendidikan Agama (Religious Education)",
+            "4. Muatan Lokal (Mulok) - Local Content"
+          ]
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.6 Vertical Alignment and Articulation",
-      "content": "Ensure smooth transitions between grade levels and curriculum stages, avoiding gaps or excessive repetition."
+      "id": "5.5",
+      "title": "Curriculum Mapping and Scope & Sequence",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure comprehensive coverage of both the Cambridge and Indonesian curriculum requirements, with clear progression across grades."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.7 Horizontal Integration & Interdisciplinary Learning",
-      "content": "Create connections across subjects so students see relationships and apply learning in authentic contexts."
+      "id": "5.6",
+      "title": "Vertical Alignment and Articulation",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure smooth transitions between grade levels and curriculum stages, avoiding gaps or excessive repetition."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.8 English as an Additional Language Integration",
-      "content": "Comprehensive EAL support model integrated into curriculum."
+      "id": "5.7",
+      "title": "Horizontal Integration & Interdisciplinary Learning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Create connections across subjects so students see relationships and apply learning in authentic contexts."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.9 Differentiation for Diverse Learners",
-      "content": "All students can learn and achieve high standards, but they need different pathways and supports."
+      "id": "5.8",
+      "title": "English as an Additional Language Integration",
+      "content": [
+        {
+          "type": "text",
+          "text": "Comprehensive EAL support model integrated into curriculum."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.10 Use of Technology and Blended Learning",
-      "content": "Enhance learning through strategic use of digital tools, while maintaining strong pedagogy and human connection."
+      "id": "5.9",
+      "title": "Differentiation for Diverse Learners",
+      "content": [
+        {
+          "type": "text",
+          "text": "All students can learn and achieve high standards, but they need different pathways and supports."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.11 Co-Curricular and Extra-Curricular Programs",
-      "content": "Extend learning beyond the classroom, develop talents, foster community, and support SLOs and Profil Pelajar Pancasila competencies."
+      "id": "5.10",
+      "title": "Use of Technology and Blended Learning",
+      "content": [
+        {
+          "type": "text",
+          "text": "Enhance learning through strategic use of digital tools, while maintaining strong pedagogy and human connection."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.12 Boarding School Curriculum Considerations",
-      "content": "Some Eduversal Partner Schools operate residential (boarding) programs, especially Islamic boarding schools (pesantren) integrating religious education with Cambridge curriculum."
+      "id": "5.11",
+      "title": "Co-Curricular and Extra-Curricular Programs",
+      "content": [
+        {
+          "type": "text",
+          "text": "Extend learning beyond the classroom, develop talents, foster community, and support SLOs and Profil Pelajar Pancasila competencies."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.13 Assessment of Curriculum Effectiveness",
-      "content": "Continuously evaluate whether curriculum is achieving intended outcomes (student learning, SLOs, Profil Pelajar Pancasila competencies) and make improvements."
+      "id": "5.12",
+      "title": "Boarding School Curriculum Considerations",
+      "content": [
+        {
+          "type": "text",
+          "text": "Some Eduversal Partner Schools operate residential (boarding) programs, especially Islamic boarding schools (pesantren) integrating religious education with Cambridge curriculum."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.14 Curriculum Innovation and Continuous Improvement",
-      "content": "Curriculum is not static; it evolves based on student needs, educational research, societal changes, and stakeholder input."
+      "id": "5.13",
+      "title": "Assessment of Curriculum Effectiveness",
+      "content": [
+        {
+          "type": "text",
+          "text": "Continuously evaluate whether curriculum is achieving intended outcomes (student learning, SLOs, Profil Pelajar Pancasila competencies) and make improvements."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.15 Key Evidence and Artifacts",
-      "content": "Comprehensive Curriculum Documentation."
+      "id": "5.14",
+      "title": "Curriculum Innovation and Continuous Improvement",
+      "content": [
+        {
+          "type": "text",
+          "text": "Curriculum is not static; it evolves based on student needs, educational research, societal changes, and stakeholder input."
+        }
+      ]
     },
     {
-      "type": "text",
-      "title": "5.16 Compliance Alignment",
-      "content": "This section aligns with Cambridge Curriculum Standards, Indonesian National Curriculum, CIS Standards, WASC Category B, and Eduversal SLOs."
+      "id": "5.15",
+      "title": "Key Evidence and Artifacts",
+      "content": [
+        {
+          "type": "text",
+          "text": "Comprehensive Curriculum Documentation."
+        }
+      ]
+    },
+    {
+      "id": "5.16",
+      "title": "Compliance Alignment",
+      "content": [
+        {
+          "type": "text",
+          "text": "This section aligns with Cambridge Curriculum Standards, Indonesian National Curriculum, CIS Standards, WASC Category B, and Eduversal SLOs."
+        }
+      ]
     }
   ]
 }
