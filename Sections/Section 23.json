@@ -57,19 +57,11 @@
         {
           "type": "table",
           "title": "Counseling Program Timeline",
+          "headers": ["Grade", "Description"],
           "rows": [
-            {
-              "Grade": "7-8",
-              "Description": "Career awareness through curriculum connections, introduction to career sectors and job families, guest speaker program, field trips to workplaces and industry sites"
-            },
-            {
-              "Grade": "9-10",
-              "Description": "Career exploration aligned with IGCSE subject choices, aptitude and personality assessments, job shadowing opportunities, introduction to entrepreneurship"
-            },
-            {
-              "Grade": "11-12",
-              "Description": "In-depth career research and planning, work experience placements, industry mentorship program, career fair participation and networking"
-            }
+            ["7-8", "Career awareness through curriculum connections, introduction to career sectors and job families, guest speaker program, field trips to workplaces and industry sites"],
+            ["9-10", "Career exploration aligned with IGCSE subject choices, aptitude and personality assessments, job shadowing opportunities, introduction to entrepreneurship"],
+            ["11-12", "In-depth career research and planning, work experience placements, industry mentorship program, career fair participation and networking"]
           ]
         },
         {
