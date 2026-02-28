@@ -35,7 +35,7 @@
           "text": "Eduversal Partner Schools are committed to safeguarding and promoting the welfare of all children and young people. Every child has the right to protection from abuse, neglect, exploitation, and harm."
         },
         {
-          "type":- "list",
+          "type": "list",
           "title": "Core Commitments",
           "items": [
             "All adults in the school community share responsibility to act on safeguarding concerns.",
@@ -59,15 +59,9 @@
         {
           "type": "table",
           "title": "Key Definitions",
-          "headers": [
-            "Term",
-            "Definition"
-          ],
+          "headers": ["Term", "Definition"],
           "rows": [
-            [
-              "Child / Young Person",
-              "Any individual under 18 years of age."
-            ],
+            ["Child / Young Person", "Any individual under 18 years of age."],
             [
               "Safeguarding",
               "Actions to protect children from harm and promote safe development."
@@ -189,7 +183,11 @@
           "headers": ["Audience", "Training", "Frequency"],
           "rows": [
             ["All Staff", "Basic Safeguarding & Code of Conduct", "Annually"],
-            ["DSL/Leadership", "Advanced Safeguarding Leadership", "Every 2 years"],
+            [
+              "DSL/Leadership",
+              "Advanced Safeguarding Leadership",
+              "Every 2 years"
+            ],
             ["New Staff", "Full Induction Training", "On hiring"]
           ]
         }
@@ -202,16 +200,37 @@
         {
           "type": "list",
           "title": "Four Categories of Abuse",
-          "items": ["Physical Abuse", "Emotional Abuse", "Sexual Abuse", "Neglect"]
+          "items": [
+            "Physical Abuse",
+            "Emotional Abuse",
+            "Sexual Abuse",
+            "Neglect"
+          ]
         },
         {
           "type": "process",
           "title": "Reporting Procedure",
           "steps": [
-            { "n": 1, "title": "Concern", "desc": "A staff member observes a sign of harm or receives a disclosure from a student." },
-            { "n": 2, "title": "Report", "desc": "The staff member immediately reports the concern to the Designated Safeguarding Lead (DSL)." },
-            { "n": 3, "title": "Record", "desc": "A factual, written record of the concern is completed on the same day." },
-            { "n": 4, "title": "Action", "desc": "The DSL assesses the information and decides on the next steps, which may include a referral to external agencies (e.g., social services, police)." }
+            {
+              "n": 1,
+              "title": "Concern",
+              "desc": "A staff member observes a sign of harm or receives a disclosure from a student."
+            },
+            {
+              "n": 2,
+              "title": "Report",
+              "desc": "The staff member immediately reports the concern to the Designated Safeguarding Lead (DSL)."
+            },
+            {
+              "n": 3,
+              "title": "Record",
+              "desc": "A factual, written record of the concern is completed on the same day."
+            },
+            {
+              "n": 4,
+              "title": "Action",
+              "desc": "The DSL assesses the information and decides on the next steps, which may include a referral to external agencies (e.g., social services, police)."
+            }
           ]
         }
       ]
