@@ -113,6 +113,9 @@ htmlFiles.forEach((file) => {
     html = html.replace(new RegExp(placeholder, "g"), value);
   }
 
+  // Remove local-dev-only firebase-config.js script tag (not needed in dist)
+  html = html.replace(/<script src="firebase-config\.js"><\/script>\n?/g, "");
+
   // 2. Rewrite internal links to clean URLs
   html = rewriteLinks(html);
 

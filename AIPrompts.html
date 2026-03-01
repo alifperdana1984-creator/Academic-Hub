@@ -804,8 +804,9 @@ body {
   </button>
 </div>
 
+<script src="firebase-config.js"></script>
 <script>
-  window.ENV = {
+  if (!window.ENV) window.ENV = {
     FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
     FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
     FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
@@ -927,7 +928,7 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (snap.exists()) {
-        isAdmin = snap.data().isAdmin === true;
+        isAdmin = snap.data().role === 'central_admin';
         firestoreName = snap.data().displayName || null;
       }
     } catch { isAdmin = false; }

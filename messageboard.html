@@ -758,8 +758,9 @@ body {
   .search-wrap { max-width: 100%; }
 }
 </style>
+<script src="firebase-config.js"></script>
 <script>
-  window.ENV = {
+  if (!window.ENV) window.ENV = {
     FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
     FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
     FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
@@ -1395,7 +1396,7 @@ body {
     document.getElementById("topicDetailView").style.display = "none";
 
     if (!unsubTopics) {
-      const q = query(collection(db,"topics"), orderBy("timestamp","desc"));
+      const q = query(collection(db,"topics"), orderBy("createdAt","desc"));
       unsubTopics = onSnapshot(q, snap => {
         allTopicDocs = snap.docs;
         updateSidebarStats(snap.docs);
@@ -1478,7 +1479,7 @@ body {
               ${makeAvatarElFromName('author-avatar', data.displayName || '?')}
               <span>${escHtml(data.displayName)}</span>
               <span class="meta-sep">·</span>
-              <span>${formatDate(data.timestamp)}</span>
+              <span>${formatDate(data.createdAt)}</span>
             </div>
           </div>
           <div class="topic-row-right">
@@ -1517,7 +1518,7 @@ body {
 
     renderTopicPost();
 
-    const rQ = query(collection(db,"topics",topicId,"replies"), orderBy("timestamp","asc"));
+    const rQ = query(collection(db,"topics",topicId,"replies"), orderBy("createdAt","asc"));
     unsubReplies = onSnapshot(rQ, snap => {
       cachedReplyDocs = snap.docs;
       if (editingTarget && editingTarget.type === "reply") return;
@@ -1579,7 +1580,7 @@ body {
             <strong>${escHtml(d.displayName)}</strong>
           </div>
           <span>·</span>
-          <span>${formatDate(d.timestamp)}</span>
+          <span>${formatDate(d.createdAt)}</span>
           ${editedBadge}
         </div>
       </div>`;
@@ -1617,7 +1618,7 @@ body {
                   <div class="reply-author-wrap">
                     ${makeAvatarElFromName('reply-avatar', data.displayName||'?')}
                     <span class="reply-author-name">${escHtml(data.displayName)}</span>
-                    <span class="reply-time">${formatDate(data.timestamp)}</span>
+                    <span class="reply-time">${formatDate(data.createdAt)}</span>
                   </div>
                 </div>
                 <div class="inline-edit-form">
@@ -1636,7 +1637,7 @@ body {
                 <div class="reply-author-wrap">
                   ${makeAvatarElFromName('reply-avatar', data.displayName||'?')}
                   <span class="reply-author-name">${escHtml(data.displayName)}</span>
-                  <span class="reply-time">${formatDate(data.timestamp)}</span>
+                  <span class="reply-time">${formatDate(data.createdAt)}</span>
                 </div>
                 ${canEdit ? `
                   <div class="reply-actions">
@@ -1742,7 +1743,7 @@ body {
       await addDoc(collection(db,"topics",currentTopicId,"replies"), {
         body, uid: currentUser.uid,
         displayName: getDisplayName(currentUser),
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       await updateDoc(doc(db,"topics",currentTopicId), { replyCount: increment(1) });
       textarea.value = "";
@@ -1805,7 +1806,7 @@ body {
         title, body, category,
         uid: currentUser.uid,
         displayName: getDisplayName(currentUser),
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
         replyCount: 0,
         pinned: false,
       });
@@ -1864,7 +1865,7 @@ body {
         subject, message,
         userId: currentUser?.uid || null,
         userEmail: currentUser?.email || null,
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       statusEl.textContent = 'Feedback sent — thank you!';
       statusEl.className = 'feedback-status ok';

@@ -705,8 +705,9 @@
     </div>
 
     <!-- ══ ENV ══ -->
+    <script src="firebase-config.js"></script>
     <script>
-      window.ENV = {
+      if (!window.ENV) window.ENV = {
         FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
         FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
         FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
@@ -842,8 +843,8 @@
           const ud = await getDoc(doc(db,'users',user.uid));
           if (ud.exists()) {
             const d = ud.data();
-            isAdmin     = d.isAdmin === true;
-            isModerator = d.isModerator === true || isAdmin;
+            isAdmin     = d.role === 'central_admin';
+            isModerator = d.role === 'academic_coordinator' || isAdmin;
             userSchool  = d.schoolName || null;
             const name  = (d.displayName||user.displayName||user.email).split(' ')[0];
             document.getElementById('navFirstName').textContent = name;
@@ -852,7 +853,7 @@
             document.getElementById('ddEmail').textContent      = user.email;
             document.getElementById('ddAvatar').textContent     = name[0].toUpperCase();
             if (d.phone) document.getElementById('ddPhone').value = d.phone;
-            if (d.isAdmin || d.isModerator) document.getElementById('addActBtn').style.display='flex';
+            if (d.role === 'central_admin' || d.role === 'academic_coordinator') document.getElementById('addActBtn').style.display='flex';
             // Show PW section for email/password users
             if (user.providerData.some(p=>p.providerId==='password')) document.getElementById('ddPwSection').style.display='block';
           }

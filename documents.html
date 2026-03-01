@@ -929,8 +929,9 @@ body {
   </div>
 </div>
 
+<script src="firebase-config.js"></script>
 <script>
-  window.ENV = {
+  if (!window.ENV) window.ENV = {
     FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
     FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
     FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
@@ -1073,7 +1074,7 @@ body {
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
         if (snap.exists()) {
-          isAdmin = snap.data().isAdmin === true;
+          isAdmin = snap.data().role === 'central_admin';
           firestoreName = snap.data().displayName || null;
         } else { isAdmin = false; }
       } catch { isAdmin = false; }
@@ -1125,7 +1126,7 @@ body {
 
   // ── Documents ────────────────────────────────────────────────
   function initDocuments() {
-    const q = query(collection(db, 'documents'), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, 'documents'), orderBy('createdAt', 'desc'));
     unsubDocs = onSnapshot(q, snap => {
       allDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderList();
@@ -1355,7 +1356,7 @@ body {
         await deleteDoc(likeRef);
         await updateDoc(docRef, { likeCount: increment(-1) });
       } else {
-        await setDoc(likeRef, { docId, userId: currentUser.uid, timestamp: serverTimestamp() });
+        await setDoc(likeRef, { docId, userId: currentUser.uid, createdAt: serverTimestamp() });
         await updateDoc(docRef, { likeCount: increment(1) });
       }
     } catch (err) { console.error('likeDoc:', err); }
@@ -1388,7 +1389,7 @@ body {
       userRatings.set(docId, score);
       renderList();
       try {
-        await setDoc(ratingRef, { docId, userId: currentUser.uid, score, timestamp: serverTimestamp() });
+        await setDoc(ratingRef, { docId, userId: currentUser.uid, score, createdAt: serverTimestamp() });
         await updateDoc(docRef, { ratingSum: increment(score - prevScore) });
       } catch (err) { console.error('rateDoc update:', err); }
     } else {
@@ -1397,7 +1398,7 @@ body {
       userRatings.set(docId, score);
       renderList();
       try {
-        await setDoc(ratingRef, { docId, userId: currentUser.uid, score, timestamp: serverTimestamp() });
+        await setDoc(ratingRef, { docId, userId: currentUser.uid, score, createdAt: serverTimestamp() });
         await updateDoc(docRef, { ratingSum: increment(score), ratingCount: increment(1) });
       } catch (err) { console.error('rateDoc new:', err); }
     }
@@ -1519,7 +1520,7 @@ body {
         addedBy: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
         addedById: currentUser.uid,
         likeCount: 0, ratingSum: 0, ratingCount: 0,
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       document.getElementById('modalOverlay').classList.remove('open');
     } catch (err) { errEl.textContent = 'Failed to add. Try again.'; console.error(err); }
@@ -1562,7 +1563,7 @@ body {
         subject, message,
         userId: currentUser?.uid||null,
         userEmail: currentUser?.email||null,
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       statusEl.textContent='Feedback sent — thank you!'; statusEl.className='feedback-status ok';
       setTimeout(closeFabFeedback, 2000);

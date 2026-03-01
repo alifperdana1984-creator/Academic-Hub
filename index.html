@@ -2309,9 +2309,10 @@
         .top-nav { padding: 0 14px; }
       }
     </style>
+    <script src="firebase-config.js"></script>
     <script>
       // Environment variables - replaced at build time by Netlify/Vercel
-      window.ENV = {
+      if (!window.ENV) window.ENV = {
         FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
         FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
         FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
@@ -4183,7 +4184,7 @@
 
         const q = query(
           collection(db, 'announcements'),
-          where('timestamp', '>', cutoff)
+          where('createdAt', '>', cutoff)
         );
         annUnsubscribe = onSnapshot(q, (snap) => {
           const count = snap.size;
@@ -4209,7 +4210,7 @@
             ? snap.data().lastReadMessageboard.toMillis()
             : 0;
           const cutoff = Timestamp.fromMillis(lastRead);
-          const q = query(collection(db, 'topics'), where('timestamp', '>', cutoff));
+          const q = query(collection(db, 'topics'), where('createdAt', '>', cutoff));
           msgUnsubscribe = onSnapshot(q, (s) => {
             const count = s.size;
             if (count > 0) {

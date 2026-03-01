@@ -801,8 +801,9 @@ body {
   </div>
 </div>
 
+<script src="firebase-config.js"></script>
 <script>
-  window.ENV = {
+  if (!window.ENV) window.ENV = {
     FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
     FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
     FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
@@ -947,7 +948,7 @@ body {
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
         if (snap.exists()) {
-          isAdmin = snap.data().isAdmin === true;
+          isAdmin = snap.data().role === 'central_admin';
           firestoreName = snap.data().displayName || null;
         } else { isAdmin = false; }
       } catch { isAdmin = false; }
@@ -1010,7 +1011,7 @@ body {
   function initAnnouncements() {
     // Single-field orderBy — no composite index needed.
     // Pinned-first sorting is handled client-side below.
-    const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, 'announcements'), orderBy('createdAt', 'desc'));
     unsubAnn = onSnapshot(q, async (snap) => {
       const annList = document.getElementById('annList');
       const annEmpty = document.getElementById('annEmpty');
@@ -1027,8 +1028,8 @@ body {
         const ap = a.data().pinned ? 1 : 0;
         const bp = b.data().pinned ? 1 : 0;
         if (bp !== ap) return bp - ap;
-        const at = a.data().timestamp?.toMillis?.() || 0;
-        const bt = b.data().timestamp?.toMillis?.() || 0;
+        const at = a.data().createdAt?.toMillis?.() || 0;
+        const bt = b.data().createdAt?.toMillis?.() || 0;
         return bt - at;
       });
 
@@ -1132,7 +1133,7 @@ body {
           <div class="ann-meta">
             <span>${escHtml(d.authorName || 'Admin')}</span>
             <span class="ann-meta-sep">·</span>
-            <span>${relativeTime(d.timestamp)}</span>
+            <span>${relativeTime(d.createdAt)}</span>
             ${d.editedAt ? `<span class="ann-edited-tag">(edited)</span>` : ''}
             <span class="ann-comment-chip">💬 ${commentCount}</span>
           </div>
@@ -1240,7 +1241,7 @@ body {
     const commList = card.querySelector(`#comments-${annId}`);
     const noComm = card.querySelector(`#no-comments-${annId}`);
 
-    const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('timestamp', 'asc'));
+    const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('createdAt', 'asc'));
     commentUnsubs[annId] = onSnapshot(q, (snap) => {
       // Remove old comment items (keep no-comments msg)
       [...commList.querySelectorAll('.comment-item')].forEach(c => c.remove());
@@ -1264,7 +1265,7 @@ body {
           <div class="comment-body">
             <div class="comment-author">${escHtml(c.authorName || 'Unknown')}</div>
             <div class="comment-text">${escHtml(c.body || '')}</div>
-            <div class="comment-time">${relativeTime(c.timestamp)}</div>
+            <div class="comment-time">${relativeTime(c.createdAt)}</div>
           </div>
           ${canDelete ? `<button class="comment-del-btn" title="Delete comment">✕</button>` : ''}`;
         item.prepend(avatarDiv);
@@ -1299,7 +1300,7 @@ body {
         authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
         authorId: currentUser.uid,
         authorPhotoURL: currentUser.photoURL || '',
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       // Increment count
       const annRef = doc(db, 'announcements', annId);
@@ -1389,7 +1390,7 @@ body {
           authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
           authorId: currentUser.uid,
           commentCount: 0,
-          timestamp: serverTimestamp(),
+          createdAt: serverTimestamp(),
         });
       }
       modalOverlay.classList.remove('open');
@@ -1436,7 +1437,7 @@ body {
         subject, message,
         userId: currentUser?.uid||null,
         userEmail: currentUser?.email||null,
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       statusEl.textContent='Feedback sent — thank you!'; statusEl.className='feedback-status ok';
       setTimeout(closeFabFeedback, 2000);
