@@ -843,8 +843,8 @@
           const ud = await getDoc(doc(db,'users',user.uid));
           if (ud.exists()) {
             const d = ud.data();
-            isAdmin     = d.role === 'central_admin';
-            isModerator = d.role === 'academic_coordinator' || isAdmin;
+            isAdmin     = d.role === 'academic_admin';
+            isModerator = d.role === 'academic_user' || isAdmin;
             userSchool  = d.schoolName || null;
             const name  = (d.displayName||user.displayName||user.email).split(' ')[0];
             document.getElementById('navFirstName').textContent = name;
@@ -853,7 +853,7 @@
             document.getElementById('ddEmail').textContent      = user.email;
             document.getElementById('ddAvatar').textContent     = name[0].toUpperCase();
             if (d.phone) document.getElementById('ddPhone').value = d.phone;
-            if (d.role === 'central_admin' || d.role === 'academic_coordinator') document.getElementById('addActBtn').style.display='flex';
+            if (d.role === 'academic_admin' || d.role === 'academic_user') document.getElementById('addActBtn').style.display='flex';
             // Show PW section for email/password users
             if (user.providerData.some(p=>p.providerId==='password')) document.getElementById('ddPwSection').style.display='block';
           }
