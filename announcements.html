@@ -2032,6 +2032,7 @@ body {
       } else {
         await addDoc(collection(db, 'announcements'), {
           title, body, pinned, links, imageUrl, imagePath,
+          platforms: ['academichub'],
           authorName: currentUserDisplayName || currentUser.displayName || currentUser.email.split('@')[0],
           authorId: currentUser.uid,
           commentCount: 0,
