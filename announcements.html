@@ -517,7 +517,6 @@ body {
   display: none;
   padding: 4px 20px 14px;
   font-size: 14px; color: var(--ink-2); line-height: 1.75;
-  white-space: pre-wrap;
   animation: annFadeIn .22s ease;
 }
 .ann-card.expanded .ann-full-body { display: block; }
@@ -739,6 +738,22 @@ body {
   font-size: 11.5px;
   color: var(--ink-3);
 }
+
+/* ─── RICH TEXT EDITOR ───────────────────────── */
+.rich-editor-wrap { border: 1px solid var(--border); border-radius: 9px; background: var(--paper); transition: border-color 0.2s; }
+.rich-editor-wrap:focus-within { border-color: var(--accent); background: var(--white); }
+.rich-editor-toolbar { display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.rte-btn { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; min-width: 28px; height: 26px; padding: 0 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--white); color: var(--ink-2); cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; }
+.rte-btn:hover { background: var(--paper-2); color: var(--ink); border-color: #bbb; }
+.rte-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.rte-sep { width: 1px; height: 18px; background: var(--border); margin: 0 2px; }
+.rte-size-select { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; height: 26px; padding: 0 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--white); color: var(--ink-2); cursor: pointer; outline: none; }
+.rte-size-select:focus { border-color: var(--accent); }
+.rich-editor-area { min-height: 140px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: var(--ink); line-height: 1.6; outline: none; overflow-y: auto; }
+.rich-editor-area:empty::before { content: attr(data-placeholder); color: var(--ink-3); pointer-events: none; }
+.rich-editor-area font[size="2"] { font-size: 0.78em; }
+.rich-editor-area font[size="3"] { font-size: 1em; }
+.rich-editor-area font[size="5"] { font-size: 1.35em; }
 .modal-pin-row {
   display: flex; align-items: center; gap: 9px;
   font-size: 13px; color: var(--ink-2); cursor: pointer;
@@ -1037,8 +1052,20 @@ body {
       <input type="text" class="modal-input" id="annTitle" placeholder="e.g. IGCSE Mock Exam — March 2026" maxlength="120">
     </div>
     <div class="modal-field">
-      <label class="modal-label" for="annBody">Body</label>
-      <textarea class="modal-textarea" id="annBody" placeholder="Write your announcement here…"></textarea>
+      <label class="modal-label">Body</label>
+      <div class="rich-editor-wrap">
+        <div class="rich-editor-toolbar">
+          <button type="button" class="rte-btn" id="rteBold" title="Bold" aria-label="Bold"><b>B</b></button>
+          <button type="button" class="rte-btn" id="rteItalic" title="Italic" aria-label="Italic"><i>I</i></button>
+          <div class="rte-sep"></div>
+          <select class="rte-size-select" id="rteFontSize" title="Font size">
+            <option value="2">Small</option>
+            <option value="3" selected>Normal</option>
+            <option value="5">Large</option>
+          </select>
+        </div>
+        <div class="rich-editor-area" id="annBody" contenteditable="true" data-placeholder="Write your announcement here…" spellcheck="true"></div>
+      </div>
     </div>
     <div class="modal-field">
       <label class="modal-label" for="annImageFile">Image <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
@@ -1586,6 +1613,8 @@ body {
     card.className = 'ann-card' + (d.pinned ? ' pinned' : '');
     card.dataset.id = id;
     card.innerHTML = cardInnerHTML(id, d);
+    const fullBody = card.querySelector('.ann-full-body');
+    if (fullBody) fullBody.innerHTML = renderBody(d.body || '');
     attachCardEvents(card, id, d);
     return card;
   }
@@ -1593,6 +1622,8 @@ body {
   function updateCardData(card, id, d) {
     card.className = 'ann-card' + (d.pinned ? ' pinned' : '') + (card.classList.contains('expanded') ? ' expanded' : '');
     card.innerHTML = cardInnerHTML(id, d);
+    const fullBody = card.querySelector('.ann-full-body');
+    if (fullBody) fullBody.innerHTML = renderBody(d.body || '');
     attachCardEvents(card, id, d);
   }
 
@@ -1609,7 +1640,8 @@ body {
         ${canEdit && isAdmin ? `<button class="ann-admin-btn del" data-action="delete" title="Delete">🗑️</button>` : ''}
       </div>`;
 
-    const preview = (d.body || '').slice(0, 220) + ((d.body || '').length > 220 ? '…' : '');
+    const plainText = stripHtml(d.body || '');
+    const preview = plainText.slice(0, 220) + (plainText.length > 220 ? '…' : '');
     const commentCount = d.commentCount || 0;
     const mediaHtml = d.imageUrl ? `<div class="ann-media"><img src="${escHtml(d.imageUrl)}" alt="Announcement image" loading="lazy"></div>` : '';
 
@@ -1641,7 +1673,7 @@ body {
       </div>
       ${mediaHtml}
       <div class="ann-preview">${escHtml(preview)}</div>
-      <div class="ann-full-body">${escHtml(d.body || '')}</div>
+      <div class="ann-full-body"></div>
       ${linksHtml}
       <div class="ann-expand-row" data-action="toggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1916,7 +1948,7 @@ body {
   function openAnnModal(mode, id, d) {
     document.getElementById('editingId').value  = mode === 'edit' ? id : '';
     document.getElementById('annTitle').value   = mode === 'edit' ? (d.title || '') : '';
-    document.getElementById('annBody').value    = mode === 'edit' ? (d.body  || '') : '';
+    document.getElementById('annBody').innerHTML = mode === 'edit' ? renderBody(d.body || '') : '';
     document.getElementById('annPin').checked   = mode === 'edit' ? (d.pinned || false) : false;
     document.getElementById('annImageFile').value = '';
     document.getElementById('modalErr').textContent = '';
@@ -1997,14 +2029,15 @@ body {
     if (!editId && !isAdmin) return; // only admin can create
 
     const title  = document.getElementById('annTitle').value.trim();
-    const body   = document.getElementById('annBody').value.trim();
+    const bodyEl = document.getElementById('annBody');
+    const body   = bodyEl.innerHTML.trim();
     const pinned = document.getElementById('annPin').checked;
     const errEl  = document.getElementById('modalErr');
     const btn    = document.getElementById('modalPublish');
     const links  = modalLinks.filter(l => l.url.trim());
 
     if (!title) { errEl.textContent = 'Please enter a title.'; return; }
-    if (!body)  { errEl.textContent = 'Please enter a body text.'; return; }
+    if (!bodyEl.textContent.trim()) { errEl.textContent = 'Please enter a body text.'; return; }
 
     const origText = btn.textContent;
     btn.disabled = true; btn.textContent = editId ? 'Saving…' : 'Publishing…';
@@ -2115,6 +2148,42 @@ body {
   function escHtml(str) {
     return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+
+  function sanitizeHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('script,style,iframe,object,embed,form,input,textarea,button,link,meta').forEach(el => el.remove());
+    tmp.querySelectorAll('*').forEach(el => {
+      [...el.attributes].forEach(attr => {
+        if (attr.name.startsWith('on') || attr.name === 'action') el.removeAttribute(attr.name);
+        if ((attr.name === 'href' || attr.name === 'src') && /^javascript:/i.test(attr.value)) el.removeAttribute(attr.name);
+      });
+    });
+    return tmp.innerHTML;
+  }
+
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || '';
+  }
+
+  function renderBody(body) {
+    if (!body) return '';
+    if (/<[a-z][\s\S]*>/i.test(body)) return sanitizeHtml(body);
+    return escHtml(body).replace(/\n/g, '<br>');
+  }
+
+  // ── Rich text editor toolbar ──────────────────────────────────
+  function updateRteState() {
+    document.getElementById('rteBold').classList.toggle('active', document.queryCommandState('bold'));
+    document.getElementById('rteItalic').classList.toggle('active', document.queryCommandState('italic'));
+  }
+  document.getElementById('rteBold').addEventListener('mousedown', e => { e.preventDefault(); document.execCommand('bold'); updateRteState(); });
+  document.getElementById('rteItalic').addEventListener('mousedown', e => { e.preventDefault(); document.execCommand('italic'); updateRteState(); });
+  document.getElementById('rteFontSize').addEventListener('change', e => { document.getElementById('annBody').focus(); document.execCommand('fontSize', false, e.target.value); });
+  document.getElementById('annBody').addEventListener('keyup', updateRteState);
+  document.getElementById('annBody').addEventListener('mouseup', updateRteState);
 </script>
 </body>
 </html>
