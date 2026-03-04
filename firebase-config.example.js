@@ -1,13 +1,13 @@
-// firebase-config.example.js — Academic Hub
-// ─────────────────────────────────────────────────────────────────
+﻿// firebase-config.example.js â€” Academic Hub
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Copy this file to firebase-config.js and fill in YOUR_API_KEY
 // and YOUR_APP_ID from:
-//   Firebase Console → centralhub-8727b → Project Settings → Your apps
+//   Firebase Console â†’ centralhub-8727b â†’ Project Settings â†’ Your apps
 //
-// firebase-config.js is GITIGNORED — never commit it.
+// firebase-config.js is GITIGNORED â€” never commit it.
 //
 // All three apps share the centralhub-8727b Firebase project.
-// ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.ENV = {
   FIREBASE_API_KEY:             "YOUR_API_KEY",
   FIREBASE_AUTH_DOMAIN:         "centralhub-8727b.firebaseapp.com",
@@ -16,3 +16,5 @@ window.ENV = {
   FIREBASE_MESSAGING_SENDER_ID: "244951050014",
   FIREBASE_APP_ID:              "YOUR_APP_ID",
 };
+
+
