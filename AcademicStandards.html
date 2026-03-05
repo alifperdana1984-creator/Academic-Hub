@@ -1251,27 +1251,38 @@
         }, []);
 
         useEffect(() => {
+          if (!selected) return;
           let unsub;
           const start = () => {
             if (!window.firestoreOps || !window.db) return;
-            const { collectionGroup, onSnapshot } = window.firestoreOps;
-            unsub = onSnapshot(collectionGroup(window.db, "subsections"), snap => {
-              const map = {};
-              snap.forEach(d => {
-                const sId = d.ref.parent.parent.id;
-                map[sId + "/" + d.id] = d.data();
-              });
-              setOverrides(map);
-            });
+            const { collection, onSnapshot } = window.firestoreOps;
+            unsub = onSnapshot(
+              collection(window.db, "section_overrides", selected, "subsections"),
+              snap => {
+                const map = {};
+                snap.forEach(d => { map[selected + "/" + d.id] = d.data(); });
+                setOverrides(prev => {
+                  const filtered = Object.fromEntries(
+                    Object.entries(prev).filter(([k]) => !k.startsWith(selected + "/"))
+                  );
+                  return { ...filtered, ...map };
+                });
+              },
+              err => console.warn("overrides listener:", err.message)
+            );
           };
-          const handler = () => start();
-          document.addEventListener("authReady", handler);
-          if (window.firestoreOps) start();
-          return () => {
-            document.removeEventListener("authReady", handler);
-            if (unsub) unsub();
-          };
-        }, []);
+          if (window.currentUser) {
+            start();
+          } else {
+            const handler = () => start();
+            document.addEventListener("authReady", handler, { once: true });
+            return () => {
+              document.removeEventListener("authReady", handler);
+              if (unsub) unsub();
+            };
+          }
+          return () => { if (unsub) unsub(); };
+        }, [selected]);
 
         const bg = dark ? "bg-gray-900" : "bg-gray-100";
         const text = dark ? "text-gray-100" : "text-gray-900";
