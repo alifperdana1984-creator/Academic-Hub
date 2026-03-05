@@ -70,6 +70,8 @@
         ExternalLink: "external-link",
         ChevronDown: "chevron-down",
         ChevronRight: "chevron-right",
+        PlayCircle: "play-circle",
+        Download: "download",
       };
 
       // Icon wrapper component for feather icons
@@ -127,6 +129,8 @@
         <FeatherIcon name="ChevronRight" {...props} />
       );
       const BookOpen = (props) => <FeatherIcon name="BookOpen" {...props} />;
+      const PlayCircle = (props) => <FeatherIcon name="PlayCircle" {...props} />;
+      const Download = (props) => <FeatherIcon name="Download" {...props} />;
 
       const indexData = {
         meta: {
@@ -150,6 +154,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1aQWYzmyjAAr46KcMogGaAjPlQr_hFiFWqNyPPxSgBXc/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1hFI_pWp9cBaZ7kOYbZI47xBcj2Mthk-V/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1aU8wpLahJ6pbto9chriDx8tFRuhODRpn/view?usp=drive_link",
           },
           {
             id: "02",
@@ -162,6 +168,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1Cb5JvnlAs8326mMFrQc4eF9fP1smI1d5bySb-QypGCE/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1-8KFg4wxLsucBNz2ydf9LRapmLZtG5b2/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1tNbe8UuV4JXUitbQYKDAWUclHZfPKNFd/view?usp=drive_link",
           },
           {
             id: "03",
@@ -174,6 +182,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1lcVBxsUSqiUZe2SP5STpmA8Ase3mQ9Sb58mRLdvWHtk/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1uWBTgaI1bqVENQiTvbI1IjEL__qn4y9P/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/17c5F2yzMdID-PIese8ipbbRU0t0_ZJir/view?usp=drive_link",
           },
           {
             id: "04",
@@ -186,6 +196,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1glDSDMx5JjSvtxbnFBtwXLQSiheR_2z50DRlXINeips/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1bZg465NYww2eYkIUoKfKRfpgtlxnNxOj/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1j5VbcbTlNTU6weqAwnJybYLC7gikxHid/view?usp=drive_link",
           },
           {
             id: "05",
@@ -198,6 +210,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1jnDROQfV1WIjlqW7UhyAIvZ2Yg9oonvg0QZcamCf2oA/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/16dslR-B765gFe38aY7gEDgfTDB_oANKU/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1-Ay8u_BQI2DFDgw2G_LR0XMngNinKWUy/view?usp=drive_link",
           },
           {
             id: "06",
@@ -210,6 +224,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1BvvA9yxybevPYm07oWmVuLyU-Y7r69Yf8VtWjMPehrc/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1mDyYXfHu9FezWcb4r2ofwoIRl3debnhM/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1dwdQ83enhT8o6g_AKE1zw49aH6wAWutM/view?usp=drive_link",
           },
           {
             id: "07",
@@ -222,6 +238,8 @@
             status: "complete",
             docUrl:
               "https://docs.google.com/document/d/1kTV9nwjm5feYOikH0BTswIoBu0yZgpiZi1bwnFxpkEU/edit?usp=drive_link",
+            pdfUrl: "https://drive.google.com/file/d/1HkvVVtSlHags2lEUx7XFFYHWn9LNBVpc/view?usp=drive_link",
+            videoUrl: "https://drive.google.com/file/d/1dlA5NPwfrcakO33s0QqXzGmz4t2EOkXp/view?usp=drive_link",
           },
           {
             id: "08",
@@ -1605,6 +1623,38 @@
                               >
                                 <FileText size={16} />
                               </a>
+                              {s.pdfUrl && (
+                                <a
+                                  href={s.pdfUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={`p-1.5 rounded-lg ${
+                                    dark
+                                      ? "hover:bg-gray-700 text-red-400"
+                                      : "hover:bg-gray-100 text-red-600"
+                                  }`}
+                                  title="Open PDF"
+                                >
+                                  <Download size={16} />
+                                </a>
+                              )}
+                              {s.videoUrl && (
+                                <a
+                                  href={s.videoUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={`p-1.5 rounded-lg ${
+                                    dark
+                                      ? "hover:bg-gray-700 text-green-400"
+                                      : "hover:bg-gray-100 text-green-600"
+                                  }`}
+                                  title="Watch Video"
+                                >
+                                  <PlayCircle size={16} />
+                                </a>
+                              )}
                               <span
                                 className={`text-xs px-2 py-1 rounded ${
                                   s.status === "complete"
@@ -1660,19 +1710,49 @@
                       >
                         <ArrowLeft size={16} /> Back
                       </button>
-                      <a
-                        href={currentSection?.docUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
-                          dark
-                            ? "bg-blue-600 hover:bg-blue-500"
-                            : "bg-blue-500 hover:bg-blue-600"
-                        } text-white`}
-                      >
-                        <FileText size={16} /> Open Doc{" "}
-                        <ExternalLink size={14} />
-                      </a>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={currentSection?.docUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                            dark
+                              ? "bg-blue-600 hover:bg-blue-500"
+                              : "bg-blue-500 hover:bg-blue-600"
+                          } text-white`}
+                        >
+                          <FileText size={16} /> Doc{" "}
+                          <ExternalLink size={14} />
+                        </a>
+                        {currentSection?.pdfUrl && (
+                          <a
+                            href={currentSection.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                              dark
+                                ? "bg-red-700 hover:bg-red-600"
+                                : "bg-red-500 hover:bg-red-600"
+                            } text-white`}
+                          >
+                            <Download size={16} /> PDF
+                          </a>
+                        )}
+                        {currentSection?.videoUrl && (
+                          <a
+                            href={currentSection.videoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                              dark
+                                ? "bg-green-700 hover:bg-green-600"
+                                : "bg-green-500 hover:bg-green-600"
+                            } text-white`}
+                          >
+                            <PlayCircle size={16} /> Video
+                          </a>
+                        )}
+                      </div>
                     </div>
                     <div
                       className={`p-5 rounded-xl mb-4 ${
@@ -1814,19 +1894,49 @@
                       >
                         <ArrowLeft size={16} /> Back
                       </button>
-                      <a
-                        href={currentSection?.docUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
-                          dark
-                            ? "bg-blue-600 hover:bg-blue-500"
-                            : "bg-blue-500 hover:bg-blue-600"
-                        } text-white`}
-                      >
-                        <FileText size={16} /> Open Doc{" "}
-                        <ExternalLink size={14} />
-                      </a>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={currentSection?.docUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                            dark
+                              ? "bg-blue-600 hover:bg-blue-500"
+                              : "bg-blue-500 hover:bg-blue-600"
+                          } text-white`}
+                        >
+                          <FileText size={16} /> Doc{" "}
+                          <ExternalLink size={14} />
+                        </a>
+                        {currentSection?.pdfUrl && (
+                          <a
+                            href={currentSection.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                              dark
+                                ? "bg-red-700 hover:bg-red-600"
+                                : "bg-red-500 hover:bg-red-600"
+                            } text-white`}
+                          >
+                            <Download size={16} /> PDF
+                          </a>
+                        )}
+                        {currentSection?.videoUrl && (
+                          <a
+                            href={currentSection.videoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
+                              dark
+                                ? "bg-green-700 hover:bg-green-600"
+                                : "bg-green-500 hover:bg-green-600"
+                            } text-white`}
+                          >
+                            <PlayCircle size={16} /> Video
+                          </a>
+                        )}
+                      </div>
                     </div>
                     <div
                       className={`p-8 rounded-xl text-center ${
