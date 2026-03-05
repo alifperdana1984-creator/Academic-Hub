@@ -1648,9 +1648,9 @@
                       </p>
                     </div>
                     <div className="space-y-2">
-                      {sectionData.subsections.map((sub) => (
+                      {sectionData.subsections.map((sub, subIdx) => (
                         <div
-                          key={sub.id}
+                          key={sub.id + "-" + subIdx}
                           className={`rounded-xl border overflow-hidden ${card}`}
                         >
                           <button
