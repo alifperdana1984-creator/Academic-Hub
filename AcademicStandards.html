@@ -835,28 +835,32 @@
                 <h4 className={`font-semibold mb-1 ${heading}`}>
                   {block.title}
                 </h4>
-                <p className={`text-xs mb-3 ${muted}`}>{block.purpose}</p>
                 <div className="space-y-2">
-                  {block.steps.map((s, i) => (
-                    <div
-                      key={i}
-                      className={`flex items-start p-2 rounded ${cardAlt}`}
-                    >
-                      <span
-                        className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                          dark ? "bg-emerald-600" : "bg-emerald-500"
-                        } text-white`}
+                  {block.steps.map((s, i) => {
+                    const isStr = typeof s === "string";
+                    return (
+                      <div
+                        key={i}
+                        className={`flex items-start p-2 rounded ${cardAlt}`}
                       >
-                        {s.n}
-                      </span>
-                      <div>
-                        <span className={`font-medium text-sm ${heading}`}>
-                          {s.title}
+                        <span
+                          className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                            dark ? "bg-emerald-600" : "bg-emerald-500"
+                          } text-white`}
+                        >
+                          {isStr ? i + 1 : s.n}
                         </span>
-                        <p className={`text-xs ${base}`}>{s.desc}</p>
+                        <div>
+                          <span className={`font-medium text-sm ${heading}`}>
+                            {isStr ? s : s.title}
+                          </span>
+                          {!isStr && s.desc && (
+                            <p className={`text-xs ${base}`}>{s.desc}</p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );
