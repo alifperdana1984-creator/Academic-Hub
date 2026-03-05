@@ -1963,46 +1963,27 @@
 
 LANGUAGE: Always respond in the same language the user writes in. If they write in Indonesian (Bahasa Indonesia), respond in Indonesian. If in English, respond in English. If in Turkish, respond in Turkish.
 
-`;
-          const hasDetail = sectionsData && Object.keys(sectionsData).length > 0;
+Here is the full list of the 23 academic standard sections:\n\n`;
 
-          if (hasDetail) {
-            prompt += `Below is the full content of all available academic standard sections. Use this as your primary knowledge source.\n\n`;
-            indexData.sections.forEach((s) => {
-              const detail = sectionsData[s.id];
-              prompt += `═══ SECTION ${s.id}: ${s.title.toUpperCase()} ═══\n`;
-              prompt += `Keywords: ${s.tags.join(", ")} | Status: ${s.status === "complete" ? "Complete" : "Under development"}\n`;
-              if (detail && detail.subsections) {
-                detail.subsections.forEach((sub) => {
-                  prompt += `\n  [${sub.id}] ${sub.title}\n`;
-                  (sub.content || []).forEach((block) => {
-                    const text = serializeBlock(block);
-                    if (text.trim()) prompt += `    ${text.replace(/\n/g, "\n    ")}\n`;
-                  });
-                });
-              } else {
-                prompt += `  Description: ${s.description}\n`;
-                if (s.status !== "complete") prompt += `  (Content under development)\n`;
-              }
-              prompt += "\n";
-            });
-          } else {
-            prompt += `Here is the full list of the 23 academic standard sections:\n\n`;
-            indexData.sections.forEach((s) => {
-              prompt += `**Section ${s.id}: ${s.title}**\n`;
-              prompt += `  Description: ${s.description}\n`;
-              prompt += `  Keywords: ${s.tags.join(", ")}\n`;
-              prompt += `  Status: ${s.status === "complete" ? "Fully documented" : "Under development"}\n\n`;
-            });
-          }
+          indexData.sections.forEach((s) => {
+            const detail = sectionsData[s.id];
+            prompt += `**Section ${s.id}: ${s.title}**\n`;
+            prompt += `  Description: ${s.description}\n`;
+            prompt += `  Keywords: ${s.tags.join(", ")}\n`;
+            prompt += `  Status: ${s.status === "complete" ? "Fully documented" : "Under development"}\n`;
+            if (detail && detail.subsections) {
+              prompt += `  Subsections: ${detail.subsections.map(sub => sub.title).join(", ")}\n`;
+            }
+            prompt += "\n";
+          });
 
           prompt += `
 Guidelines:
 - Be specific about which section(s) cover the topic the user is asking about
-- Give detailed, accurate answers based on the content above
+- Give helpful, accurate answers based on the section list above
 - Be helpful, professional, and concise
 - If a section is under development, mention it is still being finalized
-- For sections not yet fully documented, direct users to the "Open Doc" button in the platform`;
+- For detailed content of any section, direct users to the "Open Doc" button in the platform`;
 
           return prompt;
         };
