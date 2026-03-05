@@ -435,11 +435,15 @@
           if (tag === 'b' || tag === 'strong') return '<b>' + inner + '</b>';
           if (tag === 'i' || tag === 'em')     return '<i>' + inner + '</i>';
           if (tag === 'mark') return '<mark>' + inner + '</mark>';
+          if (tag === 'br')   return '<br>';
+          // Block elements (div, p) → line break between them
+          if (tag === 'div' || tag === 'p') return inner + (inner ? '<br>' : '');
           const bg = node.style && node.style.backgroundColor;
           if (bg) return '<mark>' + inner + '</mark>';
           return inner;
         }
-        return Array.from(tmp.childNodes).map(walk).join('').trim();
+        // Strip trailing <br>
+        return Array.from(tmp.childNodes).map(walk).join('').replace(/<br>$/, '').trim();
       }
 
       function generateId() {
@@ -478,7 +482,17 @@
         const editRef = useRef(null);
         useEffect(() => {
           if (editRef.current) {
-            editRef.current.innerHTML = data.html || '';
+            let html = data.html || '';
+            // If no HTML tags yet (plain text), auto-structure numbered/lettered patterns
+            if (!/<[a-z]/i.test(html)) {
+              html = html
+                // Break before numbered items like "5. Text" or "Important (..."
+                .replace(/\s+(\d+[\.\)]\s)/g, '<br>$1')
+                // Break before capitalized keywords indicating new sections
+                .replace(/\s+(Important|Follow-Up|Urgent|Note:|Action:)/g, '<br><br><b>$1</b>')
+                .replace(/^<br>/, '');
+            }
+            editRef.current.innerHTML = html;
             editRef.current.focus();
           }
         }, []);
