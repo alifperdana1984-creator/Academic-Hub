@@ -914,7 +914,7 @@
                       <ul className={`space-y-1 ${base}`}>
                         {cat.items.map((item, i) => (
                           <li key={i} className="text-xs flex items-start">
-                            <span className="mr-1.5 text-blue-500">ðŸ“„</span>
+                            <span className="mr-1.5 text-blue-500">ðŸ"„</span>
                             {item}
                           </li>
                         ))}
@@ -935,7 +935,7 @@
                     <ul className={`space-y-1 ${base}`}>
                       {cat.items.map((item, i) => (
                         <li key={i} className="text-xs flex items-start">
-                          <span className="mr-1.5 text-emerald-500">âœ“</span>
+                          <span className="mr-1.5 text-emerald-500">âœ"</span>
                           {item}
                         </li>
                       ))}
@@ -1421,14 +1421,14 @@
                     </div>
                     <div
                       className={`p-8 rounded-xl text-center ${
-                        dark ? “bg-gray-800” : “bg-white”
-                      } border ${dark ? “border-gray-700” : “border-gray-200”}`}
+                        dark ? "bg-gray-800" : "bg-white"
+                      } border ${dark ? "border-gray-700" : "border-gray-200"}`}
                     >
                       {!allLoaded ? (
                         <>
                           <div
-                            className=”inline-block w-10 h-10 border-4 border-blue-200 border-t-blue-500 rounded-full mx-auto mb-4”
-                            style={{ animation: “spin 1s linear infinite” }}
+                            className="inline-block w-10 h-10 border-4 border-blue-200 border-t-blue-500 rounded-full mx-auto mb-4"
+                            style={{ animation: "spin 1s linear infinite" }}
                           />
                           <p className={muted}>Loading section content…</p>
                           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -1439,14 +1439,14 @@
                             name={currentSection?.icon}
                             size={48}
                             style={{ color: currentSection?.color }}
-                            className=”mx-auto mb-4”
+                            className="mx-auto mb-4"
                           />
-                          <h2 className=”text-xl font-bold mb-2”>
+                          <h2 className="text-xl font-bold mb-2">
                             Section {selected}: {currentSection?.title}
                           </h2>
                           <p className={muted}>Dashboard content coming soon...</p>
-                          <p className={`text-sm mt-4 ${dark ? “text-yellow-400” : “text-yellow-600”}`}>
-                            Click “Open Doc” to view the full document
+                          <p className={`text-sm mt-4 ${dark ? "text-yellow-400" : "text-yellow-600"}`}>
+                            Click "Open Doc" to view the full document
                           </p>
                         </>
                       )}
