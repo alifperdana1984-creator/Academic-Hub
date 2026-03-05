@@ -20,8 +20,12 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getFirestore, doc, getDoc, setDoc, serverTimestamp,
+  collection, collectionGroup, onSnapshot, updateDoc, arrayUnion, arrayRemove,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 // ── Platform identity ─────────────────────────────────────────────
 const PLATFORM_KEY  = 'role_academichub';  // per-user Firestore field
@@ -47,9 +51,17 @@ const app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-window.firebaseApp = app;
-window.auth        = auth;
-window.db          = db;
+const storage = getStorage(app);
+
+window.firebaseApp   = app;
+window.auth          = auth;
+window.db            = db;
+window.storage       = storage;
+window.firestoreOps  = {
+  doc, getDoc, setDoc, serverTimestamp,
+  collection, collectionGroup, onSnapshot, updateDoc, arrayUnion, arrayRemove,
+};
+window.storageOps    = { ref, uploadBytes, getDownloadURL, deleteObject };
 
 // ── Name prompt (shown when displayName is missing) ───────────────
 function promptForName() {

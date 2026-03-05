@@ -423,7 +423,228 @@
 
       const Icon = (props) => <FeatherIcon {...props} />;
 
-      const ContentBlock = ({ block, dark }) => {
+      // ── Helpers ───────────────────────────────────────────────────────
+      function sanitizeHtml(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        function walk(node) {
+          if (node.nodeType === 3) return node.textContent;
+          if (node.nodeType !== 1) return '';
+          const tag = node.tagName.toLowerCase();
+          const inner = Array.from(node.childNodes).map(walk).join('');
+          if (tag === 'b' || tag === 'strong') return '<b>' + inner + '</b>';
+          if (tag === 'i' || tag === 'em')     return '<i>' + inner + '</i>';
+          if (tag === 'mark') return '<mark>' + inner + '</mark>';
+          const bg = node.style && node.style.backgroundColor;
+          if (bg) return '<mark>' + inner + '</mark>';
+          return inner;
+        }
+        return Array.from(tmp.childNodes).map(walk).join('').trim();
+      }
+
+      function generateId() {
+        return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+      }
+
+      async function saveTextOverride(sectionId, subId, blockKey, html) {
+        const { doc, updateDoc, setDoc, serverTimestamp } = window.firestoreOps;
+        const ref = doc(window.db, 'section_overrides', sectionId, 'subsections', subId);
+        try {
+          await updateDoc(ref, {
+            ['text_overrides.' + blockKey]: html,
+            updatedAt: serverTimestamp(),
+          });
+        } catch (e) {
+          if (e.code === 'not-found') {
+            await setDoc(ref, { text_overrides: { [blockKey]: html }, updatedAt: serverTimestamp() });
+          } else { throw e; }
+        }
+      }
+
+      async function saveImagesOverride(sectionId, subId, images) {
+        const { doc, setDoc, updateDoc, serverTimestamp } = window.firestoreOps;
+        const ref = doc(window.db, 'section_overrides', sectionId, 'subsections', subId);
+        try {
+          await updateDoc(ref, { images, updatedAt: serverTimestamp() });
+        } catch (e) {
+          if (e.code === 'not-found') {
+            await setDoc(ref, { images, updatedAt: serverTimestamp() });
+          } else { throw e; }
+        }
+      }
+
+      // ── EditTextModal ─────────────────────────────────────────────────
+      const EditTextModal = ({ data, dark, onSave, onClose }) => {
+        const editRef = useRef(null);
+        useEffect(() => {
+          if (editRef.current) {
+            editRef.current.innerHTML = data.html || '';
+            editRef.current.focus();
+          }
+        }, []);
+
+        const applyCmd = (cmd, val) => {
+          document.execCommand(cmd, false, val || null);
+          editRef.current && editRef.current.focus();
+        };
+
+        const applyHighlight = () => {
+          const sel = window.getSelection();
+          if (!sel || !sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          const mark = document.createElement('mark');
+          try { range.surroundContents(mark); }
+          catch (e) { document.execCommand('backColor', false, '#fef08a'); }
+          editRef.current && editRef.current.focus();
+        };
+
+        const handleSave = () => {
+          const clean = sanitizeHtml(editRef.current ? editRef.current.innerHTML : '');
+          onSave(clean);
+        };
+
+        const overlay = {
+          position: 'fixed', inset: 0, zIndex: 10000,
+          background: 'rgba(0,0,0,0.55)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
+        };
+        const box = {
+          background: dark ? '#1f2937' : '#fff', borderRadius: '12px', padding: '24px',
+          width: '100%', maxWidth: '540px', boxShadow: '0 20px 60px rgba(0,0,0,0.35)',
+        };
+        const btnBase = {
+          padding: '4px 12px', borderRadius: '6px', cursor: 'pointer',
+          border: '1px solid ' + (dark ? '#4b5563' : '#d1d5db'),
+          background: dark ? '#374151' : '#f3f4f6',
+          color: dark ? '#e5e7eb' : '#374151',
+        };
+        return (
+          <div style={overlay}>
+            <div style={box}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ fontWeight: 600, fontSize: '14px', color: dark ? '#e5e7eb' : '#111827' }}>
+                  {data.label}
+                </span>
+                <button onClick={onClose} style={{ ...btnBase, padding: '2px 8px' }}>X</button>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                <button onClick={() => applyCmd('bold')} style={{ ...btnBase, fontWeight: 700 }}>B</button>
+                <button onClick={() => applyCmd('italic')} style={{ ...btnBase, fontStyle: 'italic' }}>I</button>
+                <button onClick={applyHighlight} style={{ ...btnBase, background: '#fef08a', border: '1px solid #fbbf24', color: '#78350f' }}>H</button>
+                <button onClick={() => applyCmd('removeFormat')} style={{ ...btnBase, fontSize: '11px' }}>Clear</button>
+              </div>
+              <div
+                ref={editRef}
+                contentEditable
+                suppressContentEditableWarning
+                spellCheck={false}
+                autoCorrect="off"
+                style={{
+                  minHeight: '80px', padding: '10px 12px',
+                  border: '1px solid ' + (dark ? '#4b5563' : '#d1d5db'),
+                  borderRadius: '8px', fontSize: '14px', lineHeight: '1.6',
+                  color: dark ? '#e5e7eb' : '#111827',
+                  background: dark ? '#111827' : '#f9fafb', outline: 'none',
+                }}
+              />
+              <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                <button onClick={onClose} style={btnBase}>Cancel</button>
+                <button onClick={handleSave} style={{ padding: '8px 20px', borderRadius: '8px', cursor: 'pointer', background: '#2563eb', color: '#fff', border: 'none', fontWeight: 600 }}>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // ── ImageUploadModal ──────────────────────────────────────────────
+      const ImageUploadModal = ({ data, dark, onClose, onUploaded }) => {
+        const [file, setFile]           = useState(null);
+        const [caption, setCaption]     = useState('');
+        const [afterBlock, setAfterBlock] = useState(data.afterBlock);
+        const [uploading, setUploading] = useState(false);
+        const [error, setError]         = useState('');
+
+        const handleUpload = async () => {
+          if (!file) { setError('Please select an image.'); return; }
+          if (file.size > 5 * 1024 * 1024) { setError('Image must be under 5 MB.'); return; }
+          setError(''); setUploading(true);
+          try {
+            const { ref: sRef, uploadBytes, getDownloadURL } = window.storageOps;
+            const path = 'section-images/' + data.sectionId + '/' + data.subId + '/' + Date.now() + '_' + file.name;
+            const sr = sRef(window.storage, path);
+            await uploadBytes(sr, file);
+            const url = await getDownloadURL(sr);
+            const newImg = {
+              id: generateId(), url, caption: caption.trim(),
+              afterBlock: Number(afterBlock), path,
+              uploadedBy: window.currentUser ? window.currentUser.uid : '',
+              uploadedAt: new Date().toISOString(),
+            };
+            const existing = data.existingImages || [];
+            await saveImagesOverride(data.sectionId, data.subId, [...existing, newImg]);
+            onUploaded();
+          } catch (e) {
+            setError('Upload failed: ' + e.message);
+          } finally { setUploading(false); }
+        };
+
+        const overlay = { position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' };
+        const box = { background: dark ? '#1f2937' : '#fff', borderRadius: '12px', padding: '24px', width: '100%', maxWidth: '420px', boxShadow: '0 20px 60px rgba(0,0,0,0.35)' };
+        const inp = { width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid ' + (dark ? '#4b5563' : '#d1d5db'), fontSize: '13px', boxSizing: 'border-box', background: dark ? '#111827' : '#f9fafb', color: dark ? '#e5e7eb' : '#111827' };
+        const btnBase = { padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', border: '1px solid ' + (dark ? '#4b5563' : '#d1d5db'), background: dark ? '#374151' : '#f3f4f6', color: dark ? '#e5e7eb' : '#374151' };
+
+        return (
+          <div style={overlay}>
+            <div style={box}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <span style={{ fontWeight: 600, fontSize: '14px', color: dark ? '#e5e7eb' : '#111827' }}>Add Image</span>
+                <button onClick={onClose} style={{ ...btnBase, padding: '2px 8px' }}>X</button>
+              </div>
+              <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} style={{ ...inp, marginBottom: '10px', padding: '6px' }} />
+              {file && <p style={{ fontSize: '12px', color: dark ? '#9ca3af' : '#6b7280', marginBottom: '8px' }}>{file.name} — {(file.size / 1024).toFixed(0)} KB</p>}
+              <input type="text" placeholder="Caption (optional)" value={caption} onChange={e => setCaption(e.target.value)} style={{ ...inp, marginBottom: '10px' }} />
+              <div style={{ marginBottom: '14px' }}>
+                <label style={{ fontSize: '12px', color: dark ? '#9ca3af' : '#6b7280', display: 'block', marginBottom: '4px' }}>Insert after block</label>
+                <select value={afterBlock} onChange={e => setAfterBlock(e.target.value)} style={{ ...inp }}>
+                  {Array.from({ length: data.contentLength }, (_, i) => (
+                    <option key={i} value={i}>Block {i + 1}</option>
+                  ))}
+                </select>
+              </div>
+              {error && <p style={{ color: '#dc2626', fontSize: '12px', marginBottom: '8px' }}>{error}</p>}
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                <button onClick={onClose} disabled={uploading} style={btnBase}>Cancel</button>
+                <button onClick={handleUpload} disabled={uploading || !file} style={{ padding: '8px 20px', borderRadius: '8px', cursor: uploading ? 'not-allowed' : 'pointer', background: uploading ? '#93c5fd' : '#2563eb', color: '#fff', border: 'none', fontWeight: 600, opacity: (!file || uploading) ? 0.6 : 1 }}>
+                  {uploading ? 'Uploading...' : 'Upload'}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // ── ImageBlock ────────────────────────────────────────────────────
+      const ImageBlock = ({ img, dark, isAdmin, onDelete }) => (
+        <div style={{ marginBottom: '16px', position: 'relative' }}>
+          <img src={img.url} alt={img.caption || 'Section image'}
+            style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', borderRadius: '8px', border: '1px solid ' + (dark ? '#374151' : '#e5e7eb') }} />
+          {img.caption && (
+            <p style={{ fontSize: '12px', color: dark ? '#9ca3af' : '#6b7280', textAlign: 'center', marginTop: '6px' }}>
+              {img.caption}
+            </p>
+          )}
+          {isAdmin && (
+            <button onClick={() => onDelete(img.id)}
+              style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(220,38,38,0.85)', color: '#fff', border: 'none', borderRadius: '6px', padding: '3px 8px', fontSize: '11px', cursor: 'pointer', fontWeight: 600 }}>
+              Delete
+            </button>
+          )}
+        </div>
+      );
+
+      const ContentBlock = ({ block, blockIndex, dark, isAdmin, textOverrides, onEdit }) => {
         const base = dark ? "text-gray-200" : "text-gray-700";
         const heading = dark ? "text-white" : "text-gray-900";
         const muted = dark ? "text-gray-400" : "text-gray-500";
@@ -480,16 +701,31 @@
           case "list":
             return (
               <div className="mb-5">
-                <h4 className={`font-semibold mb-2 ${heading}`}>
-                  {block.title}
-                </h4>
+                {block.title && (
+                  <h4 className={`font-semibold mb-2 ${heading}`}>{block.title}</h4>
+                )}
                 <ul className={`space-y-1.5 ${base}`}>
-                  {block.items.map((item, i) => (
-                    <li key={i} className="flex items-start">
-                      <span className="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
-                      <span className="text-sm">{item}</span>
-                    </li>
-                  ))}
+                  {block.items.map((item, i) => {
+                    const itemKey = "b" + blockIndex + "_i" + i;
+                    const ov = textOverrides && textOverrides[itemKey];
+                    return (
+                      <li key={i} className="flex items-start" style={{ position: "relative" }}>
+                        <span className="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                        <span
+                          className="text-sm"
+                          dangerouslySetInnerHTML={{ __html: ov || item }}
+                        />
+                        {isAdmin && (
+                          <button
+                            onClick={() => onEdit(itemKey, ov || item, "List Item")}
+                            style={{ marginLeft: "6px", fontSize: "10px", padding: "1px 6px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "3px", cursor: "pointer", flexShrink: 0, opacity: 0, transition: "opacity 0.15s" }}
+                            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                            onMouseLeave={e => e.currentTarget.style.opacity = 0}
+                          >Edit</button>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             );
@@ -641,15 +877,28 @@
                 </div>
               </div>
             );
-          case "text":
+          case "text": {
+            const overrideHtml = textOverrides && textOverrides["b" + blockIndex];
             return (
-              <div className="mb-5">
-                <h4 className={`font-semibold mb-2 ${heading}`}>
-                  {block.title}
-                </h4>
-                <p className={`text-sm ${base}`}>{block.text}</p>
+              <div className="mb-5" style={{ position: "relative" }}>
+                {block.title && (
+                  <h4 className={`font-semibold mb-2 ${heading}`}>{block.title}</h4>
+                )}
+                <p
+                  className={`text-sm ${base}`}
+                  dangerouslySetInnerHTML={{ __html: overrideHtml || block.text }}
+                />
+                {isAdmin && (
+                  <button
+                    onClick={() => onEdit("b" + blockIndex, overrideHtml || block.text, "Text Block")}
+                    style={{ position: "absolute", top: 0, right: 0, fontSize: "11px", padding: "2px 8px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", opacity: 0, transition: "opacity 0.15s" }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                    onMouseLeave={e => e.currentTarget.style.opacity = 0}
+                  >Edit</button>
+                )}
               </div>
             );
+          }
           case "levels":
             return (
               <div className="mb-5">
@@ -832,16 +1081,19 @@
           case "process":
             return (
               <div className="mb-5">
-                <h4 className={`font-semibold mb-1 ${heading}`}>
-                  {block.title}
-                </h4>
+                {block.title && (
+                  <h4 className={`font-semibold mb-1 ${heading}`}>{block.title}</h4>
+                )}
                 <div className="space-y-2">
                   {block.steps.map((s, i) => {
                     const isStr = typeof s === "string";
+                    const stepKey = "b" + blockIndex + "_s" + i;
+                    const ov = textOverrides && textOverrides[stepKey];
                     return (
                       <div
                         key={i}
                         className={`flex items-start p-2 rounded ${cardAlt}`}
+                        style={{ position: "relative" }}
                       >
                         <span
                           className={`mr-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
@@ -850,14 +1102,23 @@
                         >
                           {isStr ? i + 1 : s.n}
                         </span>
-                        <div>
-                          <span className={`font-medium text-sm ${heading}`}>
-                            {isStr ? s : s.title}
-                          </span>
-                          {!isStr && s.desc && (
+                        <div style={{ flex: 1 }}>
+                          <span
+                            className={`font-medium text-sm ${heading}`}
+                            dangerouslySetInnerHTML={{ __html: ov || (isStr ? s : s.title) }}
+                          />
+                          {!isStr && s.desc && !ov && (
                             <p className={`text-xs ${base}`}>{s.desc}</p>
                           )}
                         </div>
+                        {isAdmin && (
+                          <button
+                            onClick={() => onEdit(stepKey, ov || (isStr ? s : s.title), "Step")}
+                            style={{ fontSize: "10px", padding: "1px 6px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "3px", cursor: "pointer", flexShrink: 0, opacity: 0, transition: "opacity 0.15s" }}
+                            onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                            onMouseLeave={e => e.currentTarget.style.opacity = 0}
+                          >Edit</button>
+                        )}
                       </div>
                     );
                   })}
@@ -962,6 +1223,10 @@
         const [sectionsData, setSectionsData] = useState({});
         const [loadedCount, setLoadedCount] = useState(0);
         const totalSections = indexData.sections.filter(s => s.status === "complete").length;
+        const [isAdmin, setIsAdmin] = useState(false);
+        const [overrides, setOverrides] = useState({});
+        const [editModal, setEditModal] = useState(null);
+        const [imgModal, setImgModal] = useState(null);
 
         useEffect(() => {
           const completeSections = indexData.sections.filter(
@@ -978,6 +1243,38 @@
                 setLoadedCount((n) => n + 1);
               });
           });
+        }, []);
+
+        useEffect(() => {
+          const handler = ({ detail: { profile } }) =>
+            setIsAdmin(profile.role_academichub === "academic_admin");
+          document.addEventListener("authReady", handler);
+          if (window.userProfile)
+            setIsAdmin(window.userProfile.role_academichub === "academic_admin");
+          return () => document.removeEventListener("authReady", handler);
+        }, []);
+
+        useEffect(() => {
+          let unsub;
+          const start = () => {
+            if (!window.firestoreOps || !window.db) return;
+            const { collectionGroup, onSnapshot } = window.firestoreOps;
+            unsub = onSnapshot(collectionGroup(window.db, "subsections"), snap => {
+              const map = {};
+              snap.forEach(d => {
+                const sId = d.ref.parent.parent.id;
+                map[sId + "/" + d.id] = d.data();
+              });
+              setOverrides(map);
+            });
+          };
+          const handler = () => start();
+          document.addEventListener("authReady", handler);
+          if (window.firestoreOps) start();
+          return () => {
+            document.removeEventListener("authReady", handler);
+            if (unsub) unsub();
+          };
         }, []);
 
         const bg = dark ? "bg-gray-900" : "bg-gray-100";
@@ -1385,13 +1682,70 @@
                                   : "border-gray-200 bg-gray-50/50"
                               }`}
                             >
-                              {sub.content.map((block, i) => (
-                                <ContentBlock
-                                  key={i}
-                                  block={block}
-                                  dark={dark}
-                                />
-                              ))}
+                              {(() => {
+                                const overKey = selected + "/" + sub.id;
+                                const subOv = overrides[overKey] || {};
+                                const textOvs = subOv.text_overrides || {};
+                                const imgs = subOv.images || [];
+                                const handleEdit = (blockKey, currentHtml, label) => {
+                                  setEditModal({
+                                    sectionId: selected,
+                                    subId: sub.id,
+                                    blockKey,
+                                    html: currentHtml,
+                                    label,
+                                  });
+                                };
+                                const handleDelete = async (imgId) => {
+                                  if (!window.confirm("Delete this image?")) return;
+                                  const updated = imgs.filter(img => img.id !== imgId);
+                                  const toDelete = imgs.find(img => img.id === imgId);
+                                  if (toDelete && toDelete.path) {
+                                    try {
+                                      const { ref: sRef, deleteObject } = window.storageOps;
+                                      await deleteObject(sRef(window.storage, toDelete.path));
+                                    } catch (_) {}
+                                  }
+                                  await saveImagesOverride(selected, sub.id, updated);
+                                };
+                                return (
+                                  <>
+                                    {sub.content.map((block, i) => (
+                                      <React.Fragment key={i}>
+                                        <ContentBlock
+                                          block={block}
+                                          blockIndex={i}
+                                          dark={dark}
+                                          isAdmin={isAdmin}
+                                          textOverrides={textOvs}
+                                          onEdit={handleEdit}
+                                        />
+                                        {imgs.filter(img => img.afterBlock === i).map(img => (
+                                          <ImageBlock
+                                            key={img.id}
+                                            img={img}
+                                            dark={dark}
+                                            isAdmin={isAdmin}
+                                            onDelete={handleDelete}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    ))}
+                                    {isAdmin && (
+                                      <button
+                                        onClick={() => setImgModal({
+                                          sectionId: selected,
+                                          subId: sub.id,
+                                          afterBlock: sub.content.length - 1,
+                                          contentLength: sub.content.length,
+                                          existingImages: imgs,
+                                        })}
+                                        style={{ marginTop: "12px", padding: "6px 16px", background: "transparent", border: "1px dashed " + (dark ? "#4b5563" : "#9ca3af"), color: dark ? "#9ca3af" : "#6b7280", borderRadius: "8px", cursor: "pointer", fontSize: "13px", width: "100%" }}
+                                      >+ Add Image</button>
+                                    )}
+                                  </>
+                                );
+                              })()}
                             </div>
                           )}
                         </div>
@@ -1460,6 +1814,25 @@
               </main>
             </div>
             <ChatBot dark={dark} sectionsData={sectionsData} />
+            {editModal && (
+              <EditTextModal
+                data={editModal}
+                dark={dark}
+                onClose={() => setEditModal(null)}
+                onSave={async (html) => {
+                  await saveTextOverride(editModal.sectionId, editModal.subId, editModal.blockKey, html);
+                  setEditModal(null);
+                }}
+              />
+            )}
+            {imgModal && (
+              <ImageUploadModal
+                data={imgModal}
+                dark={dark}
+                onClose={() => setImgModal(null)}
+                onUploaded={() => setImgModal(null)}
+              />
+            )}
           </div>
         );
       }
