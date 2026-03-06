@@ -213,6 +213,8 @@ body {
 .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .filter-label { font-size: 11.5px; font-weight: 600; color: var(--ink-3); min-width: 52px; }
 .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-row-subject .filter-pills { flex: 1; min-width: 0; }
+.filter-row-subject #addFab { margin-left: auto; flex-shrink: 0; }
 .pill {
   padding: 5px 13px; border-radius: 20px;
   border: 1px solid var(--border); background: var(--paper);
@@ -550,12 +552,6 @@ body {
 
   <!-- Filters -->
   <div class="filter-bar">
-    <div style="display:flex; justify-content:flex-end;">
-      <button class="nav-add-btn" id="addFab" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Resource
-      </button>
-    </div>
     <div class="filter-row">
       <span class="filter-label">Type</span>
       <div class="filter-pills" id="typeFilters">
@@ -566,7 +562,7 @@ body {
         <button class="pill" data-type="other">📦 Other</button>
       </div>
     </div>
-    <div class="filter-row">
+    <div class="filter-row filter-row-subject">
       <span class="filter-label">Subject</span>
       <div class="filter-pills" id="subjectFilters">
         <button class="pill active" data-subject="All">All</button>
@@ -579,6 +575,10 @@ body {
         <button class="pill" data-subject="Administration">Administration</button>
         <button class="pill" data-subject="General">General</button>
       </div>
+      <button class="nav-add-btn" id="addFab" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Resource
+      </button>
     </div>
   </div>
 
@@ -1088,8 +1088,4 @@ body {
 </script>
 </body>
 </html>
-
-
-
-
 
