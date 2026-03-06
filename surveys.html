@@ -384,9 +384,13 @@
     let statusFilter = "all";
     let controlsBound = false;
 
+    // Start loading the navbar immediately (before auth resolves) so it's
+    // ready by the time authReady fires. Capture the promise for await below.
+    const navbarReady = window.__loadAcademicNavbar?.("surveys");
+
     document.addEventListener("authReady", async ({ detail: { user, profile } }) => {
-      // Load navbar partial first, then populate and wire up
-      await window.__loadAcademicNavbar?.("surveys");
+      // Wait for the navbar (started above); ignore errors so surveys still load
+      try { await navbarReady; } catch (e) { console.warn("Navbar load failed:", e); }
 
       const displayName = profile?.displayName || user.displayName || user.email;
       const firstName = displayName.split(" ")[0];
