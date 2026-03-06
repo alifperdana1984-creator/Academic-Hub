@@ -33,6 +33,7 @@ const replacements = {
 const cleanUrls = {
   "index.html":                      "",
   "announcements.html":              "announcements",
+  "surveys.html":                    "surveys",
   "library.html":                    "library",
   "documents.html":                  "documents",
   "messageboard.html":               "message-board",
@@ -83,6 +84,7 @@ if (!fs.existsSync("dist")) {
 const htmlFiles = [
   "index.html",
   "announcements.html",
+  "surveys.html",
   "library.html",
   "documents.html",
   "messageboard.html",
