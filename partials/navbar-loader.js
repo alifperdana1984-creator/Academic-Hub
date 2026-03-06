@@ -115,7 +115,7 @@ window.__loadAcademicNavbar = async function(activeKey) {
 };
 
 window.__clearNavbarCounters = function() {
-  const ids = ['annBadge', 'msgBadge', 'libBadge', 'docBadge', 'aiBadge'];
+  const ids = ['annBadge', 'msgBadge', 'libBadge', 'docBadge', 'aiBadge', 'surveyBadge'];
   ids.forEach((id) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -149,7 +149,7 @@ window.__initNavbarCounters = async function({ db, user }) {
   };
 
   const fs = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-  const { collection, onSnapshot } = fs;
+  const { collection, onSnapshot, query, where } = fs;
 
   const annBadge = document.getElementById('annBadge');
   if (annBadge) {
@@ -180,6 +180,16 @@ window.__initNavbarCounters = async function({ db, user }) {
   if (document.getElementById('aiBadge')) {
     state.unsubs.push(
       onSnapshot(collection(db, 'prompts'), (snap) => setBadge('aiBadge', snap.size, 999), () => {}),
+    );
+  }
+
+  if (document.getElementById('surveyBadge')) {
+    state.unsubs.push(
+      onSnapshot(
+        query(collection(db, 'surveys'), where('platforms', 'array-contains', 'academichub')),
+        (snap) => setBadge('surveyBadge', snap.size, 999),
+        () => {},
+      ),
     );
   }
 };
