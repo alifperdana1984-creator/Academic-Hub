@@ -753,6 +753,39 @@
       const MOVE_MIN_COHORT = 10;
 
       /**
+       * Which series a result is compared against.
+       *
+       * Cambridge runs two sittings a year and they do not carry the same
+       * cohort: May/June holds the main year group, October/November is a much
+       * smaller entry. Taking the immediately preceding series therefore reads
+       * June against November — and once MOVE_MIN_COHORT above rejects the
+       * small side, the movement signal does not fall back to the last
+       * comparable series, it simply says nothing. That is what happened to the
+       * whole June 2026 IGCSE tab: November 2025 held one cohort of five, so
+       * the tab announced no movement at all while Kharisma Bangsa's Chemistry
+       * A*-C had fallen 29.9 points against June 2025.
+       *
+       * Decision 2026-09-07: compare a series with the previous series of the
+       * SAME sitting. Returns null when there is no earlier one, which is the
+       * honest answer for a school's first June.
+       */
+      const sittingOf = (s) => (/^(May|June)/.test(s) ? "main" : "second");
+      const prevComparable = (order, series) => {
+        const i = order.indexOf(series);
+        if (i < 1) return null;
+        return order.slice(0, i).reverse().find((s) => sittingOf(s) === sittingOf(series)) || null;
+      };
+      /**
+       * Said out loud only when a series was stepped over, so a reader who
+       * knows the skipped sitting exists is not left wondering.
+       */
+      const sittingNote = (order, series, prev) => {
+        const immediate = order[order.indexOf(series) - 1];
+        if (!immediate || immediate === prev) return "";
+        return ` The comparison is ${prev} rather than ${immediate}: Cambridge runs two sittings a year and they draw different numbers of candidates, so each series is read against the previous series of the same sitting.`;
+      };
+
+      /**
        * Download a table as CSV.
        *
        * A coordinator taking the sub-strand table into a meeting was otherwise
@@ -827,7 +860,7 @@
         // Biggest move since the previous series.
         const all = D.checkpoint.subject.filter((r) => r.level === level);
         const order = seriesFor(all);
-        const prev = order[order.indexOf(series) - 1];
+        const prev = prevComparable(order, series);
         if (prev) {
           let move = null;
           for (const r of rows) {
@@ -842,7 +875,7 @@
             out.push({
               mark: up ? "↑" : "↓", tone: up ? TONE.good : TONE.alert,
               title: `${shortName(move.row.centre)} ${up ? "rose" : "fell"} ${fmt(Math.abs(move.d), 1)} points in ${move.row.subject}`,
-              body: `From ${fmt(move.before.meanOverall, 1)} across ${move.before.n} learners in ${prev} to ${fmt(move.row.meanOverall, 1)} across ${move.row.n} in ${series}. These are different learners, so this is a change in what the school is producing year on year, not the progress of one cohort.`,
+              body: `From ${fmt(move.before.meanOverall, 1)} across ${move.before.n} learners in ${prev} to ${fmt(move.row.meanOverall, 1)} across ${move.row.n} in ${series}. These are different learners, so this is a change in what the school is producing year on year, not the progress of one cohort.${sittingNote(order, series, prev)}`,
             });
           }
         }
@@ -857,7 +890,7 @@
           out.push({
             mark: "!", tone: TONE.alert,
             title: `${pct(worstU.pctU)} of ${shortName(worstU.centre)}'s ${worstU.subject} candidates were ungraded`,
-            body: `${Math.round((worstU.pctU / 100) * worstU.n)} of ${worstU.n} graded candidates received no grade at all in ${worstU.syllabus}${worstU.tier === "Untiered" ? "" : ` (${worstU.tier})`}. An ungraded entry costs the candidate the subject, so this is the largest single loss in ${series}.`,
+            body: `${Math.round((worstU.pctU / 100) * worstU.n)} of the ${worstU.n} candidates who completed ${worstU.syllabus}${worstU.tier === "Untiered" ? "" : ` (${worstU.tier})` } were awarded grade U, which is no grade at all. An ungraded entry costs the candidate the subject, so this is the largest single loss in ${series}.`,
           });
         }
 
@@ -880,7 +913,7 @@
         // Biggest A*-C movement across series.
         const all = D.exams.subject.filter((r) => r.level === "IGCSE");
         const order = seriesFor(all);
-        const prev = order[order.indexOf(series) - 1];
+        const prev = prevComparable(order, series);
         if (prev) {
           let move = null;
           for (const r of rows) {
@@ -895,7 +928,7 @@
             out.push({
               mark: up ? "↑" : "↓", tone: up ? TONE.good : TONE.alert,
               title: `${shortName(move.row.centre)} ${up ? "gained" : "lost"} ${fmt(Math.abs(move.d), 1)} points of A*–C in ${move.row.subject}`,
-              body: `From ${pct(move.before.pctAC)} of ${move.before.n} candidates in ${prev} to ${pct(move.row.pctAC)} of ${move.row.n} in ${series}${move.row.tier === "Untiered" ? "" : `, ${move.row.tier} tier`}. The trend chart at the foot of this tab shows the whole run.`,
+              body: `From ${pct(move.before.pctAC)} of ${move.before.n} candidates in ${prev} to ${pct(move.row.pctAC)} of ${move.row.n} in ${series}${move.row.tier === "Untiered" ? "" : `, ${move.row.tier} tier`}. The trend chart at the foot of this tab shows the whole run.${sittingNote(order, series, prev)}`,
             });
           }
         }
