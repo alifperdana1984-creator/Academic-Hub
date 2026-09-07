@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-09-01",
+  "generatedAt": "2026-09-07",
   "generator": "scripts/cambridge-results/build-cambridge-dashboard-data.js",
   "sourceRoot": "The provisional component-mark workbooks Cambridge International returns to each centre after every series.",
   "minReport": 3,
@@ -77,6 +77,10 @@
    {
     "level": "Lower Secondary Checkpoint",
     "file": "ID375 - Pribadi Depok School Lower Secondary Checkpoint Oct 2024.xlsx"
+   },
+   {
+    "level": "IGCSE",
+    "file": "ID145 - TNA Fatih School  IGCSE Provisional Component Marks June 2026.xlsx"
    },
    {
     "level": "IGCSE",
@@ -12926,6 +12930,181 @@
    {
     "level": "IGCSE",
     "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0511",
+    "subject": "English as a Second Language",
+    "short": "English (0511)",
+    "tier": "Untiered",
+    "n": 36,
+    "entries": 36,
+    "incomplete": 0,
+    "grades": {
+     "D": 11,
+     "F": 6,
+     "U": 2,
+     "B": 3,
+     "G": 9,
+     "C": 4,
+     "E": 1
+    },
+    "asA2": null,
+    "meanTotal": 94.28,
+    "pctAC": 19.44,
+    "pctAE": 52.78,
+    "pctU": 5.56
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0580",
+    "subject": "Mathematics",
+    "short": "Mathematics",
+    "tier": "Extended",
+    "n": 34,
+    "entries": 36,
+    "incomplete": 1,
+    "grades": {
+     "D": 7,
+     "U": 18,
+     "A*": 1,
+     "E": 2,
+     "C": 3,
+     "A": 2,
+     "B": 1
+    },
+    "asA2": null,
+    "meanTotal": 59.68,
+    "pctAC": 20.59,
+    "pctAE": 47.06,
+    "pctU": 52.94
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "short": "Biology",
+    "tier": "Extended",
+    "n": 22,
+    "entries": 35,
+    "incomplete": 0,
+    "grades": {
+     "F": 4,
+     "G": 1,
+     "E": 3,
+     "A": 1,
+     "C": 5,
+     "U": 5,
+     "D": 1,
+     "B": 2
+    },
+    "asA2": null,
+    "meanTotal": 71.95,
+    "pctAC": 36.36,
+    "pctAE": 54.55,
+    "pctU": 22.73
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "short": "Biology",
+    "tier": "Core",
+    "n": 13,
+    "entries": 35,
+    "incomplete": 0,
+    "grades": {
+     "E": 2,
+     "U": 7,
+     "G": 2,
+     "D": 1,
+     "F": 1
+    },
+    "asA2": null,
+    "meanTotal": 65.23,
+    "pctAC": 0,
+    "pctAE": 23.08,
+    "pctU": 53.85
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0620",
+    "subject": "Chemistry",
+    "short": "Chemistry",
+    "tier": "Extended",
+    "n": 7,
+    "entries": 9,
+    "incomplete": 0,
+    "grades": {
+     "A": 1,
+     "U": 3,
+     "F": 2,
+     "E": 1
+    },
+    "asA2": null,
+    "meanTotal": 53.57,
+    "pctAC": 14.29,
+    "pctAE": 28.57,
+    "pctU": 42.86
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "short": "Physics",
+    "tier": "Extended",
+    "n": 23,
+    "entries": 28,
+    "incomplete": 0,
+    "grades": {
+     "D": 2,
+     "F": 3,
+     "E": 3,
+     "C": 6,
+     "U": 4,
+     "B": 1,
+     "G": 3,
+     "A": 1
+    },
+    "asA2": null,
+    "meanTotal": 69.3,
+    "pctAC": 34.78,
+    "pctAE": 56.52,
+    "pctU": 17.39
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "short": "Physics",
+    "tier": "Core",
+    "n": 5,
+    "entries": 28,
+    "incomplete": 0,
+    "grades": {
+     "F": 1,
+     "U": 3,
+     "G": 1
+    },
+    "asA2": null,
+    "meanTotal": 51.2,
+    "pctAC": 0,
+    "pctAE": 0,
+    "pctU": 60
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
     "centre": "ID203",
     "syllabus": "0510",
     "subject": "English as a Second Language",
@@ -13527,6 +13706,186 @@
    }
   ],
   "component": [
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0511",
+    "subject": "English as a Second Language",
+    "component": "Paper 12",
+    "n": 36,
+    "meanRaw": 37.28
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0511",
+    "subject": "English as a Second Language",
+    "component": "Paper 22",
+    "n": 36,
+    "meanRaw": 18.81
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0511",
+    "subject": "English as a Second Language",
+    "component": "Paper 32",
+    "n": 36,
+    "meanRaw": 26.14
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0580",
+    "subject": "Mathematics",
+    "component": "Paper 22",
+    "n": 34,
+    "meanRaw": 29.24
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0580",
+    "subject": "Mathematics",
+    "component": "Paper 42",
+    "n": 35,
+    "meanRaw": 29.63
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "component": "Paper 22",
+    "n": 22,
+    "meanRaw": 18.77
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "component": "Paper 42",
+    "n": 22,
+    "meanRaw": 20.82
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "component": "Paper 62",
+    "n": 35,
+    "meanRaw": 15.51
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "component": "Paper 12",
+    "n": 13,
+    "meanRaw": 16.31
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0610",
+    "subject": "Biology",
+    "component": "Paper 32",
+    "n": 13,
+    "meanRaw": 23.08
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0620",
+    "subject": "Chemistry",
+    "component": "Paper 22",
+    "n": 7,
+    "meanRaw": 15.24
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0620",
+    "subject": "Chemistry",
+    "component": "Paper 42",
+    "n": 7,
+    "meanRaw": 14.14
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0620",
+    "subject": "Chemistry",
+    "component": "Paper 62",
+    "n": 9,
+    "meanRaw": 11.33
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "component": "Paper 22",
+    "n": 23,
+    "meanRaw": 16.3
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "component": "Paper 42",
+    "n": 23,
+    "meanRaw": 19.57
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "component": "Paper 62",
+    "n": 28,
+    "meanRaw": 18.14
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "component": "Paper 12",
+    "n": 5,
+    "meanRaw": 13.6
+   },
+   {
+    "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0625",
+    "subject": "Physics",
+    "component": "Paper 32",
+    "n": 5,
+    "meanRaw": 17.8
+   },
    {
     "level": "IGCSE",
     "series": "June 2025",
@@ -15143,6 +15502,15 @@
   "incomplete": [
    {
     "level": "IGCSE",
+    "series": "June 2026",
+    "centre": "ID145",
+    "syllabus": "0580",
+    "subject": "Mathematics",
+    "entries": 36,
+    "incomplete": 1
+   },
+   {
+    "level": "IGCSE",
     "series": "June 2025",
     "centre": "ID145",
     "syllabus": "0511",
@@ -15565,6 +15933,20 @@
    },
    {
     "set": "exams.subject",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0580",
+    "n": 1
+   },
+   {
+    "set": "exams.subject",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0620",
+    "n": 2
+   },
+   {
+    "set": "exams.subject",
     "centre": "ID203",
     "series": "June 2026",
     "syllabus": "0580",
@@ -15722,6 +16104,34 @@
     "centre": "ID371",
     "series": "November 2024",
     "syllabus": "9709",
+    "n": 2
+   },
+   {
+    "set": "exams.component",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0580",
+    "n": 1
+   },
+   {
+    "set": "exams.component",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0580",
+    "n": 1
+   },
+   {
+    "set": "exams.component",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0620",
+    "n": 2
+   },
+   {
+    "set": "exams.component",
+    "centre": "ID145",
+    "series": "June 2026",
+    "syllabus": "0620",
     "n": 2
    },
    {
